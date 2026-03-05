@@ -1,2 +1,2 @@
 # codex
-Component Library owned by Product Design team.
+Codex is the internal component library owned and maintained by the Product Design team. It provides the single source of truth for UI components used across all company products, ensuring consistency between Figma designs, React components, and production applications. Codex enables designers and engineers to work from the same system, accelerating product development while maintaining visual and interaction consistency.
