@@ -1,0 +1,9 @@
+# misc
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# cache
+*.tsbuildinfo
+.turbo
