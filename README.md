@@ -1,6 +1,7 @@
 # Monorepo Setup
 
 This monorepo contains:
+
 - `apps/docs`: Custom documentation site app
 - `packages/ui`: UI components library (publishable to npm)
 
@@ -20,26 +21,32 @@ This monorepo contains:
    ```
 
 ## UI Library
+
 - Located in `packages/ui`
 - Build: `npm run build` (outputs to `dist`)
 - Peer dependencies: React, ReactDOM
 
 ## Linting
+
 - ESLint is set up for TypeScript, React, and Prettier
 - Run lint:
-   ```bash
-   npx eslint .
-   ```
+  ```bash
+  npx eslint .
+  ```
 
 ## Example Usage
+
 To use the UI library in the docs app:
+
 ```js
-import { Button } from '@opus2-platform/ui';
+import { Button } from "@opus2-platform/codex";
 ```
 
 ## Structure
+
 - Root configs: `package.json`, `tsconfig.base.json`, `turbo.json`, `.eslintrc.json`
 - Workspaces: `apps/*`, `packages/*`
 
 ---
+
 For more details, see each package/app README.

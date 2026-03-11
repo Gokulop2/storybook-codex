@@ -1,17 +1,34 @@
 {
-  "name": "@opus2-platform/ui",
+  "name": "@opus2-platform/codex",
   "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc"
+    "dev": "concurrently \"tsc --watch\" \"npm run dev:alias\" \"npm run dev:css\"",
+    "dev:alias": "tsc-alias --watch",
+    "dev:css": "nodemon --watch src/styles --ext css --exec \"npm run build:css\"",
+    "build:css": "postcss src/styles/index.css -o dist/styles/index.css",
+    "build": "tsc && tsc-alias && npm run build:css"
   },
   "peerDependencies": {
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "dependencies": {
+    "@untitledui/file-icons": "^0.0.8",
+    "@untitledui/icons": "^0.0.21",
+    "input-otp": "^1.4.2",
+    "react-aria": "^3.46.0",
+    "react-aria-components": "^1.16.0",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.14",
+    "tsc-alias": "^1.8.16"
   }
 }

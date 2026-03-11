@@ -7,3 +7,12 @@ dist/
 # cache
 *.tsbuildinfo
 .turbo
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+dist-ssr
+*.local
