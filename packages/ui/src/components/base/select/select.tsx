@@ -1,6 +1,6 @@
 import type { FC, ReactNode, Ref, RefAttributes } from "react";
 import { createContext, isValidElement } from "react";
-import { ChevronDown } from "@untitledui/icons";
+import { ChevronDown } from "@opus2-platform/icons";
 import type { SelectProps as AriaSelectProps } from "react-aria-components";
 import { Button as AriaButton, ListBox as AriaListBox, Select as AriaSelect, SelectValue as AriaSelectValue } from "react-aria-components";
 import { Avatar } from "@/components/base/avatar/avatar";

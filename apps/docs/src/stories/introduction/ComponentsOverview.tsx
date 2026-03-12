@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@opus2-platform/codex";
+import { X } from "@opus2-platform/icons";
 import type { Meta } from "@storybook/react";
-
-// import { Toggle } from "@/components/base/toggle/toggle";
-// import { Avatar } from "@/components/base/avatar/avatar";
-// import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
-// import { CheckCircle, X } from "@untitledui/icons";
 
 interface ComponentCardProps {
   href: string;
@@ -29,7 +25,7 @@ const CardImage = ({ src, alt }: { src: string; alt: string }) => {
       onError={() => {
         if (source !== IMAGE_FALLBACK) setSource(IMAGE_FALLBACK);
       }}
-      className="border-secondary bg-primary h-auto w-full max-w-[260px] rounded-lg border object-cover shadow-xs"
+      className="border-secondary bg-primary h-auto w-full max-w-64 rounded-lg border object-cover shadow-xs"
     />
   );
 };
@@ -39,7 +35,7 @@ const ComponentCard = ({ href, name, variants, preview }: ComponentCardProps) =>
     href={href}
     className="group border-secondary bg-primary hover:border-primary flex flex-col overflow-hidden rounded-xl border p-1 shadow-xs transition-all duration-150 ease-out hover:shadow-md"
   >
-    <div className="bg-secondary flex min-h-[120px] items-center justify-center">{preview}</div>
+    <div className="bg-secondary flex min-h-30 items-center justify-center">{preview}</div>
     <div className="flex flex-col justify-between gap-0.5 px-2 py-3">
       <span className="text-primary group-hover:text-brand-secondary min-w-0 truncate text-sm font-semibold">{name}</span>
       <span className="text-tertiary shrink-0 text-sm whitespace-nowrap">{variants}</span>
@@ -313,7 +309,7 @@ export const ComponentsOverview = () => {
                   <p className="text-success-primary/80 text-xs">Your changes have been successfully saved.</p>
                 </div>
                 <button type="button" className="text-success-primary/80 hover:text-success-primary">
-                  {/* <X className="size-3.5" aria-hidden /> */}X
+                  <X className="size-3.5" aria-hidden />
                 </button>
               </div>
             }

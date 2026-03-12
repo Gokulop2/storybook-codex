@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { FileIcon } from "@untitledui/file-icons";
-import { AlertCircle, Check, Edit01, FilterLines, Plus, ReverseLeft, SearchLg, Trash01, UploadCloud02, X } from "@untitledui/icons";
+import { FileIcon } from "@opus2-platform/icons";
+import { AlertCircle, Check, Edit01, FilterLines, Plus, ReverseLeft, SearchLg, Trash01, UploadCloud02, X } from "@opus2-platform/icons";
 import type { SortDescriptor } from "react-aria-components";
 import { EmptyState } from "@/components/application/empty-state/empty-state";
 import { PaginationCardMinimal, PaginationPageMinimalCenter } from "@/components/application/pagination/pagination";

@@ -8,20 +8,22 @@
     "src"
   ],
   "scripts": {
-    "dev": "concurrently \"tsc --watch\" \"npm run dev:alias\" \"npm run dev:css\"",
-    "dev:alias": "tsc-alias --watch",
+    "dev:bootstrap": "npm run build:ts && npm run build:css",
     "dev:css": "nodemon --watch src/styles --ext css --exec \"npm run build:css\"",
-    "build:css": "postcss src/styles/index.css -o dist/styles/index.css",
-    "build": "tsc && tsc-alias && npm run build:css"
+    "dev:watch": "concurrently \"tsc --watch\" \"tsc-alias --watch\" \"npm run dev:css\"",
+    "dev": "npm run dev:bootstrap && npm run dev:watch",
+    "build:ts": "tsc && tsc-alias",
+    "build:css": "postcss src/styles/index.css -o dist/styles.css",
+    "build": "npm run build:ts && npm run build:css"
   },
   "peerDependencies": {
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
   "dependencies": {
-    "@untitledui/file-icons": "^0.0.8",
-    "@untitledui/icons": "^0.0.21",
+    "@opus2-platform/icons": "*",
     "input-otp": "^1.4.2",
+    "motion": "^12.36.0",
     "react-aria": "^3.46.0",
     "react-aria-components": "^1.16.0",
     "tailwind-merge": "^3.5.0"

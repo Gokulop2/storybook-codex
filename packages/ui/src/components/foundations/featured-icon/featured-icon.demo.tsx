@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle } from "@untitledui/icons";
+import { CheckCircle } from "@opus2-platform/icons";
 import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
 
 export const DefaultDemo = () => {

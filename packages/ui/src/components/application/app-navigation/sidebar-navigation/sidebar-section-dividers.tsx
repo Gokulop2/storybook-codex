@@ -1,6 +1,6 @@
 "use client";
 
-import { SearchLg } from "@untitledui/icons";
+import { SearchLg } from "@opus2-platform/icons";
 import { Input } from "@/components/base/input/input";
 import { UntitledLogo } from "@/components/foundations/logo/untitledui-logo";
 import { MobileNavigationHeader } from "../base-components/mobile-header";

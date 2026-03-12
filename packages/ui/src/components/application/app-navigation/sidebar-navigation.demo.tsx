@@ -30,7 +30,7 @@ import {
   UserSquare,
   Users01,
   UsersPlus,
-} from "@untitledui/icons";
+} from "@opus2-platform/icons";
 import { FeaturedCardProgressBar, FeaturedCardProgressCircle } from "@/components/application/app-navigation/base-components/featured-cards.demo";
 import type { NavItemDividerType, NavItemType } from "@/components/application/app-navigation/config";
 import { SidebarNavigationDualTier } from "@/components/application/app-navigation/sidebar-navigation/sidebar-dual-tier";

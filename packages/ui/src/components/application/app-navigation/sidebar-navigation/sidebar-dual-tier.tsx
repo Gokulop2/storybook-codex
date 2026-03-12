@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useState } from "react";
-import { SearchLg } from "@untitledui/icons";
+import { SearchLg } from "@opus2-platform/icons";
 import { AnimatePresence, motion } from "motion/react";
 import { Input } from "@/components/base/input/input";
 import { UntitledLogo } from "@/components/foundations/logo/untitledui-logo";

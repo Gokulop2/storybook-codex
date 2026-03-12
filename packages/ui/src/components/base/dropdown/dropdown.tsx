@@ -1,5 +1,5 @@
 import type { FC, RefAttributes } from "react";
-import { DotsVertical } from "@untitledui/icons";
+import { DotsVertical } from "@opus2-platform/icons";
 import type {
   ButtonProps as AriaButtonProps,
   MenuItemProps as AriaMenuItemProps,

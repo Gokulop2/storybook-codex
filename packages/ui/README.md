@@ -33,7 +33,7 @@ This library wraps [Untitled UI React](https://www.untitledui.com/react) compone
 To use Untitled UI theming, ensure your app imports the global styles:
 
 ```css
-@import "@opus2-platform/codex/dist/styles/index.css";
+@import "@opus2-platform/codex/dist/styles.css";
 ```
 
 #### Example
