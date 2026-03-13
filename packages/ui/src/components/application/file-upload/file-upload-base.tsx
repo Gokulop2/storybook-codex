@@ -6,11 +6,8 @@ import type { FileIcon } from "@opus2-platform/icons";
 import { FileIcon as FileTypeIcon } from "@opus2-platform/icons";
 import { CheckCircle, Trash01, UploadCloud02, XCircle } from "@opus2-platform/icons";
 import { AnimatePresence, motion } from "motion/react";
-import { Button } from "@/components/base/buttons/button";
-import { ButtonUtility } from "@/components/base/buttons/button-utility";
-import { ProgressBar } from "@/components/base/progress-indicators/progress-indicators";
-import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
-import { cx } from "@/utils/cx";
+import { Button, ButtonUtility, FeaturedIcon, ProgressBar } from "@/components";
+import { cx } from "@/utils";
 
 /**
  * Returns a human-readable file size.

@@ -1,7 +1,7 @@
 "use client";
 
 import type { HTMLAttributes } from "react";
-import type { SelectItemType } from "@/components/base/select/select";
+import type { SelectItemType } from "@/components";
 
 /**
  * List of countries with their respective country code, flag, phone code, and phone mask.

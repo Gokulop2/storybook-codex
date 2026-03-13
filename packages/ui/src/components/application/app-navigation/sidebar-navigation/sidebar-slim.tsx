@@ -5,19 +5,21 @@ import { useState } from "react";
 import { LifeBuoy01, LogOut01, Settings01 } from "@opus2-platform/icons";
 import { AnimatePresence, motion } from "motion/react";
 import { Button as AriaButton, DialogTrigger as AriaDialogTrigger, Popover as AriaPopover } from "react-aria-components";
-import { Avatar } from "@/components/base/avatar/avatar";
-import { AvatarLabelGroup } from "@/components/base/avatar/avatar-label-group";
-import { Button } from "@/components/base/buttons/button";
-import { ButtonUtility } from "@/components/base/buttons/button-utility";
-import { UntitledLogo } from "@/components/foundations/logo/untitledui-logo";
-import { UntitledLogoMinimal } from "@/components/foundations/logo/untitledui-logo-minimal";
-import { cx } from "@/utils/cx";
-import { MobileNavigationHeader } from "../base-components/mobile-header";
-import { NavAccountMenu } from "../base-components/nav-account-card";
-import { NavItemBase } from "../base-components/nav-item";
-import { NavItemButton } from "../base-components/nav-item-button";
-import { NavList } from "../base-components/nav-list";
-import type { NavItemType } from "../config";
+import {
+  Avatar,
+  AvatarLabelGroup,
+  Button,
+  ButtonUtility,
+  MobileNavigationHeader,
+  NavAccountMenu,
+  NavItemBase,
+  NavItemButton,
+  type NavItemType,
+  NavList,
+  UntitledLogo,
+  UntitledLogoMinimal,
+} from "@/components";
+import { cx } from "@/utils";
 
 interface SidebarNavigationSlimProps {
   /** URL of the currently active item. */
@@ -34,10 +36,10 @@ interface SidebarNavigationSlimProps {
 
 export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hideBorder, hideRightBorder }: SidebarNavigationSlimProps) => {
   const activeItem = [...items, ...footerItems].find((item) => item.href === activeUrl || item.items?.some((subItem) => subItem.href === activeUrl));
-  const [currentItem, setCurrentItem] = useState(activeItem || items[1]);
+  const [currentItem, setCurrentItem] = useState<SidebarNavigationSlimProps["items"][number] | undefined>(activeItem || items[1] || items[0] || footerItems[0]);
   const [isHovering, setIsHovering] = useState(false);
 
-  const isSecondarySidebarVisible = isHovering && Boolean(currentItem.items?.length);
+  const isSecondarySidebarVisible = isHovering && Boolean(currentItem?.items?.length);
 
   const MAIN_SIDEBAR_WIDTH = 68;
   const SECONDARY_SIDEBAR_WIDTH = 268;
@@ -67,7 +69,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
             <li key={item.label}>
               <NavItemButton
                 size="md"
-                current={currentItem.href === item.href}
+                current={currentItem?.href === item.href}
                 href={item.href}
                 label={item.label || ""}
                 icon={item.icon}
@@ -83,7 +85,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
                 <li key={item.label}>
                   <NavItemButton
                     size="md"
-                    current={currentItem.href === item.href}
+                    current={currentItem?.href === item.href}
                     label={item.label || ""}
                     href={item.href}
                     icon={item.icon}
@@ -135,9 +137,9 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
           className={cx("bg-primary relative h-full overflow-x-hidden overflow-y-auto", !(hideBorder || hideRightBorder) && "box-content border-r-[1.5px]")}
         >
           <div style={{ width: SECONDARY_SIDEBAR_WIDTH }} className="flex h-full flex-col px-4 pt-6">
-            <h3 className="text-brand-secondary text-sm font-semibold">{currentItem.label}</h3>
+            <h3 className="text-brand-secondary text-sm font-semibold">{currentItem?.label}</h3>
             <ul className="py-2">
-              {currentItem.items?.map((item) => (
+              {currentItem?.items?.map((item) => (
                 <li key={item.label} className="py-0.5">
                   <NavItemBase current={activeUrl === item.href} href={item.href} icon={item.icon} badge={item.badge} type="link">
                     {item.label}

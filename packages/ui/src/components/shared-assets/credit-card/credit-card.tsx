@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
-import { cx, sortCx } from "@/utils/cx";
-import { MastercardIcon, MastercardIconWhite, PaypassIcon } from "./icons";
+import { cx, sortCx } from "@/utils";
+import { MastercardIconWhite, MastercardThemeIcon, PaypassIcon } from "./icons";
 
 const styles = sortCx({
   // Normal
@@ -223,7 +223,7 @@ export const CreditCard = ({
           </div>
 
           <div className={cx("flex h-8 w-11.5 shrink-0 items-center justify-center rounded", styles[type].cardTypeRoot)}>
-            {CARD_WITH_COLOR_LOGO.includes(type as (typeof CARD_WITH_COLOR_LOGO)[number]) ? <MastercardIcon /> : <MastercardIconWhite />}
+            {CARD_WITH_COLOR_LOGO.includes(type as (typeof CARD_WITH_COLOR_LOGO)[number]) ? <MastercardThemeIcon /> : <MastercardIconWhite />}
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { User01 } from "@opus2-platform/icons";
-import { cx } from "@/utils/cx";
+import { cx } from "@/utils";
 import { type AvatarProps } from "./avatar";
 import { AvatarOnlineIndicator, VerifiedTick } from "./base-components";
 

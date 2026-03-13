@@ -4,9 +4,8 @@ import type { ComponentPropsWithRef, ReactNode } from "react";
 import { Fragment, createContext, useContext } from "react";
 import type { TabListProps as AriaTabListProps, TabProps as AriaTabProps, TabRenderProps as AriaTabRenderProps } from "react-aria-components";
 import { Tab as AriaTab, TabList as AriaTabList, TabPanel as AriaTabPanel, Tabs as AriaTabs, TabsContext, useSlottedContext } from "react-aria-components";
-import type { BadgeColors } from "@/components/base/badges/badge-types";
-import { Badge } from "@/components/base/badges/badges";
-import { cx } from "@/utils/cx";
+import { Badge, type BadgeColors } from "@/components";
+import { cx } from "@/utils";
 
 type Orientation = "horizontal" | "vertical";
 

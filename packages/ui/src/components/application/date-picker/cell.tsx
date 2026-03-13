@@ -3,7 +3,7 @@
 import { getDayOfWeek, getLocalTimeZone, isToday } from "@internationalized/date";
 import type { CalendarCellProps as AriaCalendarCellProps } from "react-aria-components";
 import { CalendarCell as AriaCalendarCell, RangeCalendarContext, useLocale, useSlottedContext } from "react-aria-components";
-import { cx } from "@/utils/cx";
+import { cx } from "@/utils";
 
 interface CalendarCellProps extends AriaCalendarCellProps {
   /** Whether the calendar is a range calendar. */
@@ -58,14 +58,14 @@ export const CalendarCell = ({ date, isHighlighted, ...props }: CalendarCellProp
             isSelected &&
             isBeforeEnd &&
             isRangeCalendar &&
-            "after:to-bg-active after:absolute after:inset-0 after:translate-x-full after:bg-gradient-to-l after:from-transparent in-[[role=gridcell]:last-child]:after:hidden",
+            "after:to-bg-active after:absolute after:inset-0 after:translate-x-full after:bg-linear-to-l after:from-transparent in-[[role=gridcell]:last-child]:after:hidden",
 
           // Show gradient on first day of month if it's within the selected range.
           isFirstDayOfMonth &&
             isSelected &&
             isAfterStart &&
             isRangeCalendar &&
-            "after:to-bg-active after:absolute after:inset-0 after:-translate-x-full after:bg-gradient-to-r after:from-transparent in-[[role=gridcell]:first-child]:after:hidden"
+            "after:to-bg-active after:absolute after:inset-0 after:-translate-x-full after:bg-linear-to-r after:from-transparent in-[[role=gridcell]:first-child]:after:hidden"
         );
       }}
     >

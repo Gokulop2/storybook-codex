@@ -4,7 +4,7 @@ import type { TooltipProps } from "recharts";
 import type { Props as LegendContentProps } from "recharts/types/component/DefaultLegendContent";
 import type { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 import type { Props as DotProps } from "recharts/types/shape/Dot";
-import { cx } from "@/utils/cx";
+import { cx } from "@/utils";
 
 /**
  * Selects evenly spaced items from an array. Used for rendering
@@ -46,7 +46,7 @@ export const selectEvenlySpacedItems = <T extends readonly unknown[]>(dataArray:
  * @returns The legend content.
  */
 export const ChartLegendContent = ({ reversed, payload, align, layout, className }: LegendContentProps & { reversed?: boolean; className?: string }) => {
-  payload = reversed ? payload?.toReversed() : payload;
+  const legendPayload = reversed ? [...(payload ?? [])].reverse() : payload;
 
   return (
     <ul
@@ -58,7 +58,7 @@ export const ChartLegendContent = ({ reversed, payload, align, layout, className
         className
       )}
     >
-      {payload?.map((entry, index) => (
+      {legendPayload?.map((entry, index) => (
         <li className="text-tertiary flex items-center gap-2 text-sm" key={index}>
           <span className={cx("h-2 w-2 rounded-full bg-current", (entry.payload as { className?: string })?.className)} />
           {entry.value}

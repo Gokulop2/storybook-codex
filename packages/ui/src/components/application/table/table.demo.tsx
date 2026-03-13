@@ -1,24 +1,37 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { type ComponentProps, useMemo, useState } from "react";
 import { FileIcon } from "@opus2-platform/icons";
 import { AlertCircle, Check, Edit01, FilterLines, Plus, ReverseLeft, SearchLg, Trash01, UploadCloud02, X } from "@opus2-platform/icons";
 import type { SortDescriptor } from "react-aria-components";
-import { EmptyState } from "@/components/application/empty-state/empty-state";
-import { PaginationCardMinimal, PaginationPageMinimalCenter } from "@/components/application/pagination/pagination";
-import customers from "@/components/application/table/customers.json";
-import invoices from "@/components/application/table/invoices.json";
-import { Table, TableCard, TableRowActionsDropdown } from "@/components/application/table/table";
-import teamMembers from "@/components/application/table/team-members.json";
-import uploadedFiles from "@/components/application/table/uploaded-files.json";
-import { Avatar } from "@/components/base/avatar/avatar";
-import type { BadgeTypes } from "@/components/base/badges/badge-types";
-import { Badge, type BadgeColor, BadgeWithDot, BadgeWithIcon } from "@/components/base/badges/badges";
-import { ButtonGroup, ButtonGroupItem } from "@/components/base/button-group/button-group";
-import { Button } from "@/components/base/buttons/button";
-import { ButtonUtility } from "@/components/base/buttons/button-utility";
-import { Input } from "@/components/base/input/input";
-import { ProgressBar } from "@/components/base/progress-indicators/progress-indicators";
+import {
+  Avatar,
+  Badge,
+  type BadgeColor,
+  type BadgeTypes,
+  BadgeWithDot,
+  BadgeWithIcon,
+  Button,
+  ButtonGroup,
+  ButtonGroupItem,
+  ButtonUtility,
+  EmptyState,
+  Input,
+  PaginationCardMinimal,
+  PaginationPageMinimalCenter,
+  ProgressBar,
+  Table,
+  TableCard,
+  TableRowActionsDropdown,
+} from "@/components";
+import customers from "./customers.json";
+import invoices from "./invoices.json";
+import teamMembers from "./team-members.json";
+import uploadedFiles from "./uploaded-files.json";
+
+const getFileIconType = (fileName: string): ComponentProps<typeof FileIcon>["type"] => {
+  return (fileName.split(".").pop() ?? "txt") as ComponentProps<typeof FileIcon>["type"];
+};
 
 export const Table01DividerLine = () => {
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
@@ -784,8 +797,8 @@ export const Table04DividerLine = () => {
             <Table.Row id={item.name}>
               <Table.Cell>
                 <div className="flex items-center gap-3">
-                  <FileIcon type={item.name.split(".")[1]} theme="light" className="size-10 dark:hidden" />
-                  <FileIcon type={item.name.split(".")[1]} theme="dark" className="size-10 not-dark:hidden" />
+                  <FileIcon type={getFileIconType(item.name)} theme="light" className="size-10 dark:hidden" />
+                  <FileIcon type={getFileIconType(item.name)} theme="dark" className="size-10 not-dark:hidden" />
 
                   <div className="whitespace-nowrap">
                     <p className="text-primary text-sm font-medium">{item.name}</p>
@@ -841,8 +854,8 @@ export const Table04AlternatingFills = () => {
             <Table.Row id={item.name} className="odd:bg-secondary_subtle">
               <Table.Cell>
                 <div className="flex items-center gap-3">
-                  <FileIcon type={item.name.split(".")[1]} theme="light" className="size-10 dark:hidden" />
-                  <FileIcon type={item.name.split(".")[1]} theme="dark" className="size-10 not-dark:hidden" />
+                  <FileIcon type={getFileIconType(item.name)} theme="light" className="size-10 dark:hidden" />
+                  <FileIcon type={getFileIconType(item.name)} theme="dark" className="size-10 not-dark:hidden" />
 
                   <div className="whitespace-nowrap">
                     <p className="text-primary text-sm font-medium">{item.name}</p>

@@ -1,17 +1,10 @@
 "use client";
 
-import type { HTMLAttributes } from "react";
+import type { HTMLAttributes, ReactElement } from "react";
 import { BoxIllustration } from "./box";
 import { CloudIllustration } from "./cloud";
 import { CreditCardIllustration } from "./credit-card";
 import { DocumentsIllustration } from "./documents";
-
-const types = {
-  box: BoxIllustration,
-  cloud: CloudIllustration,
-  documents: DocumentsIllustration,
-  "credit-card": CreditCardIllustration,
-};
 
 export interface IllustrationProps extends HTMLAttributes<HTMLDivElement> {
   size?: "sm" | "md" | "lg";
@@ -19,7 +12,17 @@ export interface IllustrationProps extends HTMLAttributes<HTMLDivElement> {
   childrenClassName?: string;
 }
 
-export const Illustration = (props: IllustrationProps & { type: keyof typeof types }) => {
+type IllustrationType = "box" | "cloud" | "documents" | "credit-card";
+type IllustrationComponent = (props: IllustrationProps) => ReactElement;
+
+const types: Record<IllustrationType, IllustrationComponent> = {
+  box: BoxIllustration,
+  cloud: CloudIllustration,
+  documents: DocumentsIllustration,
+  "credit-card": CreditCardIllustration,
+};
+
+export const Illustration = (props: IllustrationProps & { type: IllustrationType }) => {
   const { type } = props;
 
   const Component = types[type];

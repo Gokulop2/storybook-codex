@@ -3,14 +3,14 @@ import { useCallback, useContext, useRef, useState } from "react";
 import { SearchLg as SearchIcon } from "@opus2-platform/icons";
 import type { ComboBoxProps as AriaComboBoxProps, GroupProps as AriaGroupProps, ListBoxProps as AriaListBoxProps } from "react-aria-components";
 import { ComboBox as AriaComboBox, Group as AriaGroup, Input as AriaInput, ListBox as AriaListBox, ComboBoxStateContext } from "react-aria-components";
-import { HintText } from "@/components/base/input/hint-text";
-import { Label } from "@/components/base/input/label";
-import { Popover } from "@/components/base/select/popover";
-import { type CommonProps, SelectContext, type SelectItemType, sizes } from "@/components/base/select/select";
-import { useResizeObserver } from "@/hooks/use-resize-observer";
-import { cx } from "@/utils/cx";
+import { useResizeObserver } from "@/hooks";
+import { cx } from "@/utils";
+import { HintText } from "../input/hint-text";
+import { Label } from "../input/label";
+import { Popover } from "./popover";
+import { type CommonSelectProps, SelectContext, type SelectItemType, sizes } from "./select-shared";
 
-interface ComboBoxProps extends Omit<AriaComboBoxProps<SelectItemType>, "children" | "items">, RefAttributes<HTMLDivElement>, CommonProps {
+interface ComboBoxProps extends Omit<AriaComboBoxProps<SelectItemType>, "children" | "items">, RefAttributes<HTMLDivElement>, CommonSelectProps {
   shortcut?: boolean;
   items?: SelectItemType[];
   popoverClassName?: string;

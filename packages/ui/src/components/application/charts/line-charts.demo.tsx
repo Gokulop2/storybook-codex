@@ -1,9 +1,9 @@
 "use client";
 
 import { Area, AreaChart, CartesianGrid, Label, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { ChartLegendContent, ChartTooltipContent } from "@/components/application/charts/charts-base";
-import { useBreakpoint } from "@/hooks/use-breakpoint";
-import { cx } from "@/utils/cx";
+import { ChartLegendContent, ChartTooltipContent } from "@/components";
+import { useBreakpoint } from "@/hooks";
+import { cx } from "@/utils";
 
 const lineData = [
   // collapse-start
@@ -128,7 +128,7 @@ export const LineChart01 = () => {
             padding={{ left: 10, right: 10 }}
           >
             {isDesktop && (
-              <Label fill="currentColor" className="!text-xs font-medium max-lg:hidden" position="bottom">
+              <Label fill="currentColor" className="text-xs! font-medium max-lg:hidden" position="bottom">
                 Month
               </Label>
             )}
@@ -138,7 +138,7 @@ export const LineChart01 = () => {
             <Label
               value="Active users"
               fill="currentColor"
-              className="!text-xs font-medium"
+              className="text-xs! font-medium"
               style={{ textAnchor: "middle" }}
               angle={-90}
               position="insideLeft"
@@ -250,7 +250,7 @@ export const LineChart02 = () => {
             padding={{ left: 10, right: 10 }}
           >
             {isDesktop && (
-              <Label fill="currentColor" className="!text-xs font-medium max-lg:hidden" position="bottom">
+              <Label fill="currentColor" className="text-xs! font-medium max-lg:hidden" position="bottom">
                 Month
               </Label>
             )}
@@ -260,7 +260,7 @@ export const LineChart02 = () => {
             <Label
               value="Active users"
               fill="currentColor"
-              className="!text-xs font-medium"
+              className="text-xs! font-medium"
               style={{ textAnchor: "middle" }}
               angle={-90}
               position="insideLeft"
@@ -382,7 +382,7 @@ export const LineChart03 = () => {
             tickFormatter={(value) => value.toLocaleDateString(undefined, { month: "short" })}
           >
             {isDesktop && (
-              <Label fill="currentColor" className="!text-xs font-medium max-lg:hidden" position="bottom">
+              <Label fill="currentColor" className="text-xs! font-medium max-lg:hidden" position="bottom">
                 Month
               </Label>
             )}
@@ -392,7 +392,7 @@ export const LineChart03 = () => {
             <Label
               value="Active users"
               fill="currentColor"
-              className="!text-xs font-medium"
+              className="text-xs! font-medium"
               style={{ textAnchor: "middle" }}
               angle={-90}
               position="insideLeft"
@@ -505,7 +505,7 @@ export const LineChart04 = () => {
             padding={{ left: 10, right: 10 }}
           >
             {isDesktop && (
-              <Label fill="currentColor" className="!text-xs font-medium max-lg:hidden" position="bottom">
+              <Label fill="currentColor" className="text-xs! font-medium max-lg:hidden" position="bottom">
                 Month
               </Label>
             )}
@@ -515,7 +515,7 @@ export const LineChart04 = () => {
             <Label
               value="Active users"
               fill="currentColor"
-              className="!text-xs font-medium"
+              className="text-xs! font-medium"
               style={{ textAnchor: "middle" }}
               angle={-90}
               position="insideLeft"

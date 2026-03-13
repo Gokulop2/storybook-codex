@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { endOfMonth, endOfWeek, getLocalTimeZone, startOfMonth, startOfWeek, today } from "@internationalized/date";
 import type { DateValue } from "react-aria-components";
 import { DatePicker as AriaDatePicker, DateRangePicker as AriaDateRangePicker, Dialog as AriaDialog, useLocale } from "react-aria-components";
-import { Button } from "@/components/base/buttons/button";
+import { Button } from "@/components";
 import { Calendar } from "./calendar";
 import { DateInput } from "./date-input";
 import { DatePicker } from "./date-picker";

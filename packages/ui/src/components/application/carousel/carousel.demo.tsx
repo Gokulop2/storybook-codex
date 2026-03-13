@@ -1,8 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "@opus2-platform/icons";
-import { Carousel, useCarousel } from "@/components/application/carousel/carousel-base";
-import { PaginationDot } from "@/components/application/pagination/pagination-dot";
+import { Carousel, PaginationDot, useCarousel } from "@/components";
 
 export const CarouselIndicator = ({
   size = "md",

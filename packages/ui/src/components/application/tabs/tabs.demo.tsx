@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import type { Key } from "react-aria-components";
-import { Tabs } from "@/components/application/tabs/tabs";
-import { NativeSelect } from "@/components/base/select/select-native";
+import { NativeSelect, Tabs } from "@/components";
 
 const tabs = [
   { id: "details", label: "My details" },

@@ -1,4 +1,4 @@
-import { cx as clx, sortCx } from "@/utils/cx";
+import { cx as clx, sortCx } from "@/utils";
 
 interface ProgressBarProps {
   value: number;

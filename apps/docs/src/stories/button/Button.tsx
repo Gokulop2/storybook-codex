@@ -1,5 +1,4 @@
 import { Button as CodexButton } from "@opus2-platform/codex";
-import "./button.css";
 
 export interface ButtonProps {
   /** Is this the principal call to action on the page? */

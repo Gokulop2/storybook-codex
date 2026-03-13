@@ -1,8 +1,8 @@
 "use client";
 
 import { Bar, CartesianGrid, ComposedChart, Label, Legend, Line, BarChart as RechartsBarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { ChartLegendContent, ChartTooltipContent, selectEvenlySpacedItems } from "@/components/application/charts/charts-base";
-import { useBreakpoint } from "@/hooks/use-breakpoint";
+import { ChartLegendContent, ChartTooltipContent, selectEvenlySpacedItems } from "@/components";
+import { useBreakpoint } from "@/hooks";
 
 const barData = [
   // collapse-start
@@ -115,11 +115,11 @@ export const BarChart = () => {
           dataKey="month"
           tickFormatter={(value) => value.toLocaleDateString(undefined, { month: "short" })}
         >
-          <Label value="Month" fill="currentColor" className="!text-xs font-medium" position="bottom" />
+          <Label value="Month" fill="currentColor" className="text-xs! font-medium" position="bottom" />
         </XAxis>
 
         <YAxis fill="currentColor" axisLine={false} tickLine={false} interval="preserveStartEnd" tickFormatter={(value) => Number(value).toLocaleString()}>
-          <Label value="Active users" fill="currentColor" className="!text-xs font-medium" style={{ textAnchor: "middle" }} angle={-90} position="insideLeft" />
+          <Label value="Active users" fill="currentColor" className="text-xs! font-medium" style={{ textAnchor: "middle" }} angle={-90} position="insideLeft" />
         </YAxis>
 
         <Tooltip
@@ -255,14 +255,14 @@ export const BarChart02 = () => {
             tickFormatter={(value) => new Date(value).toLocaleDateString(undefined, { month: "short" })}
             ticks={selectEvenlySpacedItems(data, 12).map((item) => item.date)}
           >
-            <Label value="Month" fill="currentColor" className="!text-xs font-medium" position="bottom" />
+            <Label value="Month" fill="currentColor" className="text-xs! font-medium" position="bottom" />
           </XAxis>
 
           <YAxis fill="currentColor" axisLine={false} tickLine={false} interval="preserveStartEnd" tickFormatter={(value) => Number(value).toLocaleString()}>
             <Label
               value="Active users"
               fill="currentColor"
-              className="!text-xs font-medium"
+              className="text-xs! font-medium"
               style={{ textAnchor: "middle" }}
               angle={-90}
               position="insideLeft"
@@ -409,14 +409,14 @@ export const BarChart03 = () => {
             tickFormatter={(value) => new Date(value).toLocaleDateString(undefined, { month: "short" })}
             ticks={selectEvenlySpacedItems(data, 12).map((item) => item.date)}
           >
-            <Label value="Month" fill="currentColor" className="!text-xs font-medium" position="bottom" />
+            <Label value="Month" fill="currentColor" className="text-xs! font-medium" position="bottom" />
           </XAxis>
 
           <YAxis fill="currentColor" axisLine={false} tickLine={false} interval="preserveStartEnd" tickFormatter={(value) => Number(value).toLocaleString()}>
             <Label
               value="Active users"
               fill="currentColor"
-              className="!text-xs font-medium"
+              className="text-xs! font-medium"
               style={{ textAnchor: "middle" }}
               angle={-90}
               position="insideLeft"

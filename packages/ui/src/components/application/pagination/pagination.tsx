@@ -1,10 +1,9 @@
 "use client";
 
 import { ArrowLeft, ArrowRight } from "@opus2-platform/icons";
-import { ButtonGroup, ButtonGroupItem } from "@/components/base/button-group/button-group";
-import { Button } from "@/components/base/buttons/button";
-import { useBreakpoint } from "@/hooks/use-breakpoint";
-import { cx } from "@/utils/cx";
+import { Button, ButtonGroup, ButtonGroupItem } from "@/components";
+import { useBreakpoint } from "@/hooks";
+import { cx } from "@/utils";
 import type { PaginationRootProps } from "./pagination-base";
 import { Pagination } from "./pagination-base";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { Clock } from "@opus2-platform/icons";
-import type { SelectItemType } from "@/components/base/select/select";
+import type { SelectItemType } from "@/components";
 
 /**
  * List of timezones with their timezone value, code and name.

@@ -1,23 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { PaginationDot as PaginationDotComponent, PaginationLine as PaginationLineComponent } from "@/components";
 import * as Paginations from "@/components/application/pagination/pagination";
-import { PaginationDot as PaginationDotComponent } from "@/components/application/pagination/pagination-dot";
-import { PaginationLine as PaginationLineComponent } from "@/components/application/pagination/pagination-line";
 
-export const PaginationPageDefault = () => {
+export const PaginationPageDefaultDemo = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   return <Paginations.PaginationPageDefault page={currentPage} onPageChange={setCurrentPage} />;
 };
 
-export const PaginationPageMinimalCenter = () => {
+export const PaginationPageMinimalCenterDemo = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   return <Paginations.PaginationPageMinimalCenter page={currentPage} onPageChange={setCurrentPage} />;
 };
 
-export const PaginationCardDefault = () => {
+export const PaginationCardDefaultDemo = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   return <Paginations.PaginationCardDefault page={currentPage} onPageChange={setCurrentPage} />;

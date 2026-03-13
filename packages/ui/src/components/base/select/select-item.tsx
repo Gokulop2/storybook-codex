@@ -2,11 +2,9 @@ import { isValidElement, useContext } from "react";
 import { Check } from "@opus2-platform/icons";
 import type { ListBoxItemProps as AriaListBoxItemProps } from "react-aria-components";
 import { ListBoxItem as AriaListBoxItem, Text as AriaText } from "react-aria-components";
-import { Avatar } from "@/components/base/avatar/avatar";
-import { cx } from "@/utils/cx";
-import { isReactComponent } from "@/utils/is-react-component";
-import type { SelectItemType } from "./select";
-import { SelectContext } from "./select";
+import { cx, isReactComponent } from "@/utils";
+import { Avatar } from "../avatar";
+import { type SelectItemType, SelectContext } from "./select-shared";
 
 const sizes = {
   sm: "p-2 pr-2.5",
