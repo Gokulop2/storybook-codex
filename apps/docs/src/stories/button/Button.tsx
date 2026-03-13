@@ -1,24 +1,14 @@
+import type { ComponentProps } from "react";
 import { Button as CodexButton } from "@opus2-platform/codex";
 
-export interface ButtonProps {
-  /** Is this the principal call to action on the page? */
-  primary?: boolean;
-  /** What background color to use */
-  backgroundColor?: string;
-  /** How large should the button be? */
-  size?: "small" | "medium" | "large";
-  /** Button contents */
-  label: string;
-  /** Optional click handler */
-  onClick?: () => void;
-}
+export type ButtonProps = ComponentProps<typeof CodexButton>;
 
-/** Primary UI component for user interaction */
-export const Button = ({ primary = false, size = "medium", backgroundColor, label, ...props }: ButtonProps) => {
-  const mode = primary ? "storybook-button--primary" : "storybook-button--secondary";
-  return (
-    <CodexButton className={["storybook-button", `storybook-button--${size}`, mode].join(" ")} style={{ backgroundColor }} {...props}>
-      {label}
-    </CodexButton>
-  );
+/**
+ * Thin wrapper around the Codex design system `Button`.
+ *
+ * This ensures Storybook uses the exact Untitled UI–style button implementation
+ * without any additional Storybook-specific styling.
+ */
+export const Button = (props: ButtonProps) => {
+  return <CodexButton {...props} />;
 };
