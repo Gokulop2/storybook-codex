@@ -1,6 +1,6 @@
 import { type FC, type ReactNode, useState } from "react";
 import { User01 } from "@opus2-platform/icons";
-import { cx } from "@/utils/cx";
+import { cx } from "@/utils";
 import { AvatarOnlineIndicator, VerifiedTick } from "./base-components";
 
 type AvatarSize = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";

@@ -2,13 +2,9 @@
 
 import type { ComponentProps, ComponentPropsWithRef } from "react";
 import { Children, createContext, isValidElement, useContext } from "react";
-import { FileIcon } from "@opus2-platform/icons";
-import { SearchLg } from "@opus2-platform/icons";
-import { FeaturedIcon as FeaturedIconbase } from "@/components/foundations/featured-icon/featured-icon";
-import type { BackgroundPatternProps } from "@/components/shared-assets/background-patterns";
-import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
-import { Illustration as Illustrations } from "@/components/shared-assets/illustrations";
-import { cx } from "@/utils/cx";
+import { FileIcon, SearchLg } from "@opus2-platform/icons";
+import { BackgroundPattern, BackgroundPatternProps, FeaturedIcon as FeaturedIconbase, Illustration as Illustrations } from "@/components";
+import { cx } from "@/utils";
 
 interface RootContextProps {
   size?: "sm" | "md" | "lg";

@@ -1,11 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Button } from "@/components/base/buttons/button";
-import { CloseButton } from "@/components/base/buttons/close-button";
-import { ProgressBarCircle } from "@/components/base/progress-indicators/progress-circles";
-import { ProgressBar } from "@/components/base/progress-indicators/progress-indicators";
-import { cx } from "@/utils/cx";
+import { Button, CloseButton, ProgressBar, ProgressBarCircle } from "@/components";
+import { cx } from "@/utils";
 
 interface FeaturedCardCommonProps {
   title: string;

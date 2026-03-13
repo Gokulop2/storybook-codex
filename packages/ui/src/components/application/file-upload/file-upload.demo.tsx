@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FileUpload, getReadableFileSize } from "@/components/application/file-upload/file-upload-base";
+import { FileUpload, getReadableFileSize } from "@/components";
 
 const uploadFile = (file: File, onProgress: (progress: number) => void) => {
   // Add your upload logic here...

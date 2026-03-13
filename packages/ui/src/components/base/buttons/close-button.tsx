@@ -1,6 +1,6 @@
 import { X as CloseIcon } from "@opus2-platform/icons";
 import { Button as AriaButton, type ButtonProps as AriaButtonProps } from "react-aria-components";
-import { cx } from "@/utils/cx";
+import { cx } from "@/utils";
 
 const sizes = {
   xs: { root: "size-7", icon: "size-4" },

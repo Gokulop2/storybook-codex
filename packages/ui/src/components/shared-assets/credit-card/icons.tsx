@@ -49,7 +49,7 @@ export const MastercardIconWhite = (props: SVGProps<SVGSVGElement>) => {
   );
 };
 
-export const MastercardIcon = (props: SVGProps<SVGSVGElement>) => {
+export const MastercardThemeIcon = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg width="30" height="19" viewBox="0 0 30 19" fill="none" {...props}>
       <path

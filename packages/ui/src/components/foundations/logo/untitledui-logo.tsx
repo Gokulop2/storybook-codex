@@ -1,7 +1,7 @@
 "use client";
 
 import type { HTMLAttributes } from "react";
-import { cx } from "@/utils/cx";
+import { cx } from "@/utils";
 import { UntitledLogoMinimal } from "./untitledui-logo-minimal";
 
 export const UntitledLogo = (props: HTMLAttributes<HTMLOrSVGElement>) => {

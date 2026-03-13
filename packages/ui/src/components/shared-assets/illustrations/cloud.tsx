@@ -2,7 +2,7 @@
 
 import type { HTMLAttributes } from "react";
 import { SearchLg } from "@opus2-platform/icons";
-import { cx } from "@/utils/cx";
+import { cx } from "@/utils";
 
 interface IllustrationProps extends HTMLAttributes<HTMLDivElement> {
   size?: "sm" | "md" | "lg";

@@ -7,11 +7,9 @@ import type { Placement } from "@react-types/overlays";
 import { useFocusManager } from "react-aria";
 import type { DialogProps as AriaDialogProps } from "react-aria-components";
 import { Button as AriaButton, Dialog as AriaDialog, DialogTrigger as AriaDialogTrigger, Popover as AriaPopover } from "react-aria-components";
-import { AvatarLabelGroup } from "@/components/base/avatar/avatar-label-group";
-import { Button } from "@/components/base/buttons/button";
-import { RadioButtonBase } from "@/components/base/radio-buttons/radio-buttons";
-import { useBreakpoint } from "@/hooks/use-breakpoint";
-import { cx } from "@/utils/cx";
+import { AvatarLabelGroup, Button, RadioButtonBase } from "@/components";
+import { useBreakpoint } from "@/hooks";
+import { cx } from "@/utils";
 
 type NavAccountType = {
   /** Unique identifier for the nav item. */

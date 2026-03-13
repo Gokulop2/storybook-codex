@@ -1,11 +1,11 @@
 import type { MouseEventHandler, ReactNode } from "react";
 import { X as CloseX } from "@opus2-platform/icons";
-import { Dot } from "@/components/foundations/dot-icon";
-import { cx } from "@/utils/cx";
+import { Dot } from "@/components";
+import { cx } from "@/utils";
 import type { BadgeColors, BadgeTypeToColorMap, BadgeTypes, FlagTypes, IconComponentType, Sizes } from "./badge-types";
 import { badgeTypes } from "./badge-types";
 
-export const filledColors: Record<BadgeColors, { root: string; addon: string; addonButton: string }> = {
+const filledColors: Record<BadgeColors, { root: string; addon: string; addonButton: string }> = {
   gray: {
     root: "bg-utility-gray-50 text-utility-gray-700 ring-utility-gray-200",
     addon: "text-utility-gray-500",

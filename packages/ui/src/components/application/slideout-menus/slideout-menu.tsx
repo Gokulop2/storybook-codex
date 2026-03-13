@@ -7,12 +7,12 @@ import type {
   ModalRenderProps as AriaModalRenderProps,
 } from "react-aria-components";
 import { Dialog as AriaDialog, DialogTrigger as AriaDialogTrigger, Modal as AriaModal, ModalOverlay as AriaModalOverlay } from "react-aria-components";
-import { CloseButton } from "@/components/base/buttons/close-button";
-import { cx } from "@/utils/cx";
+import { CloseButton } from "@/components";
+import { cx } from "@/utils";
 
 interface ModalOverlayProps extends AriaModalOverlayProps, RefAttributes<HTMLDivElement> {}
 
-export const ModalOverlay = (props: ModalOverlayProps) => {
+export const MenuOverlay = (props: ModalOverlayProps) => {
   return (
     <AriaModalOverlay
       {...props}
@@ -27,11 +27,11 @@ export const ModalOverlay = (props: ModalOverlayProps) => {
     />
   );
 };
-ModalOverlay.displayName = "ModalOverlay";
+MenuOverlay.displayName = "MenuOverlay";
 
-interface ModalProps extends AriaModalOverlayProps, RefAttributes<HTMLDivElement> {}
+interface MenuProps extends AriaModalOverlayProps, RefAttributes<HTMLDivElement> {}
 
-export const Modal = (props: ModalProps) => (
+export const Menu = (props: MenuProps) => (
   <AriaModal
     {...props}
     className={(state) =>
@@ -44,40 +44,40 @@ export const Modal = (props: ModalProps) => (
     }
   />
 );
-Modal.displayName = "Modal";
+Menu.displayName = "Menu";
 
 interface DialogProps extends AriaDialogProps, RefAttributes<HTMLElement> {}
 
-export const Dialog = (props: DialogProps) => (
+export const MenuDialog = (props: DialogProps) => (
   <AriaDialog
     role="dialog"
     {...props}
     className={cx("bg-primary ring-secondary_alt relative flex size-full flex-col items-start gap-6 overflow-y-auto ring-1 outline-hidden", props.className)}
   />
 );
-Dialog.displayName = "Dialog";
+MenuDialog.displayName = "MenuDialog";
 
 interface SlideoutMenuProps extends Omit<AriaModalOverlayProps, "children">, RefAttributes<HTMLDivElement> {
   children: ReactNode | ((children: AriaModalRenderProps & { close: () => void }) => ReactNode);
   dialogClassName?: string;
 }
 
-const Menu = ({ children, dialogClassName, ...props }: SlideoutMenuProps) => {
+const Root = ({ children, dialogClassName, ...props }: SlideoutMenuProps) => {
   return (
-    <ModalOverlay {...props}>
-      <Modal className={(state) => cx(typeof props.className === "function" ? props.className(state) : props.className)}>
+    <MenuOverlay {...props}>
+      <Menu className={(state) => cx(typeof props.className === "function" ? props.className(state) : props.className)}>
         {(state) => (
-          <Dialog className={dialogClassName}>
+          <MenuDialog className={dialogClassName}>
             {({ close }) => {
               return typeof children === "function" ? children({ ...state, close }) : children;
             }}
-          </Dialog>
+          </MenuDialog>
         )}
-      </Modal>
-    </ModalOverlay>
+      </Menu>
+    </MenuOverlay>
   );
 };
-Menu.displayName = "SlideoutMenu";
+Root.displayName = "SlideoutMenu";
 
 const Content = ({ role = "main", ...props }: ComponentPropsWithRef<"div">) => {
   return <div role={role} {...props} className={cx("flex size-full flex-col gap-6 overflow-y-auto overscroll-auto px-4 md:px-6", props.className)} />;
@@ -103,7 +103,7 @@ const Footer = (props: ComponentPropsWithRef<"footer">) => {
 };
 Footer.displayName = "SlideoutFooter";
 
-const SlideoutMenu = Menu as typeof Menu & {
+const SlideoutMenu = Root as typeof Root & {
   Trigger: typeof AriaDialogTrigger;
   Content: typeof Content;
   Header: typeof Header;

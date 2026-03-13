@@ -1,8 +1,8 @@
 import { type SelectHTMLAttributes, useId } from "react";
 import { ChevronDown } from "@opus2-platform/icons";
-import { HintText } from "@/components/base/input/hint-text";
-import { Label } from "@/components/base/input/label";
-import { cx } from "@/utils/cx";
+import { cx } from "@/utils";
+import { HintText } from "../input/hint-text";
+import { Label } from "../input/label";
 
 interface NativeSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;

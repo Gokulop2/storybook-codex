@@ -1,5 +1,5 @@
 import type { AnchorHTMLAttributes } from "react";
-import { cx } from "@/utils/cx";
+import { cx } from "@/utils";
 
 export const GooglePlayOutlineButton = ({ size = "md", ...props }: AnchorHTMLAttributes<HTMLAnchorElement> & { size?: "md" | "lg" }) => {
   return (

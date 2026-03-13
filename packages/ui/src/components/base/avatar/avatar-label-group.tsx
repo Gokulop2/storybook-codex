@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { cx } from "@/utils/cx";
+import { cx } from "@/utils";
 import { Avatar, type AvatarProps } from "./avatar";
 
 const styles = {

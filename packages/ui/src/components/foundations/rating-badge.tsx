@@ -1,8 +1,8 @@
 "use client";
 
 import { type HTMLAttributes } from "react";
-import { RatingStars } from "@/components/foundations/rating-stars";
-import { cx } from "@/utils/cx";
+import { RatingStars } from "@/components";
+import { cx } from "@/utils";
 
 export const Wreath = (props: HTMLAttributes<HTMLOrSVGElement>) => (
   <svg width="36" height="81" viewBox="0 0 36 81" fill="none" {...props} className={cx("text-fg-primary", props.className)}>

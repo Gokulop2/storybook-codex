@@ -1,4 +1,4 @@
-import { cx } from "@/utils/cx";
+import { cx } from "@/utils";
 
 interface TagCheckboxProps {
   size?: "sm" | "md" | "lg";

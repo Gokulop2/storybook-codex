@@ -1,8 +1,8 @@
 "use client";
 
 import { Zap } from "@opus2-platform/icons";
-import { HeaderNavigationBase } from "@/components/application/app-navigation/header-navigation";
-import { Button } from "@/components/base/buttons/button";
+import { Button } from "@/components";
+import { HeaderNavigationBase } from "./header-navigation";
 
 export const HeaderNavigationSimpleDemo = () => (
   <HeaderNavigationBase

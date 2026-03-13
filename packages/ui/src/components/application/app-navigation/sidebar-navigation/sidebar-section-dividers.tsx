@@ -1,12 +1,7 @@
 "use client";
 
 import { SearchLg } from "@opus2-platform/icons";
-import { Input } from "@/components/base/input/input";
-import { UntitledLogo } from "@/components/foundations/logo/untitledui-logo";
-import { MobileNavigationHeader } from "../base-components/mobile-header";
-import { NavAccountCard } from "../base-components/nav-account-card";
-import { NavList } from "../base-components/nav-list";
-import type { NavItemDividerType, NavItemType } from "../config";
+import { Input, MobileNavigationHeader, NavAccountCard, NavItemDividerType, NavItemType, NavList, UntitledLogo } from "@/components";
 
 interface SidebarNavigationSectionDividersProps {
   /** URL of the currently active item. */

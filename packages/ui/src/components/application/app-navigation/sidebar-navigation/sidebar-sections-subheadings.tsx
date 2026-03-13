@@ -1,10 +1,6 @@
 "use client";
 
-import { UntitledLogo } from "@/components/foundations/logo/untitledui-logo";
-import { MobileNavigationHeader } from "../base-components/mobile-header";
-import { NavAccountCard } from "../base-components/nav-account-card";
-import { NavItemBase } from "../base-components/nav-item";
-import type { NavItemType } from "../config";
+import { MobileNavigationHeader, NavAccountCard, NavItemBase, NavItemType, UntitledLogo } from "@/components";
 
 interface SidebarNavigationSectionsSubheadingsProps {
   /** URL of the currently active item. */

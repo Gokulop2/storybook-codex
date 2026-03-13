@@ -21,11 +21,8 @@ import {
   TableHeader as AriaTableHeader,
   useTableOptions,
 } from "react-aria-components";
-import { Badge } from "@/components/base/badges/badges";
-import { Checkbox } from "@/components/base/checkbox/checkbox";
-import { Dropdown } from "@/components/base/dropdown/dropdown";
-import { Tooltip, TooltipTrigger } from "@/components/base/tooltip/tooltip";
-import { cx } from "@/utils/cx";
+import { Badge, Checkbox, Dropdown, Tooltip, TooltipTrigger } from "@/components";
+import { cx } from "@/utils";
 
 export const TableRowActionsDropdown = () => (
   <Dropdown.Root>
@@ -228,7 +225,7 @@ const TableRow = <T extends object>({ columns, children, className, highlightSel
           highlightSelectedRow && "selected:bg-secondary",
 
           // Row border—using an "after" pseudo-element to avoid the border taking up space.
-          "[&>td]:after:bg-border-secondary [&>td]:after:absolute [&>td]:after:inset-x-0 [&>td]:after:bottom-0 [&>td]:after:h-px [&>td]:after:w-full last:[&>td]:after:hidden [&>td]:focus-visible:after:opacity-0 focus-visible:[&>td]:after:opacity-0",
+          "[&>td]:after:bg-border-secondary [&>td]:after:absolute [&>td]:after:inset-x-0 [&>td]:after:bottom-0 [&>td]:after:h-px [&>td]:after:w-full last:[&>td]:after:hidden [&>td]:focus-visible:after:opacity-0",
 
           typeof className === "function" ? className(state) : className
         )

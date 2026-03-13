@@ -3,16 +3,19 @@
 import type { FC, ReactNode } from "react";
 import { Bell01, LifeBuoy01, SearchLg, Settings01 } from "@opus2-platform/icons";
 import { Button as AriaButton, DialogTrigger, Popover } from "react-aria-components";
-import { Avatar } from "@/components/base/avatar/avatar";
-import { BadgeWithDot } from "@/components/base/badges/badges";
-import { Input } from "@/components/base/input/input";
-import { UntitledLogo } from "@/components/foundations/logo/untitledui-logo";
-import { cx } from "@/utils/cx";
-import { MobileNavigationHeader } from "./base-components/mobile-header";
-import { NavAccountCard, NavAccountMenu } from "./base-components/nav-account-card";
-import { NavItemBase } from "./base-components/nav-item";
-import { NavItemButton } from "./base-components/nav-item-button";
-import { NavList } from "./base-components/nav-list";
+import {
+  Avatar,
+  BadgeWithDot,
+  Input,
+  MobileNavigationHeader,
+  NavAccountCard,
+  NavAccountMenu,
+  NavItemBase,
+  NavItemButton,
+  NavList,
+  UntitledLogo,
+} from "@/components";
+import { cx } from "@/utils";
 
 type NavItem = {
   /** Label text for the nav item. */

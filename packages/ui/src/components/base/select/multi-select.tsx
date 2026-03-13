@@ -6,16 +6,15 @@ import type { ComboBoxProps as AriaComboBoxProps, GroupProps as AriaGroupProps, 
 import { ComboBox as AriaComboBox, Group as AriaGroup, Input as AriaInput, ListBox as AriaListBox, ComboBoxStateContext } from "react-aria-components";
 import type { ListData } from "react-stately";
 import { useListData } from "react-stately";
-import { Avatar } from "@/components/base/avatar/avatar";
-import type { IconComponentType } from "@/components/base/badges/badge-types";
-import { HintText } from "@/components/base/input/hint-text";
-import { Label } from "@/components/base/input/label";
-import { Popover } from "@/components/base/select/popover";
-import { type SelectItemType, sizes } from "@/components/base/select/select";
-import { TagCloseX } from "@/components/base/tags/base-components/tag-close-x";
-import { useResizeObserver } from "@/hooks/use-resize-observer";
-import { cx } from "@/utils/cx";
+import { useResizeObserver } from "@/hooks";
+import { cx } from "@/utils";
+import { Avatar } from "../avatar/avatar";
+import { HintText } from "../input/hint-text";
+import { Label } from "../input/label";
+import { TagCloseX } from "../tags/base-components/tag-close-x";
+import { Popover } from "./popover";
 import { SelectItem } from "./select-item";
+import { type IconComponentType, type SelectItemType, sizes } from "./select-shared";
 
 interface ComboBoxValueProps extends AriaGroupProps {
   size: "sm" | "md";

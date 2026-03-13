@@ -1,7 +1,7 @@
 "use client";
 
 import { PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer } from "recharts";
-import { cx } from "@/utils/cx";
+import { cx } from "@/utils";
 
 const progressCircleData = [
   {
