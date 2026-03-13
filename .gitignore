@@ -1,0 +1,20 @@
+# misc
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# cache
+*.tsbuildinfo
+.turbo
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+dist-ssr
+*.local
+*storybook.log
+storybook-static

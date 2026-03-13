@@ -1,0 +1,18 @@
+{
+  "name": "@opus2-platform/icons",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@untitledui/file-icons": "^0.0.8",
+    "@untitledui/icons": "^0.0.21"
+  }
+}
