@@ -7,7 +7,7 @@ import { Tooltip } from "@/components/base/tooltip/tooltip";
 import { cx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
 
-export const styles = {
+const styles = {
   secondary:
     "bg-primary text-fg-quaternary shadow-xs-skeumorphic ring-1 ring-primary ring-inset hover:bg-primary_hover hover:text-fg-quaternary_hover disabled:shadow-xs disabled:ring-disabled_subtle",
   tertiary: "text-fg-quaternary hover:bg-primary_hover hover:text-fg-quaternary_hover",
@@ -16,7 +16,7 @@ export const styles = {
 /**
  * Common props shared between button and anchor variants
  */
-export interface CommonProps {
+export interface CommonUtilityProps {
   /** Disables the button and shows a disabled state */
   isDisabled?: boolean;
   /** The size variant of the button */
@@ -34,7 +34,8 @@ export interface CommonProps {
 /**
  * Props for the button variant (non-link)
  */
-export interface ButtonProps extends CommonProps, DetailedHTMLProps<Omit<ButtonHTMLAttributes<HTMLButtonElement>, "color" | "slot">, HTMLButtonElement> {
+export interface ButtonUtilityProps
+  extends CommonUtilityProps, DetailedHTMLProps<Omit<ButtonHTMLAttributes<HTMLButtonElement>, "color" | "slot">, HTMLButtonElement> {
   /** Slot name for react-aria component */
   slot?: AriaButtonProps["slot"];
 }
@@ -42,13 +43,13 @@ export interface ButtonProps extends CommonProps, DetailedHTMLProps<Omit<ButtonH
 /**
  * Props for the link variant (anchor tag)
  */
-interface LinkProps extends CommonProps, DetailedHTMLProps<Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "color">, HTMLAnchorElement> {
+interface LinkUtilityProps extends CommonUtilityProps, DetailedHTMLProps<Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "color">, HTMLAnchorElement> {
   /** Options for the configured client side router. */
   routerOptions?: AriaLinkProps["routerOptions"];
 }
 
 /** Union type of button and link props */
-export type Props = ButtonProps | LinkProps;
+export type UtilityProps = ButtonUtilityProps | LinkUtilityProps;
 
 export const ButtonUtility = ({
   tooltip,
@@ -59,7 +60,7 @@ export const ButtonUtility = ({
   color = "secondary",
   tooltipPlacement = "top",
   ...otherProps
-}: Props) => {
+}: UtilityProps) => {
   const href = "href" in otherProps ? otherProps.href : undefined;
   const Component = href ? AriaLink : AriaButton;
 

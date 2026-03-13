@@ -10,5 +10,5 @@
     "declaration": true,
     "incremental": true
   },
-  "include": ["src/index.tsx", "src/types/**/*.d.ts"]
+  "include": ["src"]
 }

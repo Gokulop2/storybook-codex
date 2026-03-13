@@ -11,9 +11,11 @@
     "dev": "concurrently \"npm run dev --workspace=@opus2-platform/icons\" \"npm run dev --workspace=@opus2-platform/codex\" \"npm run dev --workspace=docs\"",
     "dev:turbo": "turbo run dev",
     "build": "turbo run build",
+    "start": "npm run start --workspace=docs",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
-    "cleanup": "rm -rf package-lock.json && find . \\( -type d \\( -name node_modules -o -name .turbo -o -name dist -o -name storybook-static \\) -prune -exec rm -rf {} + \\) -o \\( -type f -name '*.tsbuildinfo' -delete \\)"
+    "cleanup": "rm -rf package-lock.json && find . \\( -type d \\( -name node_modules -o -name .turbo -o -name dist -o -name storybook-static \\) -prune -exec rm -rf {} + \\) -o \\( -type f -name '*.tsbuildinfo' -delete \\)",
+    "fresh": "npm run cleanup && npm install"
   },
   "engines": {
     "node": ">=22.22.0"

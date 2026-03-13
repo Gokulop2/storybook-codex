@@ -8,7 +8,7 @@ import {
 import { cx, sortCx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
 
-export const styles = sortCx({
+const styles = sortCx({
   common: {
     root: [
       "group/button-group bg-primary text-secondary shadow-skeumorphic ring-primary outline-brand inline-flex h-max cursor-pointer items-center font-semibold whitespace-nowrap ring-1 transition duration-100 ease-linear ring-inset",

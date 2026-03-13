@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build": "storybook build"
+    "build": "storybook build",
+    "start": "serve storybook-static -l ${PORT:-6006}"
   },
   "dependencies": {
     "@opus2-platform/codex": "*",
     "@opus2-platform/icons": "*",
     "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react-dom": "^19.2.3",
+    "serve": "^14.2.5"
   },
   "devDependencies": {
     "@storybook/addon-docs": "^10.2.17",

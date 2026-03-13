@@ -10,9 +10,9 @@
   "scripts": {
     "dev:bootstrap": "npm run build:ts && npm run build:css",
     "dev:css": "nodemon --watch src/styles --ext css --exec \"npm run build:css\"",
-    "dev:watch": "concurrently \"tsc --watch\" \"tsc-alias --watch\" \"npm run dev:css\"",
+    "dev:watch": "concurrently \"tsc --watch -p tsconfig.build.json\" \"tsc-alias --watch -p tsconfig.build.json\" \"npm run dev:css\"",
     "dev": "npm run dev:bootstrap && npm run dev:watch",
-    "build:ts": "tsc && tsc-alias",
+    "build:ts": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "build:css": "postcss src/styles/index.css -o dist/styles.css",
     "build": "npm run build:ts && npm run build:css"
   },
