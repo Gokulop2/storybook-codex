@@ -9,8 +9,8 @@ import { HintText } from "../input/hint-text";
 import { Label } from "../input/label";
 import { ComboBox } from "./combobox";
 import { Popover } from "./popover";
-import { type CommonSelectProps, type SelectItemType, SelectContext, sizes } from "./select-shared";
 import { SelectItem } from "./select-item";
+import { type CommonSelectProps, SelectContext, type SelectItemType, sizes } from "./select-shared";
 
 export type { CommonSelectProps, SelectItemType } from "./select-shared";
 

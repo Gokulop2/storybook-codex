@@ -1,10 +1,18 @@
 ## Project Overview
 
-This is an **Untitled UI React** component library project built with:
+This repository is a monorepo for the **Opus2 Codex** component system. The primary packages are:
 
-- **React 19.1.1** with TypeScript
-- **Tailwind CSS v4.1** for styling
+- **`packages/ui`** (`@opus2-platform/codex`) - the React component library
+- **`packages/icons`** (`@opus2-platform/icons`) - local icon exports used by the UI package
+- **`apps/docs`** - the Storybook docs app for developing and previewing components
+
+The UI package is built with:
+
+- **React 19** with TypeScript
+- **Tailwind CSS v4** for styling
 - **React Aria Components** as the foundation for accessibility and behavior
+
+Unless otherwise noted, the source-code guidance below refers to files inside `packages/ui/src`.
 
 ## Key Architecture Principles
 
@@ -16,20 +24,20 @@ This is an **Untitled UI React** component library project built with:
 
 ### Import Naming Convention
 
-**CRITICAL**: All imports from `react-aria-components` must be prefixed with `Aria*` for clarity and consistency:
+**CRITICAL**: Alias React Aria component primitives and their prop types with an `Aria*` prefix when they would otherwise collide with local component names:
 
 ```typescript
 // ✅ Correct
 import { Button as AriaButton, TextField as AriaTextField } from "react-aria-components";
-// ❌ Incorrect
-import { Button, TextField } from "react-aria-components";
+// ✅ Also fine for hooks, contexts, and utility types
+import { ComboBoxStateContext, useSlottedContext } from "react-aria-components";
 ```
 
 This convention:
 
 - Prevents naming conflicts with custom components
 - Makes it clear when using base React Aria components
-- Maintains consistency across the entire codebase
+- Maintains consistency without forcing unnecessary aliases on hooks or contexts
 
 ### File Naming Convention
 
@@ -60,29 +68,38 @@ This applies to all file types including:
 ## Development Commands
 
 ```bash
-# Development
-npm run dev               # Start Vite development server (http://localhost:5173)
-npm run build            # Build for production (TypeScript compilation + Vite build)
+# Repo root
+npm run dev                              # Runs icons watch, UI watch build, and Storybook docs
+npm run build                            # Runs the monorepo build via Turbo
+npm run typecheck                        # Runs TypeScript type checking from the repo root
+
+# Package-specific
+npm run dev --workspace=@opus2-platform/codex   # Builds and watches the UI package
+npm run build --workspace=@opus2-platform/codex # Builds the UI package dist output
+npm run dev --workspace=docs                    # Starts Storybook on http://localhost:6006
 ```
 
 ## Project Structure
 
-### Application Architecture
+### Repository Layout
 
 ```
-src/
-├── components/
-│   ├── base/              # Core UI components (Button, Input, Select, etc.)
-│   ├── application/       # Complex application components
-│   ├── foundations/       # Design tokens and foundational elements
-│   ├── marketing/         # Marketing-specific components
-│   └── shared-assets/     # Reusable assets and illustrations
-├── hooks/                 # Custom React hooks
-├── pages/                 # Route components
-├── providers/             # React context providers
-├── styles/               # Global styles and theme
-├── types/                # TypeScript type definitions
-└── utils/                # Utility functions
+apps/
+├── docs/                  # Storybook docs application
+packages/
+├── icons/                 # Local icon package used across the workspace
+└── ui/                    # Component library package
+  └── src/
+    ├── components/
+    │   ├── base/      # Core UI components (Button, Input, Select, etc.)
+    │   ├── application/ # Complex application components
+    │   ├── foundations/ # Design tokens and foundational elements
+    │   └── shared-assets/ # Reusable assets and illustrations
+    ├── hooks/         # Custom React hooks
+    ├── providers/     # React context providers
+    ├── styles/        # Package styles entrypoint and theme tokens
+    ├── types/         # TypeScript type definitions
+    └── utils/         # Utility functions
 ```
 
 ### Component Patterns
@@ -141,9 +158,9 @@ interface ButtonProps extends CommonProps, HTMLButtonElement {
 
 ### Brand Color Customization
 
-To change the main brand color across the entire application:
+To change the main brand color across the component library:
 
-1. **Update Brand Color Variables**: Edit `src/styles/theme.css` and modify the `--color-brand-*` variables
+1. **Update Brand Color Variables**: Edit `packages/ui/src/styles/theme.css` and modify the `--color-brand-*` variables
 2. **Maintain Color Scale**: Ensure you provide a complete color scale from 25 to 950 with proper contrast ratios
 3. **Example Brand Color Scale**:
    ```css
@@ -192,21 +209,19 @@ export const styles = sortCx({
 
 ### Available Libraries
 
-- `@untitledui/icons` - 1,100+ line-style icons (free)
-- `@untitledui/file-icons` - File type icons
-- `@untitledui-pro/icons` - 4,600+ icons in 4 styles (Requires PRO access)
+- `@opus2-platform/icons` - local workspace icon package re-exporting the icon set used by the UI package
 
 ### Import & Usage
 
 ```typescript
 // Recommended: Named imports (tree-shakeable)
-import { Home01, Settings01, ChevronDown } from "@untitledui/icons";
+import { Home01, Settings01, ChevronDown } from "@opus2-platform/icons";
 
 // Component props - pass as reference
 <Button iconLeading={ChevronDown}>Options</Button>
 
 // Standalone usage
-<Home01 className="size-5 text-gray-600" />
+<Home01 className="size-5 text-fg-secondary" />
 
 // As JSX element - MUST include data-icon
 <Button iconLeading={<ChevronDown data-icon className="size-4" />}>Options</Button>
@@ -218,24 +233,14 @@ import { Home01, Settings01, ChevronDown } from "@untitledui/icons";
 // Size: use size-4 (16px), size-5 (20px), size-6 (24px)
 <Home01 className="size-5" />
 
-// Color: use semantic text colors
-<Home01 className="size-5 text-brand-600" />
+// Color: use semantic foreground/text colors
+<Home01 className="size-5 text-fg-brand-secondary" />
 
 // Stroke width (line icons only)
 <Home01 className="size-5" strokeWidth={2} />
 
 // Accessibility: decorative icons need aria-hidden
 <Home01 className="size-5" aria-hidden="true" />
-```
-
-### PRO Icon Styles
-
-```typescript
-import { Home01 } from "@untitledui-pro/icons";
-// Line
-import { Home01 } from "@untitledui-pro/icons/duocolor";
-import { Home01 } from "@untitledui-pro/icons/duotone";
-import { Home01 } from "@untitledui-pro/icons/solid";
 ```
 
 ## Form Handling
@@ -298,26 +303,20 @@ Select.ComboBox = ComboBox;
 
 - Use React Aria's built-in state management
 - Local state for component-specific data
-- Context for shared component state (theme, router)
-
-### Global State
-
-- Theme context in `src/providers/theme.tsx`
-- Router context in `src/providers/router-provider.tsx`
+- Context for shared component state when a package-level provider is required
 
 ## Key Files and Utilities
 
 ### Core Utilities
 
-- `src/utils/cx.ts` - Class name utilities
-- `src/utils/is-react-component.ts` - Component type checking
-- `src/hooks/` - Custom React hooks
+- `packages/ui/src/utils/cx.ts` - Class name utilities
+- `packages/ui/src/utils/is-react-component.ts` - Component type checking
+- `packages/ui/src/hooks/` - Custom React hooks
 
 ### Style Configuration
 
-- `src/styles/globals.css` - Global styles
-- `src/styles/theme.css` - Theme definitions
-- `src/styles/typography.css` - Typography styles
+- `packages/ui/src/styles/index.css` - Package styles entrypoint
+- `packages/ui/src/styles/theme.css` - Theme definitions and design tokens
 
 ## Best Practices for AI Assistance
 
@@ -340,7 +339,7 @@ The Button component is the most frequently used interactive element across the 
 **Import:**
 
 ```typescript
-import { Button } from "@/components/base/buttons/button";
+import { Button } from "@/components";
 ```
 
 **Common Props:**
@@ -377,8 +376,7 @@ Text input component with extensive customization options.
 **Import:**
 
 ```typescript
-import { Input } from "@/components/base/input/input";
-import { InputGroup } from "@/components/base/input/input-group";
+import { Input, InputGroup } from "@/components";
 ```
 
 **Common Props:**
@@ -397,7 +395,7 @@ import { InputGroup } from "@/components/base/input/input-group";
 
 ```typescript
 // Basic input with label
-<Input label="Email" placeholder="olivia@untitledui.com" />
+<Input label="Email" placeholder="olivia@opus2.com" />
 
 // With icon and validation
 <Input
@@ -410,7 +408,7 @@ import { InputGroup } from "@/components/base/input/input-group";
 
 // Input group with button
 <InputGroup label="Website" trailingAddon={<Button>Copy</Button>}>
-  <InputBase placeholder="www.untitledui.com" />
+  <InputBase placeholder="www.opus2.com" />
 </InputGroup>
 ```
 
@@ -421,8 +419,7 @@ Dropdown selection component with search and multi-select capabilities.
 **Import:**
 
 ```typescript
-import { MultiSelect } from "@/components/base/select/multi-select";
-import { Select } from "@/components/base/select/select";
+import { MultiSelect, Select } from "@/components";
 ```
 
 **Common Props:**
@@ -479,7 +476,7 @@ Checkbox component for boolean selections.
 **Import:**
 
 ```typescript
-import { Checkbox } from "@/components/base/checkbox/checkbox";
+import { Checkbox } from "@/components";
 ```
 
 **Common Props:**
@@ -514,7 +511,7 @@ Badge components for status indicators and labels.
 **Import:**
 
 ```typescript
-import { Badge, BadgeWithDot, BadgeWithIcon } from "@/components/base/badges/badges";
+import { Badge, BadgeWithDot, BadgeWithIcon } from "@/components";
 ```
 
 **Common Props:**
@@ -543,8 +540,7 @@ Avatar component for user profile images.
 **Import:**
 
 ```typescript
-import { Avatar } from "@/components/base/avatar/avatar";
-import { AvatarLabelGroup } from "@/components/base/avatar/avatar-label-group";
+import { Avatar, AvatarLabelGroup } from "@/components";
 ```
 
 **Common Props:**
@@ -574,7 +570,7 @@ import { AvatarLabelGroup } from "@/components/base/avatar/avatar-label-group";
 <AvatarLabelGroup
   src="/avatar.jpg"
   title="Olivia Rhye"
-  subtitle="olivia@untitledui.com"
+  subtitle="olivia@opus2.com"
   size="md"
 />
 ```
@@ -586,7 +582,7 @@ Decorative icon component with themed backgrounds for emphasis and visual hierar
 **Import:**
 
 ```typescript
-import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
+import { FeaturedIcon } from "@/components";
 ```
 
 **Common Props:**
@@ -631,7 +627,7 @@ import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-ic
 **Import:**
 
 ```typescript
-import { Button } from "@/components/base/buttons/button";
+import { Button } from "@/components";
 ```
 
 **Link Colors:**
@@ -684,19 +680,17 @@ When passing icons to components:
 
 ## COLORS
 
-MUST use color classes to style elements.
+Prefer semantic color classes in reusable components and shared patterns.
 
-Bad:
-
-- text-gray-900
-- text-gray-600
-- bg-blue-700
-
-Good:
+Prefer:
 
 - text-primary
 - text-secondary
+- text-fg-secondary
 - bg-primary
+- bg-brand-solid
+
+Legacy shared assets and demos may still contain raw palette utilities. When editing existing code, preserve local intent unless you are actively normalizing that file.
 
 ### Text Color
 
