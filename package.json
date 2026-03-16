@@ -12,7 +12,7 @@
     "dev:turbo": "turbo run dev",
     "build": "turbo run build",
     "start": "npm run start --workspace=docs",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc -p packages/icons/tsconfig.json --noEmit && tsc -p packages/ui/tsconfig.json --noEmit && tsc -p apps/docs/tsconfig.json --noEmit",
     "format": "prettier --write .",
     "cleanup": "rm -rf package-lock.json && find . \\( -type d \\( -name node_modules -o -name .turbo -o -name dist -o -name storybook-static \\) -prune -exec rm -rf {} + \\) -o \\( -type f -name '*.tsbuildinfo' -delete \\)",
     "fresh": "npm run cleanup && npm install"

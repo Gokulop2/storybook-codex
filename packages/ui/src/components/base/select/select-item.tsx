@@ -4,7 +4,7 @@ import type { ListBoxItemProps as AriaListBoxItemProps } from "react-aria-compon
 import { ListBoxItem as AriaListBoxItem, Text as AriaText } from "react-aria-components";
 import { cx, isReactComponent } from "@/utils";
 import { Avatar } from "../avatar";
-import { type SelectItemType, SelectContext } from "./select-shared";
+import { SelectContext, type SelectItemType } from "./select-shared";
 
 const sizes = {
   sm: "p-2 pr-2.5",
