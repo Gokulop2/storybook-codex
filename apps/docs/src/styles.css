@@ -1,7 +1,49 @@
-@import "tailwindcss";
+/* Register Tailwind content paths before pulling in the UI stylesheet (which starts with @import "tailwindcss"). */
+@source "./**/*.{ts,tsx,mdx,css}";
+@source "../../../packages/ui/src/**/*.{ts,tsx,css}";
 
-@plugin "@tailwindcss/typography";
-@plugin "tailwindcss-react-aria-components";
-@plugin "tailwindcss-animate";
+/* Single Tailwind pipeline with the UI package (same as @opus2-platform/codex dist). */
+@import "../../../packages/ui/src/styles/index.css";
 
-@source "./**/*.{ts,tsx,mdx}";
+/* In-page section titles (Button docs) — Storybook can style headings as links; force semantic text color. */
+@layer components {
+  .docs-section-title {
+    color: var(--color-text-primary) !important;
+  }
+
+  /* Portaled TOC host: hidden below 2xl. */
+  .docs-on-this-page-host {
+    display: none;
+  }
+
+  /*
+   * Button docs: “On this page” is portaled after `.sbdocs-wrapper` (Storybook docs shell).
+   * Flex main + TOC at 2xl; TOC host stays sticky while the page scrolls; margin-right = mr-8.
+   */
+  @media (min-width: 96rem) {
+    .docs-sbdocs-with-toc-layout {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .docs-sbdocs-with-toc-layout > .sbdocs-wrapper {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .docs-on-this-page-host {
+      display: block;
+      flex-shrink: 0;
+      align-self: flex-start;
+      position: sticky;
+      top: calc(var(--spacing) * 24);
+      z-index: 10;
+      margin-right: calc(var(--spacing) * 8);
+      max-height: calc(100dvh - calc(var(--spacing) * 24));
+      overflow-y: auto;
+    }
+  }
+}

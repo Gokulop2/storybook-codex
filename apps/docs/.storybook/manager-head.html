@@ -1,0 +1,32 @@
+<!-- Default landing: Overview when no ?path= is set. Build query manually so path keeps readable
+     slashes (?path=/story/...) instead of URLSearchParams encoding (%2F). -->
+<script>
+  (function () {
+    var DEFAULT_STORY_PATH = "/story/overview--overview";
+    try {
+      var u = new URL(window.location.href);
+      var p = u.searchParams.get("path");
+      var id = u.searchParams.get("id");
+      if ((p == null || p === "") && (id == null || id === "")) {
+        var pathname = u.pathname || "/";
+        var pairs = [];
+        u.searchParams.forEach(function (value, key) {
+          if (key !== "path") pairs.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
+        });
+        pairs.push("path=" + DEFAULT_STORY_PATH);
+        var q = pairs.join("&");
+        window.history.replaceState(window.history.state, "", pathname + "?" + q + u.hash);
+      }
+    } catch (_) {}
+  })();
+</script>
+<style>
+  /*
+   * Storybook 10 manager: hide the sidebar footer Settings toggle (gear, role="switch").
+   * There is no supported manager config for this control; hide via stable SVG path + aria-label.
+   */
+  button[role="switch"][aria-label="Settings"],
+  button[role="switch"]:has(svg path[d*="M5.586 5.586"]) {
+    display: none !important;
+  }
+</style>

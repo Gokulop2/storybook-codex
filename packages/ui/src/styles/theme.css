@@ -1,7 +1,11 @@
 @theme {
-  /* FONT FAMILY */
-  --font-body: var(--font-inter, "Inter"), -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --font-display: var(--font-inter, "Inter"), -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  /* Spacing base (Tailwind v4 default, same as Untitled UI). Powers p-*, m-*, gap-* and --text-* below. */
+  --spacing: 0.25rem;
+
+  /* FONT FAMILY — single stack; body/display/sans utilities all reference this */
+  --font-sans: "Inter", "Inter Fallback", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-body: var(--font-sans);
+  --font-display: var(--font-sans);
   --font-mono: ui-monospace, "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   /* FONT SIZE */
