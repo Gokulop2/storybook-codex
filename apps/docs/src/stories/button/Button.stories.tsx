@@ -1,5 +1,5 @@
-import type { CSSProperties, FC, ReactNode } from "react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { ComponentProps, CSSProperties, FC, ReactNode } from "react";
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "@opus2-platform/codex";
 import { Check } from "@opus2-platform/icons";
@@ -8,6 +8,21 @@ import { Button as AriaButton, Tab as AriaTab, TabList as AriaTabList, TabPanel 
 
 type ButtonSize = "sm" | "md" | "lg" | "xl";
 const sizes: ButtonSize[] = ["sm", "md", "lg", "xl"];
+
+/** Solid + outline accent variants used in icon / loading / disabled demos. */
+const ACCENT_VARIANT_COLORS = ["primary", "secondary", "tertiary"] as const;
+
+/** Loading rows: shared by docs code string + live preview (stay in sync). */
+const LOADING_DEMO_ROWS = [
+  { color: "primary" as const, showTextWhileLoading: false },
+  { color: "secondary" as const, showTextWhileLoading: true },
+  { color: "tertiary" as const, showTextWhileLoading: true },
+] as const;
+
+const PREVIEW_BUTTON_ROW = "flex flex-wrap items-center gap-3";
+const PREVIEW_BUTTON_STACK = "flex flex-col gap-4";
+
+type ButtonColor = NonNullable<ComponentProps<typeof Button>["color"]>;
 
 /** Icon-only toolbar controls — aligned with Untitled UI docs header actions (react-aria `Button`). */
 const toolbarIconBtn =
@@ -44,6 +59,47 @@ const ICON_SAMPLE = "<Check data-icon />";
 /** Example `href` for link-style buttons (same URL pattern as untitledui.com/react/components/buttons). */
 const LINK_HREF_EXAMPLE = "https://www.untitledui.com/";
 
+/** Code string: one text `<Button>` per size for docs snippets. */
+function buttonDocsTextRows(color: string, href?: string): string {
+  const hrefAttr = href != null ? ` href="${href}"` : "";
+  return sizes.map((s) => `<Button size="${s}" color="${color}"${hrefAttr}>Button ${s}</Button>`).join("\n");
+}
+
+function buttonDocsWithImport(rows: string): string {
+  return `${CODE_IMPORT}${rows}`;
+}
+
+function buttonDocsIconOnlyRows(color: string): string {
+  return sizes
+    .map((s) => `<Button size="${s}" color="${color}" iconLeading={${ICON_SAMPLE}} aria-label={\`Button ${s}\`} />`)
+    .join("\n");
+}
+
+function buttonDocsIconStackCode(iconProp: "iconLeading" | "iconTrailing"): string {
+  const blocks = ACCENT_VARIANT_COLORS.map((color) => {
+    const lines = sizes
+      .map((s) => `<Button size="${s}" color="${color}" ${iconProp}={${ICON_SAMPLE}}>Button ${s}</Button>`)
+      .join("\n    ");
+    return `  <div className="flex flex-wrap gap-3">\n    ${lines}\n  </div>`;
+  });
+  return `${CODE_IMPORT_WITH_ICON}<>\n${blocks.join("\n")}\n</>`;
+}
+
+function buttonDocsLoadingCode(): string {
+  const blocks = LOADING_DEMO_ROWS.map(({ color, showTextWhileLoading }) => {
+    const extra = showTextWhileLoading ? " showTextWhileLoading" : "";
+    return sizes.map((s) => `<Button size="${s}" color="${color}" isLoading${extra}>Button ${s}</Button>`).join("\n");
+  });
+  return `${CODE_IMPORT}\n${blocks.join("\n\n")}`;
+}
+
+function buttonDocsDisabledCode(): string {
+  const blocks = ACCENT_VARIANT_COLORS.map((c) =>
+    sizes.map((s) => `<Button isDisabled color="${c}" size="${s}">Button ${s}</Button>`).join("\n")
+  );
+  return `${CODE_IMPORT}\n${blocks.join("\n\n")}`;
+}
+
 const BUTTON_DOCS_CODE = {
   hero: `import { Check } from "@opus2-platform/icons";
 import { Button } from "@opus2-platform/codex";
@@ -51,51 +107,140 @@ import { Button } from "@opus2-platform/codex";
 <Button size="md" color="primary-destructive">Delete project</Button>
 <Button size="md" color="secondary">Stage for publish</Button>
 <Button size="md" color="primary" iconLeading={<Check data-icon />}>Publish now</Button>`,
-  primary: `${CODE_IMPORT}${sizes.map((s) => `<Button size="${s}" color="primary">Button ${s}</Button>`).join("\n")}`,
-  secondary: `${CODE_IMPORT}${sizes.map((s) => `<Button size="${s}" color="secondary">Button ${s}</Button>`).join("\n")}`,
-  tertiary: `${CODE_IMPORT}${sizes.map((s) => `<Button size="${s}" color="tertiary">Button ${s}</Button>`).join("\n")}`,
-  linkColor: `${CODE_IMPORT}${sizes.map((s) => `<Button size="${s}" color="link-color" href="${LINK_HREF_EXAMPLE}">Button ${s}</Button>`).join("\n")}`,
-  linkGray: `${CODE_IMPORT}${sizes.map((s) => `<Button size="${s}" color="link-gray" href="${LINK_HREF_EXAMPLE}">Button ${s}</Button>`).join("\n")}`,
-  linkDestructive: `${CODE_IMPORT}${sizes.map((s) => `<Button size="${s}" color="link-destructive" href="${LINK_HREF_EXAMPLE}">Button ${s}</Button>`).join("\n")}`,
-  iconLeading: `${CODE_IMPORT_WITH_ICON}<>
-  <div className="flex flex-wrap gap-3">
-    ${sizes.map((s) => `<Button size="${s}" color="primary" iconLeading={${ICON_SAMPLE}}>Button ${s}</Button>`).join("\n    ")}
-  </div>
-  <div className="flex flex-wrap gap-3">
-    ${sizes.map((s) => `<Button size="${s}" color="secondary" iconLeading={${ICON_SAMPLE}}>Button ${s}</Button>`).join("\n    ")}
-  </div>
-  <div className="flex flex-wrap gap-3">
-    ${sizes.map((s) => `<Button size="${s}" color="tertiary" iconLeading={${ICON_SAMPLE}}>Button ${s}</Button>`).join("\n    ")}
-  </div>
-</>`,
-  iconTrailing: `${CODE_IMPORT_WITH_ICON}<>
-  <div className="flex flex-wrap gap-3">
-    ${sizes.map((s) => `<Button size="${s}" color="primary" iconTrailing={${ICON_SAMPLE}}>Button ${s}</Button>`).join("\n    ")}
-  </div>
-  <div className="flex flex-wrap gap-3">
-    ${sizes.map((s) => `<Button size="${s}" color="secondary" iconTrailing={${ICON_SAMPLE}}>Button ${s}</Button>`).join("\n    ")}
-  </div>
-  <div className="flex flex-wrap gap-3">
-    ${sizes.map((s) => `<Button size="${s}" color="tertiary" iconTrailing={${ICON_SAMPLE}}>Button ${s}</Button>`).join("\n    ")}
-  </div>
-</>`,
-  iconOnly: `${CODE_IMPORT_WITH_ICON}${sizes.map((s) => `<Button size="${s}" color="primary" iconLeading={${ICON_SAMPLE}} aria-label={\`Button ${s}\`} />`).join("\n")}`,
-  loading: `${CODE_IMPORT}
-${sizes.map((s) => `<Button size="${s}" color="primary" isLoading>Button ${s}</Button>`).join("\n")}
-
-${sizes.map((s) => `<Button size="${s}" color="secondary" isLoading showTextWhileLoading>Button ${s}</Button>`).join("\n")}
-
-${sizes.map((s) => `<Button size="${s}" color="tertiary" isLoading showTextWhileLoading>Button ${s}</Button>`).join("\n")}`,
-  disabled: `${CODE_IMPORT}
-${sizes.map((s) => `<Button isDisabled color="primary" size="${s}">Button ${s}</Button>`).join("\n")}
-
-${sizes.map((s) => `<Button isDisabled color="secondary" size="${s}">Button ${s}</Button>`).join("\n")}
-
-${sizes.map((s) => `<Button isDisabled color="tertiary" size="${s}">Button ${s}</Button>`).join("\n")}`,
-  primaryDestructive: `${CODE_IMPORT}${sizes.map((s) => `<Button size="${s}" color="primary-destructive">Button ${s}</Button>`).join("\n")}`,
-  secondaryDestructive: `${CODE_IMPORT}${sizes.map((s) => `<Button size="${s}" color="secondary-destructive">Button ${s}</Button>`).join("\n")}`,
-  tertiaryDestructive: `${CODE_IMPORT}${sizes.map((s) => `<Button size="${s}" color="tertiary-destructive">Button ${s}</Button>`).join("\n")}`,
+  primary: buttonDocsWithImport(buttonDocsTextRows("primary")),
+  secondary: buttonDocsWithImport(buttonDocsTextRows("secondary")),
+  tertiary: buttonDocsWithImport(buttonDocsTextRows("tertiary")),
+  linkColor: buttonDocsWithImport(buttonDocsTextRows("link-color", LINK_HREF_EXAMPLE)),
+  linkGray: buttonDocsWithImport(buttonDocsTextRows("link-gray", LINK_HREF_EXAMPLE)),
+  linkDestructive: buttonDocsWithImport(buttonDocsTextRows("link-destructive", LINK_HREF_EXAMPLE)),
+  iconLeading: buttonDocsIconStackCode("iconLeading"),
+  iconTrailing: buttonDocsIconStackCode("iconTrailing"),
+  iconOnly: `${CODE_IMPORT_WITH_ICON}${buttonDocsIconOnlyRows("primary")}`,
+  loading: buttonDocsLoadingCode(),
+  disabled: buttonDocsDisabledCode(),
+  primaryDestructive: buttonDocsWithImport(buttonDocsTextRows("primary-destructive")),
+  secondaryDestructive: buttonDocsWithImport(buttonDocsTextRows("secondary-destructive")),
+  tertiaryDestructive: buttonDocsWithImport(buttonDocsTextRows("tertiary-destructive")),
 } as const;
+
+type ButtonDocsCodeKey = keyof typeof BUTTON_DOCS_CODE;
+
+const HERO_DOCS_SECTION_CLASS = "group not-typography my-8 flex w-full scroll-mt-20 flex-col gap-3";
+
+const DESC_LINK_COLOR = (
+  <p>
+    We designed our buttons to be hybrid: they can function as either a link or a standard button. Pass an{" "}
+    <code className={DOC_CODE_CLASS}>href</code> prop to render an anchor while keeping the same sizes, colors, and icons; when{" "}
+    <code className={DOC_CODE_CLASS}>href</code> is set, standard anchor attributes apply.
+  </p>
+);
+
+const DESC_LINK_GRAY = <p>Link gray uses neutral text for secondary or de-emphasized inline actions.</p>;
+const DESC_LINK_DESTRUCTIVE = <p>Link destructive uses error-colored text for dangerous inline actions, such as removing an item.</p>;
+
+const DESC_ICON_LEADING = (
+  <>
+    <p>
+      Use <code className={DOC_CODE_CLASS}>iconLeading</code> and <code className={DOC_CODE_CLASS}>iconTrailing</code> to add icons. Pass a component that
+      accepts <code className={DOC_CODE_CLASS}>className</code>, or a JSX element with a <code className={DOC_CODE_CLASS}>data-icon</code> attribute.
+    </p>
+    <p>
+      When you pass a JSX element instead of a component reference, include <code className={DOC_CODE_CLASS}>data-icon</code> so Codex can apply the correct
+      icon sizing and color.
+    </p>
+  </>
+);
+
+const DESC_ICON_TRAILING = (
+  <p>
+    Same as <code className={DOC_CODE_CLASS}>iconLeading</code>, but use <code className={DOC_CODE_CLASS}>iconTrailing</code> for an icon after the label.
+  </p>
+);
+
+const DESC_ICON_ONLY = (
+  <>
+    <p>
+      Omit children and pass an icon to <code className={DOC_CODE_CLASS}>iconLeading</code> or <code className={DOC_CODE_CLASS}>iconTrailing</code>.
+    </p>
+    <p>
+      Use an <code className={DOC_CODE_CLASS}>aria-label</code> for icon-only buttons so assistive technologies get a clear name.
+    </p>
+  </>
+);
+
+const DESC_LOADING = (
+  <p>
+    The <code className={DOC_CODE_CLASS}>isLoading</code> prop shows a spinner and blocks interaction. Use{" "}
+    <code className={DOC_CODE_CLASS}>showTextWhileLoading</code> to keep the label visible. The spinner follows the active size and color variant.
+  </p>
+);
+
+const DESC_DISABLED = (
+  <p>
+    The <code className={DOC_CODE_CLASS}>isDisabled</code> prop applies disabled styles, uses a not-allowed cursor, and prevents actions and navigation. Styling
+    is consistent across variants and sizes.
+  </p>
+);
+
+const DESC_PRIMARY_DESTRUCTIVE = (
+  <p>
+    Codex exposes <code className={DOC_CODE_CLASS}>primary-destructive</code>, <code className={DOC_CODE_CLASS}>secondary-destructive</code>, and{" "}
+    <code className={DOC_CODE_CLASS}>tertiary-destructive</code>. They mirror non-destructive behavior with warning colors and support icons, loading, and
+    disabled states.
+  </p>
+);
+
+type ButtonDocSectionDef =
+  | { kind: "hero"; id: string; title: string; sectionClassName: string }
+  | { kind: "textRow"; id: string; title: string; color: ButtonColor; codeKey: ButtonDocsCodeKey; description?: ReactNode }
+  | { kind: "linkRow"; id: string; title: string; color: ButtonColor; codeKey: ButtonDocsCodeKey; description: ReactNode }
+  | { kind: "iconLeading"; id: string; title: string; description: ReactNode }
+  | { kind: "iconTrailing"; id: string; title: string; description: ReactNode }
+  | { kind: "iconOnly"; id: string; title: string; description: ReactNode }
+  | { kind: "loading"; id: string; title: string; description: ReactNode }
+  | { kind: "disabled"; id: string; title: string; description: ReactNode };
+
+/** Single source of truth: section order, TOC labels, and which preview to mount. */
+const BUTTON_DOC_SECTIONS: readonly ButtonDocSectionDef[] = [
+  { kind: "hero", id: "button-example", title: "Button example", sectionClassName: HERO_DOCS_SECTION_CLASS },
+  { kind: "textRow", id: "primary-buttons", title: "Primary buttons", color: "primary", codeKey: "primary" },
+  { kind: "textRow", id: "secondary-buttons", title: "Secondary buttons", color: "secondary", codeKey: "secondary" },
+  { kind: "textRow", id: "tertiary-buttons", title: "Tertiary buttons", color: "tertiary", codeKey: "tertiary" },
+  {
+    kind: "linkRow",
+    id: "link-color-buttons",
+    title: "Link color buttons",
+    color: "link-color",
+    codeKey: "linkColor",
+    description: DESC_LINK_COLOR,
+  },
+  { kind: "linkRow", id: "link-gray-buttons", title: "Link gray buttons", color: "link-gray", codeKey: "linkGray", description: DESC_LINK_GRAY },
+  {
+    kind: "linkRow",
+    id: "link-destructive-buttons",
+    title: "Link destructive buttons",
+    color: "link-destructive",
+    codeKey: "linkDestructive",
+    description: DESC_LINK_DESTRUCTIVE,
+  },
+  { kind: "iconLeading", id: "icon-leading-buttons", title: "Icon leading buttons", description: DESC_ICON_LEADING },
+  { kind: "iconTrailing", id: "icon-trailing-buttons", title: "Icon trailing buttons", description: DESC_ICON_TRAILING },
+  { kind: "iconOnly", id: "icon-only-buttons", title: "Icon only buttons", description: DESC_ICON_ONLY },
+  { kind: "loading", id: "loading-buttons", title: "Loading buttons", description: DESC_LOADING },
+  { kind: "disabled", id: "disabled-buttons", title: "Disabled buttons", description: DESC_DISABLED },
+  {
+    kind: "textRow",
+    id: "primary-buttons-destructive",
+    title: "Primary buttons destructive",
+    color: "primary-destructive",
+    codeKey: "primaryDestructive",
+    description: DESC_PRIMARY_DESTRUCTIVE,
+  },
+  { kind: "textRow", id: "secondary-buttons-destructive", title: "Secondary buttons destructive", color: "secondary-destructive", codeKey: "secondaryDestructive" },
+  { kind: "textRow", id: "tertiary-buttons-destructive", title: "Tertiary buttons destructive", color: "tertiary-destructive", codeKey: "tertiaryDestructive" },
+];
+
+const BUTTON_DOCS_TOC = BUTTON_DOC_SECTIONS.map((s) => ({ id: s.id, label: s.title }));
 
 const codeColor = {
   gray: "var(--color-utility-gray-700)",
@@ -364,6 +509,8 @@ type DocsSectionProps = {
   code: string;
   description?: ReactNode;
   previewClassName?: string;
+  /** Override outer `<section>` classes (default includes `md:my-10`). */
+  sectionClassName?: string;
   children: ReactNode;
 };
 
@@ -391,13 +538,15 @@ const PreviewCodeToolbar: FC<{
   </div>
 );
 
-const DocsSection: FC<DocsSectionProps> = ({ id, title, code, description, previewClassName, children }) => {
+const DEFAULT_DOCS_SECTION_CLASS = "group my-8 flex w-full scroll-mt-20 flex-col gap-3 md:my-10";
+
+const DocsSection: FC<DocsSectionProps> = ({ id, title, code, description, previewClassName, sectionClassName, children }) => {
   const [isPreviewDark, setIsPreviewDark] = useState(false);
   const boxClass = previewClassName ?? PREVIEW_DEMO_SURFACE_CLASS;
   const previewSurfaceClass = previewSurfaceClassName(boxClass, isPreviewDark);
 
   return (
-    <section id={id} className="group my-8 flex w-full scroll-mt-20 flex-col gap-3 md:my-10">
+    <section id={id} className={sectionClassName ?? DEFAULT_DOCS_SECTION_CLASS}>
       <AriaTabs defaultSelectedKey="preview" className="not-typography flex flex-col gap-3">
         <header className="flex w-full flex-col justify-between gap-3 md:flex-row md:items-center">
           <div className="flex items-center gap-3">
@@ -547,24 +696,6 @@ const StorybookSbdocsTocPortal: FC<{ children: ReactNode }> = ({ children }) => 
   return createPortal(children, mountNode);
 };
 
-const BUTTON_DOCS_TOC = [
-  { id: "button-example", label: "Button example" },
-  { id: "primary-buttons", label: "Primary buttons" },
-  { id: "secondary-buttons", label: "Secondary buttons" },
-  { id: "tertiary-buttons", label: "Tertiary buttons" },
-  { id: "link-color-buttons", label: "Link color buttons" },
-  { id: "link-gray-buttons", label: "Link gray buttons" },
-  { id: "link-destructive-buttons", label: "Link destructive buttons" },
-  { id: "icon-leading-buttons", label: "Icon leading buttons" },
-  { id: "icon-trailing-buttons", label: "Icon trailing buttons" },
-  { id: "icon-only-buttons", label: "Icon only buttons" },
-  { id: "loading-buttons", label: "Loading buttons" },
-  { id: "disabled-buttons", label: "Disabled buttons" },
-  { id: "primary-buttons-destructive", label: "Primary buttons destructive" },
-  { id: "secondary-buttons-destructive", label: "Secondary buttons destructive" },
-  { id: "tertiary-buttons-destructive", label: "Tertiary buttons destructive" },
-] as const;
-
 const OnThisPageNav: FC<{ items: readonly { readonly id: string; readonly label: string }[] }> = ({ items }) => {
   const [activeId, setActiveId] = useState(items[0]?.id ?? "");
   const trackRef = useRef<HTMLDivElement>(null);
@@ -683,11 +814,169 @@ const OnThisPageNav: FC<{ items: readonly { readonly id: string; readonly label:
   );
 };
 
+function PreviewTextButtons({ color }: { color: ButtonColor }) {
+  return (
+    <div className={PREVIEW_BUTTON_ROW}>
+      {sizes.map((size) => (
+        <Button key={size} size={size} color={color}>
+          Button {size}
+        </Button>
+      ))}
+    </div>
+  );
+}
+
+function PreviewLinkButtons({ color }: { color: ButtonColor }) {
+  return (
+    <div className={PREVIEW_BUTTON_ROW}>
+      {sizes.map((size) => (
+        <Button key={size} size={size} color={color} href={LINK_HREF_EXAMPLE}>
+          Button {size}
+        </Button>
+      ))}
+    </div>
+  );
+}
+
+function PreviewIconVariantRows({
+  icon: Icon,
+  iconProp,
+}: {
+  icon: FC<{ className?: string }>;
+  iconProp: "iconLeading" | "iconTrailing";
+}) {
+  const iconProps = iconProp === "iconLeading" ? { iconLeading: Icon } : { iconTrailing: Icon };
+  return (
+    <div className={PREVIEW_BUTTON_STACK}>
+      {ACCENT_VARIANT_COLORS.map((color) => (
+        <div key={color} className={PREVIEW_BUTTON_ROW}>
+          {sizes.map((size) => (
+            <Button key={`${color}-${size}`} size={size} color={color} {...iconProps}>
+              Button {size}
+            </Button>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PreviewLoadingButtons() {
+  return (
+    <div className={PREVIEW_BUTTON_STACK}>
+      {LOADING_DEMO_ROWS.map(({ color, showTextWhileLoading }) => (
+        <div key={color} className={PREVIEW_BUTTON_ROW}>
+          {sizes.map((size) => (
+            <Button
+              key={`${color}-${size}`}
+              size={size}
+              color={color}
+              isLoading
+              {...(showTextWhileLoading ? { showTextWhileLoading: true } : {})}
+            >
+              Button {size}
+            </Button>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PreviewDisabledButtons() {
+  return (
+    <div className={PREVIEW_BUTTON_STACK}>
+      {ACCENT_VARIANT_COLORS.map((color) => (
+        <div key={color} className={PREVIEW_BUTTON_ROW}>
+          {sizes.map((size) => (
+            <Button key={`${color}-${size}`} isDisabled color={color} size={size}>
+              Button {size}
+            </Button>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PreviewIconOnlyButtons({ color, icon: Icon }: { color: ButtonColor; icon: FC<{ className?: string }> }) {
+  return (
+    <div className={PREVIEW_BUTTON_ROW}>
+      {sizes.map((size) => (
+        <Button key={size} size={size} color={color} iconLeading={Icon} aria-label={`Button ${size}`} />
+      ))}
+    </div>
+  );
+}
+
+function renderButtonDocSection(def: ButtonDocSectionDef): ReactNode {
+  switch (def.kind) {
+    case "hero":
+      return (
+        <DocsSection id={def.id} title={def.title} code={BUTTON_DOCS_CODE.hero} sectionClassName={def.sectionClassName}>
+          <div className="flex flex-col items-start gap-3 md:flex-row">
+            <Button size="md" color="primary-destructive">
+              Delete project
+            </Button>
+            <Button size="md" color="secondary">
+              Stage for publish
+            </Button>
+            <Button size="md" color="primary" iconLeading={<Check data-icon />}>
+              Publish now
+            </Button>
+          </div>
+        </DocsSection>
+      );
+    case "textRow":
+      return (
+        <DocsSection id={def.id} title={def.title} code={BUTTON_DOCS_CODE[def.codeKey]} description={def.description}>
+          <PreviewTextButtons color={def.color} />
+        </DocsSection>
+      );
+    case "linkRow":
+      return (
+        <DocsSection id={def.id} title={def.title} code={BUTTON_DOCS_CODE[def.codeKey]} description={def.description}>
+          <PreviewLinkButtons color={def.color} />
+        </DocsSection>
+      );
+    case "iconLeading":
+      return (
+        <DocsSection id={def.id} title={def.title} code={BUTTON_DOCS_CODE.iconLeading} description={def.description}>
+          <PreviewIconVariantRows icon={ArrowRightIcon} iconProp="iconLeading" />
+        </DocsSection>
+      );
+    case "iconTrailing":
+      return (
+        <DocsSection id={def.id} title={def.title} code={BUTTON_DOCS_CODE.iconTrailing} description={def.description}>
+          <PreviewIconVariantRows icon={ArrowRightIcon} iconProp="iconTrailing" />
+        </DocsSection>
+      );
+    case "iconOnly":
+      return (
+        <DocsSection id={def.id} title={def.title} code={BUTTON_DOCS_CODE.iconOnly} description={def.description}>
+          <PreviewIconOnlyButtons color="primary" icon={ArrowRightIcon} />
+        </DocsSection>
+      );
+    case "loading":
+      return (
+        <DocsSection id={def.id} title={def.title} code={BUTTON_DOCS_CODE.loading} description={def.description}>
+          <PreviewLoadingButtons />
+        </DocsSection>
+      );
+    case "disabled":
+      return (
+        <DocsSection id={def.id} title={def.title} code={BUTTON_DOCS_CODE.disabled} description={def.description}>
+          <PreviewDisabledButtons />
+        </DocsSection>
+      );
+    default: {
+      const _exhaustive: never = def;
+      return _exhaustive;
+    }
+  }
+}
+
 const ButtonDocsPage: FC = () => {
-  const [isHeroPreviewDark, setIsHeroPreviewDark] = useState(false);
-
-  const heroPreviewSurfaceClass = previewSurfaceClassName(PREVIEW_DEMO_SURFACE_CLASS, isHeroPreviewDark);
-
   return (
     <div className="bg-primary min-h-screen font-sans">
       <StorybookRootHeaderPortal>
@@ -709,336 +998,9 @@ const ButtonDocsPage: FC = () => {
             </p>
           </div>
 
-          <section id="button-example" className="group not-typography my-8 flex w-full scroll-mt-20 flex-col gap-3">
-            <AriaTabs defaultSelectedKey="preview" className="not-typography flex flex-col gap-3">
-              <header className="flex w-full flex-col justify-between gap-3 md:flex-row md:items-center">
-                <div className="flex items-center gap-3">
-                  <h3 className="text-md text-primary font-semibold">
-                    <SectionTitle>Button example</SectionTitle>
-                  </h3>
-                </div>
-                <PreviewCodeToolbar
-                  code={BUTTON_DOCS_CODE.hero}
-                  isPreviewDark={isHeroPreviewDark}
-                  onPreviewDarkToggle={() => setIsHeroPreviewDark((d) => !d)}
-                />
-              </header>
-
-              <AriaTabPanel id="preview" className="outline-none focus:outline-none">
-                <div className={heroPreviewSurfaceClass}>
-                  <div className="flex flex-col items-start gap-3 md:flex-row">
-                    <Button size="md" color="primary-destructive">
-                      Delete project
-                    </Button>
-                    <Button size="md" color="secondary">
-                      Stage for publish
-                    </Button>
-                    <Button size="md" color="primary" iconLeading={<Check data-icon />}>
-                      Publish now
-                    </Button>
-                  </div>
-                </div>
-              </AriaTabPanel>
-              <AriaTabPanel id="code" className="outline-none focus:outline-none">
-                <DocsCodePanel code={BUTTON_DOCS_CODE.hero} />
-              </AriaTabPanel>
-            </AriaTabs>
-          </section>
-
-          <DocsSection id="primary-buttons" title="Primary buttons" code={BUTTON_DOCS_CODE.primary}>
-            <div className="flex flex-wrap items-center gap-3">
-              {sizes.map((size) => (
-                <Button key={size} size={size} color="primary">
-                  Button {size}
-                </Button>
-              ))}
-            </div>
-          </DocsSection>
-
-          <DocsSection id="secondary-buttons" title="Secondary buttons" code={BUTTON_DOCS_CODE.secondary}>
-            <div className="flex flex-wrap items-center gap-3">
-              {sizes.map((size) => (
-                <Button key={size} size={size} color="secondary">
-                  Button {size}
-                </Button>
-              ))}
-            </div>
-          </DocsSection>
-
-          <DocsSection id="tertiary-buttons" title="Tertiary buttons" code={BUTTON_DOCS_CODE.tertiary}>
-            <div className="flex flex-wrap items-center gap-3">
-              {sizes.map((size) => (
-                <Button key={size} size={size} color="tertiary">
-                  Button {size}
-                </Button>
-              ))}
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="link-color-buttons"
-            title="Link color buttons"
-            code={BUTTON_DOCS_CODE.linkColor}
-            description={
-              <p>
-                We designed our buttons to be hybrid: they can function as either a link or a standard button. Pass an{" "}
-                <code className={DOC_CODE_CLASS}>href</code> prop to render an anchor while keeping the same sizes, colors, and icons; when{" "}
-                <code className={DOC_CODE_CLASS}>href</code> is set, standard anchor attributes apply.
-              </p>
-            }
-          >
-            <div className="flex flex-wrap items-center gap-3">
-              {sizes.map((size) => (
-                <Button key={`brand-${size}`} size={size} color="link-color" href={LINK_HREF_EXAMPLE}>
-                  Button {size}
-                </Button>
-              ))}
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="link-gray-buttons"
-            title="Link gray buttons"
-            code={BUTTON_DOCS_CODE.linkGray}
-            description={<p>Link gray uses neutral text for secondary or de-emphasized inline actions.</p>}
-          >
-            <div className="flex flex-wrap items-center gap-3">
-              {sizes.map((size) => (
-                <Button key={size} size={size} color="link-gray" href={LINK_HREF_EXAMPLE}>
-                  Button {size}
-                </Button>
-              ))}
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="link-destructive-buttons"
-            title="Link destructive buttons"
-            code={BUTTON_DOCS_CODE.linkDestructive}
-            description={<p>Link destructive uses error-colored text for dangerous inline actions, such as removing an item.</p>}
-          >
-            <div className="flex flex-wrap items-center gap-3">
-              {sizes.map((size) => (
-                <Button key={size} size={size} color="link-destructive" href={LINK_HREF_EXAMPLE}>
-                  Button {size}
-                </Button>
-              ))}
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="icon-leading-buttons"
-            title="Icon leading buttons"
-            code={BUTTON_DOCS_CODE.iconLeading}
-            description={
-              <>
-                <p>
-                  Use <code className={DOC_CODE_CLASS}>iconLeading</code> and <code className={DOC_CODE_CLASS}>iconTrailing</code> to add icons. Pass a
-                  component that accepts <code className={DOC_CODE_CLASS}>className</code>, or a JSX element with a{" "}
-                  <code className={DOC_CODE_CLASS}>data-icon</code> attribute.
-                </p>
-                <p>
-                  When you pass a JSX element instead of a component reference, include <code className={DOC_CODE_CLASS}>data-icon</code> so Codex can apply the
-                  correct icon sizing and color.
-                </p>
-              </>
-            }
-          >
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-wrap items-center gap-3">
-                {sizes.map((size) => (
-                  <Button key={`primary-${size}`} size={size} color="primary" iconLeading={ArrowRightIcon}>
-                    Button {size}
-                  </Button>
-                ))}
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                {sizes.map((size) => (
-                  <Button key={`secondary-${size}`} size={size} color="secondary" iconLeading={ArrowRightIcon}>
-                    Button {size}
-                  </Button>
-                ))}
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                {sizes.map((size) => (
-                  <Button key={`tertiary-${size}`} size={size} color="tertiary" iconLeading={ArrowRightIcon}>
-                    Button {size}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="icon-trailing-buttons"
-            title="Icon trailing buttons"
-            code={BUTTON_DOCS_CODE.iconTrailing}
-            description={
-              <p>
-                Same as <code className={DOC_CODE_CLASS}>iconLeading</code>, but use <code className={DOC_CODE_CLASS}>iconTrailing</code> for an icon after the
-                label.
-              </p>
-            }
-          >
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-wrap items-center gap-3">
-                {sizes.map((size) => (
-                  <Button key={`primary-${size}`} size={size} color="primary" iconTrailing={ArrowRightIcon}>
-                    Button {size}
-                  </Button>
-                ))}
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                {sizes.map((size) => (
-                  <Button key={`secondary-${size}`} size={size} color="secondary" iconTrailing={ArrowRightIcon}>
-                    Button {size}
-                  </Button>
-                ))}
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                {sizes.map((size) => (
-                  <Button key={`tertiary-${size}`} size={size} color="tertiary" iconTrailing={ArrowRightIcon}>
-                    Button {size}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="icon-only-buttons"
-            title="Icon only buttons"
-            code={BUTTON_DOCS_CODE.iconOnly}
-            description={
-              <>
-                <p>
-                  Omit children and pass an icon to <code className={DOC_CODE_CLASS}>iconLeading</code> or <code className={DOC_CODE_CLASS}>iconTrailing</code>.
-                </p>
-                <p>
-                  Use an <code className={DOC_CODE_CLASS}>aria-label</code> for icon-only buttons so assistive technologies get a clear name.
-                </p>
-              </>
-            }
-          >
-            <div className="flex flex-wrap items-center gap-3">
-              {sizes.map((size) => (
-                <Button key={size} size={size} color="primary" iconLeading={ArrowRightIcon} aria-label={`Button ${size}`} />
-              ))}
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="loading-buttons"
-            title="Loading buttons"
-            code={BUTTON_DOCS_CODE.loading}
-            description={
-              <p>
-                The <code className={DOC_CODE_CLASS}>isLoading</code> prop shows a spinner and blocks interaction. Use{" "}
-                <code className={DOC_CODE_CLASS}>showTextWhileLoading</code> to keep the label visible. The spinner follows the active size and color variant.
-              </p>
-            }
-          >
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-wrap items-center gap-3">
-                {sizes.map((size) => (
-                  <Button key={`primary-${size}`} size={size} color="primary" isLoading>
-                    Button {size}
-                  </Button>
-                ))}
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                {sizes.map((size) => (
-                  <Button key={`secondary-${size}`} size={size} color="secondary" isLoading showTextWhileLoading>
-                    Button {size}
-                  </Button>
-                ))}
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                {sizes.map((size) => (
-                  <Button key={`tertiary-${size}`} size={size} color="tertiary" isLoading showTextWhileLoading>
-                    Button {size}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="disabled-buttons"
-            title="Disabled buttons"
-            code={BUTTON_DOCS_CODE.disabled}
-            description={
-              <p>
-                The <code className={DOC_CODE_CLASS}>isDisabled</code> prop applies disabled styles, uses a not-allowed cursor, and prevents actions and
-                navigation. Styling is consistent across variants and sizes.
-              </p>
-            }
-          >
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-wrap items-center gap-3">
-                {sizes.map((size) => (
-                  <Button key={`primary-${size}`} isDisabled color="primary" size={size}>
-                    Button {size}
-                  </Button>
-                ))}
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                {sizes.map((size) => (
-                  <Button key={`secondary-${size}`} isDisabled color="secondary" size={size}>
-                    Button {size}
-                  </Button>
-                ))}
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                {sizes.map((size) => (
-                  <Button key={`tertiary-${size}`} isDisabled color="tertiary" size={size}>
-                    Button {size}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="primary-buttons-destructive"
-            title="Primary buttons destructive"
-            code={BUTTON_DOCS_CODE.primaryDestructive}
-            description={
-              <p>
-                Codex exposes <code className={DOC_CODE_CLASS}>primary-destructive</code>, <code className={DOC_CODE_CLASS}>secondary-destructive</code>, and{" "}
-                <code className={DOC_CODE_CLASS}>tertiary-destructive</code>. They mirror non-destructive behavior with warning colors and support icons,
-                loading, and disabled states.
-              </p>
-            }
-          >
-            <div className="flex flex-wrap items-center gap-3">
-              {sizes.map((size) => (
-                <Button key={size} size={size} color="primary-destructive">
-                  Button {size}
-                </Button>
-              ))}
-            </div>
-          </DocsSection>
-
-          <DocsSection id="secondary-buttons-destructive" title="Secondary buttons destructive" code={BUTTON_DOCS_CODE.secondaryDestructive}>
-            <div className="flex flex-wrap items-center gap-3">
-              {sizes.map((size) => (
-                <Button key={size} size={size} color="secondary-destructive">
-                  Button {size}
-                </Button>
-              ))}
-            </div>
-          </DocsSection>
-
-          <DocsSection id="tertiary-buttons-destructive" title="Tertiary buttons destructive" code={BUTTON_DOCS_CODE.tertiaryDestructive}>
-            <div className="flex flex-wrap items-center gap-3">
-              {sizes.map((size) => (
-                <Button key={size} size={size} color="tertiary-destructive">
-                  Button {size}
-                </Button>
-              ))}
-            </div>
-          </DocsSection>
+          {BUTTON_DOC_SECTIONS.map((def) => (
+            <Fragment key={def.id}>{renderButtonDocSection(def)}</Fragment>
+          ))}
         </div>
       </main>
     </div>

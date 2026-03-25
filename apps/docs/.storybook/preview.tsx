@@ -1,7 +1,5 @@
 import type { Preview } from "@storybook/react-vite";
 
-/* Dist loads first (workspace path) so the preview iframe stays styled if monorepo CSS resolution fails in dev. */
-import "@opus2-platform/codex/dist/styles.css";
 import "../src/styles.css";
 
 const preview: Preview = {

@@ -1,9 +1,0 @@
-{
-  "tailwindCSS.experimental.configFile": {
-    "apps/docs/**": "apps/docs/src/styles.css",
-    "packages/ui/**": "packages/ui/src/styles/index.css"
-  },
-  "editor.quickSuggestions": {
-    "strings": "on"
-  }
-}

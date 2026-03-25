@@ -8,6 +8,8 @@ dist/
 *.tsbuildinfo
 .turbo
 
+# Editor (local only)
+.vscode/
 
 # Logs
 logs

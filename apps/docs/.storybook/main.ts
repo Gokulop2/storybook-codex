@@ -22,8 +22,15 @@ const config: StorybookConfig = {
   viteFinal: async (config) => {
     config.plugins = [...(config.plugins ?? []), tailwindcss()];
 
-    // Monorepo: preview CSS imports `packages/ui/src/...` and Tailwind scans outside `apps/docs`.
-    // Without this, dev often fails to load those files in the iframe ("outside serve allow list").
+    config.resolve ??= {};
+    config.resolve.alias = [
+      ...(Array.isArray(config.resolve.alias) ? config.resolve.alias : []),
+      {
+        find: "@opus2-platform/icons",
+        replacement: resolve(monorepoRoot, "packages/icons/src/index.ts"),
+      },
+    ];
+
     config.server ??= {};
     config.server.fs ??= {};
     const allow = new Set<string>([
@@ -31,6 +38,7 @@ const config: StorybookConfig = {
       monorepoRoot,
       docsPackageRoot,
       resolve(monorepoRoot, "packages/ui"),
+      resolve(monorepoRoot, "packages/icons"),
     ]);
     config.server.fs.allow = [...allow];
 

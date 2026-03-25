@@ -6,10 +6,7 @@
   "scripts": {
     "dev": "storybook dev -p 6006",
     "build": "storybook build",
-    "build-storybook": "storybook build",
-    "prestart": "npm run build",
-    "start": "serve storybook-static -l ${PORT:-6006}",
-    "start:serve": "serve storybook-static -l ${PORT:-6006}"
+    "start": "serve storybook-static -l ${PORT:-6006}"
   },
   "dependencies": {
     "@opus2-platform/codex": "*",
@@ -21,13 +18,7 @@
   "devDependencies": {
     "@storybook/addon-docs": "^10.2.17",
     "@storybook/react-vite": "^10.2.17",
-    "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.1.18",
     "eslint-plugin-storybook": "^10.2.17",
-    "react-aria-components": "^1.16.0",
-    "storybook": "^10.2.17",
-    "tailwindcss": "^4.1.18",
-    "tailwindcss-animate": "^1.0.7",
-    "tailwindcss-react-aria-components": "^2.0.1"
+    "storybook": "^10.2.17"
   }
 }
