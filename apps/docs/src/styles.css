@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 @source "./**/*.{ts,tsx,mdx,css}";
-@source "@opus2-platform/codex/src/**/*.{ts,tsx,css}";
 
 @import "@opus2-platform/codex/src/styles/index.css";
 

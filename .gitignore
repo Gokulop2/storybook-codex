@@ -8,8 +8,10 @@ dist/
 *.tsbuildinfo
 .turbo
 
-# Editor (local only)
-.vscode/
+# Editor — ignore local VS Code noise; shared workspace settings stay tracked
+.vscode/*
+!.vscode/settings.json
+!.vscode/tailwind-v4.css-data.json
 
 # Logs
 logs

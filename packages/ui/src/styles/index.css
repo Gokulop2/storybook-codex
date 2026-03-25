@@ -1,4 +1,8 @@
 @import "tailwindcss";
+
+/* Resolved relative to this file: packages/ui/src/ (component sources for class detection). */
+@source "../**/*.{ts,tsx,css}";
+
 @import "./theme.css";
 
 @plugin "@tailwindcss/typography";
