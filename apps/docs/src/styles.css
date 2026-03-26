@@ -44,3 +44,11 @@
     }
   }
 }
+
+/* (Intentionally no badge-specific typography overrides here.) */
+
+/* Storybook/Emotion sometimes forces a font-size onto spans under `.css-1xxktr1`.
+   Clear it for the badges docs page only. */
+.css-1xxktr1 [data-codex-docs-badge-groups] :where(span:not(.sb-anchor, .sb-unstyled, .sb-unstyled span)) {
+  font-size: inherit !important;
+}
