@@ -11,10 +11,10 @@ import {
 } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button as AriaButton, Tab as AriaTab, TabList as AriaTabList, TabPanel as AriaTabPanel, Tabs as AriaTabs } from "react-aria-components";
+import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
 
 const CODEX_DOCS_BADGE_LABEL = "Label";
-const CODEX_DOCS_AVATAR_SRC = "/avatars/demo-portrait.svg";
 
 const HERO_DOCS_SECTION_CLASS = "group not-typography my-8 flex w-full scroll-mt-20 flex-col gap-3";
 const DEFAULT_DOCS_SECTION_CLASS = "group my-8 flex w-full scroll-mt-20 flex-col gap-3 md:my-10";

@@ -1462,7 +1462,7 @@ import { Avatar, Button, Dropdown } from "@opus2-platform/codex";
 import { Cube01, HelpCircle, LayersTwo01, LogOut01, Moon01, Settings01, User01 } from "@opus2-platform/icons";
 import { Button as AriaButton, SubmenuTrigger } from "react-aria-components";
 
-const CODEX_DOCS_AVATAR_SRC = "/avatars/demo-portrait.svg";
+const CODEX_DOCS_AVATAR_SRC = "${CODEX_DOCS_AVATAR_SRC}";
 
 const [isDarkMode, setIsDarkMode] = useState(false);
 

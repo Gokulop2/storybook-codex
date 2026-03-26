@@ -6,9 +6,10 @@ import type { CSSProperties, FC } from "react";
 import { useId } from "react";
 import { ChevronDown } from "@opus2-platform/icons";
 import { Button as AriaButton } from "react-aria-components";
+import { CODEX_DOCS_AVATAR_SRC } from "./docs-assets";
 import { DOCS_PREVIEW_SURFACE_CLASS } from "./untitled-docs-preview-code";
 
-export const CODEX_DOCS_AVATAR_SRC = "/avatars/demo-portrait.svg";
+export { CODEX_DOCS_AVATAR_SRC };
 
 export const ACCOUNT_CARD_DOCS_PREVIEW_CLASS =
   `${DOCS_PREVIEW_SURFACE_CLASS} not-typography !m-0 [&_p]:!m-0` as const;

@@ -5,12 +5,10 @@ import { Avatar, AvatarAddButton, AvatarCompanyIcon, AvatarLabelGroup, AvatarPro
 import { User01 } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button as AriaButton, Tab as AriaTab, TabList as AriaTabList, TabPanel as AriaTabPanel, Tabs as AriaTabs } from "react-aria-components";
+import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
 
 type AvatarSize = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 const AVATAR_SIZES: AvatarSize[] = ["xxs", "xs", "sm", "md", "lg", "xl", "2xl"];
-
-/** Portrait image for Codex docs demos (Storybook static: `apps/docs/public/avatars/`). */
-const CODEX_DOCS_AVATAR_SRC = "/avatars/demo-portrait.svg";
 /** Company mark for badge demos (placeholder CDN). */
 const CODEX_DOCS_COMPANY_LOGO_SRC = "https://picsum.photos/seed/codex-company/128/128";
 /** Sample email for docs copy (Opus2 / Codex). */
