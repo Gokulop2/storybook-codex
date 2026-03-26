@@ -100,7 +100,13 @@ interface TooltipTriggerProps extends AriaButtonProps {}
 
 export const TooltipTrigger = ({ children, className, ...buttonProps }: TooltipTriggerProps) => {
   return (
-    <AriaButton {...buttonProps} className={(values) => cx("h-max w-max outline-hidden", typeof className === "function" ? className(values) : className)}>
+    <AriaButton
+      {...buttonProps}
+      // Opt out of parent `ButtonContext` slots (e.g. `NumberField` increment/decrement).
+      // Without this, a help trigger inside a number field throws: "A slot prop is required."
+      slot={null}
+      className={(values) => cx("h-max w-max outline-hidden", typeof className === "function" ? className(values) : className)}
+    >
       {children}
     </AriaButton>
   );

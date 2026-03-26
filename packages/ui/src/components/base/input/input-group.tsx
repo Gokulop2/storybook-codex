@@ -39,6 +39,8 @@ export const InputPrefix = ({ isDisabled, children, ...props }: InputPrefixProps
 interface InputGroupProps extends Omit<InputBaseProps, "type" | "icon" | "placeholder" | "tooltip" | "shortcut" | `${string}ClassName`> {
   /** A prefix text that is displayed in the same box as the input.*/
   prefix?: string;
+  /** Class name for the prefix text element. */
+  prefixClassName?: string;
   /** A leading addon that is displayed with visual separation from the input. */
   leadingAddon?: ReactNode;
   /** A trailing addon that is displayed with visual separation from the input. */
@@ -49,7 +51,7 @@ interface InputGroupProps extends Omit<InputBaseProps, "type" | "icon" | "placeh
   children: ReactNode;
 }
 
-export const InputGroup = ({ size = "sm", prefix, leadingAddon, trailingAddon, label, hint, children, ...props }: InputGroupProps) => {
+export const InputGroup = ({ size = "sm", prefix, prefixClassName, leadingAddon, trailingAddon, label, hint, children, ...props }: InputGroupProps) => {
   const hasLeading = !!leadingAddon;
   const hasTrailing = !!trailingAddon;
 
@@ -110,7 +112,7 @@ export const InputGroup = ({ size = "sm", prefix, leadingAddon, trailingAddon, l
 
             {prefix && (
               <span className={cx("my-auto grow pr-2", paddings[size].leadingText)}>
-                <p className={cx("text-md text-tertiary", isDisabled && "text-disabled")}>{prefix}</p>
+                <p className={cx("text-md text-tertiary", prefixClassName, isDisabled && "text-disabled")}>{prefix}</p>
               </span>
             )}
 
