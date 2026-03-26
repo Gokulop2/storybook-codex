@@ -52,3 +52,9 @@
 .css-1xxktr1 [data-codex-docs-badge-groups] :where(span:not(.sb-anchor, .sb-unstyled, .sb-unstyled span)) {
   font-size: inherit !important;
 }
+
+/* Storybook/Emotion injects margins onto paragraphs under `.css-1xxktr1`.
+   Clear it for the credit-cards docs page only. */
+.css-1xxktr1 [data-codex-docs-credit-cards] :where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)) {
+  margin: 0 !important;
+}

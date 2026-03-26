@@ -8,37 +8,37 @@ const styles = sortCx({
   // Normal
   transparent: {
     root: "bg-black/10 bg-linear-to-br from-white/30 to-transparent backdrop-blur-[6px] before:pointer-events-none before:absolute before:inset-0 before:z-1 before:rounded-[inherit] before:mask-linear-135 before:mask-linear-to-white/20 before:ring-1 before:ring-white/30 before:ring-inset",
-    company: "text-white",
-    footerText: "text-white",
-    paypassIcon: "text-white",
+    company: "text-white!",
+    footerText: "text-white!",
+    paypassIcon: "text-white!",
     cardTypeRoot: "bg-white/10",
   },
   "transparent-gradient": {
     root: "bg-black/10 bg-linear-to-br from-white/30 to-transparent backdrop-blur-[6px] before:pointer-events-none before:absolute before:inset-0 before:z-1 before:rounded-[inherit] before:mask-linear-135 before:mask-linear-to-white/20 before:ring-1 before:ring-white/30 before:ring-inset",
-    company: "text-white",
-    footerText: "text-white",
-    paypassIcon: "text-white",
+    company: "text-white!",
+    footerText: "text-white!",
+    paypassIcon: "text-white!",
     cardTypeRoot: "bg-white/10",
   },
   "brand-dark": {
     root: "from-brand-900 to-brand-700 bg-linear-to-tr before:pointer-events-none before:absolute before:inset-0 before:z-1 before:rounded-[inherit] before:mask-linear-135 before:mask-linear-to-white/20 before:ring-1 before:ring-white/30 before:ring-inset",
-    company: "text-white",
-    footerText: "text-white",
-    paypassIcon: "text-white",
+    company: "text-white!",
+    footerText: "text-white!",
+    paypassIcon: "text-white!",
     cardTypeRoot: "bg-white/10",
   },
   "brand-light": {
     root: "bg-brand-100 before:pointer-events-none before:absolute before:inset-0 before:z-1 before:rounded-[inherit] before:mask-linear-135 before:mask-linear-to-white/20 before:ring-1 before:ring-black/10 before:ring-inset",
     company: "text-gray-700",
     footerText: "text-gray-700",
-    paypassIcon: "text-white",
+    paypassIcon: "text-white!",
     cardTypeRoot: "bg-white",
   },
   "gray-dark": {
     root: "bg-linear-to-tr from-gray-900 to-gray-700 before:pointer-events-none before:absolute before:inset-0 before:z-1 before:rounded-[inherit] before:mask-linear-135 before:mask-linear-to-white/20 before:ring-1 before:ring-white/30 before:ring-inset",
-    company: "text-white",
-    footerText: "text-white",
-    paypassIcon: "text-white",
+    company: "text-white!",
+    footerText: "text-white!",
+    paypassIcon: "text-white!",
     cardTypeRoot: "bg-white/10",
   },
   "gray-light": {
@@ -52,53 +52,53 @@ const styles = sortCx({
   // Strip
   "transparent-strip": {
     root: "bg-linear-to-br from-white/30 to-transparent backdrop-blur-[6px] before:pointer-events-none before:absolute before:inset-0 before:z-1 before:rounded-[inherit] before:mask-linear-135 before:mask-linear-to-white/20 before:ring-1 before:ring-white/30 before:ring-inset",
-    company: "text-white",
-    footerText: "text-white",
-    paypassIcon: "text-white",
+    company: "text-white!",
+    footerText: "text-white!",
+    paypassIcon: "text-white!",
     cardTypeRoot: "bg-white/10",
   },
   "gray-strip": {
     root: "bg-gray-100 before:pointer-events-none before:absolute before:inset-0 before:z-1 before:rounded-[inherit] before:mask-linear-135 before:mask-linear-to-white/20 before:ring-1 before:ring-white/30 before:ring-inset",
     company: "text-gray-700",
-    footerText: "text-white",
+    footerText: "text-white!",
     paypassIcon: "text-gray-400",
     cardTypeRoot: "bg-white/10",
   },
   "gradient-strip": {
     root: "bg-linear-to-b from-[#A5C0EE] to-[#FBC5EC] before:pointer-events-none before:absolute before:inset-0 before:z-1 before:rounded-[inherit] before:mask-linear-135 before:mask-linear-to-white/20 before:ring-1 before:ring-white/30 before:ring-inset",
-    company: "text-white",
-    footerText: "text-white",
-    paypassIcon: "text-white",
+    company: "text-white!",
+    footerText: "text-white!",
+    paypassIcon: "text-white!",
     cardTypeRoot: "bg-white/10",
   },
   "salmon-strip": {
     root: "bg-[#F4D9D0] before:pointer-events-none before:absolute before:inset-0 before:z-1 before:rounded-[inherit] before:mask-linear-135 before:mask-linear-to-white/20 before:ring-1 before:ring-white/30 before:ring-inset",
     company: "text-gray-700",
-    footerText: "text-white",
-    paypassIcon: "text-white",
+    footerText: "text-white!",
+    paypassIcon: "text-white!",
     cardTypeRoot: "bg-white/10",
   },
 
   // Vertical strip
   "gray-strip-vertical": {
     root: "bg-linear-to-br from-white/30 to-transparent before:pointer-events-none before:absolute before:inset-0 before:z-1 before:rounded-[inherit] before:mask-linear-135 before:mask-linear-to-white/20 before:ring-1 before:ring-white/30 before:ring-inset",
-    company: "text-white",
-    footerText: "text-white",
+    company: "text-white!",
+    footerText: "text-white!",
     paypassIcon: "text-gray-400",
     cardTypeRoot: "bg-white/10",
   },
   "gradient-strip-vertical": {
     root: "bg-linear-to-b from-[#FBC2EB] to-[#A18CD1] before:pointer-events-none before:absolute before:inset-0 before:z-1 before:rounded-[inherit] before:mask-linear-135 before:mask-linear-to-white/20 before:ring-1 before:ring-white/30 before:ring-inset",
-    company: "text-white",
-    footerText: "text-white",
-    paypassIcon: "text-white",
+    company: "text-white!",
+    footerText: "text-white!",
+    paypassIcon: "text-white!",
     cardTypeRoot: "bg-white/10",
   },
   "salmon-strip-vertical": {
     root: "bg-[#F4D9D0] before:pointer-events-none before:absolute before:inset-0 before:z-1 before:rounded-[inherit] before:mask-linear-135 before:mask-linear-to-white/20 before:ring-1 before:ring-white/30 before:ring-inset",
-    company: "text-white",
-    footerText: "text-white",
-    paypassIcon: "text-white",
+    company: "text-white!",
+    footerText: "text-white!",
+    paypassIcon: "text-white!",
     cardTypeRoot: "bg-white/10",
   },
 });
@@ -137,7 +137,7 @@ const calculateScale = (desiredWidth: number, originalWidth: number, originalHei
 };
 
 export const CreditCard = ({
-  company = "Untitled.",
+  company = "Opus2 Codex.",
   cardNumber = "1234 1234 1234 1234",
   cardHolder = "OLIVIA RHYE",
   cardExpiration = "06/28",
@@ -206,11 +206,11 @@ export const CreditCard = ({
                 style={{
                   wordBreak: "break-word",
                 }}
-                className={cx("text-xs leading-snug font-semibold tracking-[0.6px] uppercase", styles[type].footerText)}
+                className={cx("m-0! text-xs! leading-snug font-semibold tracking-[0.6px] uppercase", styles[type].footerText)}
               >
                 {cardHolder}
               </p>
-              <p className={cx("ml-auto text-right text-xs leading-[normal] font-semibold tracking-[0.6px] tabular-nums", styles[type].footerText)}>
+              <p className={cx("m-0! ml-auto! text-right text-xs! leading-[normal] font-semibold tracking-[0.6px] tabular-nums", styles[type].footerText)}>
                 {cardExpiration}
               </p>
             </div>
