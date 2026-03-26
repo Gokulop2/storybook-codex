@@ -67,14 +67,14 @@ export const Checkbox = ({ label, hint, size = "sm", className, ...ariaCheckboxP
     sm: {
       root: "gap-2",
       textWrapper: "",
-      label: "text-sm font-medium",
-      hint: "text-sm",
+      label: "text-sm! font-medium!",
+      hint: "text-sm!",
     },
     md: {
       root: "gap-3",
       textWrapper: "gap-0.5",
-      label: "text-md font-medium",
-      hint: "text-md",
+      label: "text-md! font-medium!",
+      hint: "text-md!",
     },
   };
 
@@ -82,7 +82,7 @@ export const Checkbox = ({ label, hint, size = "sm", className, ...ariaCheckboxP
     <AriaCheckbox
       {...ariaCheckboxProps}
       className={(state) =>
-        cx("flex items-start", state.isDisabled && "cursor-not-allowed", sizes[size].root, typeof className === "function" ? className(state) : className)
+        cx("flex items-start!", state.isDisabled && "cursor-not-allowed", sizes[size].root, typeof className === "function" ? className(state) : className)
       }
     >
       {({ isSelected, isIndeterminate, isDisabled, isFocusVisible }) => (
@@ -93,13 +93,16 @@ export const Checkbox = ({ label, hint, size = "sm", className, ...ariaCheckboxP
             isIndeterminate={isIndeterminate}
             isDisabled={isDisabled}
             isFocusVisible={isFocusVisible}
-            className={label || hint ? "mt-0.5" : ""}
+            className={label || hint ? "mt-0.5!" : ""}
           />
           {(label || hint) && (
             <div className={cx("inline-flex flex-col", sizes[size].textWrapper)}>
-              {label && <p className={cx("text-secondary select-none", sizes[size].label)}>{label}</p>}
+              {label && <p className={cx("[color:var(--color-text-secondary)]! select-none m-0!", sizes[size].label)}>{label}</p>}
               {hint && (
-                <span className={cx("text-tertiary", sizes[size].hint)} onClick={(event) => event.stopPropagation()}>
+                <span
+                  className={cx("[color:var(--color-text-tertiary)]!", sizes[size].hint)}
+                  onClick={(event) => event.stopPropagation()}
+                >
                   {hint}
                 </span>
               )}
