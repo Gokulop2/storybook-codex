@@ -19,9 +19,9 @@ export const AvatarLabelGroup = ({ title, subtitle, className, ...props }: Avata
   return (
     <figure className={cx("group flex min-w-0 flex-1 items-center", styles[props.size].root, className)}>
       <Avatar {...props} />
-      <figcaption className="min-w-0 flex-1">
-        <p className={cx("text-primary", styles[props.size].title)}>{title}</p>
-        <p className={cx("text-tertiary truncate", styles[props.size].subtitle)}>{subtitle}</p>
+      <figcaption className="min-w-0 flex-1 flex flex-col justify-center">
+        <p className={cx("m-0! leading-none! text-primary", styles[props.size].title)}>{title}</p>
+        <p className={cx("m-0! leading-none! text-tertiary truncate", styles[props.size].subtitle)}>{subtitle}</p>
       </figcaption>
     </figure>
   );
