@@ -88,11 +88,11 @@ interface ButtonGroupProps extends Omit<ToggleButtonGroupProps, "orientation">, 
   className?: string;
 }
 
-export const ButtonGroup = ({ children, size = "md", className, ...otherProps }: ButtonGroupProps) => {
+export const ButtonGroup = ({ children, size = "md", className, selectionMode = "single", ...otherProps }: ButtonGroupProps) => {
   return (
     <ButtonGroupContext.Provider value={{ size }}>
       <AriaToggleButtonGroup
-        selectionMode="single"
+        selectionMode={selectionMode}
         className={cx("relative z-0 inline-flex w-max -space-x-px rounded-lg shadow-xs", className)}
         {...otherProps}
       >
