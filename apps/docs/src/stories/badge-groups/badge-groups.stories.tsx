@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import { BadgeGroup } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button as AriaButton, Tab as AriaTab, TabList as AriaTabList, TabPanel as AriaTabPanel, Tabs as AriaTabs } from "react-aria-components";
+import { DOCS_PREVIEW_P_MARGIN_RESET } from "../_docs/untitled-docs-preview-code";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
 
 type BadgeGroupColor = NonNullable<ComponentProps<typeof BadgeGroup>["color"]>;
@@ -364,7 +365,7 @@ type DocsSectionProps = {
 
 const DocsSection: FC<DocsSectionProps> = ({ id, title, code, description, sectionClassName, dataPreview, previewClassName, children }) => {
   const [isPreviewDark, setIsPreviewDark] = useState(false);
-  const panelClassName = [previewClassName ?? PREVIEW_DEMO_SURFACE_CLASS, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
+  const panelClassName = [previewClassName ?? PREVIEW_DEMO_SURFACE_CLASS, DOCS_PREVIEW_P_MARGIN_RESET, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
 
   return (
     <section

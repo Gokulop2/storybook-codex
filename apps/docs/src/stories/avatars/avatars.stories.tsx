@@ -6,6 +6,7 @@ import { User01 } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button as AriaButton, Tab as AriaTab, TabList as AriaTabList, TabPanel as AriaTabPanel, Tabs as AriaTabs } from "react-aria-components";
 import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
+import { DOCS_PREVIEW_P_MARGIN_RESET } from "../_docs/untitled-docs-preview-code";
 
 type AvatarSize = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 const AVATAR_SIZES: AvatarSize[] = ["xxs", "xs", "sm", "md", "lg", "xl", "2xl"];
@@ -380,7 +381,7 @@ const DocsSection: FC<DocsSectionProps> = ({
   const [isPreviewDark, setIsPreviewDark] = useState(false);
 
   const basePreview = previewClassName ?? PREVIEW_DEMO_SURFACE_CLASS;
-  const previewSurfaceClassName = [basePreview, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
+  const previewSurfaceClassName = [basePreview, DOCS_PREVIEW_P_MARGIN_RESET, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
 
   const heading = anchorHeading ? (
     <a

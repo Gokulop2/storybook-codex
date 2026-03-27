@@ -267,7 +267,7 @@ const InnerMultiSelect = ({ isDisabled, shortcut, shortcutClassName, placeholder
           <span key={value.id} className="bg-primary ring-primary flex items-center rounded-md py-0.5 pr-1 pl-1.25 ring-1 ring-inset">
             <Avatar size="xxs" alt={value?.label} src={value?.avatarUrl} />
 
-            <p className="text-secondary ml-1.25 truncate text-sm font-medium whitespace-nowrap select-none">{value?.label}</p>
+            <p className="text-secondary! ml-1.25 truncate text-sm font-medium whitespace-nowrap select-none">{value?.label}</p>
 
             <TagCloseX
               size="md"
@@ -285,7 +285,7 @@ const InnerMultiSelect = ({ isDisabled, shortcut, shortcutClassName, placeholder
           placeholder={placeholder}
           onKeyDown={handleInputKeyDown}
           onMouseDown={handleInputMouseDown}
-          className="text-md text-primary caret-alpha-black/90 placeholder:text-placeholder disabled:text-disabled disabled:placeholder:text-disabled w-full flex-[1_0_0] appearance-none bg-transparent text-ellipsis outline-none focus:outline-hidden disabled:cursor-not-allowed"
+          className="text-md text-primary! caret-alpha-black/90 placeholder:text-placeholder! disabled:text-disabled! disabled:placeholder:text-disabled! w-full flex-[1_0_0] appearance-none bg-transparent text-ellipsis outline-none focus:outline-hidden disabled:cursor-not-allowed"
         />
 
         {shortcut && (
@@ -298,8 +298,8 @@ const InnerMultiSelect = ({ isDisabled, shortcut, shortcutClassName, placeholder
           >
             <span
               className={cx(
-                "text-quaternary ring-secondary pointer-events-none rounded px-1 py-px text-xs font-medium ring-1 select-none ring-inset",
-                isDisabled && "text-disabled bg-transparent"
+                "text-quaternary! ring-secondary pointer-events-none rounded px-1 py-px text-xs font-medium ring-1 select-none ring-inset",
+                isDisabled && "text-disabled! bg-transparent"
               )}
             >
               ⌘K

@@ -5,6 +5,7 @@ import { Button } from "@opus2-platform/codex";
 import { Check } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button as AriaButton, Tab as AriaTab, TabList as AriaTabList, TabPanel as AriaTabPanel, Tabs as AriaTabs } from "react-aria-components";
+import { DOCS_PREVIEW_P_MARGIN_RESET } from "../_docs/untitled-docs-preview-code";
 
 type ButtonSize = "sm" | "md" | "lg" | "xl";
 const sizes: ButtonSize[] = ["sm", "md", "lg", "xl"];
@@ -39,7 +40,7 @@ const PREVIEW_DEMO_SURFACE_CLASS =
   "outline-focus-ring ring-secondary bg-primary relative flex min-h-[304px] max-w-full items-center justify-center rounded-[20px] px-6 py-10 ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-130";
 
 function previewSurfaceClassName(base: string, isPreviewDark: boolean): string {
-  return [base, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
+  return [base, DOCS_PREVIEW_P_MARGIN_RESET, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
 }
 
 /** Class for inline `code` snippets in docs body copy. */

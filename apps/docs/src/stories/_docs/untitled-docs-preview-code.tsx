@@ -8,6 +8,9 @@ export const DOCS_SECTION_HERO_CLASS = "group not-typography my-8 flex w-full sc
 export const DOCS_PREVIEW_SURFACE_CLASS =
   "outline-focus-ring ring-secondary bg-primary relative flex min-h-[304px] max-w-full items-center justify-center rounded-[20px] px-6 py-10 ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-130";
 
+/** Neutralize Storybook/typography `p` margins inside preview wells. */
+export const DOCS_PREVIEW_P_MARGIN_RESET = "[&_p]:m-0!";
+
 const toolbarIconBtn =
   "group relative inline-flex h-max cursor-pointer items-center justify-center rounded-md p-1.5 outline-focus-ring transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-fg-quaternary hover:bg-primary_hover hover:text-fg-quaternary_hover *:data-icon:pointer-events-none *:data-icon:shrink-0 *:data-icon:text-current *:data-icon:transition-inherit-all *:data-icon:size-4";
 
@@ -240,7 +243,7 @@ export type DocsSectionProps = {
 
 export const DocsSection: FC<DocsSectionProps> = ({ id, title, code, description, sectionClassName, dataPreview, previewClassName, children }) => {
   const [isPreviewDark, setIsPreviewDark] = useState(false);
-  const panelClassName = [previewClassName ?? DOCS_PREVIEW_SURFACE_CLASS, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
+  const panelClassName = [previewClassName ?? DOCS_PREVIEW_SURFACE_CLASS, DOCS_PREVIEW_P_MARGIN_RESET, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
 
   const heading = <SectionTitle>{title}</SectionTitle>;
 

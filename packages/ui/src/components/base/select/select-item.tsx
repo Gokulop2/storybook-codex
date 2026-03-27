@@ -62,12 +62,12 @@ export const SelectItem = ({ label, id, value, avatarUrl, supportingText, isDisa
           ) : null}
 
           <div className="flex w-full min-w-0 flex-1 flex-wrap gap-x-2">
-            <AriaText slot="label" className={cx("text-md text-primary truncate font-medium whitespace-nowrap", state.isDisabled && "text-disabled")}>
+            <AriaText slot="label" className={cx("text-md text-primary! truncate font-medium whitespace-nowrap", state.isDisabled && "text-disabled!")}>
               {label || (typeof children === "function" ? children(state) : children)}
             </AriaText>
 
             {supportingText && (
-              <AriaText slot="description" className={cx("text-md text-tertiary whitespace-nowrap", state.isDisabled && "text-disabled")}>
+              <AriaText slot="description" className={cx("text-md text-tertiary! whitespace-nowrap", state.isDisabled && "text-disabled!")}>
                 {supportingText}
               </AriaText>
             )}

@@ -56,8 +56,8 @@ const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, ...othe
           <div className="relative flex w-full items-center gap-2">
             {inputValue && (
               <span className="absolute top-1/2 z-0 inline-flex w-full -translate-y-1/2 gap-2 truncate" aria-hidden="true">
-                <p className={cx("text-md text-primary font-medium", isDisabled && "text-disabled")}>{first}</p>
-                {last && <p className={cx("text-md text-tertiary -ml-0.75", isDisabled && "text-disabled")}>{last}</p>}
+                <p className={cx("text-md text-primary! font-medium", isDisabled && "text-disabled!")}>{first}</p>
+                {last && <p className={cx("text-md text-tertiary! -ml-0.75", isDisabled && "text-disabled!")}>{last}</p>}
               </span>
             )}
 
