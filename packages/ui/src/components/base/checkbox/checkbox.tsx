@@ -1,5 +1,6 @@
 import type { ReactNode, Ref } from "react";
 import { Checkbox as AriaCheckbox, type CheckboxProps as AriaCheckboxProps } from "react-aria-components";
+import { SelectionControlCopy, selectionControlSizing } from "@/components/base/selection-control-copy";
 import { cx } from "@/utils";
 
 export interface CheckboxBaseProps {
@@ -63,26 +64,16 @@ interface CheckboxProps extends AriaCheckboxProps {
 }
 
 export const Checkbox = ({ label, hint, size = "sm", className, ...ariaCheckboxProps }: CheckboxProps) => {
-  const sizes = {
-    sm: {
-      root: "gap-2",
-      textWrapper: "",
-      label: "text-sm! font-medium!",
-      hint: "text-sm!",
-    },
-    md: {
-      root: "gap-3",
-      textWrapper: "gap-0.5",
-      label: "text-md! font-medium!",
-      hint: "text-md!",
-    },
-  };
-
   return (
     <AriaCheckbox
       {...ariaCheckboxProps}
       className={(state) =>
-        cx("flex items-start!", state.isDisabled && "cursor-not-allowed", sizes[size].root, typeof className === "function" ? className(state) : className)
+        cx(
+          "flex items-start!",
+          state.isDisabled && "cursor-not-allowed",
+          selectionControlSizing[size].root,
+          typeof className === "function" ? className(state) : className
+        )
       }
     >
       {({ isSelected, isIndeterminate, isDisabled, isFocusVisible }) => (
@@ -95,19 +86,7 @@ export const Checkbox = ({ label, hint, size = "sm", className, ...ariaCheckboxP
             isFocusVisible={isFocusVisible}
             className={label || hint ? "mt-0.5!" : ""}
           />
-          {(label || hint) && (
-            <div className={cx("inline-flex flex-col", sizes[size].textWrapper)}>
-              {label && <p className={cx("[color:var(--color-text-secondary)]! select-none m-0!", sizes[size].label)}>{label}</p>}
-              {hint && (
-                <span
-                  className={cx("[color:var(--color-text-tertiary)]!", sizes[size].hint)}
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  {hint}
-                </span>
-              )}
-            </div>
-          )}
+          <SelectionControlCopy size={size} label={label} hint={hint} />
         </>
       )}
     </AriaCheckbox>

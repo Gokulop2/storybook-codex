@@ -5,6 +5,7 @@ import {
   type RadioGroupProps as AriaRadioGroupProps,
   type RadioProps as AriaRadioProps,
 } from "react-aria-components";
+import { SelectionControlCopy, selectionControlSizing } from "@/components/base/selection-control-copy";
 import { cx } from "@/utils";
 
 export interface RadioGroupContextType {
@@ -55,23 +56,7 @@ interface RadioButtonProps extends AriaRadioProps {
 
 export const RadioButton = ({ label, hint, className, size = "sm", ...ariaRadioProps }: RadioButtonProps) => {
   const context = useContext(RadioGroupContext);
-
-  size = context?.size ?? size;
-
-  const sizes = {
-    sm: {
-      root: "gap-2",
-      textWrapper: "",
-      label: "text-sm font-medium",
-      hint: "text-sm",
-    },
-    md: {
-      root: "gap-3",
-      textWrapper: "gap-0.5",
-      label: "text-md font-medium",
-      hint: "text-md",
-    },
-  };
+  const resolvedSize = context?.size ?? size;
 
   return (
     <AriaRadio
@@ -80,7 +65,7 @@ export const RadioButton = ({ label, hint, className, size = "sm", ...ariaRadioP
         cx(
           "flex items-start",
           renderProps.isDisabled && "cursor-not-allowed",
-          sizes[size].root,
+          selectionControlSizing[resolvedSize].root,
           typeof className === "function" ? className(renderProps) : className
         )
       }
@@ -88,22 +73,13 @@ export const RadioButton = ({ label, hint, className, size = "sm", ...ariaRadioP
       {({ isSelected, isDisabled, isFocusVisible }) => (
         <>
           <RadioButtonBase
-            size={size}
+            size={resolvedSize}
             isSelected={isSelected}
             isDisabled={isDisabled}
             isFocusVisible={isFocusVisible}
-            className={label || hint ? "mt-0.5" : ""}
+            className={label || hint ? "mt-0.5!" : ""}
           />
-          {(label || hint) && (
-            <div className={cx("inline-flex flex-col", sizes[size].textWrapper)}>
-              {label && <p className={cx("text-secondary select-none", sizes[size].label)}>{label}</p>}
-              {hint && (
-                <span className={cx("text-tertiary", sizes[size].hint)} onClick={(event) => event.stopPropagation()}>
-                  {hint}
-                </span>
-              )}
-            </div>
-          )}
+          <SelectionControlCopy size={resolvedSize} label={label} hint={hint} />
         </>
       )}
     </AriaRadio>
