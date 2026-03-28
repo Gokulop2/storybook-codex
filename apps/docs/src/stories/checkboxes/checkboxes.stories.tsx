@@ -3,16 +3,17 @@ import { Fragment, useState } from "react";
 import { Checkbox } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button as AriaButton, Tab as AriaTab, TabList as AriaTabList, TabPanel as AriaTabPanel, Tabs as AriaTabs } from "react-aria-components";
-import { DOCS_PREVIEW_P_MARGIN_RESET } from "../_docs/untitled-docs-preview-code";
+import {
+  DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT,
+  DOCS_PREVIEW_P_MARGIN_RESET,
+  DOCS_PREVIEW_SURFACE_CLASS,
+} from "../_docs/untitled-docs-preview-code";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
 
 const HERO_DOCS_SECTION_CLASS = "group not-typography my-8 flex w-full scroll-mt-20 flex-col gap-3";
 const DEFAULT_DOCS_SECTION_CLASS = "group my-8 flex w-full scroll-mt-20 flex-col gap-3 md:my-10";
 
-const PREVIEW_DEMO_SURFACE_CLASS =
-  "outline-focus-ring ring-secondary bg-primary relative flex min-h-[304px] max-w-full items-center! justify-center! rounded-[20px] px-6 py-10 ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-130";
-const HERO_PREVIEW_SURFACE_CLASS =
-  "outline-focus-ring bg-primary relative flex min-h-[320px] max-w-full flex-col items-center! justify-center! gap-3 rounded-[20px] py-32 ring-1 ring-inset ring-secondary focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-[520px]";
+const CHECKBOX_PREVIEW_SURFACE_CLASS = `${DOCS_PREVIEW_SURFACE_CLASS} items-center! justify-center!`.trim();
 
 const toolbarIconBtn =
   "group relative inline-flex h-max cursor-pointer items-center justify-center rounded-md p-1.5 outline-focus-ring transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-fg-quaternary hover:bg-primary_hover hover:text-fg-quaternary_hover *:data-icon:pointer-events-none *:data-icon:shrink-0 *:data-icon:text-current *:data-icon:transition-inherit-all *:data-icon:size-4";
@@ -242,7 +243,7 @@ type DocsSectionProps = {
 
 const DocsSection: FC<DocsSectionProps> = ({ id, title, code, description, sectionClassName, dataPreview, previewClassName, children }) => {
   const [isPreviewDark, setIsPreviewDark] = useState(false);
-  const panelClassName = [previewClassName ?? PREVIEW_DEMO_SURFACE_CLASS, DOCS_PREVIEW_P_MARGIN_RESET, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
+  const panelClassName = [previewClassName ?? CHECKBOX_PREVIEW_SURFACE_CLASS, DOCS_PREVIEW_P_MARGIN_RESET, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
 
   const heading = <SectionTitle>{title}</SectionTitle>;
 
@@ -356,7 +357,7 @@ const CheckboxDocsPage: FC = () => (
           code={CODE.hero}
           sectionClassName={HERO_DOCS_SECTION_CLASS}
           dataPreview
-          previewClassName={HERO_PREVIEW_SURFACE_CLASS}
+          previewClassName={DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT}
         >
           <div className="flex flex-col items-start gap-2">
             <Checkbox label="Remember me" hint="Save my login details for next time." />

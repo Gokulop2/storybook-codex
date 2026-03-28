@@ -5,8 +5,25 @@ import { Button as AriaButton, Tab as AriaTab, TabList as AriaTabList, TabPanel 
 export const DOCS_SECTION_CLASS = "group my-8 flex w-full scroll-mt-20 flex-col gap-3 md:my-10";
 export const DOCS_SECTION_HERO_CLASS = "group not-typography my-8 flex w-full scroll-mt-20 flex-col gap-3";
 
+/**
+ * Untitled UI hero preview well (matches untitledui.com Preview tab: px-4/md:px-8, py-32, min-h 320, md min-w 520).
+ */
+export const DOCS_PREVIEW_HERO_SURFACE_CLASS =
+  "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] items-center justify-center gap-3 rounded-[20px] bg-primary px-4 py-32 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8";
+
+/** Hero well for stacked column demos (badges, checkbox groups, etc.). */
+export const DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK =
+  "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] flex-col items-center justify-center gap-3 rounded-[20px] bg-primary px-4 py-32 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8";
+
+/** Tighter checkbox / alignment-sensitive hero (keeps Untitled padding; `!` beats Storybook flex overrides). */
+export const DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT =
+  "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] flex-col items-center! justify-center! gap-3 rounded-[20px] bg-primary px-4 py-32 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8";
+
+/** Inner width cap for hero + many section previews (Untitled uses max-w-xs for form demos). */
+export const DOCS_PREVIEW_INNER_MAX_XS_CLASS = "w-full max-w-xs";
+
 export const DOCS_PREVIEW_SURFACE_CLASS =
-  "outline-focus-ring ring-secondary bg-primary relative flex min-h-[304px] max-w-full items-center justify-center rounded-[20px] px-6 py-10 ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-130";
+  "outline-focus-ring ring-secondary bg-primary relative flex min-h-[304px] max-w-full items-center justify-center gap-3 rounded-[20px] px-4 py-10 ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-130 md:px-8";
 
 /** Neutralize Storybook/typography `p` margins inside preview wells. */
 export const DOCS_PREVIEW_P_MARGIN_RESET = "[&_p]:m-0!";

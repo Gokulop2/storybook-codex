@@ -2,10 +2,8 @@ import type { FC } from "react";
 import { CreditCard } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
-import { DOCS_SECTION_HERO_CLASS, DocsSection, SectionTitle } from "../_docs/untitled-docs-preview-code";
+import { DOCS_PREVIEW_HERO_SURFACE_CLASS, DOCS_SECTION_HERO_CLASS, DocsSection, SectionTitle } from "../_docs/untitled-docs-preview-code";
 
-const HERO_PREVIEW_SURFACE_CLASS =
-  "outline-focus-ring bg-primary relative flex min-h-[320px] max-w-full items-center justify-center rounded-[20px] py-32 ring-1 ring-inset ring-secondary focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-[520px]";
 const PageHeader: FC = () => (
   <>
     <div className="bg-primary border-secondary fixed inset-x-0 top-0 z-30 w-full border-b">
@@ -112,7 +110,7 @@ const CreditCardsDocsPage: FC = () => (
           code={CODE.hero}
           sectionClassName={DOCS_SECTION_HERO_CLASS}
           dataPreview
-          previewClassName={HERO_PREVIEW_SURFACE_CLASS}
+          previewClassName={DOCS_PREVIEW_HERO_SURFACE_CLASS}
         >
           <div className="flex items-center justify-center">
             <CreditCard type="brand-dark" company="Opus2 Codex." cardHolder="OLIVIA RHYE" cardExpiration="06/28" cardNumber="1234 1234 1234 1234" />

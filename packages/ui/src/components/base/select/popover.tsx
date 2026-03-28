@@ -5,9 +5,14 @@ import { cx } from "@/utils";
 
 interface PopoverProps extends AriaPopoverProps, RefAttributes<HTMLElement> {
   size: "sm" | "md";
+  /**
+   * `stacked`: column layout with overflow hidden on the panel (scroll lives in the list body).
+   * `default`: single scrolling surface (`max-h-64` / `max-h-80` for md).
+   */
+  variant?: "default" | "stacked";
 }
 
-export const Popover = (props: PopoverProps) => {
+export const Popover = ({ variant = "default", size, className, ...props }: PopoverProps) => {
   return (
     <AriaPopover
       placement="bottom"
@@ -16,15 +21,19 @@ export const Popover = (props: PopoverProps) => {
       {...props}
       className={(state) =>
         cx(
-          "bg-primary ring-secondary_alt max-h-64! w-(--trigger-width) origin-(--trigger-anchor-point) overflow-x-hidden overflow-y-auto rounded-lg py-1 shadow-lg ring-1 outline-hidden will-change-transform",
+          "bg-primary ring-secondary_alt w-(--trigger-width) origin-(--trigger-anchor-point) overflow-x-hidden rounded-lg shadow-lg ring-1 outline-hidden will-change-transform",
+
+          variant === "default" &&
+            "max-h-64! overflow-y-auto py-1",
+          variant === "stacked" && "flex max-h-[min(500px,80vh)] flex-col overflow-hidden p-0",
 
           state.isEntering &&
             "animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5 duration-150 ease-out",
           state.isExiting &&
             "animate-out fade-out placement-right:slide-out-to-left-0.5 placement-top:slide-out-to-bottom-0.5 placement-bottom:slide-out-to-top-0.5 duration-100 ease-in",
-          props.size === "md" && "max-h-80!",
+          variant === "default" && size === "md" && "max-h-80!",
 
-          typeof props.className === "function" ? props.className(state) : props.className
+          typeof className === "function" ? className(state) : className
         )
       }
     />

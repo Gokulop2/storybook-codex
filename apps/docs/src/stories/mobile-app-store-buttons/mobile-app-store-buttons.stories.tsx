@@ -12,11 +12,14 @@ import {
 } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
-import { DOCS_SECTION_CLASS, DOCS_SECTION_HERO_CLASS, DocsSection, SectionTitle } from "../_docs/untitled-docs-preview-code";
+import {
+  DOCS_PREVIEW_HERO_SURFACE_CLASS,
+  DOCS_SECTION_CLASS,
+  DOCS_SECTION_HERO_CLASS,
+  DocsSection,
+  SectionTitle,
+} from "../_docs/untitled-docs-preview-code";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
-
-const HERO_PREVIEW_SURFACE_CLASS =
-  "outline-focus-ring bg-primary relative flex min-h-[320px] max-w-full items-center justify-center rounded-[20px] py-32 ring-1 ring-inset ring-secondary focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-[520px]";
 
 /** Shared layout for md + lg side-by-side previews */
 const FLEX_ROW_GAP4 = "flex flex-wrap items-center justify-center gap-4";
@@ -178,7 +181,7 @@ const MobileAppStoreButtonsDocsPage: FC = () => (
           code={CODE.hero}
           sectionClassName={DOCS_SECTION_HERO_CLASS}
           dataPreview
-          previewClassName={HERO_PREVIEW_SURFACE_CLASS}
+          previewClassName={DOCS_PREVIEW_HERO_SURFACE_CLASS}
         >
           <HeroDemo />
         </DocsSection>

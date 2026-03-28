@@ -4,6 +4,7 @@ import { RadioButton, RadioGroup } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
 import {
+  DOCS_PREVIEW_HERO_SURFACE_CLASS,
   DOCS_PREVIEW_SURFACE_CLASS,
   DOCS_SECTION_CLASS,
   DOCS_SECTION_HERO_CLASS,
@@ -21,10 +22,7 @@ const PLAN_OPTIONS = [
 /** Storybook typography isolation for preview wells (this page only). */
 const PREVIEW_ISOLATE_CLASS = "m-0! text-sm! font-medium!";
 
-const HERO_PREVIEW_SURFACE_CLASS = [
-  "outline-focus-ring bg-primary relative flex min-h-[320px] max-w-full items-center justify-center rounded-[20px] py-32 ring-1 ring-inset ring-secondary focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-[520px]",
-  PREVIEW_ISOLATE_CLASS,
-].join(" ");
+const HERO_PREVIEW_SURFACE_CLASS = [DOCS_PREVIEW_HERO_SURFACE_CLASS, PREVIEW_ISOLATE_CLASS].join(" ");
 
 const SECTION_PREVIEW_CLASS = `${DOCS_PREVIEW_SURFACE_CLASS} ${PREVIEW_ISOLATE_CLASS}`.trim();
 

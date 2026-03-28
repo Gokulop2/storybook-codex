@@ -5,7 +5,7 @@ import { Button } from "@opus2-platform/codex";
 import { Check } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button as AriaButton, Tab as AriaTab, TabList as AriaTabList, TabPanel as AriaTabPanel, Tabs as AriaTabs } from "react-aria-components";
-import { DOCS_PREVIEW_P_MARGIN_RESET } from "../_docs/untitled-docs-preview-code";
+import { DOCS_PREVIEW_HERO_SURFACE_CLASS, DOCS_PREVIEW_P_MARGIN_RESET, DOCS_PREVIEW_SURFACE_CLASS } from "../_docs/untitled-docs-preview-code";
 
 type ButtonSize = "sm" | "md" | "lg" | "xl";
 const sizes: ButtonSize[] = ["sm", "md", "lg", "xl"];
@@ -34,10 +34,6 @@ const docTabBtnClass =
 
 const docTabSelected = "bg-primary_alt text-secondary shadow-xs ring-1 ring-primary ring-inset";
 const docTabIdle = "text-quaternary";
-
-/** Rounded preview well shared by hero + every `DocsSection` (aligned with Untitled UI button docs). */
-const PREVIEW_DEMO_SURFACE_CLASS =
-  "outline-focus-ring ring-secondary bg-primary relative flex min-h-[304px] max-w-full items-center justify-center rounded-[20px] px-6 py-10 ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-130";
 
 function previewSurfaceClassName(base: string, isPreviewDark: boolean): string {
   return [base, DOCS_PREVIEW_P_MARGIN_RESET, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
@@ -543,7 +539,7 @@ const DEFAULT_DOCS_SECTION_CLASS = "group my-8 flex w-full scroll-mt-20 flex-col
 
 const DocsSection: FC<DocsSectionProps> = ({ id, title, code, description, previewClassName, sectionClassName, children }) => {
   const [isPreviewDark, setIsPreviewDark] = useState(false);
-  const boxClass = previewClassName ?? PREVIEW_DEMO_SURFACE_CLASS;
+  const boxClass = previewClassName ?? DOCS_PREVIEW_SURFACE_CLASS;
   const previewSurfaceClass = previewSurfaceClassName(boxClass, isPreviewDark);
 
   return (
@@ -914,7 +910,13 @@ function renderButtonDocSection(def: ButtonDocSectionDef): ReactNode {
   switch (def.kind) {
     case "hero":
       return (
-        <DocsSection id={def.id} title={def.title} code={BUTTON_DOCS_CODE.hero} sectionClassName={def.sectionClassName}>
+        <DocsSection
+          id={def.id}
+          title={def.title}
+          code={BUTTON_DOCS_CODE.hero}
+          sectionClassName={def.sectionClassName}
+          previewClassName={DOCS_PREVIEW_HERO_SURFACE_CLASS}
+        >
           <div className="flex flex-col items-start gap-3 md:flex-row">
             <Button size="md" color="primary-destructive">
               Delete project

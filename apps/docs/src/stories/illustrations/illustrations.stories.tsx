@@ -2,7 +2,7 @@ import type { ComponentProps, FC } from "react";
 import { Illustration } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
-import { DOCS_SECTION_HERO_CLASS, DocsSection } from "../_docs/untitled-docs-preview-code";
+import { DOCS_PREVIEW_HERO_SURFACE_CLASS, DOCS_SECTION_HERO_CLASS, DocsSection } from "../_docs/untitled-docs-preview-code";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
 
 type IllustrationType = NonNullable<ComponentProps<typeof Illustration>["type"]>;
@@ -29,9 +29,6 @@ const SECTIONS = VARIANT_DEFS.flatMap(({ type, label }) =>
     size,
   }))
 );
-
-const HERO_PREVIEW_SURFACE_CLASS =
-  "outline-focus-ring bg-primary relative flex min-h-[320px] max-w-full items-center justify-center rounded-[20px] py-32 ring-1 ring-inset ring-secondary focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-[520px]";
 
 const IMPORT = `import { Illustration } from "@opus2-platform/codex";
 
@@ -73,7 +70,7 @@ const IllustrationsDocsPage: FC = () => (
           code={snippet(HERO.type, HERO.size)}
           sectionClassName={DOCS_SECTION_HERO_CLASS}
           dataPreview
-          previewClassName={HERO_PREVIEW_SURFACE_CLASS}
+          previewClassName={DOCS_PREVIEW_HERO_SURFACE_CLASS}
         >
           <IllustrationWell variant="hero" type={HERO.type} size={HERO.size} />
         </DocsSection>

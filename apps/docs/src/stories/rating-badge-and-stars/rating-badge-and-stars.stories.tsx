@@ -2,13 +2,16 @@ import type { FC, ReactNode } from "react";
 import { RatingBadge, RatingStars } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
-import { DOCS_PREVIEW_SURFACE_CLASS, DOCS_SECTION_HERO_CLASS, DocsSection, SectionTitle } from "../_docs/untitled-docs-preview-code";
+import {
+  DOCS_PREVIEW_HERO_SURFACE_CLASS,
+  DOCS_PREVIEW_SURFACE_CLASS,
+  DOCS_SECTION_HERO_CLASS,
+  DocsSection,
+  SectionTitle,
+} from "../_docs/untitled-docs-preview-code";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
 
-const HERO_PREVIEW_SURFACE_CLASS =
-  "outline-focus-ring bg-primary relative flex min-h-[320px] max-w-full items-center justify-center rounded-[20px] py-32 ring-1 ring-inset ring-secondary focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-[520px]";
-
-const SECTION_PREVIEW = `${DOCS_PREVIEW_SURFACE_CLASS} items-start! justify-start! px-6 py-10 md:min-w-130`.trim();
+const SECTION_PREVIEW = `${DOCS_PREVIEW_SURFACE_CLASS} items-start! justify-start!`.trim();
 
 const IMPORT_STARS = `import { RatingStars } from "@opus2-platform/codex";`;
 const IMPORT_BADGE = `import { RatingBadge } from "@opus2-platform/codex";`;
@@ -76,7 +79,7 @@ const RatingBadgeDocsPage: FC = () => (
           code={CODE.hero}
           sectionClassName={DOCS_SECTION_HERO_CLASS}
           dataPreview
-          previewClassName={HERO_PREVIEW_SURFACE_CLASS}
+          previewClassName={DOCS_PREVIEW_HERO_SURFACE_CLASS}
         >
           <SectionPreview>
             <RatingBadge />

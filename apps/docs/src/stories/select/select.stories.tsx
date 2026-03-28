@@ -7,6 +7,8 @@ import { useListData } from "react-stately";
 import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
 import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
 import {
+  DOCS_PREVIEW_HERO_SURFACE_CLASS,
+  DOCS_PREVIEW_INNER_MAX_XS_CLASS,
   DOCS_PREVIEW_SURFACE_CLASS,
   DOCS_SECTION_HERO_CLASS,
   DocsSection,
@@ -14,12 +16,7 @@ import {
 } from "../_docs/untitled-docs-preview-code";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
 
-const HERO_PREVIEW_SURFACE_CLASS =
-  "outline-focus-ring bg-primary relative flex min-h-[320px] max-w-full items-center justify-center rounded-[20px] py-32 ring-1 ring-inset ring-secondary focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-[520px]";
-
-const SECTION_PREVIEW = `${DOCS_PREVIEW_SURFACE_CLASS} items-start! justify-start! px-6 py-10 md:min-w-130`.trim();
-
-const DEMO_WIDTH = "w-full max-w-md";
+const SECTION_PREVIEW = `${DOCS_PREVIEW_SURFACE_CLASS} items-start! justify-start!`.trim();
 
 const HINT = "This is a hint text to help user.";
 const LABEL = "Team member";
@@ -161,8 +158,8 @@ const TOC = [
 const codeClass = "text-secondary font-mono text-sm";
 
 const SectionPreview: FC<{ children: ReactNode }> = ({ children }) => (
-  <div className="flex w-full justify-center px-2">
-    <div className={DEMO_WIDTH}>{children}</div>
+  <div className="flex w-full justify-center">
+    <div className={DOCS_PREVIEW_INNER_MAX_XS_CLASS}>{children}</div>
   </div>
 );
 
@@ -239,7 +236,7 @@ const SelectDocsPage: FC = () => (
           code={CODE.hero}
           sectionClassName={DOCS_SECTION_HERO_CLASS}
           dataPreview
-          previewClassName={HERO_PREVIEW_SURFACE_CLASS}
+          previewClassName={DOCS_PREVIEW_HERO_SURFACE_CLASS}
         >
           <SectionPreview>
             <SelectTeamDemo />

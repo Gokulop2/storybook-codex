@@ -6,7 +6,11 @@ import { User01 } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button as AriaButton, Tab as AriaTab, TabList as AriaTabList, TabPanel as AriaTabPanel, Tabs as AriaTabs } from "react-aria-components";
 import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
-import { DOCS_PREVIEW_P_MARGIN_RESET } from "../_docs/untitled-docs-preview-code";
+import {
+  DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK,
+  DOCS_PREVIEW_P_MARGIN_RESET,
+  DOCS_PREVIEW_SURFACE_CLASS,
+} from "../_docs/untitled-docs-preview-code";
 
 type AvatarSize = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 const AVATAR_SIZES: AvatarSize[] = ["xxs", "xs", "sm", "md", "lg", "xl", "2xl"];
@@ -61,14 +65,6 @@ function companyBadgeSize(size: AvatarSize): ComponentProps<typeof AvatarCompany
 const HERO_AVATAR_DOCS_SECTION_CLASS = "group not-typography my-8 flex w-full scroll-mt-20 flex-col gap-3";
 
 const DEFAULT_DOCS_SECTION_CLASS = "group my-8 flex w-full scroll-mt-20 flex-col gap-3 md:my-10";
-
-/** Default preview well (subsections). */
-const PREVIEW_DEMO_SURFACE_CLASS =
-  "outline-focus-ring ring-secondary bg-primary relative flex min-h-[304px] max-w-full items-center justify-center rounded-[20px] px-6 py-10 ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-130";
-
-/** Hero “Avatar example” preview panel (`py-32`, `min-h-[320px]`, `md:min-w-[520px]`). */
-const HERO_AVATAR_PREVIEW_SURFACE_CLASS =
-  "outline-focus-ring bg-primary relative flex min-h-[320px] max-w-full flex-col items-center justify-center gap-3 rounded-[20px] py-32 ring-1 ring-inset ring-secondary focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-[520px]";
 
 const toolbarIconBtn =
   "group relative inline-flex h-max cursor-pointer items-center justify-center rounded-md p-1.5 outline-focus-ring transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-fg-quaternary hover:bg-primary_hover hover:text-fg-quaternary_hover *:data-icon:pointer-events-none *:data-icon:shrink-0 *:data-icon:text-current *:data-icon:transition-inherit-all *:data-icon:size-4";
@@ -342,7 +338,7 @@ type DocsSectionProps = {
   dataPreview?: boolean;
   /** Section title links to `#id` (in-page scroll; avoids Storybook hash remounts). */
   anchorHeading?: boolean;
-  /** Override preview well classes (default `PREVIEW_DEMO_SURFACE_CLASS`). */
+  /** Override preview well classes (default `DOCS_PREVIEW_SURFACE_CLASS`). */
   previewClassName?: string;
   children: ReactNode;
 };
@@ -380,7 +376,7 @@ const DocsSection: FC<DocsSectionProps> = ({
 }) => {
   const [isPreviewDark, setIsPreviewDark] = useState(false);
 
-  const basePreview = previewClassName ?? PREVIEW_DEMO_SURFACE_CLASS;
+  const basePreview = previewClassName ?? DOCS_PREVIEW_SURFACE_CLASS;
   const previewSurfaceClassName = [basePreview, DOCS_PREVIEW_P_MARGIN_RESET, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
 
   const heading = anchorHeading ? (
@@ -800,7 +796,7 @@ const AvatarsDocsPage: FC = () => (
           code={AVATAR_DOCS_CODE.intro}
           sectionClassName={HERO_AVATAR_DOCS_SECTION_CLASS}
           dataPreview
-          previewClassName={HERO_AVATAR_PREVIEW_SURFACE_CLASS}
+          previewClassName={DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK}
         >
           <div className="flex flex-row items-center gap-5">
             <div className="flex flex-wrap items-center justify-center gap-4">
