@@ -174,7 +174,7 @@ export const ComponentsOverview = () => {
             preview={<CardImage src="/Avatars.png" alt="Avatars component previews" />}
           />
           <ComponentCard
-            href="?path=/story/base-slider--default"
+            href="?path=/story/sliders--default"
             name="Sliders"
             variants="1 component + 4 variants"
             preview={<CardImage src="/Sliders.png" alt="Sliders component previews" />}
