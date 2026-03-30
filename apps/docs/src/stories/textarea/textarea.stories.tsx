@@ -15,7 +15,7 @@ import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } fr
 /** Same Untitled well as Untitled hero (`py-32`, `min-h-[320px]`, `md:min-w-[520px]`); `!` beats Storybook flex overrides. */
 const TEXTAREA_PREVIEW_WELL_CLASS = `${DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT} items-start! justify-center!`.trim();
 
-const PREVIEW_INNER = "mx-auto! flex w-full max-w-md flex-col items-stretch";
+const PREVIEW_INNER = "mx-auto! flex max-w-md flex-col items-stretch";
 
 const HINT = "This is a hint text to help user.";
 const ERROR_HINT = "This is an error message.";
