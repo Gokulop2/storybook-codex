@@ -2,7 +2,7 @@
 
 import type { ComponentProps, ComponentPropsWithRef } from "react";
 import { Children, createContext, isValidElement, useContext } from "react";
-import { FileIcon, SearchLg } from "@opus2-platform/icons";
+import { SearchLg } from "@opus2-platform/icons";
 import { BackgroundPattern, BackgroundPatternProps, FeaturedIcon as FeaturedIconbase, Illustration as Illustrations } from "@/components";
 import { cx } from "@/utils";
 
@@ -39,19 +39,6 @@ const Illustration = ({ type = "cloud", color = "gray", size = "lg", ...props }:
       size={rootSize === "sm" ? "sm" : rootSize === "md" ? "md" : size}
       className={cx("z-10", props.className)}
     />
-  );
-};
-
-interface FileTypeIconProps extends ComponentPropsWithRef<"div"> {
-  type?: ComponentProps<typeof FileIcon>["type"];
-  theme?: ComponentProps<typeof FileIcon>["variant"];
-}
-
-const FileTypeIcon = ({ type = "folder", theme = "solid", ...props }: FileTypeIconProps) => {
-  return (
-    <div {...props} className={cx("relative z-10 flex rounded-full bg-linear-to-b from-gray-50 to-gray-200 p-8", props.className)}>
-      <FileIcon type={type} variant={theme} className="size-10 drop-shadow-sm" />
-    </div>
   );
 };
 
@@ -120,7 +107,6 @@ const EmptyState = Root as typeof Root & {
   Description: typeof Description;
   Illustration: typeof Illustration;
   FeaturedIcon: typeof FeaturedIcon;
-  FileTypeIcon: typeof FileTypeIcon;
 };
 
 EmptyState.Title = Title;
@@ -130,6 +116,5 @@ EmptyState.Content = Content;
 EmptyState.Description = Description;
 EmptyState.Illustration = Illustration;
 EmptyState.FeaturedIcon = FeaturedIcon;
-EmptyState.FileTypeIcon = FileTypeIcon;
 
 export { EmptyState };

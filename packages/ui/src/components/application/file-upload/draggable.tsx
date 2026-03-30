@@ -1,18 +1,15 @@
 "use client";
 
 import { type ComponentProps, useEffect, useRef } from "react";
-import { FileIcon } from "@opus2-platform/icons";
 import { motion, useMotionValue, useSpring } from "motion/react";
 
 interface DraggableProps {
   name: string;
   type: string;
-  fileIconType?: ComponentProps<typeof FileIcon>["type"];
-  theme?: ComponentProps<typeof FileIcon>["variant"];
   size: number;
 }
 
-export function Draggable({ name, type, size, fileIconType, theme }: DraggableProps) {
+export function Draggable({ name, type, size }: DraggableProps) {
   const constraintsRef = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement | null>(null);
   const dropzoneRef = useRef<HTMLDivElement | null>(null);
@@ -136,9 +133,6 @@ export function Draggable({ name, type, size, fileIconType, theme }: DraggablePr
       className="group/drag z-10 flex flex-col items-center gap-1 self-start p-2 outline-none"
       tabIndex={0}
     >
-      <div className="group-focus/drag:bg-tertiary rounded-md p-1.5 group-focus/drag:ring-[0.5px] group-focus/drag:ring-black/5 group-focus/drag:ring-inset">
-        <FileIcon type={fileIconType || type} variant={theme} className="pointer-events-none size-10" />
-      </div>
       <p className="text-primary line-clamp-2 block max-w-50 rounded text-center text-sm font-medium text-ellipsis">
         <span className="group-focus/drag:bg-brand-700 rounded box-decoration-clone px-[3.5px] py-[0.5px] group-focus/drag:text-white group-focus/drag:ring-[0.5px] group-focus/drag:ring-black/10 group-focus/drag:ring-inset">
           {name}

@@ -1,2 +1,2 @@
-export * from "@untitledui/icons";
-export * from "@untitledui/file-icons";
+// Auto-generated: export all icons from components/index.ts
+export * from './components'

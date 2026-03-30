@@ -8,11 +8,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev --workspace=@opus2-platform/icons\" \"npm run dev --workspace=@opus2-platform/codex\" \"npm run dev --workspace=docs\"",
-    "dev:turbo": "turbo run dev",
+    "dev": "turbo run dev",
     "build": "turbo run build",
     "start": "npm run start --workspace=docs",
-    "typecheck": "tsc -p packages/icons/tsconfig.json --noEmit && tsc -p packages/ui/tsconfig.json --noEmit && tsc -p apps/docs/tsconfig.json --noEmit",
     "format": "prettier --write .",
     "cleanup": "rm -rf package-lock.json && find . \\( -type d \\( -name node_modules -o -name .turbo -o -name dist -o -name storybook-static \\) -prune -exec rm -rf {} + \\) -o \\( -type f -name '*.tsbuildinfo' -delete \\)",
     "fresh": "npm run cleanup && npm install"
@@ -24,7 +22,6 @@
     "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.18",
-    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.3",
     "@types/react-dom": "^19.2.3",
@@ -44,12 +41,15 @@
     "postcss-cli": "^11.0.1",
     "postcss-loader": "^8.2.1",
     "prettier": "^3.8.1",
-    "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4.1.18",
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-react-aria-components": "^2.0.1",
     "turbo": "^2.8.13",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1"
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^3.9.1"
+  },
+  "dependencies": {
+    "@svgr/cli": "^8.1.0"
   }
 }

@@ -2,8 +2,6 @@
 
 import type { ComponentProps, ComponentPropsWithRef } from "react";
 import { useId, useRef, useState } from "react";
-import type { FileIcon } from "@opus2-platform/icons";
-import { FileIcon as FileTypeIcon } from "@opus2-platform/icons";
 import { CheckCircle, Trash01, UploadCloud02, XCircle } from "@opus2-platform/icons";
 import { AnimatePresence, motion } from "motion/react";
 import { Button, ButtonUtility, FeaturedIcon, ProgressBar } from "@/components";
@@ -244,19 +242,15 @@ export interface FileListItemProps {
   progress: number;
   /** Whether the file failed to upload. */
   failed?: boolean;
-  /** The type of the file. */
-  type?: ComponentProps<typeof FileIcon>["type"];
   /** The class name of the file list item. */
   className?: string;
-  /** The variant of the file icon. */
-  fileIconVariant?: ComponentProps<typeof FileTypeIcon>["variant"];
   /** The function to call when the file is deleted. */
   onDelete?: () => void;
   /** The function to call when the file upload is retried. */
   onRetry?: () => void;
 }
 
-export const FileListItemProgressBar = ({ name, size, progress, failed, type, fileIconVariant, onDelete, onRetry, className }: FileListItemProps) => {
+export const FileListItemProgressBar = ({ name, size, progress, failed, onDelete, onRetry, className }: FileListItemProps) => {
   const isComplete = progress === 100;
 
   return (
@@ -268,9 +262,6 @@ export const FileListItemProgressBar = ({ name, size, progress, failed, type, fi
         className
       )}
     >
-      <FileTypeIcon className="size-10 shrink-0 dark:hidden" type={type ?? "empty"} theme="light" variant={fileIconVariant ?? "default"} />
-      <FileTypeIcon className="size-10 shrink-0 not-dark:hidden" type={type ?? "empty"} theme="dark" variant={fileIconVariant ?? "default"} />
-
       <div className="flex min-w-0 flex-1 flex-col items-start">
         <div className="flex w-full max-w-full min-w-0 flex-1">
           <div className="min-w-0 flex-1">
@@ -313,7 +304,7 @@ export const FileListItemProgressBar = ({ name, size, progress, failed, type, fi
   );
 };
 
-export const FileListItemProgressFill = ({ name, size, progress, failed, type, fileIconVariant, onDelete, onRetry, className }: FileListItemProps) => {
+export const FileListItemProgressFill = ({ name, size, progress, failed, onDelete, onRetry, className }: FileListItemProps) => {
   const isComplete = progress === 100;
 
   return (
@@ -334,9 +325,6 @@ export const FileListItemProgressFill = ({ name, size, progress, failed, type, f
           failed && "ring-error ring-2"
         )}
       />
-      <FileTypeIcon className="relative size-10 shrink-0 dark:hidden" type={type ?? "empty"} theme="light" variant={fileIconVariant ?? "solid"} />
-      <FileTypeIcon className="relative size-10 shrink-0 not-dark:hidden" type={type ?? "empty"} theme="dark" variant={fileIconVariant ?? "solid"} />
-
       <div className="relative flex min-w-0 flex-1">
         <div className="relative flex min-w-0 flex-1 flex-col items-start">
           <div className="w-full min-w-0 flex-1">

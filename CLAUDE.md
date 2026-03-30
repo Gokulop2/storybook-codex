@@ -71,7 +71,6 @@ This applies to all file types including:
 # Repo root
 npm run dev                              # Runs icons watch, UI watch build, and Storybook docs
 npm run build                            # Runs the monorepo build via Turbo
-npm run typecheck                        # Runs TypeScript type checking from the repo root
 
 # Package-specific
 npm run dev --workspace=@opus2-platform/codex   # Builds and watches the UI package

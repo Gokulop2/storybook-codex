@@ -1,7 +1,6 @@
 "use client";
 
 import { type ComponentProps, useMemo, useState } from "react";
-import { FileIcon } from "@opus2-platform/icons";
 import { AlertCircle, Check, Edit01, FilterLines, Plus, ReverseLeft, SearchLg, Trash01, UploadCloud02, X } from "@opus2-platform/icons";
 import type { SortDescriptor } from "react-aria-components";
 import {
@@ -28,10 +27,6 @@ import customers from "./customers.json";
 import invoices from "./invoices.json";
 import teamMembers from "./team-members.json";
 import uploadedFiles from "./uploaded-files.json";
-
-const getFileIconType = (fileName: string): ComponentProps<typeof FileIcon>["type"] => {
-  return (fileName.split(".").pop() ?? "txt") as ComponentProps<typeof FileIcon>["type"];
-};
 
 export const Table01DividerLine = () => {
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
@@ -797,9 +792,6 @@ export const Table04DividerLine = () => {
             <Table.Row id={item.name}>
               <Table.Cell>
                 <div className="flex items-center gap-3">
-                  <FileIcon type={getFileIconType(item.name)} theme="light" className="size-10 dark:hidden" />
-                  <FileIcon type={getFileIconType(item.name)} theme="dark" className="size-10 not-dark:hidden" />
-
                   <div className="whitespace-nowrap">
                     <p className="text-primary text-sm font-medium">{item.name}</p>
                     <p className="text-tertiary text-sm">{item.size}</p>
@@ -854,9 +846,6 @@ export const Table04AlternatingFills = () => {
             <Table.Row id={item.name} className="odd:bg-secondary_subtle">
               <Table.Cell>
                 <div className="flex items-center gap-3">
-                  <FileIcon type={getFileIconType(item.name)} theme="light" className="size-10 dark:hidden" />
-                  <FileIcon type={getFileIconType(item.name)} theme="dark" className="size-10 not-dark:hidden" />
-
                   <div className="whitespace-nowrap">
                     <p className="text-primary text-sm font-medium">{item.name}</p>
                     <p className="text-tertiary text-sm">{item.size}</p>
