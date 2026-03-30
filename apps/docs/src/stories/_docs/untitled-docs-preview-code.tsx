@@ -317,6 +317,8 @@ export type DocsSectionProps = {
   previewHeight?: string;
   /** Custom Code tab content; default is syntax-highlighted `DocsCodePanel`. */
   codePanel?: ReactNode;
+  /** Initial state for the preview well dark-mode toggle (e.g. dark demos). */
+  defaultPreviewDark?: boolean;
 };
 
 export const DocsSection: FC<DocsSectionProps> = ({
@@ -330,8 +332,9 @@ export const DocsSection: FC<DocsSectionProps> = ({
   children,
   previewHeight,
   codePanel,
+  defaultPreviewDark,
 }) => {
-  const [isPreviewDark, setIsPreviewDark] = useState(false);
+  const [isPreviewDark, setIsPreviewDark] = useState(defaultPreviewDark ?? false);
   const panelClassName = buildDocsPreviewPanelClassName(previewClassName, isPreviewDark);
 
   const heading = <SectionTitle>{title}</SectionTitle>;
