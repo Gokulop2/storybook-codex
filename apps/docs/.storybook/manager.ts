@@ -14,7 +14,7 @@ if (g.CONFIG_TYPE === "DEVELOPMENT") {
 addons.setConfig({
   theme: create({
     base: "light",
-    brandTitle: "Opus2 Codex",
+    brandTitle: "Opus2 Codex Library",
     brandUrl: "./",
     brandImage: "/opus2-logo.png",
     brandTarget: "_self",

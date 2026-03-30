@@ -1,1 +1,19 @@
-<link rel="icon" href="/favicon.png" type="image/png" />
+<!-- Favicon: Storybook injects ./favicon.svg from apps/docs/public -->
+<script>
+  (function () {
+    var DOC_TITLE = "Opus2 Codex Library";
+    function pinTitle() {
+      if (document.title !== DOC_TITLE) {
+        document.title = DOC_TITLE;
+      }
+    }
+    pinTitle();
+    if (document.head) {
+      new MutationObserver(pinTitle).observe(document.head, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+      });
+    }
+  })();
+</script>
