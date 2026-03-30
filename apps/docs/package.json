@@ -11,6 +11,7 @@
   "dependencies": {
     "@opus2-platform/codex": "*",
     "@opus2-platform/icons": "*",
+    "input-otp": "^1.4.2",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "serve": "^14.2.5"
