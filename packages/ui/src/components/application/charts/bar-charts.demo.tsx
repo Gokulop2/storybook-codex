@@ -1,5 +1,3 @@
-"use client";
-
 import { Bar, CartesianGrid, ComposedChart, Label, Legend, Line, BarChart as RechartsBarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ChartLegendContent, ChartTooltipContent, selectEvenlySpacedItems } from "@/components";
 import { useBreakpoint } from "@/hooks";

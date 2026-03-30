@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import type { Key } from "react-aria-components";
 import { NativeSelect, Tabs } from "@/components";

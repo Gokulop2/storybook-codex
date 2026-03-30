@@ -1,51 +1,38 @@
 # @opus2-platform/icons
 
-Icon wrapper library for Opus2 Platform.
-
-## Features
-
-- Single import path for platform projects
-- TypeScript support
-- Easy integration with apps and packages in this monorepo
-
-## Installation
-
-If published to npm:
-
-```bash
-npm install @opus2-platform/icons
-```
-
-For this monorepo, use the workspace package directly.
+This package is a prebuilt icon library for the Opus2 Platform. It is not intended to be run directly, but to be built and published as an npm package.
 
 ## Usage
 
-Import icons in your app:
+- **Build:**
+  - Run `npm run build` in the `packages/icons` directory. This will generate the `dist/` folder with all compiled icons and type definitions.
+  - The `dist/` folder is ready to be published or consumed as an npm package.
 
-```ts
-import { ChevronDown, Home01, Settings01 } from "@opus2-platform/icons";
-```
+- **Install:**
+  - After publishing, install via npm:
+    ```bash
+    npm install @opus2-platform/icons
+    ```
+  - Or use as a local package in your monorepo.
 
-#### Example
-
-```tsx
-import { Home01 } from "@opus2-platform/icons";
-
-function App() {
-  return <Home01 className="size-5" aria-hidden="true" />;
-}
-```
+- **Import:**
+  ```ts
+  import { Home01, Settings01 } from "@opus2-platform/icons";
+  ```
 
 ## Development
 
-- Build: `npm run build` (outputs to `dist`)
-- Watch: `npm run dev`
+- Do not run this package directly.
+- Only build and publish the `dist/` output.
+- All source files are in `src/`.
+- To add or update icons, place SVGs in `src/icons/` and run the build scripts.
 
-## Folder Structure
+## Scripts
 
-- `src/`: Package source code
-- `dist/`: Build output
+- `npm run build` — Build icons and types to `dist/`
+- `npm run gen` — Regenerate icon components and exports
 
----
+## Notes
 
-For more details, see the root README.
+- Only the `dist/` folder is needed for npm consumers.
+- Do not include unnecessary files in the published package.

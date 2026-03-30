@@ -1,5 +1,3 @@
-"use client";
-
 import { type HTMLAttributes } from "react";
 import { RatingStars } from "@/components";
 import { cx } from "@/utils";

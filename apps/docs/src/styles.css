@@ -1,7 +1,1 @@
 @import "tailwindcss";
-
-@plugin "@tailwindcss/typography";
-@plugin "tailwindcss-react-aria-components";
-@plugin "tailwindcss-animate";
-
-@source "./**/*.{ts,tsx,mdx}";

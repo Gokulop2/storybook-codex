@@ -1,5 +1,3 @@
-"use client";
-
 import { Legend, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { ChartLegendContent, ChartTooltipContent } from "@/components";
 

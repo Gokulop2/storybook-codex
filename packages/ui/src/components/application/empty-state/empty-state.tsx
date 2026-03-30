@@ -1,5 +1,3 @@
-"use client";
-
 import type { ComponentProps, ComponentPropsWithRef } from "react";
 import { Children, createContext, isValidElement, useContext } from "react";
 import { SearchLg } from "@opus2-platform/icons";

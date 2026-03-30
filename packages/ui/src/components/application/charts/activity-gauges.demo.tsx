@@ -1,5 +1,3 @@
-"use client";
-
 import { Legend, PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer, Tooltip } from "recharts";
 import { ChartLegendContent, ChartTooltipContent } from "@/components";
 import { cx } from "@/utils";

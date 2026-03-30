@@ -1,5 +1,3 @@
-"use client";
-
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { Fragment, createContext, useContext } from "react";
 import type { TabListProps as AriaTabListProps, TabProps as AriaTabProps, TabRenderProps as AriaTabRenderProps } from "react-aria-components";

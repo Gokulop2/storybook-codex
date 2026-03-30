@@ -1,5 +1,3 @@
-"use client";
-
 import { Zap } from "@opus2-platform/icons";
 import { Button } from "@/components";
 import { HeaderNavigationBase } from "./header-navigation";

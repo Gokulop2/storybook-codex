@@ -5,7 +5,8 @@
     "outDir": "dist",
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
     "declaration": true,
+    "declarationDir": "dist",
     "composite": true
   },
-  "include": ["src"]
+  "include": ["src/**/*"]
 }

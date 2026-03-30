@@ -16,8 +16,11 @@
   ],
   "scripts": {
     "gen": "npm run generate:icons && npm run generate:exports",
-    "dev": "npm run gen && vite dev",
-    "build": "npm run gen && vite build",
+    "dev": "npm run gen && tsup --watch & npm run types --watch & postbuild --watch",
+    "types": "tsc --emitDeclarationOnly --declaration --project tsconfig.json",
+    "prebuild": "rm -rf dist",
+    "build": "npm run gen && tsup && npm run types && npm run postbuild",
+    "postbuild": "cp package.json dist/",
     "generate:icons": "touch src/index.ts && mkdir -p src/components && svgr --no-prettier --config-file .svgrrc.js src/icons --out-dir src/components && node ./src/scripts/generate-rtl-icons.js",
     "generate:exports": "node ./src/scripts/generate-exports.js"
   },

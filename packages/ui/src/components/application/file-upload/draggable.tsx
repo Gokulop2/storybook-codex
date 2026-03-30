@@ -1,5 +1,3 @@
-"use client";
-
 import { type ComponentProps, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 

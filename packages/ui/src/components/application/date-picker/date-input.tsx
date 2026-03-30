@@ -1,5 +1,3 @@
-"use client";
-
 import type { DateInputProps as AriaDateInputProps } from "react-aria-components";
 import { DateInput as AriaDateInput, DateSegment as AriaDateSegment } from "react-aria-components";
 import { cx } from "@/utils";

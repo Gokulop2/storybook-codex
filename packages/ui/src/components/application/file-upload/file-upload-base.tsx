@@ -1,5 +1,3 @@
-"use client";
-
 import type { ComponentProps, ComponentPropsWithRef } from "react";
 import { useId, useRef, useState } from "react";
 import { CheckCircle, Trash01, UploadCloud02, XCircle } from "@opus2-platform/icons";

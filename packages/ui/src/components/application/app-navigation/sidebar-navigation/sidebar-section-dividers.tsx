@@ -1,5 +1,3 @@
-"use client";
-
 import { SearchLg } from "@opus2-platform/icons";
 import { Input, MobileNavigationHeader, NavAccountCard, NavItemDividerType, NavItemType, NavList, UntitledLogo } from "@/components";
 

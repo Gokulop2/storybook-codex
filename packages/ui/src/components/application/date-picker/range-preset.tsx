@@ -1,5 +1,3 @@
-"use client";
-
 import { type HTMLAttributes } from "react";
 import { type DateValue, RangeCalendarContext, useSlottedContext } from "react-aria-components";
 import { cx } from "@/utils";

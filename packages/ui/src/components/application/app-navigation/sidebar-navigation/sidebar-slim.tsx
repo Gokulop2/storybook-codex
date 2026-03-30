@@ -1,5 +1,3 @@
-"use client";
-
 import type { FC } from "react";
 import { useState } from "react";
 import { LifeBuoy01, LogOut01, Settings01 } from "@opus2-platform/icons";

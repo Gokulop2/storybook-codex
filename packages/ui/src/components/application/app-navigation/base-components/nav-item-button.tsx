@@ -1,5 +1,3 @@
-"use client";
-
 import type { FC, MouseEventHandler } from "react";
 import { Pressable } from "react-aria-components";
 import { Tooltip } from "@/components";

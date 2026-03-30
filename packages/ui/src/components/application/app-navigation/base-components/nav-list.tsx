@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { cx } from "@/utils";
 import type { NavItemDividerType, NavItemType } from "../config";

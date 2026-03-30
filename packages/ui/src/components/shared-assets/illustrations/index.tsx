@@ -1,5 +1,3 @@
-"use client";
-
 import type { HTMLAttributes, ReactElement } from "react";
 import { BoxIllustration } from "./box";
 import { CloudIllustration } from "./cloud";

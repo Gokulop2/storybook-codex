@@ -1,5 +1,3 @@
-"use client";
-
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { Calendar as CalendarIcon } from "@opus2-platform/icons";
 import { useControlledState } from "@react-stately/utils";

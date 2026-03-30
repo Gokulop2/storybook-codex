@@ -1,5 +1,3 @@
-"use client";
-
 import type { FC, ReactNode } from "react";
 import { Bell01, LifeBuoy01, SearchLg, Settings01 } from "@opus2-platform/icons";
 import { Button as AriaButton, DialogTrigger, Popover } from "react-aria-components";

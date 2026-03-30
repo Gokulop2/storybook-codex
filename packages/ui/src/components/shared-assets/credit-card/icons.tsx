@@ -1,5 +1,3 @@
-"use client";
-
 import type { SVGProps } from "react";
 
 export const PaypassIcon = (props: SVGProps<SVGSVGElement>) => {

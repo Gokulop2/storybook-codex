@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { PaginationDot as PaginationDotComponent, PaginationLine as PaginationLineComponent } from "@/components";
 import * as Paginations from "@/components/application/pagination/pagination";

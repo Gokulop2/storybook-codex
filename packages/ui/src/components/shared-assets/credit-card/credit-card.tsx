@@ -1,5 +1,3 @@
-"use client";
-
 import { useMemo } from "react";
 import { cx, sortCx } from "@/utils";
 import { MastercardIconWhite, MastercardThemeIcon, PaypassIcon } from "./icons";

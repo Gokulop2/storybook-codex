@@ -1,5 +1,3 @@
-"use client";
-
 import type { SVGProps } from "react";
 
 const AmexIcon = (props: SVGProps<SVGSVGElement>) => {

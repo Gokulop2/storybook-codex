@@ -1,5 +1,3 @@
-"use client";
-
 import { MobileNavigationHeader, NavAccountCard, NavItemBase, NavItemType, UntitledLogo } from "@/components";
 
 interface SidebarNavigationSectionsSubheadingsProps {

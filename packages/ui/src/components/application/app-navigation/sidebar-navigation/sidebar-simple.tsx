@@ -1,5 +1,3 @@
-"use client";
-
 import type { ReactNode } from "react";
 import { SearchLg } from "@opus2-platform/icons";
 import { Input, MobileNavigationHeader, NavAccountCard, NavItemBase, NavItemType, NavList, UntitledLogo } from "@/components";

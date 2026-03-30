@@ -1,5 +1,3 @@
-"use client";
-
 import { ChevronLeft, ChevronRight } from "@opus2-platform/icons";
 import { Carousel, PaginationDot, useCarousel } from "@/components";
 

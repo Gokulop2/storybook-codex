@@ -1,5 +1,3 @@
-"use client";
-
 import { ArrowLeft, ArrowRight } from "@opus2-platform/icons";
 import { Button, ButtonGroup, ButtonGroupItem } from "@/components";
 import { useBreakpoint } from "@/hooks";

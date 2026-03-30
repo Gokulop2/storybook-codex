@@ -1,5 +1,3 @@
-"use client";
-
 import { Fragment, useEffect, useRef } from "react";
 import {
   type BaseTickContentProps,

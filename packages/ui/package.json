@@ -6,7 +6,8 @@
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs.js"
+      "require": "./dist/index.cjs.js",
+      "default": "./dist/index.d.ts"
     },
     "./dist/styles.css": "./dist/styles.css"
   },
@@ -16,9 +17,12 @@
     "src"
   ],
   "scripts": {
-    "dev": "vite dev",
-    "build": "vite build && npm run postbuild",
-    "postbuild": "postcss src/styles/index.css -o dist/styles.css"
+    "dev": "tsup --watch & npm run css:build --watch",
+    "prebuild": "rm -rf dist",
+    "types": "tsc --emitDeclarationOnly --declaration --project tsconfig.json",
+    "build": "tsup && npm run types && npm run postbuild",
+    "postbuild": "npm run css:build && cp package.json dist/",
+    "css:build": "postcss src/styles/index.css -o dist/styles.css"
   },
   "peerDependencies": {
     "react": "^19.2.3",

@@ -1,5 +1,4 @@
 import type { StorybookConfig } from "@storybook/react-vite";
-import tailwindcss from "@tailwindcss/vite";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -15,7 +14,6 @@ const config: StorybookConfig = {
   addons: [getAbsolutePath("@storybook/addon-docs")],
   framework: getAbsolutePath("@storybook/react-vite"),
   viteFinal: async (config) => {
-    config.plugins = [...(config.plugins ?? []), tailwindcss()];
     config.build = {
       ...(config.build ?? {}),
       chunkSizeWarningLimit: 1500,

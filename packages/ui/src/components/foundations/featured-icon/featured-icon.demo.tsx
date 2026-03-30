@@ -1,5 +1,3 @@
-"use client";
-
 import { CheckCircle } from "@opus2-platform/icons";
 import { FeaturedIcon } from "@/components";
 

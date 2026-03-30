@@ -1,5 +1,3 @@
-"use client";
-
 import { PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer } from "recharts";
 import { cx } from "@/utils";
 

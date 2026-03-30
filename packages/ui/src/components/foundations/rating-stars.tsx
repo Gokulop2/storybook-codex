@@ -1,5 +1,3 @@
-"use client";
-
 import type { HTMLAttributes, SVGProps } from "react";
 import { useId } from "react";
 import { cx } from "@/utils";
