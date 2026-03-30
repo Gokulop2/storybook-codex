@@ -15,7 +15,7 @@
         { "name": "Engineering", "color": "yellow" },
         { "name": "Finance", "color": "orange" }
       ],
-      "avatarUrl": "https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80&w=100"
+      "avatarUrl": "https://picsum.photos/seed/codex-olivia-rhye/128/128"
     },
     {
       "name": "Phoenix Baker",
@@ -32,7 +32,7 @@
         { "name": "Engineering", "color": "yellow" },
         { "name": "Finance", "color": "orange" }
       ],
-      "avatarUrl": "https://www.untitledui.com/images/avatars/phoenix-baker?fm=webp&q=80&w=100"
+      "avatarUrl": "https://picsum.photos/seed/codex-phoenix-baker/128/128"
     },
     {
       "name": "Lana Steiner",
@@ -47,7 +47,7 @@
         { "name": "Sales", "color": "red" },
         { "name": "Support", "color": "green" }
       ],
-      "avatarUrl": "https://www.untitledui.com/images/avatars/lana-steiner?fm=webp&q=80&w=100"
+      "avatarUrl": "https://picsum.photos/seed/codex-lana-steiner/128/128"
     },
     {
       "name": "Demi Wilkinson",
@@ -61,7 +61,7 @@
         { "name": "Marketing", "color": "indigo" },
         { "name": "Support", "color": "green" }
       ],
-      "avatarUrl": "https://www.untitledui.com/images/avatars/demi-wilkinson?fm=webp&q=80&w=100"
+      "avatarUrl": "https://picsum.photos/seed/codex-demi-wilkinson/128/128"
     },
     {
       "name": "Candice Wu",
@@ -76,7 +76,7 @@
         { "name": "Sales", "color": "red" },
         { "name": "Support", "color": "green" }
       ],
-      "avatarUrl": "https://www.untitledui.com/images/avatars/candice-wu"
+      "avatarUrl": "https://picsum.photos/seed/codex-candice-wu/128/128"
     },
     {
       "name": "Natali Craig",
@@ -91,7 +91,7 @@
         { "name": "Sales", "color": "red" },
         { "name": "Support", "color": "green" }
       ],
-      "avatarUrl": "https://www.untitledui.com/images/avatars/natali-craig?fm=webp&q=80&w=100"
+      "avatarUrl": "https://picsum.photos/seed/codex-natali-craig/128/128"
     },
     {
       "name": "Drew Cano",
@@ -108,7 +108,7 @@
         { "name": "Engineering", "color": "yellow" },
         { "name": "Finance", "color": "orange" }
       ],
-      "avatarUrl": "https://www.untitledui.com/images/avatars/drew-cano"
+      "avatarUrl": "https://picsum.photos/seed/codex-drew-cano/128/128"
     },
     {
       "name": "Orlando Diggs",
@@ -125,7 +125,7 @@
         { "name": "Engineering", "color": "yellow" },
         { "name": "Finance", "color": "orange" }
       ],
-      "avatarUrl": "https://www.untitledui.com/images/avatars/orlando-diggs?fm=webp&q=80&w=100"
+      "avatarUrl": "https://picsum.photos/seed/codex-orlando-diggs/128/128"
     },
     {
       "name": "Andi Lane",
@@ -142,7 +142,7 @@
         { "name": "Engineering", "color": "yellow" },
         { "name": "Finance", "color": "orange" }
       ],
-      "avatarUrl": "https://www.untitledui.com/images/avatars/andi-lane?fm=webp&q=80&w=100"
+      "avatarUrl": "https://picsum.photos/seed/codex-andi-lane/128/128"
     },
     {
       "name": "Kate Morrison",
@@ -157,7 +157,7 @@
         { "name": "Sales", "color": "red" },
         { "name": "Support", "color": "green" }
       ],
-      "avatarUrl": "https://www.untitledui.com/images/avatars/kate-morrison?fm=webp&q=80&w=100"
+      "avatarUrl": "https://picsum.photos/seed/codex-kate-morrison/128/128"
     }
   ],
   "total": 10

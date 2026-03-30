@@ -3,21 +3,21 @@ import { Fragment } from "react";
 import { ButtonUtility, CloseButton } from "@opus2-platform/codex";
 import { Copy01, DownloadCloud02, Edit01, Trash01 } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT,
   DOCS_SECTION_HERO_CLASS,
   type DocsSectionProps,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 type UtilityColor = NonNullable<ComponentProps<typeof ButtonUtility>["color"]>;
 type UtilitySize = NonNullable<ComponentProps<typeof ButtonUtility>["size"]>;
 type RowGap = "gap-1" | "gap-3";
 
-/** Matches [Untitled `UtilityButton*Demo`](https://github.com/untitleduico/react/blob/main/components/base/buttons/buttons.demo.tsx): Copy, Download, Delete, Edit. */
+/** Utility row: Copy, Download, Delete, Edit. */
 const UTILITY_ICONS = [
   { Icon: Copy01, iconName: "Copy01", tooltip: "Copy" },
   { Icon: DownloadCloud02, iconName: "DownloadCloud02", tooltip: "Download" },
@@ -54,7 +54,7 @@ function closeButtonSnippet(theme: "light" | "dark"): string {
   return CLOSE_SIZES.map((size) => `<CloseButton size="${size}" theme="${theme}" />`).join("\n");
 }
 
-/** Hero and “Tertiary” sections share the same markup and snippet (Untitled default row). */
+/** Hero and “Tertiary” sections share the same markup and snippet (default row). */
 const CODE_TERTIARY_ROW = withUtilImport(utilityButtonSnippet({ color: "tertiary", size: "sm" }));
 
 const CODE = {
@@ -186,7 +186,7 @@ const ExamplesIntro: FC = () => (
 const UtilityButtonsDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-utility-buttons>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Utility buttons" />
+      <DocsPageBreadcrumb currentLabel="Utility buttons" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -224,7 +224,7 @@ const UtilityButtonsDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Utility buttons",
+  title: "Base components/Utility buttons",
   component: ButtonUtility,
   tags: ["autodocs"],
   parameters: {
@@ -238,6 +238,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Utility buttons",
   args: {
     color: "secondary",

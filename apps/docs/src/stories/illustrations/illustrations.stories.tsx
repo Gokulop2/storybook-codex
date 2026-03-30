@@ -1,9 +1,9 @@
 import type { ComponentProps, FC } from "react";
 import { Illustration } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
-import { DOCS_PREVIEW_HERO_SURFACE_CLASS, DOCS_SECTION_HERO_CLASS, DocsSection } from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
+import { DOCS_PREVIEW_HERO_SURFACE_CLASS, DOCS_SECTION_HERO_CLASS, DocsSection } from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 type IllustrationType = NonNullable<ComponentProps<typeof Illustration>["type"]>;
 type IllustrationSize = NonNullable<ComponentProps<typeof Illustration>["size"]>;
@@ -47,7 +47,7 @@ const IllustrationWell: FC<IllustrationDemoProps & { variant?: "hero" | "section
 const IllustrationsDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-illustrations>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Illustrations" />
+      <DocsPageBreadcrumb currentLabel="Illustrations" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -86,7 +86,7 @@ const IllustrationsDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Illustrations",
+  title: "Base components/Illustrations",
   component: Illustration,
   tags: ["autodocs"],
   parameters: {
@@ -100,6 +100,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Illustrations",
   args: { ...HERO },
 };

@@ -1,5 +1,5 @@
 /**
- * Shared Untitled-style account-card menu triggers for the Dropdowns docs page.
+ * Shared account-card menu triggers for the Dropdowns docs page.
  * Keeps avatar/gloss/online-indicator markup in one place; stories import triggers + `CODEX_DOCS_AVATAR_SRC`.
  */
 import type { CSSProperties, FC } from "react";
@@ -7,7 +7,7 @@ import { useId } from "react";
 import { ChevronDown } from "@opus2-platform/icons";
 import { Button as AriaButton } from "react-aria-components";
 import { CODEX_DOCS_AVATAR_SRC } from "./docs-assets";
-import { DOCS_PREVIEW_P_MARGIN_RESET, DOCS_PREVIEW_SURFACE_CLASS } from "./untitled-docs-preview-code";
+import { DOCS_PREVIEW_P_MARGIN_RESET, DOCS_PREVIEW_SURFACE_CLASS } from "./docs-preview-code";
 
 export { CODEX_DOCS_AVATAR_SRC };
 
@@ -19,7 +19,7 @@ const ONLINE_STATUS_GLOSS: CSSProperties = {
     "radial-gradient(43.75% 43.75% at 50% 28.75%, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(50% 50%, rgba(255, 255, 255, 0) 74.66%, rgba(255, 255, 255, 0.18) 100%), radial-gradient(75% 75% at 50% 0%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.08) 99%, rgba(255, 255, 255, 0) 100%)",
 };
 
-/** Inner image stack for ringed sm/md avatars (Untitled gloss mask). */
+/** Inner image stack for ringed sm/md avatars (gloss mask). */
 const AVATAR_GLOSS_INNER =
   "relative inline-flex size-full shrink-0 items-center justify-center overflow-hidden rounded-full bg-tertiary outline-[0.5px] -outline-offset-[0.5px] outline-black/16 before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-white/32 before:mask-[linear-gradient(to_bottom,black_0%,transparent_25%,transparent_75%,black_100%)]";
 

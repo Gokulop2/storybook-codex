@@ -17,7 +17,7 @@ const preview: Preview = {
     options: {
       // Overview first in the sidebar (directly under search), then all other roots (e.g. Button).
       storySort: {
-        order: ["Overview", "*"],
+        order: ["Overview", "Base components", "*"],
         method: "alphabetical",
       },
       // Hide Storybook's default preview toolbar; page-level header controls are rendered in docs pages.

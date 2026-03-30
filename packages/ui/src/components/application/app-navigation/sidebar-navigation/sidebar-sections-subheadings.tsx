@@ -1,6 +1,6 @@
 "use client";
 
-import { MobileNavigationHeader, NavAccountCard, NavItemBase, NavItemType, UntitledLogo } from "@/components";
+import { MobileNavigationHeader, NavAccountCard, NavItemBase, NavItemType, BrandLogo } from "@/components";
 
 interface SidebarNavigationSectionsSubheadingsProps {
   /** URL of the currently active item. */
@@ -22,7 +22,7 @@ export const SidebarNavigationSectionsSubheadings = ({ activeUrl = "/", items }:
       className="border-secondary bg-primary flex h-full w-full max-w-full flex-col justify-between overflow-auto pt-4 shadow-xs md:border-r lg:w-(--width) lg:rounded-xl lg:border lg:pt-5"
     >
       <div className="flex flex-col gap-5 px-4 lg:px-5">
-        <UntitledLogo className="h-8" />
+        <BrandLogo className="h-8" />
       </div>
 
       <ul className="mt-8">

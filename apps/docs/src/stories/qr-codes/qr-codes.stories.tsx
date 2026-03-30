@@ -2,15 +2,15 @@ import type { FC } from "react";
 import { GradientScan, QRCode } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS,
   DOCS_SECTION_CLASS,
   DOCS_SECTION_HERO_CLASS,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 const DEMO_URL = "https://www.opus2.com";
 
@@ -52,7 +52,7 @@ const codeClass = "text-secondary font-mono text-sm";
 const QRCodesDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-qr-codes>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="QR codes" />
+      <DocsPageBreadcrumb currentLabel="QR codes" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -161,7 +161,7 @@ const QRCodesDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "QR codes",
+  title: "Base components/QR codes",
   component: QRCode,
   tags: ["autodocs"],
   parameters: {
@@ -175,6 +175,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "QR codes",
   args: { value: DEMO_URL },
   render: () => <QRCode value={DEMO_URL} />,

@@ -16,9 +16,9 @@ import {
 import { ChevronDown, ChevronUp, Copy01, Mail01, Minus, Plus } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button as AriaButton, DateField, Group, Input as NumberFieldInput, NumberField } from "react-aria-components";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
-import { DOCS_PREVIEW_HERO_SURFACE_CLASS, DOCS_SECTION_HERO_CLASS, DocsSection } from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
+import { DOCS_PREVIEW_HERO_SURFACE_CLASS, DOCS_SECTION_HERO_CLASS, DocsSection } from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 import {
   NUMBER_FIELD_INPUT_CLASS,
   NUMBER_FIELD_LAYOUT,
@@ -48,12 +48,12 @@ const IMPORT = `import {
 import { Copy01, Mail01 } from "@opus2-platform/icons";
 `;
 
-/** Snippet for segmented date/time field (Untitled-style), not native `type="date"`. */
+/** Snippet for segmented date/time field, not native `type="date"`. */
 const IMPORT_DATE = `import { DateField } from "react-aria-components";
 import { DateInput, HintText, Label } from "@opus2-platform/codex";
 `;
 
-/** Snippet for React Aria `NumberField` steppers (Untitled horizontal / vertical number inputs). */
+/** Snippet for React Aria `NumberField` steppers (horizontal / vertical number inputs). */
 const IMPORT_NUMBER = `import { Button as AriaButton, Group, Input as NumberFieldInput, NumberField } from "react-aria-components";
 import { ChevronDown, ChevronUp, Minus, Plus } from "@opus2-platform/icons";
 import { Button, HintText, Label } from "@opus2-platform/codex";
@@ -67,7 +67,7 @@ const IMPORT_TAG_INPUT_OUTER = `import { InputTagsOuter } from "@opus2-platform/
 
 const PreviewWell: FC<{ children: ReactNode }> = ({ children }) => <div className="flex w-full max-w-md justify-center py-4">{children}</div>;
 
-/** Segmented date + time (mm/dd/yyyy + 12h clock), matching [Untitled date input](https://www.untitledui.com/react/components/inputs). */
+/** Segmented date + time (mm/dd/yyyy + 12h clock). */
 const DateInputDemo = () => (
   <DateField className="group flex w-full max-w-md flex-col gap-1.5" granularity="minute" hourCycle={12}>
     <Label isRequired tooltip={TOOLTIP}>
@@ -78,7 +78,7 @@ const DateInputDemo = () => (
   </DateField>
 );
 
-/** [−] [value] [+] — matches [Untitled number input horizontal](https://www.untitledui.com/react/components/inputs). */
+/** [−] [value] [+] — horizontal number field with grouped steppers. */
 const NumberInputHorizontalDemo = () => (
   <NumberField className={NUMBER_FIELD_LAYOUT} defaultValue={0}>
     <Label isRequired tooltip={TOOLTIP}>
@@ -107,7 +107,7 @@ const NumberInputHorizontalDemo = () => (
   </NumberField>
 );
 
-/** Input + stacked chevrons — matches Untitled `InputNumber` vertical (`AriaButton` + `w-7`, not Codex `Button`). */
+/** Input + stacked chevrons — vertical number field (`AriaButton` + `w-7`, not Codex `Button`). */
 const NumberInputVerticalDemo = () => (
   <NumberField className={NUMBER_FIELD_LAYOUT} defaultValue={0}>
     <Label isRequired tooltip={TOOLTIP}>
@@ -136,7 +136,7 @@ const NumberInputVerticalDemo = () => (
   </NumberField>
 );
 
-/** Tags inside the field — matches [Untitled tag input](https://www.untitledui.com/react/components/inputs). */
+/** Tags inside the field. */
 const TagInputDemo = () => (
   <InputTags
     className="w-full max-w-md"
@@ -149,7 +149,7 @@ const TagInputDemo = () => (
   />
 );
 
-/** Tags below the field — matches Untitled “tag input outer”. */
+/** Tags below the field (“tag input outer”). */
 const TagInputOuterDemo = () => (
   <InputTagsOuter
     className="w-full max-w-md"
@@ -500,7 +500,7 @@ const TOC = [{ id: "input-example", label: "Input example" }, ...SECTIONS.map((s
 const InputsDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-inputs>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Inputs" />
+      <DocsPageBreadcrumb currentLabel="Inputs" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -546,7 +546,7 @@ const InputsDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Inputs",
+  title: "Base components/Inputs",
   component: Input,
   tags: ["autodocs"],
   parameters: {
@@ -560,6 +560,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Inputs",
   args: {
     label: "Email",

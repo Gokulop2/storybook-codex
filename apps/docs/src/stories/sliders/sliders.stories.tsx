@@ -2,7 +2,7 @@ import type { ComponentProps, FC, ReactNode } from "react";
 import { Fragment } from "react";
 import { Slider } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT,
   DOCS_PREVIEW_P_MARGIN_RESET,
@@ -10,10 +10,10 @@ import {
   type DocsSectionProps,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
-/** Matches [Untitled slider demos](https://github.com/untitleduico/react/blob/main/components/base/slider/slider.demo.tsx). */
+/** Slider demos aligned with the catalog reference layout. */
 const IMPORT = `import { Slider } from "@opus2-platform/codex";`;
 
 const withImport = (body: string) => `${IMPORT}\n\n${body}`;
@@ -118,7 +118,7 @@ const ExamplesIntro: FC = () => (
 const SlidersDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-sliders>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Sliders" />
+      <DocsPageBreadcrumb currentLabel="Sliders" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -155,7 +155,7 @@ const SlidersDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Sliders",
+  title: "Base components/Sliders",
   component: Slider,
   tags: ["autodocs"],
   parameters: {
@@ -169,6 +169,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Sliders",
   args: {
     defaultValue: RANGE_DEFAULT,

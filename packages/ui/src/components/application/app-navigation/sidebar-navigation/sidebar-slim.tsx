@@ -16,8 +16,8 @@ import {
   NavItemButton,
   type NavItemType,
   NavList,
-  UntitledLogo,
-  UntitledLogoMinimal,
+  BrandLogo,
+  BrandLogoMinimal,
 } from "@/components";
 import { cx } from "@/utils";
 
@@ -61,7 +61,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
         )}
       >
         <div className="flex justify-center px-3">
-          <UntitledLogoMinimal className="size-8" />
+          <BrandLogoMinimal className="size-8" />
         </div>
 
         <ul className="mt-4 flex flex-col gap-0.5 px-3">
@@ -102,7 +102,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
                 cx("group relative inline-flex rounded-full", (isPressed || isFocused) && "outline-focus-ring outline-2 outline-offset-2")
               }
             >
-              <Avatar status="online" src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80" size="md" alt="Olivia Rhye" />
+              <Avatar status="online" src="https://picsum.photos/seed/codex-olivia-rhye/128/128" size="md" alt="Olivia Rhye" />
             </AriaButton>
             <AriaPopover
               placement="right bottom"
@@ -186,7 +186,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
       <MobileNavigationHeader>
         <aside className="group bg-primary flex h-full max-h-full w-full max-w-full flex-col justify-between overflow-y-auto pt-4">
           <div className="px-4">
-            <UntitledLogo className="h-8" />
+            <BrandLogo className="h-8" />
           </div>
 
           <NavList items={items} />
@@ -205,7 +205,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
               <AvatarLabelGroup
                 status="online"
                 size="md"
-                src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
+                src="https://picsum.photos/seed/codex-olivia-rhye/128/128"
                 title="Olivia Rhye"
                 subtitle="olivia@opus2.com"
               />

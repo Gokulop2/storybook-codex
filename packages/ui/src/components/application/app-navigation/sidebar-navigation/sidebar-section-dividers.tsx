@@ -1,7 +1,7 @@
 "use client";
 
 import { SearchLg } from "@opus2-platform/icons";
-import { Input, MobileNavigationHeader, NavAccountCard, NavItemDividerType, NavItemType, NavList, UntitledLogo } from "@/components";
+import { Input, MobileNavigationHeader, NavAccountCard, NavItemDividerType, NavItemType, NavList, BrandLogo } from "@/components";
 
 interface SidebarNavigationSectionDividersProps {
   /** URL of the currently active item. */
@@ -23,7 +23,7 @@ export const SidebarNavigationSectionDividers = ({ activeUrl, items }: SidebarNa
       className="border-secondary bg-primary flex h-full w-full max-w-full flex-col justify-between overflow-auto pt-4 shadow-xs md:border-r lg:w-(--width) lg:rounded-xl lg:border lg:pt-5"
     >
       <div className="flex flex-col gap-5 px-4 lg:px-5">
-        <UntitledLogo className="h-8" />
+        <BrandLogo className="h-8" />
         <Input shortcut size="sm" aria-label="Search" placeholder="Search" icon={SearchLg} />
       </div>
 

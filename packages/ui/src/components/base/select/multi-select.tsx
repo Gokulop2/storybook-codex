@@ -60,7 +60,7 @@ interface MultiSelectProps extends Omit<AriaComboBoxProps<SelectItemType>, "chil
   onItemInserted?: (key: Key) => void;
   /**
    * `"tags"` (default): search icon, chips, and filter input.
-   * `"summary"`: Untitled-style trigger — “N selected” plus optional `summarySupportingText` (e.g. total headcount), no tag chips.
+   * `"summary"`: summary trigger — “N selected” plus optional `summarySupportingText` (e.g. total headcount), no tag chips.
    */
   triggerDisplay?: MultiSelectTriggerDisplay;
   /**
@@ -70,7 +70,7 @@ interface MultiSelectProps extends Omit<AriaComboBoxProps<SelectItemType>, "chil
   summarySupportingText?: string;
   /** Label after the summed count in summary mode. Default `"users"`. */
   summaryMemberLabel?: string;
-  /** Pinned footer with Reset / Select all (Untitled-style). Default `true`. */
+  /** Pinned footer with Reset / Select all. Default `true`. */
   showPopoverFooter?: boolean;
 }
 

@@ -2,7 +2,7 @@ import type { ComponentProps, FC, ReactNode } from "react";
 import { Fragment } from "react";
 import { VideoPlayer } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT,
   DOCS_PREVIEW_P_MARGIN_RESET,
@@ -10,8 +10,8 @@ import {
   type DocsSectionProps,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 /** Short Big Buck Bunny sample for docs previews ([test-videos.co.uk](https://test-videos.co.uk/)). */
 const SAMPLE_VIDEO_SRC =
@@ -34,7 +34,7 @@ const VIDEO_SIZES: readonly VideoSize[] = ["sm", "md", "lg"];
 const CODE_MD = snippet("md");
 
 const CODE = {
-  /** Hero matches default/md showcase ([Untitled video players](https://www.untitledui.com/react/components/video-players)). */
+  /** Hero matches default/md showcase layout. */
   example: CODE_MD,
   sm: snippet("sm"),
   md: CODE_MD,
@@ -95,7 +95,7 @@ const ExamplesIntro: FC = () => (
 const VideoPlayersDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-video-players>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Video players" />
+      <DocsPageBreadcrumb currentLabel="Video players" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -132,7 +132,7 @@ const VideoPlayersDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Video players",
+  title: "Base components/Video players",
   component: VideoPlayer,
   tags: ["autodocs"],
   parameters: {
@@ -146,6 +146,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Video players",
   args: {
     src: SAMPLE_VIDEO_SRC,

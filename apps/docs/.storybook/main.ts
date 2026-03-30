@@ -1,7 +1,11 @@
 import type { StorybookConfig } from "@storybook/react-vite";
 import tailwindcss from "@tailwindcss/vite";
-import { dirname, resolve } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+
+/** Absolute `apps/docs/.storybook` — use for managerHead so it works even if cwd is wrong. */
+const storybookConfigDir = dirname(fileURLToPath(import.meta.url));
 
 /** Repo root (codex/). `.storybook` → `apps/docs/.storybook`, so three levels up to the monorepo root. */
 const monorepoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
@@ -23,6 +27,21 @@ const config: StorybookConfig = {
   staticDirs: ["../public"],
   addons: [getAbsolutePath("@storybook/addon-docs")],
   framework: getAbsolutePath("@storybook/react-vite"),
+  /**
+   * Ensure `manager-head.html` is applied: Storybook resolves config relative to `process.cwd()`.
+   * If the CLI is started from the monorepo root, the preset may not find `.storybook/` unless
+   * `--config-dir` is set — this appends the file from an absolute path when missing.
+   */
+  managerHead: async (head) => {
+    if (head.includes("codex-manager-head-injected")) {
+      return head;
+    }
+    const path = join(storybookConfigDir, "manager-head.html");
+    if (!existsSync(path)) {
+      return head;
+    }
+    return `${head}\n${readFileSync(path, "utf8")}`;
+  },
   viteFinal: async (config) => {
     config.plugins = [...(config.plugins ?? []), tailwindcss()];
 

@@ -2,17 +2,17 @@ import type { ComponentProps, FC, ReactNode } from "react";
 import { Fragment } from "react";
 import { TextArea } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT,
   DOCS_SECTION_HERO_CLASS,
   type DocsSectionProps,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
-/** Same Untitled well as Untitled hero (`py-32`, `min-h-[320px]`, `md:min-w-[520px]`); `!` beats Storybook flex overrides. */
+/** Same hero well as other docs pages (`py-32`, `min-h-[320px]`, `md:min-w-[520px]`); `!` beats Storybook flex overrides. */
 const TEXTAREA_PREVIEW_WELL_CLASS = `${DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT} items-start! justify-center!`.trim();
 
 const PREVIEW_INNER = "mx-auto! flex max-w-md flex-col items-stretch";
@@ -92,7 +92,7 @@ const ExamplesIntro: FC = () => (
 const TextareaDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-textarea>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Textarea" />
+      <DocsPageBreadcrumb currentLabel="Textarea" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -131,7 +131,7 @@ const TextareaDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Textarea",
+  title: "Base components/Textarea",
   component: TextArea,
   tags: ["autodocs"],
   parameters: {
@@ -145,6 +145,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Textarea",
   args: {
     ...DEFAULT_FIELD_PROPS,

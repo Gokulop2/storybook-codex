@@ -1,22 +1,22 @@
 import type { FC, ReactNode } from "react";
 import { SocialButton } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS,
   DOCS_PREVIEW_SURFACE_CLASS,
   DOCS_SECTION_HERO_CLASS,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 const SECTION_PREVIEW = `${DOCS_PREVIEW_SURFACE_CLASS} flex-wrap! items-center! justify-center!`.trim();
 
 const IMPORT = `import { SocialButton } from "@opus2-platform/codex";
 `;
 
-/** Shared flex row (preview adds `w-full`; code snippets match Untitled without it). */
+/** Shared flex row (preview adds `w-full`; code snippets omit it). */
 const FLEX_ROW_WRAP = "flex-wrap items-center justify-center gap-3";
 
 const LABEL = {
@@ -145,7 +145,7 @@ const GroupRow: FC<{ theme: "brand" | "color" | "gray"; iconOnly: boolean }> = (
 const SocialButtonsDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-social-buttons>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Social buttons" />
+      <DocsPageBreadcrumb currentLabel="Social buttons" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -202,7 +202,7 @@ const SocialButtonsDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Social buttons",
+  title: "Base components/Social buttons",
   component: SocialButton,
   tags: ["autodocs"],
   parameters: {
@@ -216,6 +216,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Social buttons",
   args: {
     social: "google",

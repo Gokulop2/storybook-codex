@@ -8,7 +8,7 @@ export type NumberVerticalGroupState = {
   isInvalid: boolean;
 };
 
-/** Matches Untitled vertical number field outline (see `NumberInputVerticalDemo`). */
+/** Vertical number field outline (see `NumberInputVerticalDemo`). */
 export function numberVerticalGroupClassName({
   isFocusWithin,
   isDisabled,

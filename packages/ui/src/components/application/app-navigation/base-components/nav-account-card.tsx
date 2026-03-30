@@ -29,14 +29,14 @@ const placeholderAccounts: NavAccountType[] = [
     id: "olivia",
     name: "Olivia Rhye",
     email: "olivia@opus2.com",
-    avatar: "https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80",
+    avatar: "https://picsum.photos/seed/codex-olivia-rhye/128/128",
     status: "online",
   },
   {
     id: "sienna",
     name: "Sienna Hewitt",
     email: "sienna@opus2.com",
-    avatar: "https://www.untitledui.com/images/avatars/transparent/sienna-hewitt?bg=%23E0E0E0",
+    avatar: "https://picsum.photos/seed/codex-sienna-hewitt/128/128",
     status: "online",
   },
 ];

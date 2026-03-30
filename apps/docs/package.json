@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "storybook dev -p 6006",
-    "build": "storybook build",
+    "dev": "storybook dev -p 6006 --config-dir ./.storybook",
+    "build": "storybook build --config-dir ./.storybook",
     "start": "serve storybook-static -l ${PORT:-6006}"
   },
   "dependencies": {

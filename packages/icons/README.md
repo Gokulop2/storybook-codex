@@ -4,7 +4,7 @@ Icon wrapper library for Opus2 Platform.
 
 ## Features
 
-- Re-export of the Untitled UI icon and file icon sets
+- Re-export of the upstream icon and file icon packages (see `package.json` dependencies)
 - Single import path for platform projects
 - TypeScript support
 - Easy integration with apps and packages in this monorepo

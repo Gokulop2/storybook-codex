@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { SearchLg } from "@opus2-platform/icons";
-import { Input, MobileNavigationHeader, NavAccountCard, NavItemBase, NavItemType, NavList, UntitledLogo } from "@/components";
+import { Input, MobileNavigationHeader, NavAccountCard, NavItemBase, NavItemType, NavList, BrandLogo } from "@/components";
 import { cx } from "@/utils";
 
 interface SidebarNavigationProps {
@@ -47,7 +47,7 @@ export const SidebarNavigationSimple = ({
       )}
     >
       <div className="flex flex-col gap-5 px-4 lg:px-5">
-        <UntitledLogo className="h-8" />
+        <BrandLogo className="h-8" />
         <Input shortcut size="sm" aria-label="Search" placeholder="Search" icon={SearchLg} />
       </div>
 

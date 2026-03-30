@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from "react";
 import { createContext } from "react";
 
-/** When set by `MultiSelect`, list rows use Untitled-style leading checkboxes instead of a trailing checkmark. */
+/** When set by `MultiSelect`, list rows use leading checkboxes instead of a trailing checkmark. */
 export const MultiSelectListContext = createContext<{ itemLayout: "default" | "checkbox" } | null>(null);
 
 /** Mirrors `selectedItems` ids so row visuals match; RAC `ListBoxItem` `isSelected` stays false when ComboBox `selectedKey` is fixed to `null`. */

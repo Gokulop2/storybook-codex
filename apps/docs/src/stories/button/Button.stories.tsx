@@ -1,6 +1,5 @@
 import type { ComponentProps, CSSProperties, FC, ReactNode } from "react";
-import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { Fragment, useState } from "react";
 import { Button } from "@opus2-platform/codex";
 import { Check } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
@@ -10,7 +9,9 @@ import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS,
   DOCS_PREVIEW_P_MARGIN_RESET,
   DOCS_PREVIEW_SURFACE_CLASS,
-} from "../_docs/untitled-docs-preview-code";
+} from "../_docs/docs-preview-code";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 type ButtonSize = "sm" | "md" | "lg" | "xl";
 const sizes: ButtonSize[] = ["sm", "md", "lg", "xl"];
@@ -30,7 +31,7 @@ const PREVIEW_BUTTON_STACK = "flex flex-col gap-4";
 
 type ButtonColor = NonNullable<ComponentProps<typeof Button>["color"]>;
 
-/** Icon-only toolbar controls — aligned with Untitled UI docs header actions (react-aria `Button`). */
+/** Icon-only toolbar controls — aligned with common docs header actions (react-aria `Button`). */
 const toolbarIconBtn =
   "group relative inline-flex h-max cursor-pointer items-center justify-center rounded-md p-1.5 outline-focus-ring transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-fg-quaternary hover:bg-primary_hover hover:text-fg-quaternary_hover *:data-icon:pointer-events-none *:data-icon:shrink-0 *:data-icon:text-current *:data-icon:transition-inherit-all *:data-icon:size-4";
 
@@ -58,8 +59,8 @@ const ArrowRightIcon: FC<{ className?: string }> = ({ className }) => (
 
 const ICON_SAMPLE = "<Check data-icon />";
 
-/** Example `href` for link-style buttons (same URL pattern as untitledui.com/react/components/buttons). */
-const LINK_HREF_EXAMPLE = "https://www.untitledui.com/";
+/** Example `href` for link-style buttons. */
+const LINK_HREF_EXAMPLE = "https://example.com/";
 
 /** Code string: one text `<Button>` per size for docs snippets. */
 function buttonDocsTextRows(color: string, href?: string): string {
@@ -572,252 +573,6 @@ const DocsSection: FC<DocsSectionProps> = ({ id, title, code, description, previ
   );
 };
 
-const BreadcrumbChevron: FC = () => (
-  <div className="text-fg-quaternary shrink-0">
-    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" aria-hidden="true" className="size-4">
-      <path d="m9 18 6-6-6-6" />
-    </svg>
-  </div>
-);
-
-const ButtonsPageHeader: FC = () => (
-  <>
-    <div className="bg-primary border-secondary fixed inset-x-0 top-0 z-30 w-full border-b">
-      <div className="mx-auto flex size-full flex-1 items-center py-3 pr-3 pl-4 md:py-3 lg:px-5 lg:py-2.5">
-        <nav aria-label="Breadcrumbs" className="min-w-0 max-lg:hidden">
-          <ol aria-label="Breadcrumbs" className="relative flex gap-0.5 lg:gap-1">
-            <li className="flex items-center gap-0.5 lg:gap-1">
-              <a className="group outline-focus-ring hover:bg-primary_hover inline-flex cursor-pointer items-center justify-center gap-1 rounded-md p-1 transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 lg:p-1.5">
-                <span className="text-quaternary group-hover:text-tertiary_hover px-1 text-sm font-semibold whitespace-nowrap">Base components</span>
-              </a>
-              <BreadcrumbChevron />
-            </li>
-            <li className="flex items-center gap-0.5 lg:gap-1">
-              <a className="group outline-focus-ring hover:bg-primary_hover inline-flex cursor-pointer items-center justify-center gap-1 rounded-md p-1 transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 lg:p-1.5">
-                <span className="text-quaternary group-hover:text-tertiary_hover px-1 text-sm font-semibold whitespace-nowrap">Components</span>
-              </a>
-              <BreadcrumbChevron />
-            </li>
-            <li className="flex items-center gap-0.5 lg:gap-1">
-              <button type="button" className="bg-primary_hover cursor-default rounded-md p-1 lg:p-1.5">
-                <span className="text-fg-tertiary_hover px-1 text-sm font-semibold whitespace-nowrap">Buttons</span>
-              </button>
-            </li>
-          </ol>
-        </nav>
-        {/* Header has no theme toggle — each preview panel’s moon icon scopes `dark-mode` to that rounded surface only. */}
-      </div>
-    </div>
-    {/* Fixed header is out of flow; reserve its height + spacing below (matches previous sticky mb-10 / md:mb-12). */}
-    <div className="mb-10 h-14 shrink-0 md:mb-12" aria-hidden="true" />
-  </>
-);
-
-const StorybookRootHeaderPortal: FC<{ children: ReactNode }> = ({ children }) => {
-  const [mountNode, setMountNode] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
-    const storybookDocs = document.getElementById("storybook-docs");
-    const storybookRoot = document.getElementById("storybook-root");
-    const portalNode = document.createElement("div");
-    portalNode.setAttribute("data-docs-sticky-header", "true");
-
-    if (storybookDocs?.parentElement) {
-      storybookDocs.insertAdjacentElement("beforebegin", portalNode);
-    } else if (storybookRoot?.parentElement) {
-      storybookRoot.insertAdjacentElement("afterend", portalNode);
-    } else {
-      document.body.prepend(portalNode);
-    }
-
-    setMountNode(portalNode);
-
-    return () => {
-      portalNode.remove();
-    };
-  }, []);
-
-  if (!mountNode) return null;
-  return createPortal(children, mountNode);
-};
-
-/** Mount TOC after Storybook’s `.sbdocs-wrapper` (sibling in DOM), not inside the page `main`. */
-const StorybookSbdocsTocPortal: FC<{ children: ReactNode }> = ({ children }) => {
-  const [mountNode, setMountNode] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
-    const layoutClass = "docs-sbdocs-with-toc-layout";
-    let portalHost: HTMLDivElement | null = null;
-    let layoutParent: HTMLElement | null = null;
-    let intervalId: ReturnType<typeof setInterval> | undefined;
-    let timeoutId: ReturnType<typeof setTimeout> | undefined;
-
-    const cleanup = () => {
-      if (intervalId !== undefined) clearInterval(intervalId);
-      if (timeoutId !== undefined) clearTimeout(timeoutId);
-      portalHost?.remove();
-      portalHost = null;
-      layoutParent?.classList.remove(layoutClass);
-      layoutParent = null;
-      setMountNode(null);
-    };
-
-    const attach = (): boolean => {
-      if (portalHost) return true;
-      const wrapper = document.querySelector<HTMLElement>("#storybook-docs .sbdocs-wrapper") ?? document.querySelector<HTMLElement>(".sbdocs-wrapper");
-      if (!wrapper?.parentElement) return false;
-
-      portalHost = document.createElement("div");
-      portalHost.setAttribute("data-docs-on-this-page", "true");
-      portalHost.className = "docs-on-this-page-host";
-      wrapper.insertAdjacentElement("afterend", portalHost);
-      layoutParent = wrapper.parentElement;
-      layoutParent.classList.add(layoutClass);
-      setMountNode(portalHost);
-      if (intervalId !== undefined) {
-        clearInterval(intervalId);
-        intervalId = undefined;
-      }
-      return true;
-    };
-
-    if (attach()) {
-      return cleanup;
-    }
-
-    intervalId = setInterval(() => {
-      attach();
-    }, 50);
-
-    timeoutId = setTimeout(() => {
-      if (intervalId !== undefined) clearInterval(intervalId);
-    }, 5000);
-
-    return cleanup;
-  }, []);
-
-  if (!mountNode) return null;
-  return createPortal(children, mountNode);
-};
-
-const OnThisPageNav: FC<{ items: readonly { readonly id: string; readonly label: string }[] }> = ({ items }) => {
-  const [activeId, setActiveId] = useState(items[0]?.id ?? "");
-  const trackRef = useRef<HTMLDivElement>(null);
-  const linkRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
-  const [indicator, setIndicator] = useState({ top: 0, height: 0 });
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length === 0) return;
-        visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        const id = visible[0]?.target.id;
-        if (id) setActiveId(id);
-      },
-      { root: null, rootMargin: "-10% 0px -50% 0px", threshold: [0, 0.1, 0.25, 0.5, 1] }
-    );
-    for (const { id } of items) {
-      const el = document.getElementById(id);
-      if (el) obs.observe(el);
-    }
-    return () => obs.disconnect();
-  }, [items]);
-
-  useLayoutEffect(() => {
-    const track = trackRef.current;
-    const link = linkRefs.current.get(activeId);
-    if (!track || !link) return;
-    const trackRect = track.getBoundingClientRect();
-    const linkRect = link.getBoundingClientRect();
-    setIndicator({ top: linkRect.top - trackRect.top, height: linkRect.height });
-  }, [activeId]);
-
-  const scrollToSection = (id: string) => {
-    const target = document.getElementById(id);
-    if (!target) return;
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-    setActiveId(id);
-  };
-
-  return (
-    <nav aria-label="On this page" className="w-54 pb-10 text-sm">
-      <div className="lg:max-w-auto flex max-h-[calc(100vh-calc(var(--spacing)*19))] flex-col pb-8">
-        <div className="flex items-center gap-1.5">
-          <svg
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            stroke="currentColor"
-            strokeWidth="2"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-            className="text-fg-quaternary size-4"
-          >
-            <path d="M3 12h18M3 6h18M3 18h12" />
-          </svg>
-          <p className="text-primary text-xs font-semibold">On this page</p>
-        </div>
-        <div className="relative min-h-40 overflow-auto">
-          <div className="sticky inset-x-0 top-0 z-1 h-0 max-h-0">
-            <div
-              className="from-bg-primary pointer-events-none z-1 h-6 w-full bg-linear-to-b to-transparent opacity-0 transition-opacity duration-100 ease-linear"
-              aria-hidden
-            />
-          </div>
-          <div ref={trackRef} className="relative flex overflow-auto pt-4 pb-8">
-            <div className="bg-border-secondary w-0.5 shrink-0" aria-hidden />
-            <div
-              className="bg-fg-brand-primary_alt absolute left-0 w-0.5 transition-all duration-150 ease-linear"
-              style={{
-                top: indicator.top,
-                height: indicator.height,
-                opacity: indicator.height > 0 ? 1 : 0,
-              }}
-              aria-hidden
-            />
-            <ul className="relative flex h-full flex-col gap-2 pl-3">
-              {items.map(({ id, label }) => (
-                <li key={id} className="flex">
-                  <a
-                    ref={(el) => {
-                      if (el) linkRefs.current.set(id, el);
-                      else linkRefs.current.delete(id);
-                    }}
-                    href={`#${id}`}
-                    data-id={id}
-                    className={`outline-focus-ring rounded-xs text-sm font-semibold transition-colors duration-150 ease-linear focus:outline-2 focus:outline-offset-2 ${
-                      activeId === id ? "text-brand-secondary" : "text-quaternary hover:text-tertiary_hover"
-                    }`}
-                    onClick={(e) => {
-                      /* Storybook docs router remounts on hash navigation — scroll in-page only. */
-                      e.preventDefault();
-                      scrollToSection(id);
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        scrollToSection(id);
-                      }
-                    }}
-                  >
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="sticky inset-x-0 bottom-0 z-1 flex h-0 max-h-0 items-end">
-            <div className="from-bg-primary pointer-events-none z-1 h-8 w-full bg-linear-to-t to-transparent" aria-hidden />
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
-};
-
 function PreviewTextButtons({ color }: { color: ButtonColor }) {
   return (
     <div className={PREVIEW_BUTTON_ROW}>
@@ -990,7 +745,7 @@ const ButtonDocsPage: FC = () => {
   return (
     <div className="bg-primary min-h-screen font-sans">
       <StorybookRootHeaderPortal>
-        <ButtonsPageHeader />
+        <DocsPageBreadcrumb currentLabel="Buttons" />
       </StorybookRootHeaderPortal>
       <StorybookSbdocsTocPortal>
         <OnThisPageNav items={BUTTON_DOCS_TOC} />
@@ -1018,9 +773,8 @@ const ButtonDocsPage: FC = () => {
 };
 
 const meta = {
-  title: "Button",
+  title: "Base components/Button",
   component: Button,
-  // Storybook 10 only registers a docs page when `autodocs` is present; `docs.page` replaces the autodocs template.
   tags: ["autodocs"],
   parameters: {
     docs: {
@@ -1034,5 +788,6 @@ type Story = StoryObj<typeof meta>;
 
 /** Same sidebar shape as Overview: one row labeled “Button”, custom content on the Docs tab. */
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Button",
 };

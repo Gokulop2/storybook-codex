@@ -20,6 +20,12 @@ import {
 } from "react-aria-components";
 import { cx } from "@/utils";
 
+/** Submenu trigger rows set `hasSubmenu` on the render state (RAC; not always surfaced in public types). */
+function menuItemHasSubmenu(state: unknown): boolean {
+  if (typeof state !== "object" || state === null) return false;
+  return "hasSubmenu" in state && Boolean((state as { hasSubmenu?: boolean }).hasSubmenu);
+}
+
 interface DropdownItemProps extends AriaMenuItemProps {
   /** The label of the item to be displayed. */
   label?: string;
@@ -45,27 +51,25 @@ const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }
       {...props}
       className={(state) =>
         cx(
-          // Match Untitled DOM gutter: `px-1.5 py-px`.
+          // Menu gutter: `px-1.5 py-px`.
           "group block cursor-pointer px-1.5 py-px outline-hidden",
           state.isDisabled && "cursor-not-allowed",
           typeof props.className === "function" ? props.className(state) : props.className
         )
       }
     >
-      {(state) => (
-        // `hasSubmenu` is provided by RAC for submenu triggers (not typed in older defs).
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ((state as any).hasSubmenu ? (
+      {(state) =>
+        menuItemHasSubmenu(state) ? (
           <div
             className={cx(
-              // Match Untitled submenu row: inner flex + outline on same node as transition/hover.
+              // Submenu row: inner flex + outline on same node as transition/hover.
               "relative flex items-center rounded-md px-2.5 py-2 pr-1.5 outline-focus-ring transition duration-100 ease-linear",
               !state.isDisabled && "group-hover:bg-primary_hover",
               state.isFocused && "bg-primary_hover",
               state.isFocusVisible && "outline-2 -outline-offset-2"
             )}
           >
-            {/* Selection indicator for submenu rows in multi-select menus (Untitled: minus when selected, check hidden). */}
+            {/* Selection indicator for submenu rows in multi-select menus (minus when selected, check hidden). */}
             {state.selectionMode === "multiple" && !Icon ? (
               <div
                 aria-hidden="true"
@@ -122,9 +126,9 @@ const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }
             <ChevronRight aria-hidden="true" className="ml-auto size-4 shrink-0 stroke-[2.25px] text-fg-quaternary" />
           </div>
         ) : (
-        <div
+          <div
           className={cx(
-            // Match Untitled row padding: `px-2.5 py-2`.
+            // Row padding: `px-2.5 py-2`.
             "outline-focus-ring relative flex items-center rounded-md px-2.5 py-2 transition duration-100 ease-linear",
             !state.isDisabled && "group-hover:bg-primary_hover",
             // React Aria uses focused for keyboard roving; keep hover+focus visuals identical.
@@ -132,9 +136,8 @@ const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }
             state.isFocusVisible && "outline-2 -outline-offset-2"
           )}
         >
-          {/* Selection indicator (matches Untitled for radio/checkbox menuitems) */}
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          {!(state as any).hasSubmenu && state.selectionMode === "single" && !Icon ? (
+          {/* Selection indicator for radio/checkbox menuitems */}
+          {!menuItemHasSubmenu(state) && state.selectionMode === "single" && !Icon ? (
             <Check
               aria-hidden="true"
               className={cx(
@@ -144,8 +147,7 @@ const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }
             />
           ) : null}
 
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          {!(state as any).hasSubmenu && state.selectionMode === "multiple" && !Icon ? (
+          {!menuItemHasSubmenu(state) && state.selectionMode === "multiple" && !Icon ? (
             <span
               aria-hidden="true"
               className={cx(
@@ -184,7 +186,7 @@ const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }
           {addon && (
             <span
               className={cx(
-                // Match Untitled shortcut addon: `ml-1 shrink-0 pr-1 text-xs font-medium text-quaternary`.
+                // Shortcut addon: `ml-1 shrink-0 pr-1 text-xs font-medium text-quaternary`.
                 "ml-1 shrink-0 pr-1 text-xs font-medium",
                 state.isDisabled ? "text-disabled" : "text-quaternary"
               )}
@@ -193,8 +195,8 @@ const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }
             </span>
           )}
         </div>
-        ))
-      )}
+        )
+      }
     </AriaMenuItem>
   );
 };
@@ -211,7 +213,7 @@ const DropdownMenu = <T extends object>(props: DropdownMenuProps<T>) => {
       {...props}
       className={(state) =>
         cx(
-          // Match Untitled DOM: `h-min overflow-y-auto py-1 outline-hidden select-none`.
+          // List region: `h-min overflow-y-auto py-1 outline-hidden select-none`.
           "h-min overflow-y-auto py-1 outline-hidden select-none",
           typeof props.className === "function" ? props.className(state) : props.className
         )
@@ -229,7 +231,7 @@ const DropdownPopover = (props: DropdownPopoverProps) => {
       {...props}
       className={(state) =>
         cx(
-          // Untitled: rounded-lg, subtle border, strong shadow, comfortable min width.
+          // Panel: rounded-lg, subtle border, strong shadow, comfortable min width.
           "bg-primary ring-secondary_alt w-54 origin-(--trigger-anchor-point) overflow-auto rounded-lg shadow-lg ring-1 ring-inset will-change-transform",
           state.isEntering &&
             "animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5 duration-150 ease-out",

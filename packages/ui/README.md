@@ -24,13 +24,9 @@ Import components in your app:
 import { Button } from "@opus2-platform/codex";
 ```
 
-### Untitled UI Integration
+### Styling
 
-This library wraps [Untitled UI React](https://www.untitledui.com/react) components for easy use.
-
-#### Theming
-
-To use Untitled UI theming, ensure your app imports the global styles:
+Import the package stylesheet so components receive design tokens and base styles:
 
 ```css
 @import "@opus2-platform/codex/dist/styles.css";
@@ -42,7 +38,7 @@ To use Untitled UI theming, ensure your app imports the global styles:
 import { Button } from "@opus2-platform/codex";
 
 function App() {
-  return <Button onClick={() => alert("Clicked!")}>Untitled UI Button</Button>;
+  return <Button onClick={() => alert("Clicked!")}>Save</Button>;
 }
 ```
 

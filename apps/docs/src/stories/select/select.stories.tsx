@@ -5,7 +5,7 @@ import { User01 } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useListData } from "react-stately";
 import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS,
   DOCS_PREVIEW_INNER_MAX_XS_CLASS,
@@ -13,8 +13,8 @@ import {
   DOCS_SECTION_HERO_CLASS,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 const SECTION_PREVIEW = `${DOCS_PREVIEW_SURFACE_CLASS} items-start! justify-start!`.trim();
 
@@ -213,7 +213,7 @@ const MultiSelectTagsDemo: FC = () => {
 const SelectDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-select>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Select" />
+      <DocsPageBreadcrumb currentLabel="Select" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -377,7 +377,7 @@ const SelectDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Select",
+  title: "Base components/Select",
   component: Select,
   tags: ["autodocs"],
   parameters: {
@@ -391,6 +391,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Select",
   args: {
     label: LABEL,

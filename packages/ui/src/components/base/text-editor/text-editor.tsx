@@ -38,7 +38,7 @@ import { Tooltip, TooltipTrigger } from "@/components/base/tooltip/tooltip";
 import { cx } from "@/utils";
 import { TextEditorFontSize } from "./text-editor-font-size";
 
-/** Match `TextAreaBase` resize handle (Untitled editor uses the same affordance). TipTap `attributes.style` must be a string. */
+/** Match `TextAreaBase` resize handle. TipTap `attributes.style` must be a string. */
 function getResizeHandleStyleString(): string {
   const light = "#D5D7DA";
   const dark = "#373A41";
@@ -52,23 +52,23 @@ function getResizeHandleStyleString(): string {
 const styles = {
   sm: {
     editor: "text-sm",
-    /** Untitled `h-87` for sm editor (incl. floating toolbar demo). */
+    /** `h-87` for sm editor (incl. floating toolbar demo). */
     editorHeight: "h-87 min-h-0",
     editorPad: "p-4",
   },
   md: {
     editor: "text-md",
-    /** Untitled `h-108` for default md with sample copy. */
+    /** `h-108` for default md with sample copy. */
     editorHeight: "h-108 min-h-0",
     editorPad: "p-5",
   },
-  /** Untitled “Text editor example” hero: compact toolbar + md editor, `h-37.5` (9.375rem). */
+  /** “Text editor example” hero: compact toolbar + md editor, `h-37.5` (9.375rem). */
   hero: {
     editor: "text-md",
     editorHeight: "h-[9.375rem] min-h-0",
     editorPad: "p-5",
   },
-  /** Untitled “With tooltip”: editor-only, `h-87` + `p-4` + `text-md` (no toolbar). */
+  /** “With tooltip”: editor-only, `h-87` + `p-4` + `text-md` (no toolbar). */
   withTooltip: {
     editor: "text-md leading-[1.5]",
     editorHeight: "h-87 min-h-0",
@@ -78,13 +78,13 @@ const styles = {
 
 const DEFAULT_HTML = "<p></p>";
 
-/** Untitled-style default text color swatch when none is set on the selection. */
+/** Default text color swatch when none is set on the selection. */
 const DEFAULT_TEXT_COLOR = "#181D27";
 
 const TOOLBAR_BTN_CLASS =
   "flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md p-0! outline-hidden outline-focus-ring transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 data-[pressed]:bg-primary_hover data-[pressed]:outline-hidden";
 
-/** Untitled `md` toolbar — font family / size triggers (see untitledui.com text editors). */
+/** `md` toolbar — font family / size triggers. */
 const TOOLBAR_SELECT_TRIGGER =
   "bg-primary ring-primary relative flex w-full cursor-pointer items-center rounded-lg shadow-xs ring-1 outline-hidden transition duration-100 ease-linear ring-inset";
 
@@ -104,14 +104,14 @@ const FONT_SIZE_OPTIONS = (
 ).map((n) => ({ id: `${n}px`, label: `${n}px` }));
 
 export interface TextEditorProps {
-  /** Control typography, padding, and toolbar density (matches Untitled `sm` / `md`). */
+  /** Control typography, padding, and toolbar density (`sm` / `md`). */
   size?: "sm" | "md";
   /**
-   * `hero` matches Untitled’s “Text editor example”: compact toolbar strip (no font row) + md editor body (`h-37.5`).
+   * `hero` matches the “Text editor example” layout: compact toolbar strip (no font row) + md editor body (`h-37.5`).
    */
   layout?: "default" | "hero";
   /**
-   * When `true`: Untitled-style **always-visible** floating chrome above the editor — `sm`: `rounded-lg … p-1`, `md`: `rounded-xl … p-2`.
+   * When `true`: **always-visible** floating chrome above the editor — `sm`: `rounded-lg … p-1`, `md`: `rounded-xl … p-2`.
    * When `false`, a normal fixed toolbar is shown above the content.
    */
   floatingToolbar?: boolean;
@@ -124,7 +124,7 @@ export interface TextEditorProps {
   defaultContent?: string;
   className?: string;
   /**
-   * When set, shows an Untitled-style hint below the editor: “{n} characters left”.
+   * When set, shows a character-count hint below the editor: “{n} characters left”.
    * Count is plain-text length (TipTap `getText()`).
    */
   maxLength?: number;
@@ -132,7 +132,7 @@ export interface TextEditorProps {
   hintText?: string;
   /**
    * When `false`, no fixed toolbar is rendered. Use with `showTooltips` to show a selection `BubbleMenu`
-   * (Untitled “With tooltip”: select text → floating toolbar with tooltips + static `hintText`).
+   * (“With tooltip”: select text → floating toolbar with tooltips + static `hintText`).
    * @default true
    */
   showToolbar?: boolean;
@@ -142,7 +142,7 @@ type IconComponent = typeof Bold01;
 
 type ToolbarAction = {
   label: string;
-  /** Shown in `aria-label` after the label, e.g. `⌘B` (Untitled). */
+  /** Shown in `aria-label` after the label, e.g. `⌘B`. */
   shortcut?: string;
   Icon: IconComponent;
   onPress: (editor: Editor) => void;
@@ -569,10 +569,10 @@ function ToolbarSurface({
   showTooltips: boolean;
   variant: "fixed" | "bubble";
   size: "sm" | "md";
-  /** Merged onto the toolbar root (e.g. Untitled floating `sm`: `rounded-lg … ring-secondary_alt`). */
+  /** Merged onto the toolbar root (e.g. floating `sm`: `rounded-lg … ring-secondary_alt`). */
   surfaceClassName?: string;
 }) {
-  /** Untitled: left + center + bullet only (no right align, no numbered list). */
+  /** Left + center + bullet only (no right align, no numbered list). */
   const alignActions = ACTIONS_ALIGN.slice(0, 2);
   const listActions = ACTIONS_LISTS.slice(0, 1);
 
@@ -616,7 +616,7 @@ function ToolbarSurface({
     );
   }
 
-  /** Untitled `md`: font family + font size row, then formatting strip ([reference](https://www.untitledui.com/react/components/text-editors)). */
+  /** `md`: font family + font size row, then formatting strip. */
   return (
     <div
       className={cx(
@@ -768,7 +768,7 @@ export const TextEditor = ({
     </div>
   );
 
-  /** Untitled “With tooltip”: no fixed toolbar; optional selection bubble with toolbar tooltips. */
+  /** “With tooltip”: no fixed toolbar; optional selection bubble with toolbar tooltips. */
   if (!showToolbar) {
     return (
       <div ref={rootRef} className={cx("group w-full overflow-hidden bg-primary", className)} data-input-size={size}>
@@ -819,8 +819,8 @@ export const TextEditor = ({
   }
 
   /**
-   * Untitled `default-sm`: plain toolbar row.
-   * Untitled `floating-toolbar-sm`: same column + **always-visible** bubble chrome (`rounded-lg … ring-secondary_alt`) — not selection-only `BubbleMenu`.
+   * `default-sm`: plain toolbar row.
+   * `floating-toolbar-sm`: same column + **always-visible** bubble chrome (`rounded-lg … ring-secondary_alt`) — not selection-only `BubbleMenu`.
    */
   if (size === "sm") {
     return (
@@ -850,8 +850,8 @@ export const TextEditor = ({
   }
 
   /**
-   * Untitled `default-md`: plain font row + format strip.
-   * Untitled `floating-toolbar-md`: same column + always-visible `rounded-xl … p-2 ring-secondary_alt` around the full toolbar.
+   * `default-md`: plain font row + format strip.
+   * `floating-toolbar-md`: same column + always-visible `rounded-xl … p-2 ring-secondary_alt` around the full toolbar.
    */
   return (
     <div className={cx("group w-full overflow-hidden bg-primary", className)} data-input-size={size}>

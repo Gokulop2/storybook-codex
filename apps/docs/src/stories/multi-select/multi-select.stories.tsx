@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { ListData } from "react-stately";
 import { useListData } from "react-stately";
 import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS,
   DOCS_PREVIEW_INNER_MAX_XS_CLASS,
@@ -13,8 +13,8 @@ import {
   DOCS_SECTION_HERO_CLASS,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 const SECTION_PREVIEW = `${DOCS_PREVIEW_SURFACE_CLASS} items-start! justify-start!`.trim();
 
@@ -24,7 +24,7 @@ const PLACEHOLDER = "Select teams";
 
 const AVATAR = CODEX_DOCS_AVATAR_SRC;
 
-/** Team rows (Untitled-style labels + supporting counts); avatars power tag chips. */
+/** Team rows (labels + supporting counts); avatars power tag chips. */
 const TEAMS: SelectItemType[] = [
   { id: "design", label: "Design", supportingText: "4 members", avatarUrl: AVATAR },
   { id: "product", label: "Product", supportingText: "8 members", avatarUrl: AVATAR },
@@ -209,7 +209,7 @@ const MultiSelectTeamsDemo: FC<{
 const MultiSelectDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-multi-select>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Multi-select" />
+      <DocsPageBreadcrumb currentLabel="Multi-select" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -296,7 +296,7 @@ const MultiSelectDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Multi-select",
+  title: "Base components/Multi-select",
   component: MultiSelect,
   tags: ["autodocs"],
   parameters: {
@@ -310,6 +310,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Multi-select",
   render: () => (
     <div className="bg-primary p-6 font-sans">

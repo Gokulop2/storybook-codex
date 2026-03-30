@@ -1,15 +1,15 @@
 import type { FC, ReactNode } from "react";
 import { RatingBadge, RatingStars } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS,
   DOCS_PREVIEW_SURFACE_CLASS,
   DOCS_SECTION_HERO_CLASS,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 const SECTION_PREVIEW = `${DOCS_PREVIEW_SURFACE_CLASS} items-start! justify-start!`.trim();
 
@@ -55,7 +55,7 @@ const RatingStarsVariantsDemo: FC = () => (
 const RatingBadgeDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-rating-badge-and-stars>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Rating badge and stars" />
+      <DocsPageBreadcrumb currentLabel="Rating badge and stars" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -137,7 +137,7 @@ const RatingBadgeDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Rating badge and stars",
+  title: "Base components/Rating badge and stars",
   component: RatingStars,
   tags: ["autodocs"],
   parameters: {
@@ -151,6 +151,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Rating badge and stars",
   args: {
     rating: 4,

@@ -5,15 +5,15 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { Key, Selection } from "react-aria-components";
 import { useListData } from "react-stately";
 import { CODEX_DOCS_AVATAR_SRC, CODEX_DOCS_FLAG_SRC } from "../_docs/docs-assets";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS,
   DOCS_PREVIEW_SURFACE_CLASS,
   DOCS_SECTION_HERO_CLASS,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 const SECTION_PREVIEW = `${DOCS_PREVIEW_SURFACE_CLASS} flex-col! items-center! justify-center! gap-8! py-12!`.trim();
 
@@ -29,7 +29,7 @@ const codeClass = "text-secondary font-mono text-sm";
 type TagDemoItem = { id: string; label: string; avatarSrc?: string; dot?: boolean; count?: number };
 
 /**
- * Untitled-style mix: text-only, region (flag) avatar, text, portrait avatar, text, status dot.
+ * Mixed row: text-only, region (flag) avatar, text, portrait avatar, text, status dot.
  * `dot` and `avatarSrc` are mutually exclusive in `Tag` (avatar wins if both are set).
  */
 const BASE_ITEMS: readonly TagDemoItem[] = [
@@ -319,7 +319,7 @@ const SECTIONS = [
 const TagsDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-tags>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Tags" />
+      <DocsPageBreadcrumb currentLabel="Tags" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -364,7 +364,7 @@ const TagsDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Tags",
+  title: "Base components/Tags",
   component: TagGroup,
   tags: ["autodocs"],
   parameters: {
@@ -378,6 +378,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Tags",
   args: {
     label: TAG_GROUP_LABEL,

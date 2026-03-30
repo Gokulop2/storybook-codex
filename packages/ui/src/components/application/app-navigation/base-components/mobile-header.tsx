@@ -9,14 +9,14 @@ import {
   Modal as AriaModal,
   ModalOverlay as AriaModalOverlay,
 } from "react-aria-components";
-import { UntitledLogo } from "@/components";
+import { BrandLogo } from "@/components";
 import { cx } from "@/utils";
 
 export const MobileNavigationHeader = ({ children }: PropsWithChildren) => {
   return (
     <AriaDialogTrigger>
       <header className="border-secondary bg-primary flex h-16 items-center justify-between border-b py-3 pr-2 pl-4 lg:hidden">
-        <UntitledLogo />
+        <BrandLogo />
 
         <AriaButton
           aria-label="Expand navigation menu"

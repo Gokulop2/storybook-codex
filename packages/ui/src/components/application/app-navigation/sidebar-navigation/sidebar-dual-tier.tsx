@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { SearchLg } from "@opus2-platform/icons";
 import { AnimatePresence, motion } from "motion/react";
-import { Input, MobileNavigationHeader, NavAccountCard, NavItemBase, type NavItemType, NavList, UntitledLogo } from "@/components";
+import { Input, MobileNavigationHeader, NavAccountCard, NavItemBase, type NavItemType, NavList, BrandLogo } from "@/components";
 import { cx } from "@/utils";
 
 interface SidebarNavigationDualTierProps {
@@ -44,7 +44,7 @@ export const SidebarNavigationDualTier = ({ activeUrl, hideBorder, items, footer
         )}
       >
         <div className="flex flex-col gap-5 px-4 lg:px-5">
-          <UntitledLogo className="h-8" />
+          <BrandLogo className="h-8" />
           <Input shortcut size="sm" aria-label="Search" placeholder="Search" icon={SearchLg} />
         </div>
 

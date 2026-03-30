@@ -4,7 +4,7 @@ import { Avatar, Checkbox, FeaturedIcon, MastercardIcon, PayPalIcon, RadioButton
 import { CheckCircle, LayersTwo01, Star01, Users01, Zap } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS,
   DOCS_PREVIEW_SURFACE_CLASS,
@@ -12,8 +12,8 @@ import {
   DOCS_SECTION_HERO_CLASS,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 const SECTION_PREVIEW_WIDE = `${DOCS_PREVIEW_SURFACE_CLASS} items-start! justify-start!`.trim();
 
@@ -355,7 +355,7 @@ const SUBSECTIONS: DocsSubsection[] = [
 const RadioGroupsDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-radio-groups>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Radio groups" />
+      <DocsPageBreadcrumb currentLabel="Radio groups" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -391,16 +391,7 @@ const RadioGroupsDocsPage: FC = () => (
             <SectionTitle className="text-lg font-semibold md:text-xl">Radio group examples</SectionTitle>
           </h2>
           <p className="text-md text-tertiary mt-2 max-w-3xl">
-            Below are examples and variations of radio group layouts—mirroring the{" "}
-            <a
-              href="https://www.untitledui.com/react/components/radio-groups"
-              className="text-brand-secondary font-semibold underline-offset-2 hover:underline"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Untitled UI
-            </a>{" "}
-            catalog.
+            Below are examples and variations of common radio group layouts.
           </p>
         </section>
 
@@ -417,7 +408,7 @@ const RadioGroupsDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Radio groups",
+  title: "Base components/Radio groups",
   component: RadioGroup,
   tags: ["autodocs"],
   parameters: {
@@ -431,6 +422,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Radio groups",
   args: {
     defaultValue: PLANS[0].id,

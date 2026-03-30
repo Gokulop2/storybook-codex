@@ -2,9 +2,9 @@ import type { ComponentProps, FC } from "react";
 import { FeaturedIcon } from "@opus2-platform/codex";
 import { AlertCircle, AlertOctagon, AlertTriangle, CheckCircle, Star01, Zap } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
-import { DOCS_SECTION_HERO_CLASS, DocsSection } from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
+import { DOCS_SECTION_HERO_CLASS, DocsSection } from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 type FeaturedIconColor = ComponentProps<typeof FeaturedIcon>["color"];
 type FeaturedIconTheme = NonNullable<ComponentProps<typeof FeaturedIcon>["theme"]>;
@@ -138,7 +138,7 @@ const HeroPreview: FC = () => (
 const FeaturedIconsDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-featured-icons>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Featured icons" />
+      <DocsPageBreadcrumb currentLabel="Featured icons" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -182,7 +182,7 @@ const FeaturedIconsDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Featured icons",
+  title: "Base components/Featured icons",
   component: FeaturedIcon,
   tags: ["autodocs"],
   parameters: {
@@ -196,6 +196,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Featured icons",
   args: {
     icon: CheckCircle,

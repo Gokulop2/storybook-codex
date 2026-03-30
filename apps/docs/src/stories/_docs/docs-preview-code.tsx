@@ -6,7 +6,7 @@ export const DOCS_SECTION_CLASS = "group my-8 flex w-full scroll-mt-20 flex-col 
 export const DOCS_SECTION_HERO_CLASS = "group not-typography my-8 flex w-full scroll-mt-20 flex-col gap-3";
 
 /**
- * Untitled UI hero preview well (matches untitledui.com Preview tab: px-4/md:px-8, py-32, min-h 320, md min-w 520).
+ * Hero preview well (catalog-style spacing: px-4/md:px-8, py-32, min-h 320, md min-w 520).
  */
 export const DOCS_PREVIEW_HERO_SURFACE_CLASS =
   "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] items-center justify-center gap-3 rounded-[20px] bg-primary px-4 py-32 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8";
@@ -15,26 +15,26 @@ export const DOCS_PREVIEW_HERO_SURFACE_CLASS =
 export const DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK =
   "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] flex-col items-center justify-center gap-3 rounded-[20px] bg-primary px-4 py-32 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8";
 
-/** Tighter checkbox / alignment-sensitive hero (keeps Untitled padding; `!` beats Storybook flex overrides). */
+/** Tighter checkbox / alignment-sensitive hero (keeps reference padding; `!` beats Storybook flex overrides). */
 export const DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT =
   "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] flex-col items-center! justify-center! gap-3 rounded-[20px] bg-primary px-4 py-32 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8";
 
-/** Inner width cap for hero + many section previews (Untitled uses max-w-xs for form demos). */
+/** Inner width cap for hero + many section previews (max-w-xs for form demos). */
 export const DOCS_PREVIEW_INNER_MAX_XS_CLASS = "w-full max-w-xs";
 
 export const DOCS_PREVIEW_SURFACE_CLASS =
   "outline-focus-ring ring-secondary bg-primary relative flex min-h-[304px] max-w-full items-center justify-center gap-3 rounded-[20px] px-4 py-10 ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-130 md:px-8";
 
-/** Untitled text-editor section preview wells (overflow + alignment match untitledui.com). */
-export const DOCS_PREVIEW_UNTITLED_SECTION_CLASS =
+/** Text-editor section preview wells (overflow + alignment tuned for rich-text demos). */
+export const DOCS_PREVIEW_TEXT_EDITOR_SECTION_CLASS =
   "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative max-w-full md:min-w-[520px] flex px-4 md:px-8 py-32 overflow-auto items-center rounded-[20px] ring-1 ring-inset ring-secondary bg-primary";
 
-/** Default `md` text-editor preview tab (Untitled uses `overflow-x-auto`, not `overflow-auto`). */
-export const DOCS_PREVIEW_UNTITLED_SECTION_OVERFLOW_X_CLASS =
+/** Default `md` text-editor preview tab (`overflow-x-auto`, not `overflow-auto`). */
+export const DOCS_PREVIEW_TEXT_EDITOR_SECTION_OVERFLOW_X_CLASS =
   "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative max-w-full md:min-w-[520px] flex px-4 md:px-8 py-32 overflow-x-auto items-center rounded-[20px] ring-1 ring-inset ring-secondary bg-primary";
 
-/** Hero / “with tooltip” preview: `items-center gap-3` + horizontal scroll like Untitled. */
-export const DOCS_PREVIEW_UNTITLED_SECTION_CENTER_CLASS =
+/** Hero / “with tooltip” preview: `items-center gap-3` + horizontal scroll. */
+export const DOCS_PREVIEW_TEXT_EDITOR_SECTION_CENTER_CLASS =
   "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative max-w-full md:min-w-[520px] flex px-4 md:px-8 py-32 overflow-x-auto items-center gap-3 rounded-[20px] ring-1 ring-inset ring-secondary bg-primary";
 
 /** Neutralize Storybook/typography `p` margins inside preview wells. */
@@ -313,7 +313,7 @@ export type DocsSectionProps = {
   dataPreview?: boolean;
   previewClassName?: string;
   children: ReactNode;
-  /** Inline `--preview-height` for section `style` (Untitled sets per-block height). */
+  /** Inline `--preview-height` for section `style` (per-block height). */
   previewHeight?: string;
   /** Custom Code tab content; default is syntax-highlighted `DocsCodePanel`. */
   codePanel?: ReactNode;

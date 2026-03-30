@@ -4,22 +4,22 @@ import { Tooltip, TooltipTrigger } from "@opus2-platform/codex";
 import { HelpCircle } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { Placement } from "@react-types/overlays";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT,
-  DOCS_PREVIEW_UNTITLED_SECTION_CENTER_CLASS,
+  DOCS_PREVIEW_TEXT_EDITOR_SECTION_CENTER_CLASS,
   DOCS_SECTION_HERO_CLASS,
   type DocsSectionProps,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 const DOC_CODE_CLASS = "text-secondary font-mono text-sm";
 
 const PREVIEW_WELL = `${DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT} items-start! justify-center!`.trim();
 
-const PREVIEW_PLACEMENTS = `${DOCS_PREVIEW_UNTITLED_SECTION_CENTER_CLASS} items-center! justify-center!`.trim();
+const PREVIEW_PLACEMENTS = `${DOCS_PREVIEW_TEXT_EDITOR_SECTION_CENTER_CLASS} items-center! justify-center!`.trim();
 
 const PREVIEW_INNER = "mx-auto! flex max-w-md flex-col items-stretch";
 
@@ -210,7 +210,7 @@ const ExamplesIntro: FC = () => (
 const TooltipDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-tooltips>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Tooltips" />
+      <DocsPageBreadcrumb currentLabel="Tooltips" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -249,7 +249,7 @@ const TooltipDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Tooltips",
+  title: "Base components/Tooltips",
   component: Tooltip,
   tags: ["autodocs"],
   parameters: {
@@ -263,6 +263,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Tooltips",
   args: {
     title: TOOLTIP_TITLE,

@@ -7,7 +7,7 @@
       "aboutTitle": "Content curating app",
       "aboutDescription": "Brings all your news into one place",
       "licenseUse": 70,
-      "logoUrl": "https://www.untitledui.com/logos/images/Ephemeral.jpg"
+      "logoUrl": "https://picsum.photos/seed/codex-ephemeral/64/64"
     },
     {
       "name": "Stack3d Lab",
@@ -16,7 +16,7 @@
       "aboutTitle": "Design software",
       "aboutDescription": "Super lightweight design app",
       "licenseUse": 60,
-      "logoUrl": "https://www.untitledui.com/logos/images/3Portals.jpg"
+      "logoUrl": "https://picsum.photos/seed/codex-3portals/64/64"
     },
     {
       "name": "Warpspeed",
@@ -25,7 +25,7 @@
       "aboutTitle": "Data prediction",
       "aboutDescription": "AI and machine learning data",
       "licenseUse": 30,
-      "logoUrl": "https://www.untitledui.com/logos/images/Warpspeed.jpg"
+      "logoUrl": "https://picsum.photos/seed/codex-warpspeed/64/64"
     },
     {
       "name": "CloudWatch",
@@ -34,7 +34,7 @@
       "aboutTitle": "Productivity app",
       "aboutDescription": "Time management and productivity",
       "licenseUse": 80,
-      "logoUrl": "https://www.untitledui.com/logos/images/CloudWatch.jpg"
+      "logoUrl": "https://picsum.photos/seed/codex-cloudwatch/64/64"
     },
     {
       "name": "ContrastAI",
@@ -43,7 +43,7 @@
       "aboutTitle": "Web app integrations",
       "aboutDescription": "Connect web apps seamlessly",
       "licenseUse": 20,
-      "logoUrl": "https://www.untitledui.com/logos/images/ContrastAI.jpg"
+      "logoUrl": "https://picsum.photos/seed/codex-contrastai/64/64"
     },
     {
       "name": "Convergence",
@@ -52,7 +52,7 @@
       "aboutTitle": "Sales CRM",
       "aboutDescription": "Web-based sales doc management",
       "licenseUse": 10,
-      "logoUrl": "https://www.untitledui.com/logos/images/Convergence.jpg"
+      "logoUrl": "https://picsum.photos/seed/codex-convergence/64/64"
     },
     {
       "name": "Sisyphus",
@@ -61,7 +61,7 @@
       "aboutTitle": "Automation and workflow",
       "aboutDescription": "Time tracking, invoicing and expenses",
       "licenseUse": 40,
-      "logoUrl": "https://www.untitledui.com/logos/images/Sisyphus.jpg"
+      "logoUrl": "https://picsum.photos/seed/codex-sisyphus/64/64"
     }
   ],
   "total": 7

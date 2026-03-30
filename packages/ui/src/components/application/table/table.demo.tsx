@@ -405,31 +405,31 @@ export const Table02DividerLine = () => {
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
-                    src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
+                    src="https://picsum.photos/seed/codex-olivia-rhye/128/128"
                     alt="Olivia Rhye"
                   />
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
-                    src="https://www.untitledui.com/images/avatars/phoenix-baker?fm=webp&q=80"
+                    src="https://picsum.photos/seed/codex-phoenix-baker/128/128"
                     alt="Phoenix Baker"
                   />
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
-                    src="https://www.untitledui.com/images/avatars/lana-steiner?fm=webp&q=80"
+                    src="https://picsum.photos/seed/codex-lana-steiner/128/128"
                     alt="Lana Steiner"
                   />
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
-                    src="https://www.untitledui.com/images/avatars/demi-wilkinson?fm=webp&q=80"
+                    src="https://picsum.photos/seed/codex-demi-wilkinson/128/128"
                     alt="Demi Wilkinson"
                   />
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
-                    src="https://www.untitledui.com/images/avatars/candice-wu?fm=webp&q=80"
+                    src="https://picsum.photos/seed/codex-candice-wu/128/128"
                     alt="Candice Wu"
                   />
                   <Avatar size="xs" className="ring-bg-primary ring-[1.5px]" placeholder={<span className="text-quaternary text-xs font-semibold">+5</span>} />
@@ -526,31 +526,31 @@ export const Table02AlternatingFills = () => {
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
-                    src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80&w=100"
+                    src="https://picsum.photos/seed/codex-olivia-rhye/128/128"
                     alt="Olivia Rhye"
                   />
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
-                    src="https://www.untitledui.com/images/avatars/phoenix-baker?fm=webp&q=80&w=100"
+                    src="https://picsum.photos/seed/codex-phoenix-baker/128/128"
                     alt="Phoenix Baker"
                   />
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
-                    src="https://www.untitledui.com/images/avatars/lana-steiner?fm=webp&q=80&w=100"
+                    src="https://picsum.photos/seed/codex-lana-steiner/128/128"
                     alt="Lana Steiner"
                   />
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
-                    src="https://www.untitledui.com/images/avatars/demi-wilkinson?fm=webp&q=80&w=100"
+                    src="https://picsum.photos/seed/codex-demi-wilkinson/128/128"
                     alt="Demi Wilkinson"
                   />
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
-                    src="https://www.untitledui.com/images/avatars/candice-wu?fm=webp&q=80&w=100"
+                    src="https://picsum.photos/seed/codex-candice-wu/128/128"
                     alt="Candice Wu"
                   />
                   <Avatar size="xs" className="ring-bg-primary ring-[1.5px]" placeholder={<span className="text-quaternary text-xs font-semibold">+5</span>} />

@@ -7,7 +7,7 @@
       "customer": {
         "name": "Olivia Rhye",
         "email": "olivia@opus2.com",
-        "avatarUrl": "https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80&w=100"
+        "avatarUrl": "https://picsum.photos/seed/codex-olivia-rhye/128/128"
       },
       "purchase": "Monthly subscription"
     },
@@ -18,7 +18,7 @@
       "customer": {
         "name": "Phoenix Baker",
         "email": "phoenix@opus2.com",
-        "avatarUrl": "https://www.untitledui.com/images/avatars/phoenix-baker?fm=webp&q=80&w=100"
+        "avatarUrl": "https://picsum.photos/seed/codex-phoenix-baker/128/128"
       },
       "purchase": "Monthly subscription"
     },
@@ -49,7 +49,7 @@
       "customer": {
         "name": "Candice Wu",
         "email": "candice@opus2.com",
-        "avatarUrl": "https://www.untitledui.com/images/avatars/candice-wu?fm=webp&q=80&w=100"
+        "avatarUrl": "https://picsum.photos/seed/codex-candice-wu/128/128"
       },
       "purchase": "Monthly subscription"
     },
@@ -70,7 +70,7 @@
       "customer": {
         "name": "Drew Cano",
         "email": "drew@opus2.com",
-        "avatarUrl": "https://www.untitledui.com/images/avatars/drew-cano?fm=webp&q=80&w=100"
+        "avatarUrl": "https://picsum.photos/seed/codex-drew-cano/128/128"
       },
       "purchase": "Monthly subscription"
     },
@@ -81,7 +81,7 @@
       "customer": {
         "name": "Orlando Diggs",
         "email": "orlando@opus2.com",
-        "avatarUrl": "https://www.untitledui.com/images/avatars/orlando-diggs?fm=webp&q=80&w=100"
+        "avatarUrl": "https://picsum.photos/seed/codex-orlando-diggs/128/128"
       },
       "purchase": "Monthly subscription"
     },
@@ -92,7 +92,7 @@
       "customer": {
         "name": "Andi Lane",
         "email": "andi@opus2.com",
-        "avatarUrl": "https://www.untitledui.com/images/avatars/andi-lane?fm=webp&q=80&w=100"
+        "avatarUrl": "https://picsum.photos/seed/codex-andi-lane/128/128"
       },
       "purchase": "Monthly subscription"
     },
@@ -103,7 +103,7 @@
       "customer": {
         "name": "Kate Morrison",
         "email": "kate@opus2.com",
-        "avatarUrl": "https://www.untitledui.com/images/avatars/kate-morrison?fm=webp&q=80&w=100"
+        "avatarUrl": "https://picsum.photos/seed/codex-kate-morrison/128/128"
       },
       "purchase": "Monthly subscription"
     }

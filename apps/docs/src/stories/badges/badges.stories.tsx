@@ -14,8 +14,9 @@ import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK,
   DOCS_SECTION_HERO_CLASS,
   DocsSection,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 const CODEX_DOCS_BADGE_LABEL = "Label";
 
@@ -46,45 +47,6 @@ const BADGES_TOC = [
   { id: "color-with-icon-only", label: "Color with icon only" },
   { id: "modern-with-icon-only", label: "Modern with icon only" },
 ] as const;
-
-const BadgesPageHeader: FC = () => (
-  <>
-    <div className="bg-primary border-secondary fixed inset-x-0 top-0 z-30 w-full border-b">
-      <div className="mx-auto flex size-full flex-1 items-center py-3 pr-3 pl-4 md:py-3 lg:px-5 lg:py-2.5">
-        <nav aria-label="Breadcrumbs" className="min-w-0 max-lg:hidden">
-          <ol aria-label="Breadcrumbs" className="relative flex gap-0.5 lg:gap-1">
-            <li className="flex items-center gap-0.5 lg:gap-1">
-              <a className="group outline-focus-ring hover:bg-primary_hover inline-flex cursor-pointer items-center justify-center gap-1 rounded-md p-1 transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 lg:p-1.5">
-                <span className="text-quaternary group-hover:text-tertiary_hover px-1 text-sm font-semibold whitespace-nowrap">Base components</span>
-              </a>
-              <div className="text-fg-quaternary shrink-0">
-                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" aria-hidden="true" className="size-4">
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
-              </div>
-            </li>
-            <li className="flex items-center gap-0.5 lg:gap-1">
-              <a className="group outline-focus-ring hover:bg-primary_hover inline-flex cursor-pointer items-center justify-center gap-1 rounded-md p-1 transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 lg:p-1.5">
-                <span className="text-quaternary group-hover:text-tertiary_hover px-1 text-sm font-semibold whitespace-nowrap">Components</span>
-              </a>
-              <div className="text-fg-quaternary shrink-0">
-                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" aria-hidden="true" className="size-4">
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
-              </div>
-            </li>
-            <li className="flex items-center gap-0.5 lg:gap-1">
-              <button type="button" className="bg-primary_hover cursor-default rounded-md p-1 lg:p-1.5">
-                <span className="text-fg-tertiary_hover px-1 text-sm font-semibold whitespace-nowrap">Badges</span>
-              </button>
-            </li>
-          </ol>
-        </nav>
-      </div>
-    </div>
-    <div className="mb-10 h-14 shrink-0 md:mb-12" aria-hidden="true" />
-  </>
-);
 
 const previewWrap = "flex flex-wrap items-center justify-center gap-2";
 
@@ -126,7 +88,7 @@ const BadgesPage: FC = () => {
   return (
     <div className="bg-primary min-h-screen font-sans" data-codex-docs-badges>
       <StorybookRootHeaderPortal>
-        <BadgesPageHeader />
+        <DocsPageBreadcrumb currentLabel="Badges" />
       </StorybookRootHeaderPortal>
       <StorybookSbdocsTocPortal>
         <OnThisPageNav items={BADGES_TOC} />
@@ -475,7 +437,7 @@ const BadgesPage: FC = () => {
 };
 
 const meta = {
-  title: "Badges",
+  title: "Base components/Badges",
   component: Badge,
   tags: ["autodocs"],
   parameters: {
@@ -489,6 +451,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Badges",
   args: {
     children: "Label",

@@ -1,6 +1,7 @@
 "use client";
 
-import type { TooltipProps } from "recharts";
+import type { ReactNode } from "react";
+import type { TooltipContentProps, TooltipPayload } from "recharts";
 import type { Props as LegendContentProps } from "recharts/types/component/DefaultLegendContent";
 import type { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 import type { Props as DotProps } from "recharts/types/shape/Dot";
@@ -68,36 +69,39 @@ export const ChartLegendContent = ({ reversed, payload, align, layout, className
   );
 };
 
-interface ChartTooltipContentProps extends TooltipProps<ValueType, NameType> {
+/** Recharts injects full tooltip props at runtime; demos pass only flags. */
+export type ChartTooltipContentProps = Partial<TooltipContentProps<ValueType, NameType>> & {
   isRadialChart?: boolean;
   isPieChart?: boolean;
-  label?: string;
-  // We have to use `any` here because the `payload` prop is not typed correctly in the `recharts` library.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload?: any;
-}
+};
 
 export const ChartTooltipContent = ({ active, payload, label, isRadialChart, isPieChart, formatter, labelFormatter }: ChartTooltipContentProps) => {
-  const canRender = active && payload && payload.length;
-
-  if (!canRender) {
+  if (!active || !payload?.length) {
     return null;
   }
 
-  const isSingleDataPoint = payload.length === 1;
+  const pl: TooltipPayload = payload;
+  const isSingleDataPoint = pl.length === 1;
+  const first = pl[0];
 
   // If it's a single data point, we use the value as the title and
   // the name as the secondary title.
-  let title = isSingleDataPoint ? (isRadialChart ? payload[0].value : isPieChart ? payload[0].value : payload[0].value) : label;
-  let secondaryTitle = isSingleDataPoint ? (isRadialChart ? payload[0].payload.name : isPieChart ? payload[0].name : label) : payload;
+  let title: ReactNode = isSingleDataPoint && first ? first.value : label;
+  let secondaryTitle = isSingleDataPoint && first
+    ? isRadialChart
+      ? first.payload?.name
+      : isPieChart
+        ? first.name
+        : label
+    : pl;
 
   title =
-    isSingleDataPoint && formatter
-      ? formatter(title, payload?.[0].name || label, payload[0], 0, payload)
+    isSingleDataPoint && formatter && first
+      ? formatter(first.value, first.name ?? label, first, 0, pl)
       : labelFormatter
-        ? labelFormatter(title, payload)
+        ? labelFormatter(title, pl)
         : title;
-  secondaryTitle = isSingleDataPoint && labelFormatter ? labelFormatter(secondaryTitle, payload) : secondaryTitle;
+  secondaryTitle = isSingleDataPoint && labelFormatter ? labelFormatter(secondaryTitle, pl) : secondaryTitle;
 
   return (
     <div className="bg-primary-solid flex flex-col gap-0.5 rounded-lg px-3 py-2 shadow-lg">
@@ -118,11 +122,7 @@ export const ChartTooltipContent = ({ active, payload, label, isRadialChart, isP
   );
 };
 
-interface ChartActiveDotProps extends DotProps {
-  // We have to use `any` here because the `payload` prop is not typed correctly in the `recharts` library.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload?: any;
-}
+type ChartActiveDotProps = DotProps;
 
 export const ChartActiveDot = ({ cx = 0, cy = 0 }: ChartActiveDotProps) => {
   const size = 12;

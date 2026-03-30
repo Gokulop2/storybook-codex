@@ -1,22 +1,22 @@
 import type { FC } from "react";
 import { TextEditor } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
-  DOCS_PREVIEW_UNTITLED_SECTION_CLASS,
-  DOCS_PREVIEW_UNTITLED_SECTION_CENTER_CLASS,
-  DOCS_PREVIEW_UNTITLED_SECTION_OVERFLOW_X_CLASS,
+  DOCS_PREVIEW_TEXT_EDITOR_SECTION_CLASS,
+  DOCS_PREVIEW_TEXT_EDITOR_SECTION_CENTER_CLASS,
+  DOCS_PREVIEW_TEXT_EDITOR_SECTION_OVERFLOW_X_CLASS,
   DOCS_SECTION_HERO_CLASS,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
-/** Same prose as Untitled’s default text editor demo (plain length 852 → `maxLength` 1816 shows “964 characters left”). */
-const UNTITLED_DEFAULT_SM_HTML = `<p>We need another and a wiser and perhaps a more mystical concept of animals. Remote from universal nature, and living by complicated artifice, man in civilization surveys the creature through the glass of his knowledge and sees thereby a feather magnified and the whole image in distortion.</p><p></p><p>We patronize them for their incompleteness, for their tragic fate of having taken form so far below ourselves. And therein we err, and greatly err. For the animal shall not be measured by man.</p><p></p><p>In a world older and more complete than ours they move finished and complete, gifted with extensions of the senses we have lost or never attained, living by voices we shall never hear. They are not brethren, they are not underlings; they are other nations, caught with ourselves in the net of life and time, fellow prisoners of the splendour and travail of the earth.</p>`;
+/** Default demo copy (plain length 852 → `maxLength` 1816 shows “964 characters left”). */
+const TEXT_EDITOR_DEFAULT_SAMPLE_HTML = `<p>We need another and a wiser and perhaps a more mystical concept of animals. Remote from universal nature, and living by complicated artifice, man in civilization surveys the creature through the glass of his knowledge and sees thereby a feather magnified and the whole image in distortion.</p><p></p><p>We patronize them for their incompleteness, for their tragic fate of having taken form so far below ourselves. And therein we err, and greatly err. For the animal shall not be measured by man.</p><p></p><p>In a world older and more complete than ours they move finished and complete, gifted with extensions of the senses we have lost or never attained, living by voices we shall never hear. They are not brethren, they are not underlings; they are other nations, caught with ourselves in the net of life and time, fellow prisoners of the splendour and travail of the earth.</p>`;
 
-/** Untitled “With tooltip” preview: shorter paragraph + static hint (no character counter). */
-const UNTITLED_TOOLTIP_DEMO_HTML = `<p>In a world older and more complete than ours they move finished and complete, gifted with extensions of the senses we have lost or never attained, living by voices we shall never hear. They are not brethren; they are not underlings; they are other nations, caught with ourselves in the net of life and time, fellow prisoners of the splendor and travail of the earth.</p>`;
+/** “With tooltip” preview: shorter paragraph + static hint (no character counter). */
+const TEXT_EDITOR_TOOLTIP_SAMPLE_HTML = `<p>In a world older and more complete than ours they move finished and complete, gifted with extensions of the senses we have lost or never attained, living by voices we shall never hear. They are not brethren; they are not underlings; they are other nations, caught with ourselves in the net of life and time, fellow prisoners of the splendor and travail of the earth.</p>`;
 
 const IMPORT = `import { TextEditor } from "@opus2-platform/codex";
 `;
@@ -27,12 +27,12 @@ const CODE = {
 <TextEditor layout="hero" size="md" />`,
 
   defaultSm: `${IMPORT}
-// \`UNTITLED_DEFAULT_SM_HTML\`: sample paragraphs string (same as Untitled preview).
+// \`TEXT_EDITOR_DEFAULT_SAMPLE_HTML\`: sample paragraphs string for the preview.
 
 <TextEditor
   size="sm"
   maxLength={1816}
-  defaultContent={UNTITLED_DEFAULT_SM_HTML}
+  defaultContent={TEXT_EDITOR_DEFAULT_SAMPLE_HTML}
 />`,
 
   defaultMd: `${IMPORT}
@@ -40,27 +40,27 @@ const CODE = {
 <TextEditor
   size="md"
   maxLength={1816}
-  defaultContent={UNTITLED_DEFAULT_SM_HTML}
+  defaultContent={TEXT_EDITOR_DEFAULT_SAMPLE_HTML}
 />`,
 
   floatingSm: `${IMPORT}
-// Same sample copy + counter as default sm; toolbar uses Untitled “floating” chrome (always visible).
+// Same sample copy + counter as default sm; toolbar uses floating chrome (always visible).
 
 <TextEditor
   size="sm"
   floatingToolbar
   maxLength={1816}
-  defaultContent={UNTITLED_DEFAULT_SM_HTML}
+  defaultContent={TEXT_EDITOR_DEFAULT_SAMPLE_HTML}
 />`,
 
   floatingMd: `${IMPORT}
-// Same sample copy + counter as default md; toolbar uses Untitled md floating chrome (always visible).
+// Same sample copy + counter as default md; toolbar uses md floating chrome (always visible).
 
 <TextEditor
   size="md"
   floatingToolbar
   maxLength={1816}
-  defaultContent={UNTITLED_DEFAULT_SM_HTML}
+  defaultContent={TEXT_EDITOR_DEFAULT_SAMPLE_HTML}
 />`,
 
   withTooltip: `${IMPORT}
@@ -71,7 +71,7 @@ const CODE = {
   showToolbar={false}
   showTooltips
   hintText="Select a text to show a tooltip."
-  defaultContent={UNTITLED_TOOLTIP_DEMO_HTML}
+  defaultContent={TEXT_EDITOR_TOOLTIP_SAMPLE_HTML}
 />`,
 } as const;
 
@@ -90,13 +90,13 @@ const DESC = {
   ),
   floatingSm: (
     <p>
-      Pass <code className={codeClass}>floatingToolbar</code> to use Untitled’s floating toolbar chrome (rounded pill + ring) above the editor at{" "}
+      Pass <code className={codeClass}>floatingToolbar</code> to use floating toolbar chrome (rounded pill + ring) above the editor at{" "}
       <code className={codeClass}>sm</code>.
     </p>
   ),
   floatingMd: (
     <p>
-      <code className={codeClass}>floatingToolbar</code> with <code className={codeClass}>size=&quot;md&quot;</code> uses Untitled’s floating toolbar chrome (<code className={codeClass}>rounded-xl</code> + ring) above the editor.
+      <code className={codeClass}>floatingToolbar</code> with <code className={codeClass}>size=&quot;md&quot;</code> uses floating toolbar chrome (<code className={codeClass}>rounded-xl</code> + ring) above the editor.
     </p>
   ),
   withTooltip: (
@@ -116,7 +116,7 @@ const TOC = [
   { id: "with-tooltip", label: "With tooltip" },
 ] as const;
 
-/** Matches [Untitled UI text editors](https://www.untitledui.com/react/components/text-editors) intro tech link. */
+/** TipTap documentation link chip (intro tech link). */
 function TipTapDocLink() {
   return (
     <ul className="mt-6 flex list-none items-center gap-2 !pl-0">
@@ -151,7 +151,7 @@ function TipTapDocLink() {
 const TextEditorsDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-text-editors>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Text editors" />
+      <DocsPageBreadcrumb currentLabel="Text editors" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -176,7 +176,7 @@ const TextEditorsDocsPage: FC = () => (
           sectionClassName={DOCS_SECTION_HERO_CLASS}
           dataPreview
           previewHeight="450px"
-          previewClassName={DOCS_PREVIEW_UNTITLED_SECTION_CENTER_CLASS}
+          previewClassName={DOCS_PREVIEW_TEXT_EDITOR_SECTION_CENTER_CLASS}
         >
           <TextEditor layout="hero" size="md" className="w-full" />
         </DocsSection>
@@ -195,9 +195,9 @@ const TextEditorsDocsPage: FC = () => (
           description={DESC.defaultSm}
           dataPreview
           previewHeight="672px"
-          previewClassName={DOCS_PREVIEW_UNTITLED_SECTION_CLASS}
+          previewClassName={DOCS_PREVIEW_TEXT_EDITOR_SECTION_CLASS}
         >
-          <TextEditor size="sm" className="w-full" maxLength={1816} defaultContent={UNTITLED_DEFAULT_SM_HTML} />
+          <TextEditor size="sm" className="w-full" maxLength={1816} defaultContent={TEXT_EDITOR_DEFAULT_SAMPLE_HTML} />
         </DocsSection>
 
         <DocsSection
@@ -207,9 +207,9 @@ const TextEditorsDocsPage: FC = () => (
           description={DESC.defaultMd}
           dataPreview
           previewHeight="764px"
-          previewClassName={DOCS_PREVIEW_UNTITLED_SECTION_OVERFLOW_X_CLASS}
+          previewClassName={DOCS_PREVIEW_TEXT_EDITOR_SECTION_OVERFLOW_X_CLASS}
         >
-          <TextEditor size="md" className="w-full" maxLength={1816} defaultContent={UNTITLED_DEFAULT_SM_HTML} />
+          <TextEditor size="md" className="w-full" maxLength={1816} defaultContent={TEXT_EDITOR_DEFAULT_SAMPLE_HTML} />
         </DocsSection>
 
         <DocsSection
@@ -219,14 +219,14 @@ const TextEditorsDocsPage: FC = () => (
           description={DESC.floatingSm}
           dataPreview
           previewHeight="680px"
-          previewClassName={DOCS_PREVIEW_UNTITLED_SECTION_OVERFLOW_X_CLASS}
+          previewClassName={DOCS_PREVIEW_TEXT_EDITOR_SECTION_OVERFLOW_X_CLASS}
         >
           <TextEditor
             size="sm"
             floatingToolbar
             className="w-full"
             maxLength={1816}
-            defaultContent={UNTITLED_DEFAULT_SM_HTML}
+            defaultContent={TEXT_EDITOR_DEFAULT_SAMPLE_HTML}
           />
         </DocsSection>
 
@@ -237,14 +237,14 @@ const TextEditorsDocsPage: FC = () => (
           description={DESC.floatingMd}
           dataPreview
           previewHeight="776px"
-          previewClassName={DOCS_PREVIEW_UNTITLED_SECTION_OVERFLOW_X_CLASS}
+          previewClassName={DOCS_PREVIEW_TEXT_EDITOR_SECTION_OVERFLOW_X_CLASS}
         >
           <TextEditor
             size="md"
             floatingToolbar
             className="w-full"
             maxLength={1816}
-            defaultContent={UNTITLED_DEFAULT_SM_HTML}
+            defaultContent={TEXT_EDITOR_DEFAULT_SAMPLE_HTML}
           />
         </DocsSection>
 
@@ -255,7 +255,7 @@ const TextEditorsDocsPage: FC = () => (
           description={DESC.withTooltip}
           dataPreview
           previewHeight="632px"
-          previewClassName={DOCS_PREVIEW_UNTITLED_SECTION_CENTER_CLASS}
+          previewClassName={DOCS_PREVIEW_TEXT_EDITOR_SECTION_CENTER_CLASS}
         >
           <TextEditor
             size="md"
@@ -263,7 +263,7 @@ const TextEditorsDocsPage: FC = () => (
             showTooltips
             className="w-full"
             hintText="Select a text to show a tooltip."
-            defaultContent={UNTITLED_TOOLTIP_DEMO_HTML}
+            defaultContent={TEXT_EDITOR_TOOLTIP_SAMPLE_HTML}
           />
         </DocsSection>
       </div>
@@ -272,7 +272,7 @@ const TextEditorsDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Text editors",
+  title: "Base components/Text editors",
   component: TextEditor,
   tags: ["autodocs"],
   parameters: {
@@ -286,6 +286,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Text editors",
   args: {
     size: "md",

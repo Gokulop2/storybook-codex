@@ -13,7 +13,7 @@ import {
   NavItemBase,
   NavItemButton,
   NavList,
-  UntitledLogo,
+  BrandLogo,
 } from "@/components";
 import { cx } from "@/utils";
 
@@ -64,7 +64,7 @@ export const HeaderNavigationBase = ({
       <MobileNavigationHeader>
         <aside className="border-secondary bg-primary flex h-full max-w-full flex-col justify-between overflow-auto border-r pt-4 lg:pt-6">
           <div className="flex flex-col gap-5 px-4 lg:px-5">
-            <UntitledLogo className="h-8" />
+            <BrandLogo className="h-8" />
             <Input shortcut size="sm" aria-label="Search" placeholder="Search" icon={SearchLg} />
           </div>
 
@@ -104,7 +104,7 @@ export const HeaderNavigationBase = ({
           <div className="max-w-container flex w-full justify-between pr-3 pl-4 md:px-8">
             <div className="flex flex-1 items-center gap-4">
               <a aria-label="Go to homepage" href="/" className="outline-focus-ring rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2">
-                <UntitledLogo className="h-8" />
+                <BrandLogo className="h-8" />
               </a>
 
               <nav>
@@ -149,7 +149,7 @@ export const HeaderNavigationBase = ({
                       cx("group relative inline-flex cursor-pointer", (isPressed || isFocused) && "outline-focus-ring rounded-full outline-2 outline-offset-2")
                     }
                   >
-                    <Avatar alt="Olivia Rhye" src="https://www.untitledui.com/images/avatars/olivia-rhye?bg=%23E0E0E0" size="md" />
+                    <Avatar alt="Olivia Rhye" src="https://picsum.photos/seed/codex-olivia-rhye/128/128" size="md" />
                   </AriaButton>
                   <Popover
                     placement="bottom right"

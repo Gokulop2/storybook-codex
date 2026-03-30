@@ -6,15 +6,15 @@ import {
   type ProgressIndicatorWithTextProps,
 } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { UntitledDocsBreadcrumb } from "../_docs/untitled-docs-breadcrumb";
+import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS,
   DOCS_SECTION_CLASS,
   DOCS_SECTION_HERO_CLASS,
   DocsSection,
   SectionTitle,
-} from "../_docs/untitled-docs-preview-code";
-import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/untitled-docs-scaffold";
+} from "../_docs/docs-preview-code";
+import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
 type LabelPosition = NonNullable<ProgressIndicatorWithTextProps["labelPosition"]>;
 
@@ -117,7 +117,7 @@ const CircleRow: FC<{
 const ProgressIndicatorsDocsPage: FC = () => (
   <div className="bg-primary min-h-screen font-sans" data-codex-docs-progress-indicators>
     <StorybookRootHeaderPortal>
-      <UntitledDocsBreadcrumb currentLabel="Progress indicators" />
+      <DocsPageBreadcrumb currentLabel="Progress indicators" />
     </StorybookRootHeaderPortal>
     <StorybookSbdocsTocPortal>
       <OnThisPageNav items={TOC} />
@@ -181,7 +181,7 @@ const ProgressIndicatorsDocsPage: FC = () => (
 );
 
 const meta = {
-  title: "Progress indicators",
+  title: "Base components/Progress indicators",
   component: ProgressBar,
   tags: ["autodocs"],
   parameters: {
@@ -195,6 +195,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["!dev"],
   name: "Progress indicators",
   args: { value: DEMO },
   render: () => <LinearBar />,

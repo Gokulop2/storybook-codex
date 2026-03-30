@@ -1,5 +1,57 @@
+<!-- codex-manager-head-injected -->
+<link rel="icon" href="/favicon.png" type="image/png" />
 <style>
   button[aria-label="Settings"][role="switch"] {
     display: none !important;
   }
+
+  /*
+   * Hide sidebar chrome with CSS only. Do NOT use el.remove() — React owns those nodes and will
+   * throw "Failed to execute 'removeChild'" if we detach them from the tree.
+   */
+  button[data-testid="context-menu"],
+  button[aria-label="Open context menu"],
+  button[aria-label="Tag filters"],
+  button[data-action="expand-all"],
+  .sidebar-subheading button.sidebar-subheading-action {
+    display: none !important;
+    pointer-events: none !important;
+  }
+
+  .sidebar-item[data-nodetype="document"] a > div:first-child {
+    display: none !important;
+  }
 </style>
+<script>
+  (function () {
+    /** Storybook names autodocs entries "Docs"; relabel to match the component row (e.g. Avatars). */
+    function relabelAutodocsSidebarRows() {
+      document.querySelectorAll('[data-item-id$="--docs"]').forEach(function (row) {
+        var id = row.getAttribute("data-item-id");
+        if (!id) return;
+        var parentId = id.replace(/--docs$/, "");
+        var parent = document.querySelector(
+          '[data-item-id="' + parentId + '"][data-nodetype="component"]'
+        );
+        var label = parent && parent.querySelector("button");
+        label = label && label.textContent ? label.textContent.trim() : "";
+        if (!label) return;
+        var link = row.querySelector("a");
+        if (link && link.textContent && link.textContent.trim() === "Docs") {
+          link.textContent = label;
+        }
+      });
+    }
+    function start() {
+      if (!document.body) return;
+      relabelAutodocsSidebarRows();
+      var obs = new MutationObserver(relabelAutodocsSidebarRows);
+      obs.observe(document.body, { childList: true, subtree: true });
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", start);
+    } else {
+      start();
+    }
+  })();
+</script>

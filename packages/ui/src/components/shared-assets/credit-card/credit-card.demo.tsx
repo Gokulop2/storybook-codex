@@ -2,7 +2,7 @@ import { CreditCard } from "./credit-card";
 
 export const CreditCardExample = () => (
   <div className="flex items-center justify-center">
-    <CreditCard type="brand-dark" company="Untitled." cardNumber="1234 1234 1234 1234" cardHolder="OLIVIA RHYE" cardExpiration="06/28" />
+    <CreditCard type="brand-dark" company="Codex." cardNumber="1234 1234 1234 1234" cardHolder="OLIVIA RHYE" cardExpiration="06/28" />
   </div>
 );
 

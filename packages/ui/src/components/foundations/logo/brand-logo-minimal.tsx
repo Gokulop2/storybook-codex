@@ -4,7 +4,7 @@ import type { SVGProps } from "react";
 import { useId } from "react";
 import { cx } from "@/utils";
 
-export const UntitledLogoMinimal = (props: SVGProps<SVGSVGElement>) => {
+export const BrandLogoMinimal = (props: SVGProps<SVGSVGElement>) => {
   const id = useId();
 
   return (
