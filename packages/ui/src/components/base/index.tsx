@@ -17,3 +17,4 @@ export * from "./text-editor";
 export * from "./textarea";
 export * from "./tooltip";
 export * from "./toggle";
+export * from "./video-player";
