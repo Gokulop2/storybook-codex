@@ -7,6 +7,8 @@ import { fileURLToPath } from "node:url";
 const monorepoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 /** `apps/docs` — Storybook package root. */
 const docsPackageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+/** UI package source — alias here so Storybook uses `src/` + HMR without `npm run build` on `@opus2-platform/codex`. */
+const codexUiSrc = resolve(monorepoRoot, "packages/ui/src");
 
 /**
  * This function is used to resolve the absolute path of a package.
@@ -25,13 +27,30 @@ const config: StorybookConfig = {
     config.plugins = [...(config.plugins ?? []), tailwindcss()];
 
     config.resolve ??= {};
+    const existingAlias = config.resolve.alias;
+    const aliasTail =
+      Array.isArray(existingAlias)
+        ? existingAlias
+        : existingAlias && typeof existingAlias === "object"
+          ? Object.entries(existingAlias).map(([find, replacement]) => ({
+              find,
+              replacement: replacement as string,
+            }))
+          : [];
+    /** Exact package entry only — subpaths like `@opus2-platform/codex/src/styles/...` must resolve via the workspace package. */
     config.resolve.alias = [
-      ...(Array.isArray(config.resolve.alias) ? config.resolve.alias : []),
+      { find: /^@opus2-platform\/codex$/, replacement: resolve(codexUiSrc, "index.tsx") },
+      /** Internal `@/…` imports in `packages/ui` (same as `tsconfig` paths). */
+      { find: /^@\/(.*)/, replacement: `${codexUiSrc}/$1` },
       {
         find: "@opus2-platform/icons",
         replacement: resolve(monorepoRoot, "packages/icons/src/index.ts"),
       },
+      ...aliasTail,
     ];
+
+    config.optimizeDeps ??= {};
+    config.optimizeDeps.exclude = [...(config.optimizeDeps.exclude ?? []), "@opus2-platform/codex"];
 
     config.server ??= {};
     config.server.fs ??= {};

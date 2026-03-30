@@ -25,8 +25,22 @@ export const DOCS_PREVIEW_INNER_MAX_XS_CLASS = "w-full max-w-xs";
 export const DOCS_PREVIEW_SURFACE_CLASS =
   "outline-focus-ring ring-secondary bg-primary relative flex min-h-[304px] max-w-full items-center justify-center gap-3 rounded-[20px] px-4 py-10 ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-130 md:px-8";
 
+/** Untitled text-editor section preview wells (overflow + alignment match untitledui.com). */
+export const DOCS_PREVIEW_UNTITLED_SECTION_CLASS =
+  "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative max-w-full md:min-w-[520px] flex px-4 md:px-8 py-32 overflow-auto items-center rounded-[20px] ring-1 ring-inset ring-secondary bg-primary";
+
+/** Default `md` text-editor preview tab (Untitled uses `overflow-x-auto`, not `overflow-auto`). */
+export const DOCS_PREVIEW_UNTITLED_SECTION_OVERFLOW_X_CLASS =
+  "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative max-w-full md:min-w-[520px] flex px-4 md:px-8 py-32 overflow-x-auto items-center rounded-[20px] ring-1 ring-inset ring-secondary bg-primary";
+
+/** Hero / “with tooltip” preview: `items-center gap-3` + horizontal scroll like Untitled. */
+export const DOCS_PREVIEW_UNTITLED_SECTION_CENTER_CLASS =
+  "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative max-w-full md:min-w-[520px] flex px-4 md:px-8 py-32 overflow-x-auto items-center gap-3 rounded-[20px] ring-1 ring-inset ring-secondary bg-primary";
+
 /** Neutralize Storybook/typography `p` margins inside preview wells. */
 export const DOCS_PREVIEW_P_MARGIN_RESET = "[&_p]:m-0!";
+
+export const DOCS_PREVIEW_BOX_MX_AUTO = "mx-auto!";
 
 const toolbarIconBtn =
   "group relative inline-flex h-max cursor-pointer items-center justify-center rounded-md p-1.5 outline-focus-ring transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-fg-quaternary hover:bg-primary_hover hover:text-fg-quaternary_hover *:data-icon:pointer-events-none *:data-icon:shrink-0 *:data-icon:text-current *:data-icon:transition-inherit-all *:data-icon:size-4";
@@ -43,6 +57,9 @@ const codeColor = {
   brand: "var(--color-utility-brand-600)",
   primary: "var(--color-primary)",
 } as const;
+
+/** JSX boolean props highlighted like attributes in `paintDocsLine` (e.g. avatar `verified`). */
+const JSX_BOOLEAN_PROPS = new Set(["verified"]);
 
 const codeTokenStyle = (color: string): CSSProperties => ({ color });
 
@@ -110,6 +127,13 @@ function paintDocsLine(line: string): ReactNode {
       continue;
     }
     if (c === "{") {
+      if (line.slice(i, i + 3) === "{/*") {
+        const end = line.indexOf("*/}", i);
+        const j = end === -1 ? line.length : end + 3;
+        push(<span style={codeTokenStyle(codeColor.gray)}>{line.slice(i, j)}</span>);
+        i = j;
+        continue;
+      }
       let j = i + 1;
       while (j < line.length && /[A-Za-z0-9_]/.test(line.charAt(j))) j++;
       const ident = line.slice(i + 1, j);
@@ -132,6 +156,12 @@ function paintDocsLine(line: string): ReactNode {
     }
 
     const word = line.slice(i, j);
+    const next = line[j] ?? "";
+    if (JSX_BOOLEAN_PROPS.has(word) && (next === "" || /[\s/>]/.test(next))) {
+      push(<span style={codeTokenStyle(codeColor.brand)}>{word}</span>);
+      i = j;
+      continue;
+    }
     if (line[j] === "=") {
       push(<span style={codeTokenStyle(codeColor.brand)}>{word}</span>);
       push(<span style={codeTokenStyle(codeColor.pink)}>=</span>);
@@ -226,26 +256,53 @@ const CopyToolbarButton: FC<{ code: string }> = ({ code }) => {
   );
 };
 
-const PreviewCodeToolbar: FC<{ code: string; isPreviewDark: boolean; onPreviewDarkToggle: () => void }> = ({ code, isPreviewDark, onPreviewDarkToggle }) => (
+const previewCodeTabListClass =
+  "group bg-secondary_alt ring-secondary flex gap-0 rounded-lg ring-1 ring-inset";
+
+const PreviewCodeTabs: FC<{ sectionId: string }> = ({ sectionId }) => (
+  <AriaTabList aria-label="Preview or code" className={previewCodeTabListClass}>
+    <AriaTab id={`${sectionId}-preview`} className={({ isSelected }) => `${docTabBtnClass} ${isSelected ? docTabSelected : docTabIdle}`}>
+      Preview
+    </AriaTab>
+    <AriaTab id={`${sectionId}-code`} className={({ isSelected }) => `${docTabBtnClass} ${isSelected ? docTabSelected : docTabIdle}`}>
+      Code
+    </AriaTab>
+  </AriaTabList>
+);
+
+const PreviewCodeToolbar: FC<{ code: string; sectionId: string; isPreviewDark: boolean; onPreviewDarkToggle: () => void }> = ({
+  code,
+  sectionId,
+  isPreviewDark,
+  onPreviewDarkToggle,
+}) => (
   <div className="flex items-center justify-between gap-3 md:h-9 md:w-auto">
     <div className="flex">
       <DarkModeToggle isDark={isPreviewDark} onToggle={onPreviewDarkToggle} />
       <CopyToolbarButton code={code} />
     </div>
-    <AriaTabList aria-label="Preview or code" className="group bg-secondary_alt ring-secondary order-first flex gap-0 rounded-lg ring-1 ring-inset md:order-last">
-      <AriaTab id="preview" className={({ isSelected }) => `${docTabBtnClass} ${isSelected ? docTabSelected : docTabIdle}`}>
-        Preview
-      </AriaTab>
-      <AriaTab id="code" className={({ isSelected }) => `${docTabBtnClass} ${isSelected ? docTabSelected : docTabIdle}`}>
-        Code
-      </AriaTab>
-    </AriaTabList>
+    <div className="order-first md:order-last">
+      <PreviewCodeTabs sectionId={sectionId} />
+    </div>
   </div>
 );
 
 export const SectionTitle: FC<{ className?: string; children: ReactNode }> = ({ className = "", children }) => (
   <span className={`docs-section-title ${className}`.trim()}>{children}</span>
 );
+
+/** Preview well classes: surface + layout + primary text + optional scoped dark tokens. */
+export function buildDocsPreviewPanelClassName(previewClassName: string | undefined, isPreviewDark: boolean): string {
+  return [
+    previewClassName ?? DOCS_PREVIEW_SURFACE_CLASS,
+    DOCS_PREVIEW_BOX_MX_AUTO,
+    DOCS_PREVIEW_P_MARGIN_RESET,
+    "text-primary",
+    isPreviewDark && "dark-mode",
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
 
 export type DocsSectionProps = {
   id: string;
@@ -256,34 +313,62 @@ export type DocsSectionProps = {
   dataPreview?: boolean;
   previewClassName?: string;
   children: ReactNode;
+  /** Inline `--preview-height` for section `style` (Untitled sets per-block height). */
+  previewHeight?: string;
+  /** Custom Code tab content; default is syntax-highlighted `DocsCodePanel`. */
+  codePanel?: ReactNode;
 };
 
-export const DocsSection: FC<DocsSectionProps> = ({ id, title, code, description, sectionClassName, dataPreview, previewClassName, children }) => {
+export const DocsSection: FC<DocsSectionProps> = ({
+  id,
+  title,
+  code,
+  description,
+  sectionClassName,
+  dataPreview,
+  previewClassName,
+  children,
+  previewHeight,
+  codePanel,
+}) => {
   const [isPreviewDark, setIsPreviewDark] = useState(false);
-  const panelClassName = [previewClassName ?? DOCS_PREVIEW_SURFACE_CLASS, DOCS_PREVIEW_P_MARGIN_RESET, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
+  const panelClassName = buildDocsPreviewPanelClassName(previewClassName, isPreviewDark);
 
   const heading = <SectionTitle>{title}</SectionTitle>;
+
+  const previewStyle = (dataPreview ? { "--preview-height": previewHeight ?? "320px" } : undefined) as CSSProperties | undefined;
 
   return (
     <section
       id={id}
       className={sectionClassName ?? DOCS_SECTION_CLASS}
       data-preview={dataPreview ? "true" : undefined}
-      style={dataPreview ? ({ "--preview-height": "320px" } as CSSProperties) : undefined}
+      style={previewStyle}
     >
-      <AriaTabs id={`${id}-docs-tabs`} defaultSelectedKey="preview" className="not-typography flex flex-col gap-3">
+      <AriaTabs id={`${id}-docs-tabs`} defaultSelectedKey={`${id}-preview`} className="not-typography group flex w-full scroll-mt-20 flex-col gap-3 in-data-docs:my-8">
         <header className="flex w-full flex-col justify-between gap-3 md:flex-row md:items-center">
           <div className="flex items-center gap-3">
             <h3 className="text-md font-semibold text-primary">{heading}</h3>
           </div>
-          <PreviewCodeToolbar code={code} isPreviewDark={isPreviewDark} onPreviewDarkToggle={() => setIsPreviewDark((d) => !d)} />
+          <PreviewCodeToolbar
+            code={code}
+            sectionId={id}
+            isPreviewDark={isPreviewDark}
+            onPreviewDarkToggle={() => setIsPreviewDark((d) => !d)}
+          />
         </header>
         {description ? <div className="typography text-md text-tertiary max-w-3xl space-y-3">{description}</div> : null}
-        <AriaTabPanel id="preview" className="outline-none focus:outline-none">
-          <div className={panelClassName}>{children}</div>
+        <AriaTabPanel id={`${id}-preview`} className="outline-none focus:outline-none">
+          <div
+            className={panelClassName}
+            style={{ colorScheme: isPreviewDark ? "dark" : "light" }}
+            data-codex-preview-surface
+          >
+            {children}
+          </div>
         </AriaTabPanel>
-        <AriaTabPanel id="code" className="outline-none focus:outline-none">
-          <DocsCodePanel code={code} />
+        <AriaTabPanel id={`${id}-code`} className="outline-none focus:outline-none">
+          {codePanel ?? <DocsCodePanel code={code} />}
         </AriaTabPanel>
       </AriaTabs>
     </section>

@@ -5,7 +5,12 @@ import { Button } from "@opus2-platform/codex";
 import { Check } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button as AriaButton, Tab as AriaTab, TabList as AriaTabList, TabPanel as AriaTabPanel, Tabs as AriaTabs } from "react-aria-components";
-import { DOCS_PREVIEW_HERO_SURFACE_CLASS, DOCS_PREVIEW_P_MARGIN_RESET, DOCS_PREVIEW_SURFACE_CLASS } from "../_docs/untitled-docs-preview-code";
+import {
+  DOCS_PREVIEW_BOX_MX_AUTO,
+  DOCS_PREVIEW_HERO_SURFACE_CLASS,
+  DOCS_PREVIEW_P_MARGIN_RESET,
+  DOCS_PREVIEW_SURFACE_CLASS,
+} from "../_docs/untitled-docs-preview-code";
 
 type ButtonSize = "sm" | "md" | "lg" | "xl";
 const sizes: ButtonSize[] = ["sm", "md", "lg", "xl"];
@@ -36,7 +41,7 @@ const docTabSelected = "bg-primary_alt text-secondary shadow-xs ring-1 ring-prim
 const docTabIdle = "text-quaternary";
 
 function previewSurfaceClassName(base: string, isPreviewDark: boolean): string {
-  return [base, DOCS_PREVIEW_P_MARGIN_RESET, isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
+  return [base, DOCS_PREVIEW_BOX_MX_AUTO, DOCS_PREVIEW_P_MARGIN_RESET, "text-primary", isPreviewDark && "dark-mode"].filter(Boolean).join(" ");
 }
 
 /** Class for inline `code` snippets in docs body copy. */
@@ -555,7 +560,9 @@ const DocsSection: FC<DocsSectionProps> = ({ id, title, code, description, previ
         </header>
         {description ? <div className="typography text-md text-tertiary max-w-3xl space-y-3">{description}</div> : null}
         <AriaTabPanel id="preview" className="outline-none focus:outline-none">
-          <div className={previewSurfaceClass}>{children}</div>
+          <div className={previewSurfaceClass} style={{ colorScheme: isPreviewDark ? "dark" : "light" }} data-codex-preview-surface>
+            {children}
+          </div>
         </AriaTabPanel>
         <AriaTabPanel id="code" className="outline-none focus:outline-none">
           <DocsCodePanel code={code} />

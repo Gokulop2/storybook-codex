@@ -13,6 +13,7 @@ export * from "./radio-buttons";
 export * from "./select";
 export * from "./slider";
 export * from "./tags";
+export * from "./text-editor";
 export * from "./textarea";
 export * from "./tooltip";
 export * from "./toggle";

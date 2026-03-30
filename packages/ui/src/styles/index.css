@@ -70,3 +70,25 @@ input[type="search"]::-webkit-search-cancel-button {
 .recharts-surface path {
   outline: none;
 }
+
+/**
+ * Primary body text: `!important` beats Storybook/docs inheritance and competing layers; matches
+ * generated `text-primary!` but applies to the plain `text-primary` utility everywhere.
+ */
+@layer utilities {
+  .text-primary {
+    color: var(--text-color-primary) !important;
+  }
+}
+
+/**
+ * TipTap/ProseMirror: docs wrappers (`text-tertiary`) + `contenteditable` `<p>` can keep dark body copy
+ * on dark preview surfaces. Same token as `.text-primary`; scoped so list/paragraph nodes match the editor.
+ */
+@layer utilities {
+  .dark-mode .tiptap.ProseMirror,
+  .dark-mode .tiptap.ProseMirror p,
+  .dark-mode .tiptap.ProseMirror li {
+    color: var(--text-color-primary) !important;
+  }
+}
