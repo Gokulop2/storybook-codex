@@ -1,18 +1,107 @@
-## Project Overview
+# Opus2 Codex Monorepo Overview
 
-This repository is a monorepo for the **Opus2 Codex** component system. The primary packages are:
+This monorepo contains:
 
-- **`packages/ui`** (`@opus2-platform/codex`) - the React component library
-- **`packages/icons`** (`@opus2-platform/icons`) - local icon exports used by the UI package
-- **`apps/docs`** - the Storybook docs app for developing and previewing components
+- **@opus2-platform/codex** (`packages/ui`): The main React component library, built with React 19, TypeScript, and Tailwind CSS v4.1. All components are accessible and based on React Aria Components.
+- **@opus2-platform/icons** (`packages/icons`): The icon library, providing a large set of React SVG icon components for use in UI.
+- **apps/docs**: Storybook-based documentation and development environment for all components (see root README for usage).
 
-The UI package is built with:
+---
 
-- **React 19** with TypeScript
-- **Tailwind CSS v4** for styling
-- **React Aria Components** as the foundation for accessibility and behavior
+## UI Package (`@opus2-platform/codex`)
 
-Unless otherwise noted, the source-code guidance below refers to files inside `packages/ui/src`.
+- **Exports**: All components, hooks, providers, and utilities from `src/`.
+- **Component Structure**:
+  - `components/base/`: Core UI primitives (Button, Input, Select, Checkbox, Avatar, Badge, Tooltip, etc.)
+  - `components/application/`: Advanced patterns (DatePicker, Calendar, Table, Tabs, Modals, Pagination, Alerts, etc.)
+  - `components/foundations/`: Design tokens, icons, and foundational elements.
+  - `components/shared-assets/`: Reusable illustrations and assets.
+- **Utilities**: Includes `cx`, `sortCx`, and `isReactComponent` for class management and type safety.
+- **Hooks**: All custom hooks are exported from `src/hooks/`.
+- **Providers**: Context providers for theming and state.
+- **TypeScript**: All exports are fully typed; strict mode is enforced.
+- **Styling**: Uses Tailwind CSS v4.1, with design tokens in `src/styles/theme.css`. Brand color is easily customizable.
+- **Build**: Outputs ESM, CJS, and type declarations in `dist/`. Styles are built to `dist/styles.css`.
+- **Usage**: Import components directly:
+  ```js
+  import { Button } from "@opus2-platform/codex";
+  ```
+- **Peer dependencies**: React 19+, ReactDOM 19+.
+
+### Import Naming Convention
+
+**CRITICAL**: Alias React Aria component primitives and their prop types with an `Aria*` prefix when they would otherwise collide with local component names:
+
+```typescript
+import { Button as AriaButton, TextField as AriaTextField } from "react-aria-components";
+```
+
+---
+
+## Icons Package (`@opus2-platform/icons`)
+
+- **Exports**: All icons as named React components from `src/components/`.
+- **Usage**:
+  ```js
+  import { Home01, Settings01 } from "@opus2-platform/icons";
+  ```
+- **Build**: Generates ESM, CJS, and type declarations in `dist/`.
+- **Development**: Add SVGs to `src/icons/`, run build scripts to generate React components.
+- **Peer dependencies**: React 19+, ReactDOM 19+.
+
+---
+
+## Docs
+
+The `apps/docs` app provides Storybook-based documentation and live preview for all components. See the root README for details.
+
+---
+
+## Development
+
+- Build all: `npm run build`
+- Dev/watch UI: `npm run dev --workspace=@opus2-platform/codex`
+- Dev/watch icons: `npm run dev --workspace=@opus2-platform/icons`
+- Docs: `npm run dev --workspace=docs`
+
+---
+
+## Key Architecture Principles
+
+- All components are built on **React Aria Components** for consistent accessibility and behavior
+- Components follow the compound component pattern with sub-components (e.g., `Select.Item`, `Select.ComboBox`)
+- TypeScript is used throughout for type safety
+- All files use **kebab-case** naming
+
+---
+
+## Styling Guidelines
+
+- Uses Tailwind CSS v4.1 and custom design tokens
+- Brand color is customizable in `src/styles/theme.css`
+- Prefer semantic color classes (e.g., `text-primary`, `bg-brand-solid`)
+
+---
+
+## Component Patterns & Examples
+
+- **Compound Components**: e.g., `Select.Item`, `Select.ComboBox`
+- **Size/Color Variants**: Most components support `sm`, `md`, `lg` and color props
+- **Icon Usage**: Pass icon components as references or JSX (with `data-icon`)
+- **Accessibility**: All components include proper ARIA attributes and keyboard support
+
+---
+
+## Example Usage
+
+```typescript
+import { Button, Input, Select } from "@opus2-platform/codex";
+import { Home01 } from "@opus2-platform/icons";
+
+<Button iconLeading={Home01}>Home</Button>
+<Input label="Email" placeholder="user@example.com" />
+<Select label="Team" items={users} />
+```
 
 ## Key Architecture Principles
 
@@ -198,9 +287,9 @@ export const styles = sortCx({
 });
 ```
 
-### Utility Functions
+### Utility Functions (`@/utils`)
 
-- `cx()` - Class name utility (from `@/utils/cx`)
+- `cx()` - Class name utility
 - `sortCx()` - Organized style objects
 - `isReactComponent()` - Component type checking
 

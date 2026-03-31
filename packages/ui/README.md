@@ -42,7 +42,7 @@ To use Untitled UI theming, ensure your app imports the global styles:
 import { Button } from "@opus2-platform/codex";
 
 function App() {
-  return <Button onClick={() => alert("Clicked!")}>Untitled UI Button</Button>;
+  return <Button onClick={() => alert("Clicked!")}>UI Button</Button>;
 }
 ```
 
