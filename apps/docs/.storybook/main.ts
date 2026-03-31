@@ -16,7 +16,7 @@ const config: StorybookConfig = {
   viteFinal: async (config) => {
     config.build = {
       ...(config.build ?? {}),
-      chunkSizeWarningLimit: 1500,
+      chunkSizeWarningLimit: 2000,
     };
     return config;
   },

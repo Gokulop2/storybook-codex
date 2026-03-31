@@ -1,28 +1,30 @@
 {
   "name": "@opus2-platform/codex",
   "version": "0.1.0",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.es.js",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs.js",
-      "default": "./dist/index.d.ts"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      }
     },
     "./dist/styles.css": "./dist/styles.css"
   },
-  "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
-    "dev": "tsup --watch & npm run css:build --watch",
-    "prebuild": "rm -rf dist",
-    "types": "tsc --emitDeclarationOnly --declaration --project tsconfig.json",
-    "build": "tsup && npm run types && npm run postbuild",
-    "postbuild": "npm run css:build && cp package.json dist/",
-    "css:build": "postcss src/styles/index.css -o dist/styles.css"
+    "build": "tsup && npm run css:build && npm run types",
+    "dev": "concurrently \"tsup --watch\" \"npm run css:build -- --watch\" \"npm run types -- --watch\"",
+    "css:build": "postcss src/styles/index.css -o dist/styles.css",
+    "types": "tsc --emitDeclarationOnly --declaration --project tsconfig.json"
   },
   "peerDependencies": {
     "react": "^19.2.3",
@@ -55,6 +57,7 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
-    "hast-util-to-jsx-runtime": "^2.3.6"
+    "hast-util-to-jsx-runtime": "^2.3.6",
+    "concurrently": "^8.2.2"
   }
 }
