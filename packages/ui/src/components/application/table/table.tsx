@@ -5,6 +5,7 @@ import { createContext, isValidElement, useContext } from "react";
 import { ArrowDown, ChevronSelectorVertical, Copy01, Edit01, HelpCircle, Trash01 } from "@opus2-platform/icons";
 import type {
     CellProps as AriaCellProps,
+    CheckboxProps as AriaCheckboxProps,
     ColumnProps as AriaColumnProps,
     RowProps as AriaRowProps,
     TableHeaderProps as AriaTableHeaderProps,
@@ -12,9 +13,12 @@ import type {
 } from "react-aria-components";
 import {
     Cell as AriaCell,
+    Checkbox as AriaCheckbox,
+    CheckboxContext,
     Collection as AriaCollection,
     Column as AriaColumn,
     Group as AriaGroup,
+    Provider as AriaProvider,
     Row as AriaRow,
     Table as AriaTable,
     TableBody as AriaTableBody,
@@ -22,7 +26,7 @@ import {
     useTableOptions,
 } from "react-aria-components";
 import { Badge } from "@/components/base/badges/badges";
-import { Checkbox } from "@/components/base/checkbox/checkbox";
+import { CheckboxBase } from "@/components/base/checkbox/checkbox";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
 import { Tooltip, TooltipTrigger } from "@/components/base/tooltip/tooltip";
 import { cx } from "@/utils";
@@ -48,6 +52,25 @@ export const TableRowActionsDropdown = () => (
 );
 
 const TableContext = createContext<{ size: "sm" | "md" }>({ size: "md" });
+
+const TableSelectionCheckbox = ({ className, size = "md", ...props }: Omit<AriaCheckboxProps, "children"> & { size?: "sm" | "md" }) => (
+    <AriaCheckbox
+        {...props}
+        className={(state) =>
+            cx("flex items-start", !state.isDisabled && "cursor-pointer", state.isDisabled && "cursor-not-allowed", typeof className === "function" ? className(state) : className)
+        }
+    >
+        {({ isSelected, isIndeterminate, isDisabled, isFocusVisible }) => (
+            <CheckboxBase
+                size={size}
+                isSelected={isSelected}
+                isIndeterminate={isIndeterminate}
+                isDisabled={isDisabled}
+                isFocusVisible={isFocusVisible}
+            />
+        )}
+    </AriaCheckbox>
+);
 
 const TableCardRoot = ({ children, className, size = "md", ...props }: HTMLAttributes<HTMLDivElement> & { size?: "sm" | "md" }) => {
     return (
@@ -152,7 +175,7 @@ const TableHeader = <T extends object>({ columns, children, bordered = true, cla
                 <AriaColumn className={cx("relative py-2 pr-0 pl-4", size === "sm" ? "w-9 md:pl-5" : "w-11 md:pl-6")}>
                     {selectionMode === "multiple" && (
                         <div className="flex items-start">
-                            <Checkbox slot="selection" size="md" />
+                            <TableSelectionCheckbox slot="selection" size="md" />
                         </div>
                     )}
                 </AriaColumn>
@@ -186,10 +209,12 @@ const TableHead = ({ className, tooltip, label, children, ...props }: TableHeadP
         >
             {(state) => (
                 <AriaGroup className="flex items-center gap-1">
-                    <div className="flex items-center gap-1">
-                        {label && <span className="text-xs font-semibold whitespace-nowrap text-quaternary">{label}</span>}
-                        {typeof children === "function" ? children(state) : children}
-                    </div>
+                    <AriaProvider values={[[CheckboxContext, null]]}>
+                        <div className="flex items-center gap-1">
+                            {label && <span className="text-xs font-semibold whitespace-nowrap text-quaternary">{label}</span>}
+                            {typeof children === "function" ? children(state) : children}
+                        </div>
+                    </AriaProvider>
 
                     {tooltip && (
                         <Tooltip title={tooltip} placement="top">
@@ -234,7 +259,7 @@ const TableRow = <T extends object>({ columns, children, className, highlightSel
                     highlightSelectedRow && "selected:bg-secondary",
 
                     // Row border—using an "after" pseudo-element to avoid the border taking up space.
-                    "[&>td]:after:absolute [&>td]:after:inset-x-0 [&>td]:after:bottom-0 [&>td]:after:h-px [&>td]:after:w-full [&>td]:after:bg-border-secondary last:[&>td]:after:hidden [&>td]:focus-visible:after:opacity-0 focus-visible:[&>td]:after:opacity-0",
+                    "[&>td]:after:absolute [&>td]:after:inset-x-0 [&>td]:after:bottom-0 [&>td]:after:h-px [&>td]:after:w-full [&>td]:after:bg-border-secondary last:[&>td]:after:hidden focus-visible:[&>td]:after:opacity-0",
 
                     typeof className === "function" ? className(state) : className,
                 )
@@ -243,7 +268,7 @@ const TableRow = <T extends object>({ columns, children, className, highlightSel
             {selectionBehavior === "toggle" && (
                 <AriaCell className={cx("relative py-2 pr-0 pl-4", size === "sm" ? "md:pl-5" : "md:pl-6")}>
                     <div className="flex items-end">
-                        <Checkbox slot="selection" size="md" />
+                        <TableSelectionCheckbox slot="selection" size="md" />
                     </div>
                 </AriaCell>
             )}
