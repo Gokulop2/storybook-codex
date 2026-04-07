@@ -21,17 +21,16 @@
     "build": "tsup && npm run css:build && npm run types",
     "dev": "concurrently \"tsup --watch\" \"npm run css:build -- --watch\" \"npm run types -- --watch\"",
     "css:build": "postcss src/styles/index.css -o dist/styles.css",
-    "prepare": "npm run build",
     "prepack": "npm run build",
     "types": "tsc --emitDeclarationOnly --declaration --project tsconfig.json"
   },
   "peerDependencies": {
     "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react-dom": "^19.2.3",
+    "@opus2-platform/icons": "*"
   },
   "dependencies": {
     "@internationalized/date": "^3.12.0",
-    "@opus2-platform/icons": "*",
     "@react-aria/utils": "^3.33.1",
     "@react-stately/utils": "^3.11.0",
     "@tiptap/core": "^3.21.0",
