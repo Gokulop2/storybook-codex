@@ -1,274 +1,210 @@
 "use client";
 
-import type { ComponentPropsWithRef, FC, ReactNode } from "react";
-import { isValidElement } from "react";
-import { X } from "@opus2-platform/icons";
+import type { FC } from "react";
+import { AlertCircle, CheckCircle, InfoCircle } from "@opus2-platform/icons";
 import { Avatar } from "@/components/base/avatar/avatar";
-import { cx, isReactComponent } from "@/utils";
+import { Button } from "@/components/base/buttons/button";
+import { CloseButton } from "@/components/base/buttons/close-button";
+import { ProgressBar } from "@/components/base/progress-indicators/progress-indicators";
+import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
+import { cx } from "@/utils";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
-export type NotificationVariant = "base" | "avatar" | "icon" | "featured-icon";
-
-export interface NotificationUser {
-  name: string;
-  avatarUrl?: string;
-}
-
-export interface NotificationAction {
-  label: string;
-  onClick?: () => void;
-  href?: string;
-  color?: "brand" | "default";
-}
-
-export interface NotificationItemData {
-  id: string;
-  title: ReactNode;
-  description?: ReactNode;
-  date?: string;
-  unread?: boolean;
-  user?: NotificationUser;
-  icon?: FC<{ className?: string }> | ReactNode;
-  actions?: NotificationAction[];
-}
-
-// ---------------------------------------------------------------------------
-// NotificationItem — single notification row
-// ---------------------------------------------------------------------------
-
-interface NotificationItemProps {
-  item: NotificationItemData;
-  variant?: NotificationVariant;
-  onDismiss?: (id: string) => void;
-  showDivider?: boolean;
-}
-
-const NotificationItem = ({ item, variant = "base", onDismiss, showDivider }: NotificationItemProps) => {
-  const { title, description, date, unread, user, icon, actions } = item;
-
-  return (
-    <div
-      className={cx(
-        "relative flex gap-3 px-4 py-4",
-        unread && "bg-brand-primary_alt",
-        showDivider && "border-b border-secondary",
-      )}
-    >
-      {/* Unread dot */}
-      {unread && (
-        <div className="absolute left-4 top-5 size-2 rounded-full bg-brand-solid" />
-      )}
-
-      {/* Leading visual */}
-      {(variant === "avatar" && user) && (
-        <div className={cx("shrink-0", unread && "ml-4")}>
-          <Avatar
-            size="md"
-            src={user.avatarUrl}
-            initials={user.name?.slice(0, 2).toUpperCase()}
-          />
-        </div>
-      )}
-
-      {(variant === "icon" || variant === "featured-icon") && icon && (
-        <div className={cx("shrink-0", unread && "ml-4")}>
-          <NotificationIconSlot icon={icon} variant={variant} />
-        </div>
-      )}
-
-      {/* Content */}
-      <div className={cx("min-w-0 flex-1", unread && variant === "base" && "ml-4")}>
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex-1">
-            <p className="text-sm font-semibold text-secondary">{title}</p>
-            {description && (
-              <p className="mt-0.5 text-sm text-tertiary">{description}</p>
-            )}
-            {date && (
-              <p className="mt-1 text-xs text-quaternary">{date}</p>
-            )}
-          </div>
-          {onDismiss && (
-            <button
-              type="button"
-              aria-label="Dismiss notification"
-              onClick={() => onDismiss(item.id)}
-              className="shrink-0 cursor-pointer rounded-md p-0.5 text-fg-quaternary transition duration-100 ease-linear hover:text-fg-secondary focus:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
-              <X className="size-4" />
-            </button>
-          )}
-        </div>
-
-        {actions && actions.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-3">
-            {actions.map((action, i) =>
-              action.href ? (
-                <a
-                  key={i}
-                  href={action.href}
-                  className={cx(
-                    "text-sm font-semibold transition duration-100 ease-linear",
-                    action.color === "brand" ? "text-brand-secondary hover:text-brand-secondary_hover" : "text-secondary hover:text-secondary_hover",
-                  )}
-                >
-                  {action.label}
-                </a>
-              ) : (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={action.onClick}
-                  className={cx(
-                    "cursor-pointer text-sm font-semibold transition duration-100 ease-linear",
-                    action.color === "brand" ? "text-brand-secondary hover:text-brand-secondary_hover" : "text-secondary hover:text-secondary_hover",
-                  )}
-                >
-                  {action.label}
-                </button>
-              ),
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+const iconMap = {
+    default: InfoCircle,
+    brand: InfoCircle,
+    gray: InfoCircle,
+    error: AlertCircle,
+    warning: AlertCircle,
+    success: CheckCircle,
 };
 
-// ---------------------------------------------------------------------------
-// NotificationIconSlot — renders FC or element
-// ---------------------------------------------------------------------------
+interface IconNotificationProps {
+    title: string;
+    description: string;
+    confirmLabel?: string;
+    dismissLabel?: string;
+    hideDismissLabel?: boolean;
+    icon?: FC<{ className?: string }>;
+    color?: "default" | "brand" | "gray" | "error" | "warning" | "success";
+    progress?: number;
+    onClose?: () => void;
+    onConfirm?: () => void;
+}
 
-const NotificationIconSlot = ({
-  icon,
-  variant,
-}: {
-  icon: FC<{ className?: string }> | ReactNode;
-  variant: NotificationVariant;
-}) => {
-  const IconComponent = icon as FC<{ className?: string }>;
-  if (variant === "featured-icon") {
+export const IconNotification = ({
+    title,
+    description,
+    confirmLabel,
+    dismissLabel = "Dismiss",
+    hideDismissLabel,
+    icon,
+    progress,
+    onClose,
+    onConfirm,
+    color = "default",
+}: IconNotificationProps) => {
+    const showProgress = typeof progress === "number";
+
     return (
-      <div className="flex size-10 items-center justify-center rounded-xl border border-secondary bg-primary shadow-xs">
-        {isReactComponent(icon) && <IconComponent className="size-5 text-fg-secondary" />}
-        {isValidElement(icon) && icon}
-      </div>
+        <div className="relative z-[var(--z-index)] flex max-w-full flex-col gap-4 rounded-xl bg-primary_alt p-4 shadow-lg ring ring-secondary_alt xs:w-[var(--width)] xs:flex-row">
+            <FeaturedIcon
+                icon={icon || iconMap[color]}
+                color={color === "default" ? "gray" : color}
+                theme={color === "default" ? "modern" : "outline"}
+                size="md"
+            />
+
+            <div className={cx("flex flex-1 flex-col gap-3 md:pr-8", color !== "default" && "md:pt-0.5", showProgress && "gap-4")}>
+                <div className="flex flex-col gap-1">
+                    <p className="text-sm font-semibold text-fg-primary">{title}</p>
+                    <p className="text-sm text-fg-secondary">{description}</p>
+                </div>
+
+                {showProgress && <ProgressBar labelPosition="bottom" value={progress} valueFormatter={(value) => `${value}% uploaded...`} />}
+
+                <div className="flex gap-3">
+                    {!hideDismissLabel && (
+                        <Button onClick={onClose} size="sm" color="link-gray">
+                            {dismissLabel}
+                        </Button>
+                    )}
+                    {confirmLabel && (
+                        <Button onClick={onConfirm} size="sm" color="link-color">
+                            {confirmLabel}
+                        </Button>
+                    )}
+                </div>
+            </div>
+
+            <div className="absolute top-2 right-2 flex items-center justify-center">
+                <CloseButton onClick={onClose} size="sm" label="Dismiss" />
+            </div>
+        </div>
     );
-  }
-  // plain icon
-  return (
-    <div className="flex size-10 items-center justify-center">
-      {isReactComponent(icon) && <IconComponent className="size-5 text-fg-secondary" />}
-      {isValidElement(icon) && icon}
-    </div>
-  );
 };
 
-// ---------------------------------------------------------------------------
-// NotificationList — renders a list of notifications
-// ---------------------------------------------------------------------------
-
-interface NotificationListProps extends ComponentPropsWithRef<"div"> {
-  items: NotificationItemData[];
-  variant?: NotificationVariant;
-  onDismiss?: (id: string) => void;
+interface AvatarNotificationProps {
+    name: string;
+    content: string;
+    avatar: string;
+    date: string;
+    confirmLabel: string;
+    dismissLabel?: string;
+    hideDismissLabel?: boolean;
+    icon?: FC<{ className?: string }>;
+    color?: "default" | "brand" | "gray" | "error" | "warning" | "success";
+    onClose?: () => void;
+    onConfirm?: () => void;
 }
 
-const NotificationList = ({ items, variant = "base", onDismiss, className, ...props }: NotificationListProps) => (
-  <div {...props} className={cx("w-full divide-y divide-secondary", className)}>
-    {items.map((item, index) => (
-      <NotificationItem
-        key={item.id}
-        item={item}
-        variant={variant}
-        onDismiss={onDismiss}
-        showDivider={false}
-      />
-    ))}
-  </div>
-);
+export const AvatarNotification = ({
+    name,
+    content,
+    avatar,
+    confirmLabel,
+    dismissLabel = "Dismiss",
+    hideDismissLabel,
+    date,
+    onClose,
+    onConfirm,
+}: AvatarNotificationProps) => {
+    return (
+        <div className="relative z-[var(--z-index)] flex max-w-full flex-col items-start gap-4 rounded-xl bg-primary_alt p-4 shadow-lg ring ring-secondary_alt xs:w-[var(--width)] xs:flex-row">
+            <Avatar size="md" src={avatar} alt={name} status="online" />
 
-// ---------------------------------------------------------------------------
-// NotificationDropdown — panel with header + list
-// ---------------------------------------------------------------------------
+            <div className="flex flex-col gap-3 pr-8">
+                <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-2">
+                        <p className="text-sm font-semibold text-fg-primary">{name}</p>
+                        <span className="text-sm text-fg-quaternary">{date}</span>
+                    </div>
+                    <p className="text-sm text-fg-secondary">{content}</p>
+                </div>
 
-interface NotificationDropdownProps extends ComponentPropsWithRef<"div"> {
-  items: NotificationItemData[];
-  variant?: NotificationVariant;
-  title?: string;
-  onDismiss?: (id: string) => void;
-  onMarkAllRead?: () => void;
-  onViewAll?: () => void;
-  viewAllHref?: string;
+                <div className="flex gap-3">
+                    {!hideDismissLabel && (
+                        <Button onClick={onClose} size="sm" color="link-gray">
+                            {dismissLabel}
+                        </Button>
+                    )}
+                    {confirmLabel && (
+                        <Button onClick={onConfirm} size="sm" color="link-color">
+                            {confirmLabel}
+                        </Button>
+                    )}
+                </div>
+            </div>
+
+            <div className="absolute top-2 right-2 flex items-center justify-center">
+                <CloseButton onClick={onClose} size="sm" label="Dismiss" />
+            </div>
+        </div>
+    );
+};
+
+interface ImageNotificationProps {
+    title: string;
+    description: string;
+    confirmLabel: string;
+    dismissLabel?: string;
+    hideDismissLabel?: boolean;
+    imageMobile: string;
+    imageDesktop: string;
+    onClose?: () => void;
+    onConfirm?: () => void;
 }
 
-const NotificationDropdown = ({
-  items,
-  variant = "base",
-  title = "Notifications",
-  onDismiss,
-  onMarkAllRead,
-  onViewAll,
-  viewAllHref,
-  className,
-  ...props
-}: NotificationDropdownProps) => (
-  <div
-    {...props}
-    className={cx(
-      "w-full max-w-sm overflow-hidden rounded-xl border border-secondary bg-primary shadow-lg",
-      className,
-    )}
-  >
-    {/* Header */}
-    <div className="flex items-center justify-between border-b border-secondary px-4 py-3">
-      <p className="text-sm font-semibold text-secondary">{title}</p>
-      {onMarkAllRead && (
-        <button
-          type="button"
-          onClick={onMarkAllRead}
-          className="cursor-pointer text-xs font-semibold text-brand-secondary transition duration-100 ease-linear hover:text-brand-secondary_hover"
+export const ImageNotification = ({
+    title,
+    description,
+    confirmLabel,
+    dismissLabel = "Dismiss",
+    hideDismissLabel,
+    imageMobile,
+    imageDesktop,
+    onClose,
+    onConfirm,
+}: ImageNotificationProps) => {
+    return (
+        <div
+            style={
+                {
+                    "--width": "496px",
+                } as React.CSSProperties
+            }
+            className="relative z-[var(--z-index)] flex max-w-full flex-col gap-3 rounded-xl bg-primary_alt p-4 shadow-lg max-md:ring-1 max-md:ring-secondary_alt xs:w-[var(--width)] xs:flex-row xs:gap-0 md:p-0"
         >
-          Mark all as read
-        </button>
-      )}
-    </div>
+            <div className="-my-px hidden w-40 shrink-0 overflow-hidden rounded-l-xl outline-1 -outline-offset-1 outline-black/10 md:block">
+                <img aria-hidden="true" src={imageMobile} alt="Image Mobile" className="t size-full object-cover" />
+            </div>
 
-    {/* Items */}
-    <NotificationList items={items} variant={variant} onDismiss={onDismiss} />
+            <div className="flex flex-col gap-4 rounded-r-xl bg-primary_alt md:gap-3 md:p-4 md:pl-5 md:ring-1 md:ring-secondary_alt">
+                <div className="flex flex-col gap-1 pr-8">
+                    <p className="text-sm font-semibold text-fg-primary">{title}</p>
+                    <p className="text-sm text-fg-secondary">{description}</p>
+                </div>
 
-    {/* Footer */}
-    {(onViewAll || viewAllHref) && (
-      <div className="border-t border-secondary px-4 py-3 text-center">
-        {viewAllHref ? (
-          <a href={viewAllHref} className="text-sm font-semibold text-brand-secondary transition duration-100 ease-linear hover:text-brand-secondary_hover">
-            View all notifications
-          </a>
-        ) : (
-          <button
-            type="button"
-            onClick={onViewAll}
-            className="cursor-pointer text-sm font-semibold text-brand-secondary transition duration-100 ease-linear hover:text-brand-secondary_hover"
-          >
-            View all notifications
-          </button>
-        )}
-      </div>
-    )}
-  </div>
-);
+                <div className="h-40 w-full overflow-hidden rounded-md bg-secondary md:hidden">
+                    <img src={imageDesktop} alt="Image Desktop" className="size-full object-cover" />
+                </div>
 
-// ---------------------------------------------------------------------------
-// Compound export
-// ---------------------------------------------------------------------------
+                <div className="flex gap-3">
+                    {!hideDismissLabel && (
+                        <Button onClick={onClose} size="sm" color="link-gray">
+                            {dismissLabel}
+                        </Button>
+                    )}
+                    {confirmLabel && (
+                        <Button onClick={onConfirm} size="sm" color="link-color">
+                            {confirmLabel}
+                        </Button>
+                    )}
+                </div>
+            </div>
 
-export const Notifications = NotificationDropdown as typeof NotificationDropdown & {
-  List: typeof NotificationList;
-  Item: typeof NotificationItem;
+            <div className="absolute top-2 right-2 flex items-center justify-center">
+                <CloseButton onClick={onClose} size="sm" label="Dismiss" />
+            </div>
+        </div>
+    );
 };
-
-Notifications.List = NotificationList;
-Notifications.Item = NotificationItem;

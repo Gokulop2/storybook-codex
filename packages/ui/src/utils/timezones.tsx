@@ -1,5 +1,3 @@
-"use client";
-
 import { Clock } from "@opus2-platform/icons";
 import type { SelectItemType } from "@/components";
 

@@ -42,7 +42,6 @@ This starts:
 # repo root
 npm run dev
 npm run build
-npm run typecheck
 npm run format
 npx eslint .
 

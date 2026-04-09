@@ -1,31 +1,25 @@
 "use client";
 
-import type { HTMLAttributes, ReactElement } from "react";
+import type { IllustrationProps as BoxIllustrationProps } from "./box";
 import { BoxIllustration } from "./box";
 import { CloudIllustration } from "./cloud";
 import { CreditCardIllustration } from "./credit-card";
 import { DocumentsIllustration } from "./documents";
 
-export interface IllustrationProps extends HTMLAttributes<HTMLDivElement> {
-  size?: "sm" | "md" | "lg";
-  svgClassName?: string;
-  childrenClassName?: string;
-}
-
-type IllustrationType = "box" | "cloud" | "documents" | "credit-card";
-type IllustrationComponent = (props: IllustrationProps) => ReactElement;
-
-const types: Record<IllustrationType, IllustrationComponent> = {
-  box: BoxIllustration,
-  cloud: CloudIllustration,
-  documents: DocumentsIllustration,
-  "credit-card": CreditCardIllustration,
+const types = {
+    box: BoxIllustration,
+    cloud: CloudIllustration,
+    documents: DocumentsIllustration,
+    "credit-card": CreditCardIllustration,
 };
 
-export const Illustration = (props: IllustrationProps & { type: IllustrationType }) => {
-  const { type } = props;
 
-  const Component = types[type];
+export type IllustrationProps = BoxIllustrationProps;
 
-  return <Component {...props} />;
+export const Illustration = (props: IllustrationProps & { type: keyof typeof types }) => {
+    const { type } = props;
+
+    const Component = types[type];
+
+    return <Component {...props} />;
 };

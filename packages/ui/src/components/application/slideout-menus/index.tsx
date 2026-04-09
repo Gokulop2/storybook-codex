@@ -1,1 +1,1 @@
-export * from "./slideout-menu";
+export * from './slideout-menu';

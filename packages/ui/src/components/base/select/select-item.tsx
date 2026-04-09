@@ -1,122 +1,134 @@
+"use client";
+
 import { isValidElement, useContext } from "react";
 import { Check } from "@opus2-platform/icons";
 import type { ListBoxItemProps as AriaListBoxItemProps } from "react-aria-components";
 import { ListBoxItem as AriaListBoxItem, Text as AriaText } from "react-aria-components";
+import { Avatar } from "@/components/base/avatar/avatar";
+import { CheckboxBase } from "@/components/base/checkbox/checkbox";
 import { cx, isReactComponent } from "@/utils";
-import { Avatar } from "../avatar";
-import { CheckboxBase } from "../checkbox/checkbox";
-import {
-  MultiSelectListContext,
-  MultiSelectSelectionContext,
-  resolveMultiSelectRowSelected,
-  SelectContext,
-  type SelectItemType,
-} from "./select-shared";
+import type { SelectItemType } from "./select-shared";
+import { SelectContext } from "./select-shared";
 
 const sizes = {
-  sm: "p-2 pr-2.5",
-  md: "p-2.5 pl-2",
+    sm: {
+        root: "p-2 pr-2.5 gap-2 *:data-icon:size-4 *:data-icon:stroke-[2.25px]",
+        text: "text-sm",
+        textContainer: "gap-x-1.5",
+        check: "size-4 stroke-[2.25px]",
+        checkbox: "sm" as const,
+    },
+    md: {
+        root: "p-2 pr-2.5 gap-2 *:data-icon:size-5",
+        text: "text-md",
+        textContainer: "gap-x-2",
+        check: "size-5",
+        checkbox: "sm" as const,
+    },
+    lg: {
+        root: "p-2.5 pl-2 gap-2 *:data-icon:size-5",
+        text: "text-md",
+        textContainer: "gap-x-2",
+        check: "size-5",
+        checkbox: "md" as const,
+    },
 };
 
-const labelClass = (checkboxRows: boolean, isDisabled: boolean) =>
-  cx(
-    checkboxRows ? "text-sm text-primary! truncate font-medium whitespace-nowrap" : "text-md text-primary! truncate font-medium whitespace-nowrap",
-    isDisabled && "text-disabled!"
-  );
+interface SelectItemProps extends Omit<AriaListBoxItemProps<SelectItemType>, "id">, SelectItemType {
+    /** The selection indicator to be displayed on the item. */
+    selectionIndicator?: "checkmark" | "checkbox" | "none";
+    /** The alignment of the selection indicator. */
+    selectionIndicatorAlign?: "left" | "right";
+}
 
-const descriptionClass = (checkboxRows: boolean, isDisabled: boolean) =>
-  cx(
-    checkboxRows ? "text-sm text-tertiary! whitespace-nowrap" : "text-md text-tertiary! whitespace-nowrap",
-    isDisabled && "text-disabled!"
-  );
+export const SelectItem = ({
+    label,
+    id,
+    value,
+    avatarUrl,
+    supportingText,
+    isDisabled,
+    icon: Icon,
+    className,
+    children,
+    selectionIndicator = "checkmark",
+    selectionIndicatorAlign = "right",
+    ...props
+}: SelectItemProps) => {
+    const { size } = useContext(SelectContext);
 
-interface SelectItemProps extends Omit<AriaListBoxItemProps<SelectItemType>, "id">, SelectItemType {}
+    const labelOrChildren = label || (typeof children === "string" ? children : "");
+    const textValue = supportingText ? labelOrChildren + " " + supportingText : labelOrChildren;
 
-export const SelectItem = ({ label, id, value, avatarUrl, supportingText, isDisabled, icon: Icon, className, children, ...props }: SelectItemProps) => {
-  const { size } = useContext(SelectContext);
-  const multiSelectList = useContext(MultiSelectListContext);
-  const multiSelectSelectedIds = useContext(MultiSelectSelectionContext);
-  const checkboxRows = multiSelectList?.itemLayout === "checkbox";
+    const isLeft = selectionIndicatorAlign === "left";
 
-  const labelOrChildren = label || (typeof children === "string" ? children : "");
-  const textValue = supportingText ? labelOrChildren + " " + supportingText : labelOrChildren;
-
-  return (
-    <AriaListBoxItem
-      id={id}
-      value={
-        value ?? {
-          id,
-          label: labelOrChildren,
-          avatarUrl,
-          supportingText,
-          isDisabled,
-          icon: Icon,
-        }
-      }
-      textValue={textValue}
-      isDisabled={isDisabled}
-      {...props}
-      className={(state) => cx("w-full px-1.5 py-px outline-hidden", typeof className === "function" ? className(state) : className)}
-    >
-      {(state) => {
-        const rowSelected = resolveMultiSelectRowSelected(multiSelectSelectedIds, id, state.isSelected);
-
-        return (
-        <div
-          className={cx(
-            "flex cursor-pointer items-center rounded-md outline-hidden select-none",
-            checkboxRows ? "gap-2 *:data-icon:size-4 *:data-icon:stroke-[2.25px]" : "gap-2",
-            !checkboxRows && rowSelected && "bg-active",
-            state.isDisabled && "cursor-not-allowed",
-            state.isFocused && "bg-primary_hover",
-            state.isFocusVisible && "ring-focus-ring ring-2 ring-inset",
-
-            // Icon styles (single-select / trailing-check)
-            !checkboxRows && "*:data-icon:text-fg-quaternary *:data-icon:size-5 *:data-icon:shrink-0",
-            !checkboxRows && state.isDisabled && "*:data-icon:text-fg-disabled",
-
-            sizes[size]
-          )}
+    return (
+        <AriaListBoxItem
+            id={id}
+            value={
+                value ?? {
+                    id,
+                    label: labelOrChildren,
+                    avatarUrl,
+                    supportingText,
+                    isDisabled,
+                    icon: Icon,
+                }
+            }
+            textValue={textValue}
+            isDisabled={isDisabled}
+            {...props}
+            className={(state) =>
+                cx("w-full py-px outline-hidden", size === "sm" ? "px-1" : "px-1.5", typeof className === "function" ? className(state) : className)
+            }
         >
-          {checkboxRows && (
-            <CheckboxBase isSelected={rowSelected} isDisabled={state.isDisabled} isFocusVisible={false} size="sm" className="shrink-0" />
-          )}
+            {(state) => (
+                <div
+                    className={cx(
+                        "flex cursor-pointer items-center rounded-md outline-hidden select-none",
+                        (state.isFocused || state.isHovered || (state.isSelected && selectionIndicator !== "checkbox")) && "bg-primary_hover",
+                        state.isDisabled && "cursor-not-allowed opacity-50",
+                        state.isFocusVisible && "ring-2 ring-focus-ring ring-inset",
 
-          {avatarUrl ? (
-            <Avatar aria-hidden="true" size="xs" src={avatarUrl} alt={label} />
-          ) : isReactComponent(Icon) ? (
-            <Icon data-icon aria-hidden="true" />
-          ) : isValidElement(Icon) ? (
-            Icon
-          ) : null}
+                        // Icon styles
+                        "*:data-icon:shrink-0 *:data-icon:text-fg-quaternary",
 
-          <div
-            className={cx(
-              "flex w-full min-w-0 flex-1 flex-wrap",
-              checkboxRows ? "gap-x-1.5" : "gap-x-2"
+                        sizes[size].root,
+                    )}
+                >
+                    {isLeft && selectionIndicator === "checkbox" && (
+                        <CheckboxBase size={sizes[size].checkbox} isSelected={state.isSelected} isDisabled={state.isDisabled} />
+                    )}
+
+                    {avatarUrl ? (
+                        <Avatar aria-hidden="true" size="xs" src={avatarUrl} alt={label} className={cx(size === "sm" && "size-5")} />
+                    ) : isReactComponent(Icon) ? (
+                        <Icon data-icon aria-hidden="true" />
+                    ) : isValidElement(Icon) ? (
+                        Icon
+                    ) : null}
+
+                    <div className={cx("flex w-full min-w-0 flex-1 flex-wrap", sizes[size].textContainer)}>
+                        <AriaText slot="label" className={cx("truncate font-medium whitespace-nowrap text-primary", sizes[size].text)}>
+                            {label || (typeof children === "function" ? children(state) : children)}
+                        </AriaText>
+
+                        {supportingText && (
+                            <AriaText slot="description" className={cx("whitespace-nowrap text-tertiary", sizes[size].text)}>
+                                {supportingText}
+                            </AriaText>
+                        )}
+                    </div>
+
+                    {state.isSelected && selectionIndicator === "checkmark" && (
+                        <Check aria-hidden="true" className={cx("ml-auto text-fg-brand-primary", sizes[size].check)} />
+                    )}
+
+                    {!isLeft && selectionIndicator === "checkbox" && (
+                        <CheckboxBase size={sizes[size].checkbox} isSelected={state.isSelected} isDisabled={state.isDisabled} className="ml-auto" />
+                    )}
+                </div>
             )}
-          >
-            <AriaText slot="label" className={labelClass(checkboxRows, !!state.isDisabled)}>
-              {label || (typeof children === "function" ? children(state) : children)}
-            </AriaText>
-
-            {supportingText && (
-              <AriaText slot="description" className={descriptionClass(checkboxRows, !!state.isDisabled)}>
-                {supportingText}
-              </AriaText>
-            )}
-          </div>
-
-          {!checkboxRows && rowSelected && (
-            <Check
-              aria-hidden="true"
-              className={cx("text-fg-brand-primary ml-auto", size === "sm" ? "size-4 stroke-[2.5px]" : "size-5", state.isDisabled && "text-fg-disabled")}
-            />
-          )}
-        </div>
-        );
-      }}
-    </AriaListBoxItem>
-  );
+        </AriaListBoxItem>
+    );
 };
