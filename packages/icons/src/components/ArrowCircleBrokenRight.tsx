@@ -18,7 +18,6 @@ export const ArrowCircleBrokenRight: FC<Props> = ({ size = 24, color = "currentC
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

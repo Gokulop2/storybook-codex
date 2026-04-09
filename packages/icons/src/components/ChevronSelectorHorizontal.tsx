@@ -12,7 +12,6 @@ export const ChevronSelectorHorizontal: FC<Props> = ({ size = 24, color = "curre
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

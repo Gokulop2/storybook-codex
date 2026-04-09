@@ -1,7 +1,7 @@
 "use client";
 
 import { type ComponentProps, useMemo, useState } from "react";
-import { FileIcon } from "@opus2-platform/icons";
+import { FileIcon } from "@untitledui/file-icons";
 import { AlertCircle, Check, Edit01, FilterLines, Plus, ReverseLeft, SearchLg, Trash01, UploadCloud02, X } from "@opus2-platform/icons";
 import type { SortDescriptor } from "react-aria-components";
 import {

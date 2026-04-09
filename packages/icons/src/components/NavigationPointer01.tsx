@@ -18,7 +18,6 @@ export const NavigationPointer01: FC<Props> = ({ size = 24, color = "currentColo
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

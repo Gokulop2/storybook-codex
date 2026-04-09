@@ -18,7 +18,6 @@ export const AlignVerticalCenter02: FC<Props> = ({ size = 24, color = "currentCo
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

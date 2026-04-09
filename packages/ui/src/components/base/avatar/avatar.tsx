@@ -7,7 +7,7 @@ import { AvatarOnlineIndicator, VerifiedTick } from "./base-components";
 import { AvatarCount } from "./base-components/avatar-count";
 
 export interface AvatarProps {
-    size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+    size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     className?: string;
     /**
      * The class name for the main child of the avatar.
@@ -69,6 +69,7 @@ export interface AvatarProps {
 }
 
 const styles = {
+    xxs: { root: "size-5", rootWithBorder: "p-px", initials: "text-xs font-semibold", icon: "size-3" },
     xs: { root: "size-6", rootWithBorder: "p-px", initials: "text-xs font-semibold", icon: "size-4" },
     sm: { root: "size-8", rootWithBorder: "p-px", initials: "text-sm font-semibold", icon: "size-5" },
     md: { root: "size-10", rootWithBorder: "p-px", initials: "text-md font-semibold", icon: "size-6" },
@@ -97,6 +98,7 @@ export const Avatar = ({
     const [isFailed, setIsFailed] = useState(false);
 
     const canShowImage = src && !isFailed;
+    const sizeKey: keyof typeof styles = size in styles ? size : "md";
 
     const renderMainContent = () => {
         if (canShowImage) {
@@ -104,23 +106,26 @@ export const Avatar = ({
         }
 
         if (initials) {
-            return <span className={cx("text-quaternary", styles[size].initials)}>{initials}</span>;
+            return <span className={cx("text-quaternary", styles[sizeKey].initials)}>{initials}</span>;
         }
 
         if (PlaceholderIcon) {
-            return <PlaceholderIcon className={cx("text-fg-quaternary", styles[size].icon)} />;
+            return <PlaceholderIcon className={cx("text-fg-quaternary", styles[sizeKey].icon)} />;
         }
 
-        return placeholder || <User01 className={cx("text-fg-quaternary", styles[size].icon)} />;
+        return placeholder || <User01 className={cx("text-fg-quaternary", styles[sizeKey].icon)} />;
     };
+
+    // Map "xxs" to "xs" for sub-components that don't support "xxs"
+    const indicatorSize = (size === "xxs" ? "xs" : size) as Exclude<typeof size, "xxs">;
 
     const renderBadgeContent = () => {
         if (status) {
-            return <AvatarOnlineIndicator status={status} size={size} />;
+            return <AvatarOnlineIndicator status={status} size={indicatorSize} />;
         }
 
         if (verified) {
-            return <VerifiedTick size={size} className={cx("absolute right-0 bottom-0", size === "xs" && "-right-px -bottom-px")} />;
+            return <VerifiedTick size={indicatorSize} className={cx("absolute right-0 bottom-0", (size === "xs" || size === "xxs") && "-right-px -bottom-px")} />;
         }
 
         if (count) {
@@ -139,8 +144,8 @@ export const Avatar = ({
                 // Focus styles
                 focusable && "outline-transparent group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-hidden",
                 border && "ring-1 ring-secondary_alt",
-                border && styles[size].rootWithBorder,
-                styles[size].root,
+                border && styles[sizeKey].rootWithBorder,
+                styles[sizeKey].root,
                 className,
             )}
         >

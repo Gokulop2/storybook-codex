@@ -18,7 +18,6 @@ export const LineChartDown04: FC<Props> = ({ size = 24, color = "currentColor", 
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

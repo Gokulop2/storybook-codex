@@ -1,4 +1,5 @@
 export * from './activity-feed';
+export * from './alert';
 export * from './alerts';
 export * from './app-navigation';
 export * from './breadcrumbs';

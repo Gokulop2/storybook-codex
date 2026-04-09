@@ -80,9 +80,11 @@ export interface BreadcrumbItemProps extends AriaBreadcrumbProps {
     /** Avatar image URL. Renders an avatar-in-ring instead of the default icon + label. */
     avatarSrc?: string;
     onClick?: () => void;
+    /** Whether this is the current (active) page in the breadcrumb trail. */
+    isCurrent?: boolean;
 }
 
-export const BreadcrumbItem = ({ href, icon, divider, type, isEllipsis, children, onClick, avatarSrc, className, ...otherProps }: BreadcrumbItemProps) => {
+export const BreadcrumbItem = ({ href, icon, divider, type, isEllipsis, children, onClick, avatarSrc, isCurrent: isCurrentProp, className, ...otherProps }: BreadcrumbItemProps) => {
     const context = useContext(BreadcrumbsContext);
 
     type = context.type || "text";
@@ -97,7 +99,9 @@ export const BreadcrumbItem = ({ href, icon, divider, type, isEllipsis, children
                 className,
             )}
         >
-            {({ isCurrent }) => (
+            {({ isCurrent: isCurrentFromAria }) => {
+                const isCurrent = isCurrentProp ?? isCurrentFromAria;
+                return (
                 <>
                     {avatarSrc ? (
                         <AriaLink
@@ -137,7 +141,8 @@ export const BreadcrumbItem = ({ href, icon, divider, type, isEllipsis, children
                             <ChevronRight className="size-4 shrink-0 stroke-[2.25px] text-utility-neutral-300" />
                         ))}
                 </>
-            )}
+                );
+            }}
         </AriaBreadcrumb>
     );
 };

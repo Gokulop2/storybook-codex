@@ -1,2 +1,2 @@
-export * from './untitledui-logo';
-export * from './untitledui-logo-minimal';
+export * from "./brand-logo";
+export * from "./brand-logo-minimal";

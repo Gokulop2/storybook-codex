@@ -18,7 +18,6 @@ export const CurrencyEthereumCircle: FC<Props> = ({ size = 24, color = "currentC
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

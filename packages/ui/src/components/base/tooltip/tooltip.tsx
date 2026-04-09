@@ -100,9 +100,15 @@ export const Tooltip = ({
 
 interface TooltipTriggerProps extends AriaButtonProps {}
 
-export const TooltipTrigger = ({ children, className, ...buttonProps }: TooltipTriggerProps) => {
+export const TooltipTrigger = ({ children, className, slot = null, ...buttonProps }: TooltipTriggerProps) => {
+    // `NumberField` (and similar) require every RAC `Button` to declare `increment`/`decrement`.
+    // Tooltip triggers are not steppers; `slot={null}` opts out (see adobe/react-spectrum#7596).
     return (
-        <AriaButton {...buttonProps} className={(values) => cx("h-max w-max outline-hidden", typeof className === "function" ? className(values) : className)}>
+        <AriaButton
+            {...buttonProps}
+            slot={slot}
+            className={(values) => cx("h-max w-max outline-hidden", typeof className === "function" ? className(values) : className)}
+        >
             {children}
         </AriaButton>
     );

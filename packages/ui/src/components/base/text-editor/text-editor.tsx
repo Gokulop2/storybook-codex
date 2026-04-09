@@ -229,11 +229,75 @@ const TextEditorHintText = ({ children, ...props }: TextEditorHintTextProps) => 
     );
 };
 
-export const TextEditor = {
-    Root: TextEditorRoot,
-    Toolbar: TextEditorToolbar,
-    Tooltip: TextEditorTooltip,
-    Content: TextEditorContent,
-    Label: TextEditorLabel,
-    HintText: TextEditorHintText,
+interface TextEditorComposedProps extends TextEditorRootProps {
+    /** Show or hide the toolbar. Defaults to true. */
+    showToolbar?: boolean;
+    /** Use floating toolbar chrome (pill + ring). */
+    floatingToolbar?: boolean;
+    /** Show tooltips on toolbar buttons when text is selected. */
+    showTooltips?: boolean;
+    /** Helper text displayed below the editor (character count when `maxLength` is set). */
+    hintText?: string;
+    /** Maximum number of characters allowed. */
+    maxLength?: number;
+    /** Default HTML content to populate the editor with. */
+    defaultContent?: string;
+    /** Layout preset. "hero" uses a taller min-height. */
+    layout?: "default" | "hero";
+    /** Size of the editor. */
+    size?: "sm" | "md";
+}
+
+const TextEditorComposed = ({
+    showToolbar = true,
+    floatingToolbar = false,
+    showTooltips = false,
+    hintText,
+    maxLength,
+    defaultContent,
+    layout = "default",
+    size = "md",
+    className,
+    ...rootProps
+}: TextEditorComposedProps) => {
+    const inputCls = cx(
+        layout === "hero" ? "min-h-[320px]" : size === "sm" ? "min-h-[120px]" : "min-h-[160px]",
+    );
+
+    return (
+        <TextEditorRoot
+            {...rootProps}
+            limit={maxLength}
+            content={defaultContent}
+            inputClassName={inputCls}
+            className={className}
+        >
+            {showToolbar && (
+                <TextEditorToolbar floating={floatingToolbar} />
+            )}
+            {showTooltips && <TextEditorTooltip />}
+            <TextEditorContent />
+            {(hintText || maxLength) && (
+                <TextEditorHintText>{hintText}</TextEditorHintText>
+            )}
+        </TextEditorRoot>
+    );
 };
+
+const TextEditorNamespace = TextEditorComposed as typeof TextEditorComposed & {
+    Root: typeof TextEditorRoot;
+    Toolbar: typeof TextEditorToolbar;
+    Tooltip: typeof TextEditorTooltip;
+    Content: typeof TextEditorContent;
+    Label: typeof TextEditorLabel;
+    HintText: typeof TextEditorHintText;
+};
+
+TextEditorNamespace.Root = TextEditorRoot;
+TextEditorNamespace.Toolbar = TextEditorToolbar;
+TextEditorNamespace.Tooltip = TextEditorTooltip;
+TextEditorNamespace.Content = TextEditorContent;
+TextEditorNamespace.Label = TextEditorLabel;
+TextEditorNamespace.HintText = TextEditorHintText;
+
+export const TextEditor = TextEditorNamespace;

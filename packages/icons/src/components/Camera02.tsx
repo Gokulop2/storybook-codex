@@ -19,7 +19,6 @@ export const Camera02: FC<Props> = ({ size = 24, color = "currentColor", ...prop
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

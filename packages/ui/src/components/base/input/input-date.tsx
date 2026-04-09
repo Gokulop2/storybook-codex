@@ -263,3 +263,6 @@ export const InputDate = ({
         </AriaDateField>
     );
 };
+
+/** Alias for InputDateBase for convenience. */
+export { InputDateBase as DateInput };

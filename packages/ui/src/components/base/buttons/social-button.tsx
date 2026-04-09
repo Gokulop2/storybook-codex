@@ -13,6 +13,10 @@ const styles = sortCx({
     },
 
     sizes: {
+        sm: {
+            root: "gap-1.5 rounded-md px-3 py-2 text-sm before:rounded-[5px] data-icon-only:p-2.5",
+            icon: "size-4",
+        },
         md: {
             root: "gap-2 rounded-lg px-3.5 py-2.5 text-sm before:rounded-[7px] data-icon-only:p-3",
             icon: "size-4",

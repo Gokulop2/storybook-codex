@@ -174,6 +174,10 @@ const DropdownPopover = (props: DropdownPopoverProps) => {
     );
 };
 
+const DropdownSectionHeader = ({ className, ...props }: Parameters<typeof AriaHeader>[0]) => (
+    <AriaHeader {...props} className={cx("px-4 pt-1.5 pb-0.5 text-xs font-semibold text-brand-secondary", className)} />
+);
+
 const DropdownSeparator = (props: AriaSeparatorProps) => {
     return <AriaSeparator {...props} className={cx("my-1 h-px w-full bg-border-secondary", props.className)} />;
 };
@@ -202,7 +206,7 @@ export const Dropdown = {
     Popover: DropdownPopover,
     Menu: DropdownMenu,
     Section: AriaMenuSection,
-    SectionHeader: AriaHeader,
+    SectionHeader: DropdownSectionHeader,
     Item: DropdownItem,
     Separator: DropdownSeparator,
     DotsButton: DropdownDotsButton,

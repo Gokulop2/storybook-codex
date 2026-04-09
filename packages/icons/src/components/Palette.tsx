@@ -25,7 +25,6 @@ export const Palette: FC<Props> = ({ size = 24, color = "currentColor", ...props
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

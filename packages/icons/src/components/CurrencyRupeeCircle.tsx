@@ -18,7 +18,6 @@ export const CurrencyRupeeCircle: FC<Props> = ({ size = 24, color = "currentColo
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

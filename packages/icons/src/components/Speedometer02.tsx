@@ -18,7 +18,6 @@ export const Speedometer02: FC<Props> = ({ size = 24, color = "currentColor", ..
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

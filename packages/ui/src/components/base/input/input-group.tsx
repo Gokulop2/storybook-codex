@@ -40,6 +40,8 @@ export const InputPrefix = ({ children, ...props }: InputPrefixProps) => (
 interface InputGroupProps extends TextFieldProps {
     /** A prefix text that is displayed in the same box as the input.*/
     prefix?: string;
+    /** Class name to apply to the prefix element. */
+    prefixClassName?: string;
     /** A leading addon that is displayed with visual separation from the input. */
     leadingAddon?: ReactNode;
     /** A trailing addon that is displayed with visual separation from the input. */
@@ -54,9 +56,11 @@ interface InputGroupProps extends TextFieldProps {
     hint?: ReactNode;
     /** Whether to hide the required indicator from the label. */
     hideRequiredIndicator?: boolean;
+    /** Whether the field is required. */
+    isRequired?: boolean;
 }
 
-export const InputGroup = ({ size = "md", prefix, leadingAddon, trailingAddon, label, hint, hideRequiredIndicator, children, ...props }: InputGroupProps) => {
+export const InputGroup = ({ size = "md", prefix, prefixClassName, leadingAddon, trailingAddon, label, hint, hideRequiredIndicator, isRequired, children, ...props }: InputGroupProps) => {
     const hasLeading = !!leadingAddon;
     const hasTrailing = !!trailingAddon;
 
@@ -90,6 +94,7 @@ export const InputGroup = ({ size = "md", prefix, leadingAddon, trailingAddon, l
     return (
         <TextField
             size={size}
+            isRequired={isRequired}
             aria-label={label || undefined}
             inputClassName={cx(paddings[size].input)}
             tooltipClassName={cx(hasTrailing && !hasLeading && "group-has-[&>select]:right-0")}
@@ -127,7 +132,7 @@ export const InputGroup = ({ size = "md", prefix, leadingAddon, trailingAddon, l
                         )}
 
                         {prefix && (
-                            <span className={cx("my-auto grow group-disabled:opacity-50", paddings[size].leadingText)}>
+                            <span className={cx("my-auto grow group-disabled:opacity-50", paddings[size].leadingText, prefixClassName)}>
                                 <p className={cx("text-md text-tertiary", size === "sm" && "text-sm")}>{prefix}</p>
                             </span>
                         )}

@@ -12,7 +12,6 @@ export const BarChart03: FC<Props> = ({ size = 24, color = "currentColor", ...pr
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

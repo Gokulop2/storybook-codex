@@ -18,7 +18,6 @@ export const CurrencyDollarCircle: FC<Props> = ({ size = 24, color = "currentCol
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

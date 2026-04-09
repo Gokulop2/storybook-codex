@@ -18,7 +18,6 @@ export const PhoneCall02: FC<Props> = ({ size = 24, color = "currentColor", ...p
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

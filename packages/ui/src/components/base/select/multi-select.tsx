@@ -1,10 +1,11 @@
 "use client";
 
 import type { ReactNode, RefAttributes } from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { ChevronDown, SearchLg } from "@opus2-platform/icons";
 import { useFilter } from "react-aria";
 import type { Selection } from "react-aria-components";
+import type { ListData } from "react-stately";
 import {
     Autocomplete as AriaAutocomplete,
     Button as AriaButton,
@@ -152,15 +153,27 @@ interface MultiSelectProps extends RefAttributes<HTMLDivElement>, CommonProps {
     selectedCountFormatter?: (count: number) => ReactNode;
     /** Supporting text displayed next to the selected count in the trigger. */
     supportingText?: ReactNode;
+    /**
+     * A ListData object (from react-stately useListData) representing selected items.
+     * When provided, drives selectedKeys and onSelectionChange automatically.
+     */
+    selectedItems?: ListData<SelectItemType>;
+    /**
+     * How selected items are displayed in the trigger.
+     * - "count"   (default) shows "N selected"
+     * - "summary" shows the first selected item's label plus a count for extras
+     * - "tags"    reserved for future tag-chip rendering (currently same as summary)
+     */
+    triggerDisplay?: "count" | "summary" | "tags";
 }
 
 const MultiSelectRoot = ({
     items,
     children,
     size = "md",
-    selectedKeys,
+    selectedKeys: selectedKeysProp,
     defaultSelectedKeys,
-    onSelectionChange,
+    onSelectionChange: onSelectionChangeProp,
     isDisabled,
     isRequired,
     isInvalid,
@@ -179,6 +192,8 @@ const MultiSelectRoot = ({
     emptyStateDescription,
     selectedCountFormatter,
     supportingText,
+    selectedItems,
+    triggerDisplay = "count",
 }: MultiSelectProps) => {
     const { contains } = useFilter({ sensitivity: "base" });
     const [searchValue, setSearchValue] = useState("");
@@ -192,8 +207,54 @@ const MultiSelectRoot = ({
         setPopoverWidth(rect.width + "px");
     }, []);
 
+    // Derive selectedKeys from selectedItems ListData if provided
+    const selectedKeys = useMemo<Selection | undefined>(() => {
+        if (selectedItems !== undefined) {
+            return new Set(selectedItems.items.map((item) => item.id));
+        }
+        return selectedKeysProp;
+    }, [selectedItems, selectedKeysProp]);
+
+    const onSelectionChange = useCallback(
+        (keys: Selection) => {
+            if (selectedItems !== undefined) {
+                // Sync ListData: remove deselected, add newly selected
+                const newIds = keys === "all" ? new Set(items?.map((i) => i.id) ?? []) : (keys as Set<string | number>);
+                const currentIds = new Set(selectedItems.items.map((i) => i.id));
+                // Remove items no longer selected
+                for (const item of selectedItems.items) {
+                    if (!newIds.has(item.id)) {
+                        selectedItems.remove(item.id);
+                    }
+                }
+                // Add newly selected items
+                for (const id of newIds) {
+                    if (!currentIds.has(id)) {
+                        const found = items?.find((i) => i.id === id);
+                        if (found) selectedItems.append(found);
+                    }
+                }
+            }
+            onSelectionChangeProp?.(keys);
+        },
+        [selectedItems, items, onSelectionChangeProp],
+    );
+
     const selectedCount = selectedKeys instanceof Set ? selectedKeys.size : selectedKeys === "all" ? (items?.length ?? 0) : 0;
     const hasSelection = selectedCount > 0;
+
+    // Build trigger label based on triggerDisplay
+    const triggerLabel = useMemo<ReactNode>(() => {
+        if (!hasSelection) return null;
+        if (triggerDisplay === "count" || !selectedItems) {
+            return selectedCountFormatter ? selectedCountFormatter(selectedCount) : `${selectedCount} selected`;
+        }
+        // summary / tags: show first item label + overflow count
+        const firstItem = selectedItems.items[0];
+        const firstName = firstItem?.label ?? String(firstItem?.id ?? "");
+        const extra = selectedCount - 1;
+        return extra > 0 ? `${firstName} +${extra}` : firstName;
+    }, [hasSelection, triggerDisplay, selectedItems, selectedCount, selectedCountFormatter]);
 
     const handleClearSearch = useCallback(() => {
         setSearchValue("");
@@ -231,7 +292,7 @@ const MultiSelectRoot = ({
                             {hasSelection ? (
                                 <span className={cx("flex items-center", sizes[size].textContainer)}>
                                     <span className={cx("font-medium text-primary", sizes[size].text)}>
-                                        {selectedCountFormatter ? selectedCountFormatter(selectedCount) : `${selectedCount} selected`}
+                                        {triggerLabel}
                                     </span>
                                     {supportingText && <span className={cx("text-tertiary", sizes[size].text)}>{supportingText}</span>}
                                 </span>
@@ -286,7 +347,7 @@ const MultiSelectRoot = ({
                                     items={items}
                                     selectionMode="multiple"
                                     selectedKeys={selectedKeys}
-                                    defaultSelectedKeys={defaultSelectedKeys}
+                                    defaultSelectedKeys={selectedKeys === undefined ? defaultSelectedKeys : undefined}
                                     onSelectionChange={onSelectionChange}
                                     renderEmptyState={() => (
                                         <MultiSelectEmptyState

@@ -25,7 +25,6 @@ export const ZapCircle: FC<Props> = ({ size = 24, color = "currentColor", ...pro
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );

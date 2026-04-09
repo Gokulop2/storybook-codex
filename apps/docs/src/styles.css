@@ -1,12 +1,81 @@
 @import "tailwindcss";
+@import "../../../packages/ui/src/styles/theme.css";
 
+/* Scan UI package components for class detection */
+@source "../../../packages/ui/src/**/*.{ts,tsx,css}";
+/* Scan docs stories for class detection */
 @source "./**/*.{ts,tsx,mdx,css}";
-
-@import "@opus2-platform/codex/src/styles/index.css";
 
 @plugin "@tailwindcss/typography";
 @plugin "tailwindcss-react-aria-components";
 @plugin "tailwindcss-animate";
+
+@custom-variant dark (&:where(.dark-mode, .dark-mode *));
+@custom-variant label (& [data-label]);
+@custom-variant focus-input-within (&:has(input:focus));
+
+@utility scrollbar-hide {
+  &::-webkit-scrollbar {
+    display: none;
+    -webkit-appearance: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@utility transition-inherit-all {
+  transition-property: inherit;
+  transition-duration: inherit;
+  transition-timing-function: inherit;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-variant-ligatures: contextual;
+  font-variant-ligatures: contextual;
+  -webkit-font-kerning: normal;
+  font-kerning: normal;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.recharts-surface,
+.recharts-surface g,
+.recharts-surface path {
+  outline: none;
+}
+
+@layer utilities {
+  .text-primary {
+    color: var(--text-color-primary) !important;
+  }
+}
+
+@layer utilities {
+  .dark-mode .tiptap.ProseMirror,
+  .dark-mode .tiptap.ProseMirror p,
+  .dark-mode .tiptap.ProseMirror li {
+    color: var(--text-color-primary) !important;
+  }
+}
 
 @layer components {
   .docs-section-title {
@@ -45,11 +114,19 @@
   }
 }
 
-/* (Intentionally no badge-specific typography overrides here.) */
+/* Storybook/Emotion injects `font-size: 16px` onto all divs inside its wrapper.
+   Our Tailwind text-size utilities must win regardless of the Emotion class name. */
+.sbdocs :where(div, span, p, li, a, button, label, h1, h2, h3, h4, h5, h6) {
+  font-size: inherit;
+}
+[class*="text-xs"] { font-size: var(--text-xs) !important; line-height: var(--text-xs--line-height) !important; }
+[class*="text-sm"] { font-size: var(--text-sm) !important; line-height: var(--text-sm--line-height) !important; }
+[class*="text-md"] { font-size: var(--text-md) !important; line-height: var(--text-md--line-height) !important; }
+[class*="text-lg"] { font-size: var(--text-lg) !important; line-height: var(--text-lg--line-height) !important; }
+[class*="text-xl"] { font-size: var(--text-xl) !important; line-height: var(--text-xl--line-height) !important; }
 
-/* Storybook/Emotion sometimes forces a font-size onto spans under `.css-1xxktr1`.
-   Clear it for the badges docs page only. */
-.css-1xxktr1 [data-codex-docs-badge-groups] :where(span:not(.sb-anchor, .sb-unstyled, .sb-unstyled span)) {
+/* Storybook/Emotion sometimes forces a font-size onto spans under badge-groups page. */
+[data-codex-docs-badge-groups] :where(span:not(.sb-anchor, .sb-unstyled, .sb-unstyled span)) {
   font-size: inherit !important;
 }
 

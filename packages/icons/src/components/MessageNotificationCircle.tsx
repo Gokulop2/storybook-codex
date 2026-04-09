@@ -18,7 +18,6 @@ export const MessageNotificationCircle: FC<Props> = ({ size = 24, color = "curre
     {
       width: size,
       height: size,
-      fill: color,
       ...props,
     }
   );
