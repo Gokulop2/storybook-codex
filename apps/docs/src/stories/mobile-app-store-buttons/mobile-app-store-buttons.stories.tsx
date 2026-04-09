@@ -241,7 +241,7 @@ const MobileAppStoreButtonsDocsPage: FC = () => (
 const meta = {
   title: "Base components/Mobile app store buttons",
   component: GooglePlayButton,
-  tags: ["autodocs"],
+  tags: ["autodocs", "hidden"],
   parameters: {
     docs: {
       page: MobileAppStoreButtonsDocsPage,

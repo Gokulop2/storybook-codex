@@ -211,7 +211,7 @@ const CreditCardsDocsPage: FC = () => (
 const meta = {
   title: "Base components/Credit cards",
   component: CreditCard,
-  tags: ["autodocs"],
+  tags: ["autodocs", "hidden"],
   parameters: {
     docs: {
       page: CreditCardsDocsPage,

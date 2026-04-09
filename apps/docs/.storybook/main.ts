@@ -23,6 +23,9 @@ function getAbsolutePath(value: string) {
 }
 const config: StorybookConfig = {
   stories: ["../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  tags: {
+    hidden: { excludeFromSidebar: true, excludeFromDocsStories: true },
+  },
   /** Docs demos: `/avatars/...` etc. */
   staticDirs: ["../public"],
   addons: [getAbsolutePath("@storybook/addon-docs")],

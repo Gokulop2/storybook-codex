@@ -249,7 +249,7 @@ const VerificationCodeInputsDocsPage: FC = () => (
 const meta = {
   title: "Base components/Verification code inputs",
   component: PinInput,
-  tags: ["autodocs"],
+  tags: ["autodocs", "hidden"],
   parameters: {
     docs: {
       page: VerificationCodeInputsDocsPage,

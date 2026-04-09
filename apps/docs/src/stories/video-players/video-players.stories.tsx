@@ -134,7 +134,7 @@ const VideoPlayersDocsPage: FC = () => (
 const meta = {
   title: "Base components/Video players",
   component: VideoPlayer,
-  tags: ["autodocs"],
+  tags: ["autodocs", "hidden"],
   parameters: {
     docs: {
       page: VideoPlayersDocsPage,

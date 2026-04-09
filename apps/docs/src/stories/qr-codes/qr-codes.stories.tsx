@@ -163,7 +163,7 @@ const QRCodesDocsPage: FC = () => (
 const meta = {
   title: "Base components/QR codes",
   component: QRCode,
-  tags: ["autodocs"],
+  tags: ["autodocs", "hidden"],
   parameters: {
     docs: {
       page: QRCodesDocsPage,

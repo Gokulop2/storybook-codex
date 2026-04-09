@@ -139,7 +139,7 @@ const RatingBadgeDocsPage: FC = () => (
 const meta = {
   title: "Base components/Rating badge and stars",
   component: RatingStars,
-  tags: ["autodocs"],
+  tags: ["autodocs", "hidden"],
   parameters: {
     docs: {
       page: RatingBadgeDocsPage,

@@ -136,7 +136,7 @@ export const RatingBadge = ({ title = "Best Design Tool", subtitle = "2,000+ rev
           <p
             className={cx(
               "m-0! text-sm! font-semibold!",
-              theme === "light" ? "[color:var(--color-white)]!" : "[color:var(--color-text-primary)]!"
+              theme === "light" ? "text-white!" : "text-primary!"
             )}
           >
             {title}
@@ -144,7 +144,7 @@ export const RatingBadge = ({ title = "Best Design Tool", subtitle = "2,000+ rev
           <p
             className={cx(
               "m-0! text-xs! font-medium!",
-              theme === "light" ? "[color:var(--color-brand-200)]!" : "[color:var(--color-text-secondary)]!"
+              theme === "light" ? "text-brand-200!" : "text-secondary!"
             )}
           >
             {subtitle}

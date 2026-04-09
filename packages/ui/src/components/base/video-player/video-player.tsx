@@ -433,12 +433,8 @@ export const VideoPlayer = ({
                     }}
                   />
                   <div
-                    className="pointer-events-none absolute bottom-6 -translate-x-1/2 translate-y-2 transform text-xs font-semibold text-fg-white opacity-0 group-hover/progress:translate-y-0 group-hover/progress:opacity-100"
-                    style={{
-                      left: hoverPosition ?? 0,
-                      transition:
-                        "opacity .3s cubic-bezier(0.4, 0, 0.6, 1), transform .3s cubic-bezier(0.4, 0, 0.6, 1), translate .3s cubic-bezier(0.4, 0, 0.6, 1)",
-                    }}
+                    className="pointer-events-none absolute bottom-6 -translate-x-1/2 translate-y-2 transform text-xs font-semibold text-fg-white opacity-0 group-hover/progress:translate-y-0 group-hover/progress:opacity-100 [transition:opacity_0.3s_cubic-bezier(0.4,0,0.6,1),transform_0.3s_cubic-bezier(0.4,0,0.6,1),translate_0.3s_cubic-bezier(0.4,0,0.6,1)]"
+                    style={{ left: hoverPosition ?? 0 }}
                   >
                     {canShowTrickPlayTime ? formatTime(hoverTime ?? 0) : ""}
                   </div>

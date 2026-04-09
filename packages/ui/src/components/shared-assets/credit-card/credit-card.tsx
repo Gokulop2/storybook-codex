@@ -203,10 +203,7 @@ export const CreditCard = ({
           <div className="flex min-w-0 flex-col gap-2">
             <div className="flex items-end gap-1">
               <p
-                style={{
-                  wordBreak: "break-word",
-                }}
-                className={cx("m-0! text-xs! leading-snug font-semibold tracking-[0.6px] uppercase", styles[type].footerText)}
+                className={cx("m-0! text-xs! leading-snug font-semibold tracking-[0.6px] uppercase break-words", styles[type].footerText)}
               >
                 {cardHolder}
               </p>
