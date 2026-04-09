@@ -271,7 +271,7 @@ const CodeSnippetTab = ({ children, className, ...otherProps }: CodeSnippetTabPr
             {...otherProps}
             className={(state) =>
                 cx(
-                    "z-10 flex cursor-pointer items-center justify-center gap-2 rounded-md px-2 py-1 text-sm font-semibold whitespace-nowrap text-quaternary outline-0 outline-offset-2 outline-focus-ring transition duration-100 ease-linear",
+                    "z-10 flex cursor-pointer items-center justify-center gap-2 rounded-md px-2 py-1 text-sm font-semibold whitespace-nowrap text-quaternary outline-0 outline-offset-2 outline-hidden transition duration-100 ease-linear",
                     (state.isSelected || state.isHovered) && "text-primary",
                     state.isFocusVisible && "outline-2",
                     typeof className === "function" ? className(state) : className,

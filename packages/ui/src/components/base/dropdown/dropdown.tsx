@@ -74,7 +74,22 @@ const DropdownItem = ({ label, children, addon, icon: Icon, avatarUrl, unstyled,
     );
 
     if (unstyled) {
-        return <AriaMenuItem id={label} textValue={label} {...props} />;
+        return (
+            <AriaMenuItem
+                id={label}
+                textValue={label}
+                {...props}
+                className={(state) =>
+                    cx(
+                        "group block cursor-pointer px-1.5 py-px outline-hidden",
+                        state.isDisabled && "cursor-not-allowed",
+                        typeof props.className === "function" ? props.className(state) : props.className,
+                    )
+                }
+            >
+                {children}
+            </AriaMenuItem>
+        );
     }
 
     return (
@@ -91,7 +106,7 @@ const DropdownItem = ({ label, children, addon, icon: Icon, avatarUrl, unstyled,
             {(state) => (
                 <div
                     className={cx(
-                        "relative flex items-center rounded-md px-2.5 py-2 outline-focus-ring transition duration-100 ease-linear",
+                        "relative flex items-center rounded-md px-2.5 py-2 outline-hidden transition duration-100 ease-linear",
                         !state.isDisabled && "group-hover:bg-primary_hover",
                         state.isFocused && "bg-primary_hover",
                         state.isFocusVisible && "outline-2 -outline-offset-2",
@@ -170,7 +185,7 @@ const DropdownDotsButton = (props: AriaButtonProps & RefAttributes<HTMLButtonEle
             aria-label="Open menu"
             className={(state) =>
                 cx(
-                    "cursor-pointer rounded-md text-fg-quaternary outline-focus-ring transition duration-100 ease-linear",
+                    "cursor-pointer rounded-md text-fg-quaternary outline-hidden transition duration-100 ease-linear",
                     (state.isPressed || state.isHovered) && "text-fg-quaternary_hover",
                     (state.isPressed || state.isFocusVisible) && "outline-2 outline-offset-2",
                     typeof props.className === "function" ? props.className(state) : props.className,

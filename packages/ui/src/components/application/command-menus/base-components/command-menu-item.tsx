@@ -59,7 +59,7 @@ export const CommandDropdownMenuItem = ({ label, children, description, stacked,
             {(state) => (
                 <div
                     className={cx(
-                        "relative flex min-h-10 items-center justify-between rounded-lg px-2.5 py-2 pl-2.5 outline-focus-ring transition duration-100 ease-linear hover:bg-primary_hover",
+                        "relative flex min-h-10 items-center justify-between rounded-lg px-2.5 py-2 pl-2.5 outline-hidden transition duration-100 ease-linear hover:bg-primary_hover",
                         state.isSelected && "bg-primary_hover",
                         state.isFocusVisible && "outline-2 outline-offset-2",
                         stacked && "items-start p-2.5 pl-3.5",

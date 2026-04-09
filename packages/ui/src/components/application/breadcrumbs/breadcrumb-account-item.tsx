@@ -35,7 +35,7 @@ export const BreadcrumbAccountItem = ({ items, selectedKey, onSelectionChange }:
                         <AriaButton
                             className={({ isPressed, isFocusVisible }) =>
                                 cx(
-                                    "flex cursor-pointer items-center gap-1.5 rounded-lg outline-0 outline-offset-2 outline-focus-ring",
+                                    "flex cursor-pointer items-center gap-1.5 rounded-lg outline-0 outline-offset-2 outline-hidden",
                                     (isPressed || isFocusVisible) && "outline-2",
                                 )
                             }
@@ -63,7 +63,7 @@ export const BreadcrumbAccountItem = ({ items, selectedKey, onSelectionChange }:
                                         textValue={account.name}
                                         className={(state) =>
                                             cx(
-                                                "relative w-full cursor-pointer rounded-md px-2 py-2 text-left outline-0 outline-offset-2 outline-focus-ring transition duration-100 ease-linear hover:bg-primary_hover focus:z-10 focus-visible:outline-2",
+                                                "relative w-full cursor-pointer rounded-md px-2 py-2 text-left outline-0 outline-offset-2 outline-hidden transition duration-100 ease-linear hover:bg-primary_hover focus:z-10 focus-visible:outline-2",
                                                 state.isSelected && "bg-primary_hover",
                                             )
                                         }

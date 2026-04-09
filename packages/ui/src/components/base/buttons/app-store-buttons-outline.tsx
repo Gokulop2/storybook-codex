@@ -10,7 +10,7 @@ export const GooglePlayOutlineButton = ({ size = "md", ...props }: AnchorHTMLAtt
             href="#"
             {...props}
             className={cx(
-                "rounded-[7px] text-fg-primary ring-1 ring-fg-primary outline-focus-ring ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
+                "rounded-[7px] text-fg-primary ring-1 ring-fg-primary outline-hidden ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
                 props.className,
             )}
         >
@@ -80,7 +80,7 @@ export const AppStoreOutlineButton = ({ size = "md", ...props }: AnchorHTMLAttri
             href="#"
             {...props}
             className={cx(
-                "rounded-[7px] text-fg-primary ring-1 ring-fg-primary outline-focus-ring ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
+                "rounded-[7px] text-fg-primary ring-1 ring-fg-primary outline-hidden ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
                 props.className,
             )}
         >
@@ -186,7 +186,7 @@ export const GalaxyStoreOutlineButton = ({ size = "md", ...props }: AnchorHTMLAt
             href="#"
             {...props}
             className={cx(
-                "rounded-[7px] text-fg-primary ring-1 ring-fg-primary outline-focus-ring ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
+                "rounded-[7px] text-fg-primary ring-1 ring-fg-primary outline-hidden ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
                 props.className,
             )}
         >
@@ -285,7 +285,7 @@ export const AppGalleryOutlineButton = ({ size = "md", ...props }: AnchorHTMLAtt
             href="#"
             {...props}
             className={cx(
-                "rounded-[7px] text-fg-primary ring-1 ring-fg-primary outline-focus-ring ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
+                "rounded-[7px] text-fg-primary ring-1 ring-fg-primary outline-hidden ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
                 props.className,
             )}
         >

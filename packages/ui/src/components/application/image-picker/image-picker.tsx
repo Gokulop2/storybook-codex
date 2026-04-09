@@ -48,7 +48,7 @@ const AdjustmentSlider = ({ label, minValue = -100, maxValue = 100, ...props }: 
             <AriaSliderThumb
                 className={({ isFocusVisible, isDragging }) =>
                     cx(
-                        "top-1/2 size-4 cursor-grab rounded-full bg-fg-white shadow-md ring ring-secondary_alt outline-0 outline-focus-ring",
+                        "top-1/2 size-4 cursor-grab rounded-full bg-fg-white shadow-md ring ring-secondary_alt outline-0 outline-hidden",
                         isFocusVisible && "outline-2 outline-offset-2",
                         isDragging && "cursor-grabbing",
                     )

@@ -17,33 +17,33 @@ type TabTypeColors<T> = T extends "horizontal" ? HorizontalTypes : VerticalTypes
 // Styles for different types of tab
 const getTabStyles = ({ isFocusVisible, isSelected, isHovered }: AriaTabRenderProps) => ({
     "button-brand": cx(
-        "outline-focus-ring *:data-icon:text-fg-quaternary",
+        "outline-hidden *:data-icon:text-fg-quaternary",
         isFocusVisible && "outline-2 -outline-offset-2",
         (isSelected || isHovered) && "bg-brand-primary_alt text-brand-secondary *:data-icon:text-fg-brand-secondary_hover",
     ),
     "button-gray": cx(
-        "outline-focus-ring *:data-icon:text-fg-quaternary",
+        "outline-hidden *:data-icon:text-fg-quaternary",
         isHovered && "bg-primary_hover text-secondary *:data-icon:text-fg-secondary_hover",
         isFocusVisible && "outline-2 -outline-offset-2",
         isSelected && "bg-primary_hover text-secondary *:data-icon:text-fg-secondary_hover",
     ),
     "button-border": cx(
-        "outline-focus-ring *:data-icon:text-fg-quaternary",
+        "outline-hidden *:data-icon:text-fg-quaternary",
         isFocusVisible && "outline-2 -outline-offset-2",
         (isSelected || isHovered) && "bg-primary_alt text-secondary shadow-sm *:data-icon:text-fg-secondary_hover",
     ),
     "button-minimal": cx(
-        "rounded-lg outline-focus-ring *:data-icon:text-fg-quaternary",
+        "rounded-lg outline-hidden *:data-icon:text-fg-quaternary",
         isFocusVisible && "outline-2 -outline-offset-2",
         (isSelected || isHovered) && "bg-primary_alt text-secondary shadow-xs ring-1 ring-primary ring-inset *:data-icon:text-fg-secondary_hover",
     ),
     underline: cx(
-        "rounded-none border-b-2 border-transparent outline-focus-ring *:data-icon:text-fg-quaternary",
+        "rounded-none border-b-2 border-transparent outline-hidden *:data-icon:text-fg-quaternary",
         isFocusVisible && "outline-2 -outline-offset-2",
         (isSelected || isHovered) && "border-fg-brand-primary_alt text-brand-secondary *:data-icon:text-fg-brand-secondary_hover",
     ),
     line: cx(
-        "rounded-none border-l-2 border-transparent outline-focus-ring *:data-icon:text-fg-quaternary",
+        "rounded-none border-l-2 border-transparent outline-hidden *:data-icon:text-fg-quaternary",
         isFocusVisible && "outline-2 -outline-offset-2",
         (isSelected || isHovered) && "border-fg-brand-primary_alt text-brand-secondary *:data-icon:text-fg-brand-secondary_hover",
     ),
@@ -156,7 +156,7 @@ export const TabPanel = (props: ComponentPropsWithRef<typeof AriaTabPanel>) => {
             {...props}
             className={(state) =>
                 cx(
-                    "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+                    "outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2",
                     typeof props.className === "function" ? props.className(state) : props.className,
                 )
             }

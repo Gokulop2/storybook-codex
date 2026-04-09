@@ -32,7 +32,7 @@ export const RadioButtonBase = ({ className, isFocusVisible, isSelected, isDisab
                 isSelected && "bg-brand-solid ring-brand-solid",
                 isDisabled && "cursor-not-allowed opacity-50",
                 isDisabled && !isSelected && "bg-tertiary",
-                isFocusVisible && "outline-2 outline-offset-2 outline-focus-ring",
+                isFocusVisible && "outline-2 outline-offset-2 outline-hidden",
                 className,
             )}
         >

@@ -43,7 +43,7 @@ const ColorThumb = ({ className, ...props }: AriaColorThumbProps) => (
     <AriaColorThumb
         className={(state) =>
             cx(
-                "size-5 cursor-grab rounded-full border-[3px] border-fg-white shadow-md outline-0 outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+                "size-5 cursor-grab rounded-full border-[3px] border-fg-white shadow-md outline-0 outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2",
                 state.isDragging && "cursor-grabbing",
                 typeof className === "function" ? className(state) : className,
             )
@@ -195,7 +195,7 @@ export const SwatchItem = ({ color, size = "md", ...props }: SwatchItemsProps) =
                 "cursor-pointer rounded-full",
                 size === "sm" ? "size-4" : "size-5",
                 state.isFocusVisible
-                    ? "outline-2 outline-offset-2 outline-focus-ring"
+                    ? "outline-2 outline-offset-2 outline-hidden"
                     : state.isSelected
                       ? "outline-2 outline-offset-2 outline-(--swatch-color)"
                       : "outline-0",
@@ -389,7 +389,7 @@ const SavedColors = ({ label = "Saved", colors, onAdd, onSelect }: SavedColorsPr
                             key={`${c}-${i}`}
                             type="button"
                             onClick={() => onSelect?.(c)}
-                            className="size-5 cursor-pointer rounded-full ring-1 ring-alpha-black/10 transition duration-100 ease-linear ring-inset hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+                            className="size-5 cursor-pointer rounded-full ring-1 ring-alpha-black/10 transition duration-100 ease-linear ring-inset hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hidden"
                             style={{ background: c }}
                             aria-label="Select gradient"
                         />

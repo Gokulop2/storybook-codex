@@ -291,7 +291,7 @@ export const VideoPlayer = ({
             className={cx(
                 "group/video relative",
                 // Add focus ring when video is focused
-                "outline-focus-ring has-[video:focus-visible]:outline-2 has-[video:focus-visible]:outline-offset-4",
+                "outline-hidden has-[video:focus-visible]:outline-2 has-[video:focus-visible]:outline-offset-4",
                 className,
             )}
         >

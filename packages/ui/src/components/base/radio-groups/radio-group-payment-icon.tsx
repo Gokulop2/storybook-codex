@@ -30,7 +30,7 @@ export const RadioGroupPaymentIcon = ({ items, size = "sm", className, ...props 
                     value={card.value}
                     className={({ isDisabled, isSelected, isFocusVisible }) =>
                         cx(
-                            "relative flex cursor-pointer items-start gap-1 rounded-xl bg-primary p-4 outline-focus-ring ring-inset",
+                            "relative flex cursor-pointer items-start gap-1 rounded-xl bg-primary p-4 outline-hidden ring-inset",
                             isSelected ? "ring-2 ring-brand" : "ring-1 ring-secondary",
                             isDisabled && "bg-disabled_subtle ring-disabled_subtle cursor-not-allowed",
                             isFocusVisible && "outline-2 outline-offset-2",

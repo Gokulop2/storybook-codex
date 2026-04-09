@@ -72,7 +72,7 @@ export const FeedItem = ({ user, date, action, attachment, comment, labels, mess
                     <div className="flex items-center gap-2">
                         <a
                             href={user.href}
-                            className="rounded text-sm font-medium text-secondary outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2"
+                            className="rounded text-sm font-medium text-secondary outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2"
                         >
                             {user.name}
                         </a>

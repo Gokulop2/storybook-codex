@@ -34,7 +34,7 @@ export const PaginationLine = ({ framed, className, size = "md", ...props }: Pag
                                 asChild
                                 key={index}
                                 className={cx(
-                                    "relative cursor-pointer rounded-full bg-quaternary outline-focus-ring after:absolute focus-visible:outline-2 focus-visible:outline-offset-2",
+                                    "relative cursor-pointer rounded-full bg-quaternary outline-hidden after:absolute focus-visible:outline-2 focus-visible:outline-offset-2",
                                     sizes[size].button,
                                     page.isCurrent && "bg-fg-brand-primary_alt",
                                 )}

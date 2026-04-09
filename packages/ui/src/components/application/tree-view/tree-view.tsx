@@ -295,7 +295,7 @@ const TreeViewItemContent = ({ icon: Icon, action, children, className }: TreeVi
                 return (
                     <div
                         className={cx(
-                            "flex w-full cursor-pointer items-center gap-2 rounded-sm -outline-offset-2 outline-focus-ring transition duration-100 ease-linear",
+                            "flex w-full cursor-pointer items-center gap-2 rounded-sm -outline-offset-2 outline-hidden transition duration-100 ease-linear",
                             size === "sm" ? "py-1.5 pr-2" : "py-2 pr-2",
                             isDropTarget && "bg-secondary_hover outline-2",
                             !isDropTarget && (isSelected || isIndeterminate) && "bg-secondary hover:bg-secondary_hover",

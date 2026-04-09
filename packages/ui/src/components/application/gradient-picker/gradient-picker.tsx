@@ -235,7 +235,7 @@ export const GradientArea = () => {
                             }
                         }}
                         className={cx(
-                            "absolute z-10 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full border-[3px] border-white shadow-md outline-0 outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 active:cursor-grabbing",
+                            "absolute z-10 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full border-[3px] border-white shadow-md outline-0 outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 active:cursor-grabbing",
                             isEndpoint ? "size-5" : "size-4",
                         )}
                         style={{ left: `${pt.x}%`, top: `${pt.y}%`, background: stop.color }}
@@ -339,7 +339,7 @@ export const GradientSlider = () => {
                     onPointerDown={(e) => handleInnerDown(e, stop)}
                     onFocus={() => actions.selectStop(stop.id)}
                     onKeyDown={(e) => handleInnerKeyDown(e, stop)}
-                    className="absolute top-1/2 size-5 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full border-[3px] border-white shadow-md outline-0 outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 active:cursor-grabbing"
+                    className="absolute top-1/2 size-5 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full border-[3px] border-white shadow-md outline-0 outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 active:cursor-grabbing"
                     style={{ left: `${stop.position}%`, background: stop.color }}
                     role="slider"
                     aria-label={`Gradient stop at ${Math.round(stop.position)}%`}

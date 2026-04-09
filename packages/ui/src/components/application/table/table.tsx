@@ -254,7 +254,7 @@ const TableRow = <T extends object>({ columns, children, className, highlightSel
             {...props}
             className={(state) =>
                 cx(
-                    "relative outline-focus-ring transition-colors after:pointer-events-none hover:bg-secondary focus-visible:outline-2 focus-visible:-outline-offset-2",
+                    "relative outline-hidden transition-colors after:pointer-events-none hover:bg-secondary focus-visible:outline-2 focus-visible:-outline-offset-2",
                     size === "sm" ? "h-14" : "h-18",
                     highlightSelectedRow && "selected:bg-secondary",
 
@@ -295,7 +295,7 @@ const TableCell = ({ className, children, size: sizeProp, ...props }: TableCellP
             {...props}
             className={(state) =>
                 cx(
-                    "relative text-sm text-tertiary outline-focus-ring focus-visible:z-1 focus-visible:outline-2 focus-visible:-outline-offset-2",
+                    "relative text-sm text-tertiary outline-hidden focus-visible:z-1 focus-visible:outline-2 focus-visible:-outline-offset-2",
                     size === "sm" && "px-5 py-3",
                     size === "md" && "px-6 py-4",
 

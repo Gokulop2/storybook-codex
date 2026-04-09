@@ -41,7 +41,7 @@ const BreadcrumbBase = ({ href, children, icon: Icon, type = "text", current, cl
             href={href}
             className={(state) =>
                 cx(
-                    "group inline-flex items-center justify-center gap-1 rounded-md outline-focus-ring transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 in-current:max-w-full",
+                    "group inline-flex items-center justify-center gap-1 rounded-md outline-hidden transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 in-current:max-w-full",
                     baseStyles[type].root,
                     current && baseStyles[type].current.root,
                     (href || otherProps.onClick) && "cursor-pointer",
@@ -104,7 +104,7 @@ export const BreadcrumbItem = ({ href, icon, divider, type, isEllipsis, children
                             href={href}
                             className={({ isPressed, isFocusVisible }) =>
                                 cx(
-                                    "flex cursor-pointer items-center gap-1.5 rounded-lg outline-0 outline-offset-2 outline-focus-ring",
+                                    "flex cursor-pointer items-center gap-1.5 rounded-lg outline-0 outline-offset-2 outline-hidden",
                                     (isPressed || isFocusVisible) && "outline-2",
                                 )
                             }

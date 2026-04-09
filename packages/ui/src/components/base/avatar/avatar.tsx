@@ -137,7 +137,7 @@ export const Avatar = ({
                 "relative inline-flex shrink-0 rounded-[7px]",
                 rounded && "rounded-full",
                 // Focus styles
-                focusable && "outline-transparent group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-focus-ring",
+                focusable && "outline-transparent group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-hidden",
                 border && "ring-1 ring-secondary_alt",
                 border && styles[size].rootWithBorder,
                 styles[size].root,

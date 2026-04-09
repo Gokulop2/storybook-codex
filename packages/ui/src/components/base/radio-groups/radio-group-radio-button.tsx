@@ -29,7 +29,7 @@ export const RadioGroupRadioButton = ({ items, size = "sm", className, ...props 
                     value={plan.value}
                     className={({ isDisabled, isSelected, isFocusVisible }) =>
                         cx(
-                            "relative flex cursor-pointer rounded-xl bg-primary p-4 outline-focus-ring ring-inset",
+                            "relative flex cursor-pointer rounded-xl bg-primary p-4 outline-hidden ring-inset",
                             size === "md" ? "gap-3" : "gap-2",
                             isSelected ? "ring-2 ring-brand" : "ring-1 ring-secondary",
                             isDisabled && "cursor-not-allowed bg-disabled_subtle ring-disabled_subtle",
@@ -45,7 +45,7 @@ export const RadioGroupRadioButton = ({ items, size = "sm", className, ...props 
                                     size === "md" ? "size-5" : "size-4",
                                     isSelected ? "bg-brand-solid" : "ring-1 ring-primary",
                                     isDisabled && "bg-disabled_subtle ring-1 ring-disabled",
-                                    isFocusVisible && "outline-2 outline-offset-2 outline-focus-ring",
+                                    isFocusVisible && "outline-2 outline-offset-2 outline-hidden",
                                 )}
                             >
                                 <div
