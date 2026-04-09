@@ -92,7 +92,7 @@ export const NavAccountMenu = ({
               <button
                 key={account.id}
                 className={cx(
-                  "outline-focus-ring hover:bg-primary_hover relative w-full cursor-pointer rounded-md px-2 py-1.5 text-left focus:z-10 focus-visible:outline-2 focus-visible:outline-offset-2",
+                  "outline-hidden hover:bg-primary_hover relative w-full cursor-pointer rounded-md px-2 py-1.5 text-left focus:z-10 focus-visible:outline-2 focus-visible:outline-offset-2",
                   account.id === selectedAccountId && "bg-primary_hover"
                 )}
               >
@@ -133,7 +133,7 @@ const NavAccountCardMenuItem = ({
         className={cx(
           "group-hover/item:bg-primary_hover flex w-full items-center justify-between gap-3 rounded-md p-2",
           // Focus styles.
-          "outline-focus-ring group-focus-visible/item:outline-2 group-focus-visible/item:outline-offset-2"
+          "outline-hidden group-focus-visible/item:outline-2 group-focus-visible/item:outline-offset-2"
         )}
       >
         <div className="text-secondary group-hover/item:text-secondary_hover flex gap-2 text-sm font-semibold">
@@ -171,7 +171,7 @@ export const NavAccountCard = ({
 
       <div className="absolute top-1.5 right-1.5">
         <AriaDialogTrigger>
-          <AriaButton className="text-fg-quaternary outline-focus-ring hover:bg-primary_hover hover:text-fg-quaternary_hover pressed:bg-primary_hover pressed:text-fg-quaternary_hover flex cursor-pointer items-center justify-center rounded-md p-1.5 transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2">
+          <AriaButton className="text-fg-quaternary outline-hidden hover:bg-primary_hover hover:text-fg-quaternary_hover pressed:bg-primary_hover pressed:text-fg-quaternary_hover flex cursor-pointer items-center justify-center rounded-md p-1.5 transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2">
             <ChevronSelectorVertical className="size-4 shrink-0" />
           </AriaButton>
           <AriaPopover

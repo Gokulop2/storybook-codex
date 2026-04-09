@@ -90,7 +90,7 @@ export const ButtonUtility = ({
       aria-label={tooltip}
       {...props}
       className={cx(
-        "group outline-focus-ring disabled:text-fg-disabled_subtle relative inline-flex h-max cursor-pointer items-center justify-center rounded-md p-1.5 transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed",
+        "group outline-hidden disabled:text-fg-disabled_subtle relative inline-flex h-max cursor-pointer items-center justify-center rounded-md p-1.5 transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed",
         styles[color],
 
         // Icon styles

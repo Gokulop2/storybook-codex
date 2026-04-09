@@ -40,7 +40,18 @@ interface DropdownItemProps extends AriaMenuItemProps {
 const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }: DropdownItemProps) => {
   if (unstyled) {
     return (
-      <AriaMenuItem {...props} id={props.id ?? label} textValue={props.textValue ?? label}>
+      <AriaMenuItem
+        {...props}
+        id={props.id ?? label}
+        textValue={props.textValue ?? label}
+        className={(state) =>
+          cx(
+            "group block cursor-pointer px-1.5 py-px outline-hidden",
+            state.isDisabled && "cursor-not-allowed",
+            typeof props.className === "function" ? props.className(state) : props.className
+          )
+        }
+      >
         {children}
       </AriaMenuItem>
     );
@@ -63,7 +74,7 @@ const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }
           <div
             className={cx(
               // Submenu row: inner flex + outline on same node as transition/hover.
-              "relative flex items-center rounded-md px-2.5 py-2 pr-1.5 outline-focus-ring transition duration-100 ease-linear",
+              "relative flex items-center rounded-md px-2.5 py-2 pr-1.5 outline-hidden transition duration-100 ease-linear",
               !state.isDisabled && "group-hover:bg-primary_hover",
               state.isFocused && "bg-primary_hover",
               state.isFocusVisible && "outline-2 -outline-offset-2"
@@ -129,7 +140,7 @@ const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }
           <div
           className={cx(
             // Row padding: `px-2.5 py-2`.
-            "outline-focus-ring relative flex items-center rounded-md px-2.5 py-2 transition duration-100 ease-linear",
+            "outline-hidden relative flex items-center rounded-md px-2.5 py-2 transition duration-100 ease-linear",
             !state.isDisabled && "group-hover:bg-primary_hover",
             // React Aria uses focused for keyboard roving; keep hover+focus visuals identical.
             state.isFocused && "bg-primary_hover",
@@ -257,9 +268,9 @@ const DropdownDotsButton = (props: AriaButtonProps & RefAttributes<HTMLButtonEle
       aria-label="Open menu"
       className={(state) =>
         cx(
-          "text-fg-quaternary outline-focus-ring cursor-pointer rounded-md transition duration-100 ease-linear",
+          "text-fg-quaternary outline-hidden cursor-pointer rounded-md transition duration-100 ease-linear",
           (state.isPressed || state.isHovered) && "text-fg-quaternary_hover",
-          (state.isPressed || state.isFocusVisible) && "outline-2 outline-offset-2",
+          state.isFocusVisible && "outline-2 outline-offset-2",
           typeof props.className === "function" ? props.className(state) : props.className
         )
       }
@@ -269,13 +280,17 @@ const DropdownDotsButton = (props: AriaButtonProps & RefAttributes<HTMLButtonEle
   );
 };
 
+const DropdownSectionHeader = ({ className, ...props }: Parameters<typeof AriaHeader>[0]) => (
+  <AriaHeader {...props} className={cx("px-4 pt-1.5 pb-0.5 text-xs font-semibold text-brand-secondary", className)} />
+);
+
 export const Dropdown = {
   Root: AriaMenuTrigger,
   Submenu: AriaSubmenuTrigger,
   Popover: DropdownPopover,
   Menu: DropdownMenu,
   Section: AriaMenuSection,
-  SectionHeader: AriaHeader,
+  SectionHeader: DropdownSectionHeader,
   Item: DropdownItem,
   Separator: DropdownSeparator,
   DotsButton: DropdownDotsButton,

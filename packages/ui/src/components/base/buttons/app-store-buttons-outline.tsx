@@ -6,7 +6,7 @@ export type AppStoreOutlineButtonProps = AnchorHTMLAttributes<HTMLAnchorElement>
 };
 
 const OUTLINE_STORE_LINK_CLASS =
-  "text-[#171717]! ring-[#171717]! dark:text-fg-primary! dark:ring-fg-primary! outline-focus-ring rounded-[7px] ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2";
+  "text-[#171717]! ring-[#171717]! dark:text-fg-primary! dark:ring-fg-primary! outline-hidden rounded-[7px] ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2";
 
 function OutlineStoreLink({
   className,

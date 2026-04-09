@@ -79,7 +79,7 @@ export const CalendarCell = ({ date, isHighlighted, ...props }: CalendarCellProp
               // Disabled state.
               isDisabled ? "text-disabled" : "text-secondary hover:text-secondary_hover",
               // Focus ring, visible while the cell has keyboard focus.
-              isFocusVisible ? "outline-focus-ring outline-2 outline-offset-2" : "",
+              isFocusVisible ? "outline-hidden outline-2 outline-offset-2" : "",
               // Hover state for cells in the middle of the range.
               isSelected && !isDisabled && isRangeCalendar ? "font-medium" : "",
               markedAsSelected && "bg-brand-solid hover:bg-brand-solid_hover font-medium text-white hover:text-white",

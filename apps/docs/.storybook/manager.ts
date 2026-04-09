@@ -18,5 +18,7 @@ addons.setConfig({
     brandUrl: "./",
     brandImage: "/opus2-logo.png",
     brandTarget: "_self",
+    fontBase: '"Inter", -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+    fontCode: 'ui-monospace, "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace',
   }),
 });

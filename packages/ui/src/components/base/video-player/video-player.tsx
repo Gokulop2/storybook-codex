@@ -289,7 +289,7 @@ export const VideoPlayer = ({
       <div
         className={cx(
           "group/video relative aspect-video w-full overflow-hidden rounded-xl bg-black ring-1 ring-secondary ring-inset",
-          "outline-focus-ring has-[video:focus-visible]:outline-2 has-[video:focus-visible]:outline-offset-4",
+          "outline-hidden has-[video:focus-visible]:outline-2 has-[video:focus-visible]:outline-offset-4",
           className,
         )}
       >

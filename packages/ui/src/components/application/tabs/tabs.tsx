@@ -17,34 +17,34 @@ type TabTypeColors<T> = T extends "horizontal" ? HorizontalTypes : VerticalTypes
 // Styles for different types of tab
 const getTabStyles = ({ isFocusVisible, isSelected, isHovered }: AriaTabRenderProps) => ({
   "button-brand": cx(
-    "outline-focus-ring",
+    "outline-hidden",
     isFocusVisible && "outline-2 -outline-offset-2",
     (isSelected || isHovered) && "bg-brand-primary_alt text-brand-secondary"
   ),
   "button-gray": cx(
-    "outline-focus-ring",
+    "outline-hidden",
     isHovered && "bg-primary_hover text-secondary",
     isFocusVisible && "outline-2 -outline-offset-2",
     isSelected && "bg-active text-secondary"
   ),
   "button-border": cx(
-    "outline-focus-ring",
+    "outline-hidden",
     (isSelected || isHovered) && "bg-primary_alt text-secondary shadow-sm",
     isFocusVisible && "outline-2 -outline-offset-2"
   ),
   "button-minimal": cx(
-    "outline-focus-ring rounded-lg",
+    "outline-hidden rounded-lg",
     isHovered && "text-secondary",
     isFocusVisible && "outline-2 -outline-offset-2",
     isSelected && "bg-primary_alt text-secondary ring-primary shadow-xs ring-1 ring-inset"
   ),
   underline: cx(
-    "outline-focus-ring rounded-none border-b-2 border-transparent",
+    "outline-hidden rounded-none border-b-2 border-transparent",
     (isSelected || isHovered) && "border-fg-brand-primary_alt text-brand-secondary",
     isFocusVisible && "outline-2 -outline-offset-2"
   ),
   line: cx(
-    "outline-focus-ring rounded-none border-l-2 border-transparent",
+    "outline-hidden rounded-none border-l-2 border-transparent",
     (isSelected || isHovered) && "border-fg-brand-primary_alt text-brand-secondary",
     isFocusVisible && "outline-2 -outline-offset-2"
   ),
@@ -155,7 +155,7 @@ export const TabPanel = (props: ComponentPropsWithRef<typeof AriaTabPanel>) => {
       {...props}
       className={(state) =>
         cx(
-          "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+          "outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2",
           typeof props.className === "function" ? props.className(state) : props.className
         )
       }

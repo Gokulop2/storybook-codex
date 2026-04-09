@@ -99,7 +99,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
           <AriaDialogTrigger>
             <AriaButton
               className={({ isPressed, isFocused }) =>
-                cx("group relative inline-flex rounded-full", (isPressed || isFocused) && "outline-focus-ring outline-2 outline-offset-2")
+                cx("group relative inline-flex rounded-full", (isPressed || isFocused) && "outline-hidden outline-2 outline-offset-2")
               }
             >
               <Avatar status="online" src="https://picsum.photos/seed/codex-olivia-rhye/128/128" size="md" alt="Olivia Rhye" />

@@ -1,12 +1,20 @@
 import type { Preview } from "@storybook/react-vite";
+import { create } from "storybook/theming";
 
 import "../src/styles.css";
+
+const codexTheme = create({
+  base: "light",
+  fontBase: '"Inter", -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+  fontCode: 'ui-monospace, "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace',
+});
 
 const preview: Preview = {
   parameters: {
     docs: {
       // Render docs stories inline so docs pages do not use embedded iframes.
       inlineStories: true,
+      theme: codexTheme,
     },
     controls: {
       matchers: {

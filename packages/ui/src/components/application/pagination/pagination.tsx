@@ -19,7 +19,7 @@ const PaginationItem = ({ value, rounded, isCurrent }: { value: number; rounded?
       isCurrent={isCurrent}
       className={({ isSelected }) =>
         cx(
-          "text-quaternary outline-focus-ring hover:bg-primary_hover hover:text-secondary focus-visible:bg-primary_hover flex size-10 cursor-pointer items-center justify-center p-3 text-sm font-medium transition duration-100 ease-linear focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2",
+          "text-quaternary outline-hidden hover:bg-primary_hover hover:text-secondary focus-visible:bg-primary_hover flex size-10 cursor-pointer items-center justify-center p-3 text-sm font-medium transition duration-100 ease-linear focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2",
           rounded ? "rounded-full" : "rounded-lg",
           isSelected && "bg-primary_hover text-secondary"
         )

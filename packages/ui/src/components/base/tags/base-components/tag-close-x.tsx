@@ -20,7 +20,7 @@ export const TagCloseX = ({ size = "md", className, ...otherProps }: TagCloseXPr
       slot="remove"
       aria-label="Remove this tag"
       className={cx(
-        "text-fg-quaternary hover:bg-primary_hover hover:text-fg-quaternary_hover focus-visible:outline-focus-ring flex cursor-pointer rounded-[3px] outline-transparent transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed",
+        "text-fg-quaternary hover:bg-primary_hover hover:text-fg-quaternary_hover focus-visible:outline-hidden flex cursor-pointer rounded-[3px] outline-transparent transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed",
         styles[size].root,
         className
       )}

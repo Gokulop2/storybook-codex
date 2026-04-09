@@ -217,7 +217,7 @@ const ActivityFeedDocsPage = () => {
 const meta = {
   title: "Application UI/Activity feed",
   component: ActivityFeed,
-  tags: ["autodocs", "hidden"],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       page: ActivityFeedDocsPage,

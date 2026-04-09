@@ -34,10 +34,10 @@ export const CarouselIndicator = ({
 export const CarouselMd = () => {
   return (
     <Carousel.Root className="relative aspect-[1.6] max-w-160">
-      <Carousel.PrevTrigger className="bg-alpha-white/90 text-fg-secondary outline-focus-ring disabled:bg-disabled_subtle disabled:text-fg-disabled absolute top-1/2 left-4 z-10 flex size-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full p-2 backdrop-blur-xs focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed">
+      <Carousel.PrevTrigger className="bg-alpha-white/90 text-fg-secondary outline-hidden disabled:bg-disabled_subtle disabled:text-fg-disabled absolute top-1/2 left-4 z-10 flex size-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full p-2 backdrop-blur-xs focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed">
         <ChevronLeft className="size-5" />
       </Carousel.PrevTrigger>
-      <Carousel.NextTrigger className="bg-alpha-white/90 text-fg-secondary outline-focus-ring disabled:bg-disabled_subtle disabled:text-fg-disabled absolute top-1/2 right-4 z-10 flex size-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full p-2 backdrop-blur-xs focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed">
+      <Carousel.NextTrigger className="bg-alpha-white/90 text-fg-secondary outline-hidden disabled:bg-disabled_subtle disabled:text-fg-disabled absolute top-1/2 right-4 z-10 flex size-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full p-2 backdrop-blur-xs focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed">
         <ChevronRight className="size-5" />
       </Carousel.NextTrigger>
 
@@ -75,10 +75,10 @@ export const CarouselMd = () => {
 export const CarouselLg = () => {
   return (
     <Carousel.Root className="relative aspect-[1.6] max-w-160">
-      <Carousel.PrevTrigger className="bg-alpha-white/90 text-fg-secondary outline-focus-ring disabled:bg-disabled_subtle disabled:text-fg-disabled absolute top-1/2 left-5 z-10 flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full p-2 backdrop-blur-xs focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed">
+      <Carousel.PrevTrigger className="bg-alpha-white/90 text-fg-secondary outline-hidden disabled:bg-disabled_subtle disabled:text-fg-disabled absolute top-1/2 left-5 z-10 flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full p-2 backdrop-blur-xs focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed">
         <ChevronLeft className="size-6" />
       </Carousel.PrevTrigger>
-      <Carousel.NextTrigger className="bg-alpha-white/90 text-fg-secondary outline-focus-ring disabled:bg-disabled_subtle disabled:text-fg-disabled absolute top-1/2 right-5 z-10 flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full p-2 backdrop-blur-xs focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed">
+      <Carousel.NextTrigger className="bg-alpha-white/90 text-fg-secondary outline-hidden disabled:bg-disabled_subtle disabled:text-fg-disabled absolute top-1/2 right-5 z-10 flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full p-2 backdrop-blur-xs focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed">
         <ChevronRight className="size-6" />
       </Carousel.NextTrigger>
 

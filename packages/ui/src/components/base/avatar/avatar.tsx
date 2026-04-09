@@ -116,7 +116,7 @@ export const Avatar = ({
       className={cx(
         "bg-avatar-bg relative inline-flex shrink-0 items-center justify-center rounded-full outline-transparent",
         // Focus styles
-        focusable && "group-outline-focus-ring group-focus-visible:outline-2 group-focus-visible:outline-offset-2",
+        focusable && "group-outline-hidden group-focus-visible:outline-2 group-focus-visible:outline-offset-2",
         contrastBorder && "outline-avatar-contrast-border outline",
         styles[size].root,
         className

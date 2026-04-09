@@ -53,7 +53,7 @@ export const Slider = ({ labelPosition = "default", minValue = 0, maxValue = 100
                     className={({ isFocusVisible, isDragging }) =>
                       cx(
                         "bg-slider-handle-bg ring-slider-handle-border top-1/2 box-border size-6 cursor-grab rounded-full shadow-md ring-2 ring-inset",
-                        isFocusVisible && "outline-focus-ring outline-2 outline-offset-2",
+                        isFocusVisible && "outline-hidden outline-2 outline-offset-2",
                         isDragging && "cursor-grabbing"
                       )
                     }

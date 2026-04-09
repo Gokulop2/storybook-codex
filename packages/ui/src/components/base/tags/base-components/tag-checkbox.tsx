@@ -18,7 +18,7 @@ export const TagCheckbox = ({ className, isFocused, isSelected, isDisabled, size
         size === "lg" && "size-4.5",
         isSelected && "bg-brand-solid ring-bg-brand-solid",
         isDisabled && "bg-disabled_subtle ring-disabled cursor-not-allowed",
-        isFocused && "outline-focus-ring outline-2 outline-offset-2",
+        isFocused && "outline-hidden outline-2 outline-offset-2",
         className
       )}
     >

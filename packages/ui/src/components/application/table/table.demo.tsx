@@ -1016,7 +1016,7 @@ export const TableSomethingWentWrong = () => {
             <EmptyState.Title>Something went wrong...</EmptyState.Title>
             <EmptyState.Description>
               We had some trouble loading this page. Please refresh the page or{" "}
-              <a href="#" className="outline-focus-ring rounded-xs underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2">
+              <a href="#" className="outline-hidden rounded-xs underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2">
                 get in touch
               </a>{" "}
               for support.

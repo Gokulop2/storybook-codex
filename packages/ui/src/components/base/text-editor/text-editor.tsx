@@ -82,7 +82,7 @@ const DEFAULT_HTML = "<p></p>";
 const DEFAULT_TEXT_COLOR = "#181D27";
 
 const TOOLBAR_BTN_CLASS =
-  "flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md p-0! outline-hidden outline-focus-ring transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 data-[pressed]:bg-primary_hover data-[pressed]:outline-hidden";
+  "flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md p-0! outline-hidden outline-hidden transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 data-[pressed]:bg-primary_hover data-[pressed]:outline-hidden";
 
 /** `md` toolbar — font family / size triggers. */
 const TOOLBAR_SELECT_TRIGGER =

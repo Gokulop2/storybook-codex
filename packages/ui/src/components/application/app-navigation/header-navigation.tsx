@@ -103,7 +103,7 @@ export const HeaderNavigationBase = ({
         >
           <div className="max-w-container flex w-full justify-between pr-3 pl-4 md:px-8">
             <div className="flex flex-1 items-center gap-4">
-              <a aria-label="Go to homepage" href="/" className="outline-focus-ring rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2">
+              <a aria-label="Go to homepage" href="/" className="outline-hidden rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2">
                 <BrandLogo className="h-8" />
               </a>
 
@@ -146,7 +146,7 @@ export const HeaderNavigationBase = ({
                 <DialogTrigger>
                   <AriaButton
                     className={({ isPressed, isFocused }) =>
-                      cx("group relative inline-flex cursor-pointer", (isPressed || isFocused) && "outline-focus-ring rounded-full outline-2 outline-offset-2")
+                      cx("group relative inline-flex cursor-pointer", (isPressed || isFocused) && "outline-hidden rounded-full outline-2 outline-offset-2")
                     }
                   >
                     <Avatar alt="Olivia Rhye" src="https://picsum.photos/seed/codex-olivia-rhye/128/128" size="md" />

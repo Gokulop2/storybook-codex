@@ -153,7 +153,7 @@ const BreadcrumbsDocsPage = () => {
 const meta = {
   title: "Application UI/Breadcrumbs",
   component: Breadcrumbs,
-  tags: ["autodocs", "hidden"],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       page: BreadcrumbsDocsPage,
