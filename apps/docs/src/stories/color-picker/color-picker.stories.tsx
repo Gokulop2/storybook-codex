@@ -8,9 +8,10 @@ import {
 } from "../_docs/docs-preview-code";
 import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
+import { ApplicationUiOverview } from "../_docs/application-ui-overview";
 
 const COLOR_PICKER_TOC = [
-  { id: "color-picker-examples", label: "Color picker examples" },
+  { id: "color-picker-overview", label: "Overview" },
   { id: "full", label: "Full" },
   { id: "minimal", label: "Minimal" },
   { id: "area", label: "Area" },
@@ -31,16 +32,49 @@ const ColorPickerDocsPage = () => {
   return (
     <div className="docs-sbdocs-with-toc-layout">
       <StorybookRootHeaderPortal>
-        <DocsPageBreadcrumb currentLabel="Color picker" />
+        <DocsPageBreadcrumb catalog="application" currentLabel="Color picker" />
       </StorybookRootHeaderPortal>
       <StorybookSbdocsTocPortal>
         <OnThisPageNav items={COLOR_PICKER_TOC} />
       </StorybookSbdocsTocPortal>
 
       <main className="docs-sbdocs-content typography">
-        <div id="color-picker-examples" className={DOCS_SECTION_HERO_CLASS}>
+        <div id="color-picker-overview" className={DOCS_SECTION_HERO_CLASS}>
           <h1 className="docs-h1">Color picker</h1>
-          <p>Color pickers allow users to select and adjust colors using various input methods.</p>
+          <p>
+            Color selection and adjustment. The compound <code className="text-sm">ColorPicker</code> from <code className="text-sm">@opus2-platform/codex</code> wraps
+            React Aria color primitives — compose <code className="text-sm">Full</code>, sliders, swatches, inputs, and wheel subcomponents for each layout.
+          </p>
+          <ApplicationUiOverview
+            items={[
+              {
+                label: "Value model",
+                children: (
+                  <>
+                    Initialise with <code className="text-xs">parseColor(...)</code> from <code className="text-xs">react-aria-components</code>; support HSLA when
+                    using the alpha slider.
+                  </>
+                ),
+              },
+              {
+                label: "Layout",
+                children: (
+                  <>
+                    Full vs minimal shells: same root <code className="text-xs">ColorPicker</code>, swap inner composition to control density and padding.
+                  </>
+                ),
+              },
+              {
+                label: "Swatches & wheel",
+                children: (
+                  <>
+                    Preset grids and eye-dropper-style flows use <code className="text-xs">Swatch</code> / <code className="text-xs">SwatchGrid</code> /{" "}
+                    <code className="text-xs">ColorWheel</code> with design-token rings and radii.
+                  </>
+                ),
+              },
+            ]}
+          />
           <div className={DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK}>
             <div className="w-full max-w-xs">
               <ColorPicker defaultValue={parseColor("hsl(240, 80%, 60%)")}>

@@ -1,6 +1,6 @@
 # @opus2-platform/codex
 
-UI components library for Opus2 Platform.
+**Codex** — the Opus2 Platform React component library: accessible primitives and application patterns built on React Aria Components and Tailwind CSS.
 
 ## Features
 
@@ -24,43 +24,24 @@ Import components in your app:
 import { Button } from "@opus2-platform/codex";
 ```
 
-### Untitled UI Integration
+### Styles
 
-This library wraps [Untitled UI React](https://www.untitledui.com/react) components for easy use.
-
-#### Theming
-
-To use Untitled UI theming, ensure your app imports the global styles:
+Import Codex global styles (theme tokens and component layers):
 
 ```css
 @import "@opus2-platform/codex/dist/styles.css";
 ```
 
-#### Example
+### Example
 
 ```js
 import { Button } from "@opus2-platform/codex";
 
 function App() {
-  return <Button onClick={() => alert("Clicked!")}>UI Button</Button>;
+  return <Button onClick={() => alert("Clicked!")}>Save</Button>;
 }
 ```
 
 ## Development
 
-- Build: `npm run build` (outputs to `dist`)
-- Watch: `npm run dev`
-
-## Peer Dependencies
-
-- React
-- ReactDOM
-
-## Folder Structure
-
-- `src/`: Component source code
-- `dist/`: Build output
-
----
-
-For more details, see the root README.
+See the monorepo root `README.md` for build and Storybook commands.

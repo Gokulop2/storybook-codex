@@ -406,7 +406,7 @@ export const Table02DividerLine = () => {
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
                     src="https://picsum.photos/seed/codex-olivia-rhye/128/128"
-                    alt="Olivia Rhye"
+                    alt="Gokul Krishnan"
                   />
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
@@ -527,7 +527,7 @@ export const Table02AlternatingFills = () => {
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
                     src="https://picsum.photos/seed/codex-olivia-rhye/128/128"
-                    alt="Olivia Rhye"
+                    alt="Gokul Krishnan"
                   />
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"

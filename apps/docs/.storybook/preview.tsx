@@ -23,10 +23,62 @@ const preview: Preview = {
       },
     },
     options: {
-      // Overview first in the sidebar (directly under search), then all other roots (e.g. Button).
+      /**
+       * Storybook matches the first path segment against top-level `order` entries.
+       * Do not wrap `"Base components"` in an extra array — otherwise `indexOf("Base components")` fails,
+       * `alphabetical` ties "Application UI" with "Base components", and "Application" sorts first.
+       *
+       * Leaf arrays use the segment after `Base components/` or `Application UI/` — must stay aligned with
+       * `BASE_COMPONENT_STORY_TITLES_ORDERED` and `APPLICATION_UI_STORY_TITLES_ORDERED`.
+       */
       storySort: {
-        order: ["Overview", "Base components", "*"],
-        method: "alphabetical",
+        method: "configure",
+        order: [
+          "Overview",
+          "Base components",
+          [
+            "Avatars",
+            "Badge groups",
+            "Badges",
+            "Button groups",
+            "Button",
+            "Checkboxes",
+            "Credit cards",
+            "Dropdowns",
+            "Featured icons",
+            "Illustrations",
+            "Inputs",
+            "Mobile app store buttons",
+            "Progress indicators",
+            "QR codes",
+            "Radio buttons",
+            "Radio groups",
+            "Rating badge and stars",
+            "Text editors",
+            "Select",
+            "Multi-select",
+            "Sliders",
+            "Social buttons",
+            "Tags",
+            "Textarea",
+            "Toggles",
+            "Tooltips",
+            "Utility buttons",
+            "Verification code inputs",
+            "Video players",
+          ],
+          "Application UI",
+          [
+            "Activity feed",
+            "Alerts",
+            "Breadcrumbs",
+            "Color picker",
+            "Notifications",
+            "Progress steps",
+            "Sidebar navigations",
+          ],
+          "*",
+        ],
       },
       // Hide Storybook's default preview toolbar; page-level header controls are rendered in docs pages.
       showToolbar: false,

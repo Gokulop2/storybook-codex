@@ -5,6 +5,7 @@ import { User01 } from "@opus2-platform/icons";
 import { cx } from "@/utils";
 import { AvatarOnlineIndicator, VerifiedTick } from "./base-components";
 import { AvatarCount } from "./base-components/avatar-count";
+import { AVATAR_IMAGE_SHELL_FLEX_ROUNDED_FULL, AVATAR_IMAGE_SHELL_FLEX_ROUNDED_MD } from "./avatar-image-shell-classes";
 
 export interface AvatarProps {
     size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
@@ -151,11 +152,7 @@ export const Avatar = ({
         >
             <div
                 className={cx(
-                    "relative inline-flex size-full shrink-0 items-center justify-center overflow-hidden rounded-md bg-tertiary outline-[0.5px] -outline-offset-[0.5px] outline-black/16 before:inset-[0.5px]",
-                    rounded && "rounded-full",
-                    canShowImage &&
-                        size !== "xs" &&
-                        "before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-white/32 before:mask-[linear-gradient(to_bottom,black_0%,transparent_25%,transparent_75%,black_100%)]",
+                    rounded ? AVATAR_IMAGE_SHELL_FLEX_ROUNDED_FULL : AVATAR_IMAGE_SHELL_FLEX_ROUNDED_MD,
                     contentClassName,
                 )}
             >

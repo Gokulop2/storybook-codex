@@ -9,9 +9,10 @@ import {
 import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
+import { ApplicationUiOverview } from "../_docs/application-ui-overview";
 
 const ACTIVITY_FEED_TOC = [
-  { id: "activity-feed-examples", label: "Activity feed examples" },
+  { id: "activity-feed-overview", label: "Overview" },
   { id: "divided", label: "Divided" },
   { id: "connected", label: "Connected" },
   { id: "spaced", label: "Spaced" },
@@ -24,7 +25,7 @@ const ACTIVITY_FEED_TOC = [
 const demoItems: ActivityFeedItemData[] = [
   {
     id: "1",
-    user: { name: "Olivia Rhye", avatarUrl: CODEX_DOCS_AVATAR_SRC, status: "online" },
+    user: { name: "Gokul Krishnan", avatarUrl: CODEX_DOCS_AVATAR_SRC, status: "online" },
     action: "commented on",
     target: "Brand guidelines",
     targetHref: "#",
@@ -51,7 +52,7 @@ const demoItems: ActivityFeedItemData[] = [
 const demoItemsWithContent: ActivityFeedItemData[] = [
   {
     id: "1",
-    user: { name: "Olivia Rhye", avatarUrl: CODEX_DOCS_AVATAR_SRC, status: "online" },
+    user: { name: "Gokul Krishnan", avatarUrl: CODEX_DOCS_AVATAR_SRC, status: "online" },
     action: "commented on",
     target: "Brand guidelines",
     targetHref: "#",
@@ -71,7 +72,7 @@ const demoItemsWithContent: ActivityFeedItemData[] = [
 const demoItemsWithAttachment: ActivityFeedItemData[] = [
   {
     id: "1",
-    user: { name: "Olivia Rhye", avatarUrl: CODEX_DOCS_AVATAR_SRC },
+    user: { name: "Gokul Krishnan", avatarUrl: CODEX_DOCS_AVATAR_SRC },
     action: "uploaded",
     target: undefined,
     content: "Here is the latest design file for your review.",
@@ -91,7 +92,7 @@ const demoItemsWithAttachment: ActivityFeedItemData[] = [
 const demoMessages: ActivityFeedItemData[] = [
   {
     id: "1",
-    user: { name: "Olivia Rhye", avatarUrl: CODEX_DOCS_AVATAR_SRC, status: "online" },
+    user: { name: "Gokul Krishnan", avatarUrl: CODEX_DOCS_AVATAR_SRC, status: "online" },
     content: "Hey! I just pushed the latest changes to the repo. Can you review when you get a chance?",
     date: "2:30 PM",
   },
@@ -114,16 +115,49 @@ const ActivityFeedDocsPage = () => {
   return (
     <div className="docs-sbdocs-with-toc-layout">
       <StorybookRootHeaderPortal>
-        <DocsPageBreadcrumb currentLabel="Activity feed" />
+        <DocsPageBreadcrumb catalog="application" currentLabel="Activity feed" />
       </StorybookRootHeaderPortal>
       <StorybookSbdocsTocPortal>
         <OnThisPageNav items={ACTIVITY_FEED_TOC} />
       </StorybookSbdocsTocPortal>
 
       <main className="docs-sbdocs-content typography">
-        <div id="activity-feed-examples" className={DOCS_SECTION_HERO_CLASS}>
+        <div id="activity-feed-overview" className={DOCS_SECTION_HERO_CLASS}>
           <h1 className="docs-h1">Activity feed</h1>
-          <p>Activity feeds display a chronological list of events, comments, or messages.</p>
+          <p>
+            Chronological events, comments, or messages. From <code className="text-sm">@opus2-platform/codex</code>, compose <code className="text-sm">ActivityFeed</code>{" "}
+            with <code className="text-sm">items</code>, <code className="text-sm">spacing</code>, and optional <code className="text-sm">variant="messages"</code> for
+            chat-style rows.
+          </p>
+          <ApplicationUiOverview
+            items={[
+              {
+                label: "Spacing",
+                children: (
+                  <>
+                    Use <code className="text-xs">divided</code>, <code className="text-xs">connected</code>, or <code className="text-xs">spaced</code> to mirror
+                    list density and connector lines.
+                  </>
+                ),
+              },
+              {
+                label: "Content",
+                children: (
+                  <>
+                    Optional body copy, file attachments, and <code className="text-xs">unseen</code> emphasis on new items.
+                  </>
+                ),
+              },
+              {
+                label: "Avatars",
+                children: (
+                  <>
+                    Pass <code className="text-xs">user.avatarUrl</code> and <code className="text-xs">status</code> for leading avatars and presence.
+                  </>
+                ),
+              },
+            ]}
+          />
           <div className={DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK}>
             <div className="w-full max-w-md">
               <ActivityFeed items={demoItems} spacing="divided" />
@@ -200,7 +234,7 @@ const ActivityFeedDocsPage = () => {
             <div className="w-full max-w-md relative pl-4">
               <ActivityFeed
                 items={[
-                  { id: "1", user: { name: "Olivia Rhye", avatarUrl: CODEX_DOCS_AVATAR_SRC, status: "online" }, action: "commented on", target: "Brand guidelines", targetHref: "#", date: "2h ago", unseen: true },
+                  { id: "1", user: { name: "Gokul Krishnan", avatarUrl: CODEX_DOCS_AVATAR_SRC, status: "online" }, action: "commented on", target: "Brand guidelines", targetHref: "#", date: "2h ago", unseen: true },
                   { id: "2", user: { name: "Lana Steiner", avatarUrl: CODEX_DOCS_AVATAR_SRC }, action: "uploaded", target: "Design system v2.pdf", targetHref: "#", date: "4h ago" },
                   { id: "3", user: { name: "Demi Wilkinson", avatarUrl: CODEX_DOCS_AVATAR_SRC }, action: "invited you to", target: "Project Alpha", targetHref: "#", date: "Yesterday", unseen: true },
                 ]}

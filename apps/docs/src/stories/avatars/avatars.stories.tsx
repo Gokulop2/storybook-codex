@@ -17,7 +17,7 @@ const AVATAR_SIZES: AvatarSize[] = ["xxs", "xs", "sm", "md", "lg", "xl", "2xl"];
 /** Company mark for badge demos (placeholder CDN). */
 const CODEX_DOCS_COMPANY_LOGO_SRC = "https://picsum.photos/seed/codex-company/128/128";
 /** Sample email for docs copy (Opus2 / Codex). */
-const CODEX_DOCS_SAMPLE_EMAIL = "olivia@opus2.com";
+const CODEX_DOCS_SAMPLE_EMAIL = "gkrishnan@opus2.com";
 /** Group demo config: fixed avatar count with last 3 hidden on <= md. */
 const GROUP_AVATAR_COUNT = 10;
 const GROUP_HIDE_ON_MD_COUNT = 3;
@@ -90,7 +90,7 @@ import { User01 } from "@opus2-platform/icons";
 <div className="flex flex-wrap items-center justify-center gap-4">
   <Avatar
     src="${CODEX_DOCS_AVATAR_SRC}"
-    alt="Olivia Rhye"
+    alt="Gokul Krishnan"
     status="online"
     size="md"
   />
@@ -101,19 +101,19 @@ import { User01 } from "@opus2-platform/icons";
 <AvatarLabelGroup
   size="md"
   src="${CODEX_DOCS_AVATAR_SRC}"
-  title="Olivia Rhye"
+  title="Gokul Krishnan"
   subtitle="${CODEX_DOCS_SAMPLE_EMAIL}"
   status="online"
 />`,
-  avatar: `import { Avatar } from "@opus2-platform/codex";\n\n<Avatar src="${CODEX_DOCS_AVATAR_SRC}" alt="Olivia Rhye" />`,
-  statusIndicator: `import { Avatar } from "@opus2-platform/codex";\n\n<Avatar src="${CODEX_DOCS_AVATAR_SRC}" alt="Olivia Rhye" status="online" />`,
-  companyLogo: `import { Avatar } from "@opus2-platform/codex";\nimport { AvatarCompanyIcon } from "@opus2-platform/codex";\n\n<Avatar\n  src="${CODEX_DOCS_AVATAR_SRC}"\n  alt="Olivia Rhye"\n  badge={<AvatarCompanyIcon size="md" src="${CODEX_DOCS_COMPANY_LOGO_SRC}" alt="Company logo" />}\n/>`,
+  avatar: `import { Avatar } from "@opus2-platform/codex";\n\n<Avatar src="${CODEX_DOCS_AVATAR_SRC}" alt="Gokul Krishnan" />`,
+  statusIndicator: `import { Avatar } from "@opus2-platform/codex";\n\n<Avatar src="${CODEX_DOCS_AVATAR_SRC}" alt="Gokul Krishnan" status="online" />`,
+  companyLogo: `import { Avatar } from "@opus2-platform/codex";\nimport { AvatarCompanyIcon } from "@opus2-platform/codex";\n\n<Avatar\n  src="${CODEX_DOCS_AVATAR_SRC}"\n  alt="Gokul Krishnan"\n  badge={<AvatarCompanyIcon size="md" src="${CODEX_DOCS_COMPANY_LOGO_SRC}" alt="Company logo" />}\n/>`,
   verifiedBadge: `import { Avatar } from "@opus2-platform/codex";\n\n<Avatar initials="OR" verified />`,
   placeholder: `import { Avatar } from "@opus2-platform/codex";\nimport { User01 } from "@opus2-platform/icons";\n\n<Avatar placeholderIcon={User01} />`,
   initials: `import { Avatar } from "@opus2-platform/codex";\n\n<Avatar initials="OR" />`,
-  labelGroup: `import { AvatarLabelGroup } from "@opus2-platform/codex";\n\n<AvatarLabelGroup\n  size="md"\n  src="${CODEX_DOCS_AVATAR_SRC}"\n  title="Olivia Rhye"\n  subtitle="${CODEX_DOCS_SAMPLE_EMAIL}"\n  status="online"\n/>`,
+  labelGroup: `import { AvatarLabelGroup } from "@opus2-platform/codex";\n\n<AvatarLabelGroup\n  size="md"\n  src="${CODEX_DOCS_AVATAR_SRC}"\n  title="Gokul Krishnan"\n  subtitle="${CODEX_DOCS_SAMPLE_EMAIL}"\n  status="online"\n/>`,
   group: buildGroupDocsCode(),
-  profilePhoto: `import { AvatarProfilePhoto } from "@opus2-platform/codex";\n\n<AvatarProfilePhoto\n  size="md"\n  src="${CODEX_DOCS_AVATAR_SRC}"\n  alt="Olivia Rhye"\n/>`,
+  profilePhoto: `import { AvatarProfilePhoto } from "@opus2-platform/codex";\n\n<AvatarProfilePhoto\n  size="md"\n  src="${CODEX_DOCS_AVATAR_SRC}"\n  alt="Gokul Krishnan"\n/>`,
   profilePhotoPlaceholder: `import { AvatarProfilePhoto } from "@opus2-platform/codex";\nimport { User01 } from "@opus2-platform/icons";\n\n<AvatarProfilePhoto size="md" placeholderIcon={User01} />`,
   profilePhotoInitials: `import { AvatarProfilePhoto } from "@opus2-platform/codex";\n\n<AvatarProfilePhoto size="md" initials="OR" />`,
 } as const;
@@ -211,7 +211,7 @@ const AvatarsDocsPage: FC = () => (
         >
           <div className="flex flex-row items-center gap-5">
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <Avatar src={CODEX_DOCS_AVATAR_SRC} alt="Olivia Rhye" status="online" size="md" />
+              <Avatar src={CODEX_DOCS_AVATAR_SRC} alt="Gokul Krishnan" status="online" size="md" />
               <Avatar initials="OR" verified size="md" />
               <Avatar placeholderIcon={User01} size="md" />
             </div>
@@ -219,7 +219,7 @@ const AvatarsDocsPage: FC = () => (
               className={AVATAR_LABEL_GROUP_IN_DOCS_CLASS}
               size="md"
               src={CODEX_DOCS_AVATAR_SRC}
-              title="Olivia Rhye"
+              title="Gokul Krishnan"
               subtitle={CODEX_DOCS_SAMPLE_EMAIL}
               status="online"
             />
@@ -236,7 +236,7 @@ const AvatarsDocsPage: FC = () => (
         <DocsSection id="avatar" title="Avatar" code={AVATAR_DOCS_CODE.avatar}>
           <div className="flex flex-wrap items-center justify-center gap-4">
             {AVATAR_SIZES.map((size) => (
-              <Avatar key={size} size={size} src={CODEX_DOCS_AVATAR_SRC} alt="Olivia Rhye" />
+              <Avatar key={size} size={size} src={CODEX_DOCS_AVATAR_SRC} alt="Gokul Krishnan" />
             ))}
           </div>
         </DocsSection>
@@ -245,12 +245,12 @@ const AvatarsDocsPage: FC = () => (
           <div className="flex flex-col items-center gap-6">
             <div className="flex flex-wrap items-center justify-center gap-4">
               {AVATAR_SIZES.map((size) => (
-                <Avatar key={`on-${size}`} size={size} src={CODEX_DOCS_AVATAR_SRC} alt="Olivia Rhye" status="online" />
+                <Avatar key={`on-${size}`} size={size} src={CODEX_DOCS_AVATAR_SRC} alt="Gokul Krishnan" status="online" />
               ))}
             </div>
             <div className="flex flex-wrap items-center justify-center gap-4">
               {AVATAR_SIZES.map((size) => (
-                <Avatar key={`off-${size}`} size={size} src={CODEX_DOCS_AVATAR_SRC} alt="Olivia Rhye" status="offline" />
+                <Avatar key={`off-${size}`} size={size} src={CODEX_DOCS_AVATAR_SRC} alt="Gokul Krishnan" status="offline" />
               ))}
             </div>
           </div>
@@ -263,7 +263,7 @@ const AvatarsDocsPage: FC = () => (
                 key={size}
                 size={size}
                 src={CODEX_DOCS_AVATAR_SRC}
-                alt="Olivia Rhye"
+                alt="Gokul Krishnan"
                 badge={<AvatarCompanyIcon size={companyBadgeSize(size)} src={CODEX_DOCS_COMPANY_LOGO_SRC} alt="Company logo" />}
               />
             ))}
@@ -302,7 +302,7 @@ const AvatarsDocsPage: FC = () => (
                 className={AVATAR_LABEL_GROUP_IN_DOCS_CLASS}
                 size="md"
                 src={CODEX_DOCS_AVATAR_SRC}
-                title="Olivia Rhye"
+                title="Gokul Krishnan"
                 subtitle={CODEX_DOCS_SAMPLE_EMAIL}
                 status="online"
               />
@@ -334,9 +334,9 @@ const AvatarsDocsPage: FC = () => (
 
         <DocsSection id="profile-photo" title="Profile photo example" code={AVATAR_DOCS_CODE.profilePhoto} description={DESC_PROFILE_PHOTO}>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <AvatarProfilePhoto size="sm" src={CODEX_DOCS_AVATAR_SRC} alt="Olivia Rhye" />
-            <AvatarProfilePhoto size="md" src={CODEX_DOCS_AVATAR_SRC} alt="Olivia Rhye" />
-            <AvatarProfilePhoto size="lg" src={CODEX_DOCS_AVATAR_SRC} alt="Olivia Rhye" />
+            <AvatarProfilePhoto size="sm" src={CODEX_DOCS_AVATAR_SRC} alt="Gokul Krishnan" />
+            <AvatarProfilePhoto size="md" src={CODEX_DOCS_AVATAR_SRC} alt="Gokul Krishnan" />
+            <AvatarProfilePhoto size="lg" src={CODEX_DOCS_AVATAR_SRC} alt="Gokul Krishnan" />
           </div>
         </DocsSection>
 

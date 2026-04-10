@@ -1,5 +1,6 @@
 import { addons } from "storybook/manager-api";
 import { create } from "storybook/theming";
+import "./theme.css";
 
 /**
  * Best-effort: Storybook’s sidebar ⋯ uses `globalThis.CONFIG_TYPE === "DEVELOPMENT"`.

@@ -9,9 +9,10 @@ import {
 import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
+import { ApplicationUiOverview } from "../_docs/application-ui-overview";
 
 const BREADCRUMBS_TOC = [
-  { id: "breadcrumb-examples", label: "Breadcrumb examples" },
+  { id: "breadcrumbs-overview", label: "Overview" },
   { id: "text-chevron", label: "Text — chevron" },
   { id: "text-slash", label: "Text — slash" },
   { id: "text-with-line", label: "Text with line" },
@@ -25,16 +26,50 @@ const BreadcrumbsDocsPage = () => {
   return (
     <div className="docs-sbdocs-with-toc-layout">
       <StorybookRootHeaderPortal>
-        <DocsPageBreadcrumb currentLabel="Breadcrumbs" />
+        <DocsPageBreadcrumb catalog="application" currentLabel="Breadcrumbs" />
       </StorybookRootHeaderPortal>
       <StorybookSbdocsTocPortal>
         <OnThisPageNav items={BREADCRUMBS_TOC} />
       </StorybookSbdocsTocPortal>
 
       <main className="docs-sbdocs-content typography">
-        <div id="breadcrumb-examples" className={DOCS_SECTION_HERO_CLASS}>
+        <div id="breadcrumbs-overview" className={DOCS_SECTION_HERO_CLASS}>
           <h1 className="docs-h1">Breadcrumbs</h1>
-          <p>Breadcrumbs show the user their current location in a page hierarchy.</p>
+          <p>
+            Show where the user is in a hierarchy. From <code className="text-sm">@opus2-platform/codex</code>, use <code className="text-sm">Breadcrumbs</code>,{" "}
+            <code className="text-sm">Breadcrumbs.Button</code>, and <code className="text-sm">Breadcrumbs.WithLine</code> with chevron or slash separators and
+            optional account-leading items.
+          </p>
+          <ApplicationUiOverview
+            items={[
+              {
+                label: "Separators",
+                children: (
+                  <>
+                    Match chevron vs slash density via <code className="text-xs">separator</code> on the root and{" "}
+                    <code className="text-xs">Breadcrumbs.Sep</code>.
+                  </>
+                ),
+              },
+              {
+                label: "Current page",
+                children: (
+                  <>
+                    End the trail with <code className="text-xs">isCurrent</code> on the final item for bold, non-link styling.
+                  </>
+                ),
+              },
+              {
+                label: "Variants",
+                children: (
+                  <>
+                    Plain text row, button pill row (<code className="text-xs">Breadcrumbs.Button</code>), and underline rule row (
+                    <code className="text-xs">Breadcrumbs.WithLine</code>).
+                  </>
+                ),
+              },
+            ]}
+          />
           <div className={DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK}>
             <Breadcrumbs separator="chevron">
               <Breadcrumbs.Item href="#">Home</Breadcrumbs.Item>
@@ -120,10 +155,10 @@ const BreadcrumbsDocsPage = () => {
           <DocsSection
             id="account-chevron"
             title="Account — chevron"
-            code={`import { Breadcrumbs } from "@opus2-platform/codex";\n\n<Breadcrumbs.Button>\n  <Breadcrumbs.AccountItem href="#" avatarSrc="/avatars/demo-portrait.jpg" avatarInitials="OR">Olivia Rhye</Breadcrumbs.AccountItem>\n  <Breadcrumbs.Sep />\n  <Breadcrumbs.ButtonItem href="#">Projects</Breadcrumbs.ButtonItem>\n  <Breadcrumbs.Sep />\n  <Breadcrumbs.ButtonItem isCurrent>Project Alpha</Breadcrumbs.ButtonItem>\n</Breadcrumbs.Button>`}
+            code={`import { Breadcrumbs } from "@opus2-platform/codex";\n\n<Breadcrumbs.Button>\n  <Breadcrumbs.AccountItem href="#" avatarSrc="${CODEX_DOCS_AVATAR_SRC}" avatarInitials="GK">Gokul Krishnan</Breadcrumbs.AccountItem>\n  <Breadcrumbs.Sep />\n  <Breadcrumbs.ButtonItem href="#">Projects</Breadcrumbs.ButtonItem>\n  <Breadcrumbs.Sep />\n  <Breadcrumbs.ButtonItem isCurrent>Project Alpha</Breadcrumbs.ButtonItem>\n</Breadcrumbs.Button>`}
           >
             <Breadcrumbs.Button>
-              <Breadcrumbs.AccountItem href="#" avatarSrc={CODEX_DOCS_AVATAR_SRC} avatarInitials="OR">Olivia Rhye</Breadcrumbs.AccountItem>
+              <Breadcrumbs.AccountItem href="#" avatarSrc={CODEX_DOCS_AVATAR_SRC} avatarInitials="GK">Gokul Krishnan</Breadcrumbs.AccountItem>
               <Breadcrumbs.Sep />
               <Breadcrumbs.ButtonItem href="#">Projects</Breadcrumbs.ButtonItem>
               <Breadcrumbs.Sep />
@@ -134,10 +169,10 @@ const BreadcrumbsDocsPage = () => {
           <DocsSection
             id="account-slash"
             title="Account — slash"
-            code={`import { Breadcrumbs } from "@opus2-platform/codex";\n\n<Breadcrumbs.Button>\n  <Breadcrumbs.AccountItem href="#" avatarInitials="OR">Olivia Rhye</Breadcrumbs.AccountItem>\n  <Breadcrumbs.Sep separator="slash" />\n  <Breadcrumbs.ButtonItem href="#">Projects</Breadcrumbs.ButtonItem>\n  <Breadcrumbs.Sep separator="slash" />\n  <Breadcrumbs.ButtonItem isCurrent>Project Alpha</Breadcrumbs.ButtonItem>\n</Breadcrumbs.Button>`}
+            code={`import { Breadcrumbs } from "@opus2-platform/codex";\n\n<Breadcrumbs.Button>\n  <Breadcrumbs.AccountItem href="#" avatarInitials="GK">Gokul Krishnan</Breadcrumbs.AccountItem>\n  <Breadcrumbs.Sep separator="slash" />\n  <Breadcrumbs.ButtonItem href="#">Projects</Breadcrumbs.ButtonItem>\n  <Breadcrumbs.Sep separator="slash" />\n  <Breadcrumbs.ButtonItem isCurrent>Project Alpha</Breadcrumbs.ButtonItem>\n</Breadcrumbs.Button>`}
           >
             <Breadcrumbs.Button>
-              <Breadcrumbs.AccountItem href="#" avatarSrc={CODEX_DOCS_AVATAR_SRC} avatarInitials="OR">Olivia Rhye</Breadcrumbs.AccountItem>
+              <Breadcrumbs.AccountItem href="#" avatarSrc={CODEX_DOCS_AVATAR_SRC} avatarInitials="GK">Gokul Krishnan</Breadcrumbs.AccountItem>
               <Breadcrumbs.Sep separator="slash" />
               <Breadcrumbs.ButtonItem href="#">Projects</Breadcrumbs.ButtonItem>
               <Breadcrumbs.Sep separator="slash" />

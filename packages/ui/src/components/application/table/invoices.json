@@ -5,8 +5,8 @@
       "date": "2025-01-06",
       "status": "paid",
       "customer": {
-        "name": "Olivia Rhye",
-        "email": "olivia@opus2.com",
+        "name": "Gokul Krishnan",
+        "email": "gkrishnan@opus2.com",
         "avatarUrl": "https://picsum.photos/seed/codex-olivia-rhye/128/128"
       },
       "purchase": "Monthly subscription"

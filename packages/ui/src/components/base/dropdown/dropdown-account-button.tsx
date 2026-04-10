@@ -6,6 +6,7 @@ import type { Selection } from "react-aria-components";
 import { SubmenuTrigger } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { codexDemoAvatar } from "@/constants/demo-asset-urls";
 
 export const DropdownAccountButton = () => {
     const [selectedAccount, setSelectedAccount] = useState<Selection>(new Set(["olivia"]));
@@ -54,10 +55,10 @@ export const DropdownAccountButton = () => {
                             Switch Account
                         </Dropdown.SectionHeader>
 
-                        <Dropdown.Item id="olivia" avatarUrl="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80" selectionIndicator="radio">
-                            Olivia Rhye
+                        <Dropdown.Item id="olivia" avatarUrl={codexDemoAvatar("codex-olivia")} selectionIndicator="radio">
+                            Gokul Krishnan
                         </Dropdown.Item>
-                        <Dropdown.Item id="sienna" avatarUrl="https://www.untitledui.com/images/avatars/sienna-hewitt?fm=webp&q=80" selectionIndicator="radio">
+                        <Dropdown.Item id="sienna" avatarUrl={codexDemoAvatar("codex-sienna")} selectionIndicator="radio">
                             Sienna Hewitt
                         </Dropdown.Item>
                     </Dropdown.Section>

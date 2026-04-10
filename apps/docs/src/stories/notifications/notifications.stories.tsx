@@ -10,9 +10,10 @@ import {
 import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
+import { ApplicationUiOverview } from "../_docs/application-ui-overview";
 
 const NOTIFICATIONS_TOC = [
-  { id: "notification-examples", label: "Notification examples" },
+  { id: "notifications-overview", label: "Overview" },
   { id: "base", label: "Base" },
   { id: "with-avatar", label: "With avatar" },
   { id: "with-icon", label: "With icon" },
@@ -25,7 +26,7 @@ const NOTIFICATIONS_TOC = [
 const baseItems: NotificationItemData[] = [
   {
     id: "1",
-    title: "New message from Olivia Rhye",
+    title: "New message from Gokul Krishnan",
     description: "Hey, can you review the latest design files?",
     date: "2 min ago",
   },
@@ -46,10 +47,10 @@ const baseItems: NotificationItemData[] = [
 const avatarItems: NotificationItemData[] = [
   {
     id: "1",
-    title: "Olivia Rhye commented on your post",
+    title: "Gokul Krishnan commented on your post",
     description: "Great work on the latest iteration!",
     date: "2 min ago",
-    user: { name: "Olivia Rhye", avatarUrl: CODEX_DOCS_AVATAR_SRC },
+    user: { name: "Gokul Krishnan", avatarUrl: CODEX_DOCS_AVATAR_SRC },
     unread: true,
   },
   {
@@ -82,10 +83,10 @@ const iconItems: NotificationItemData[] = [
 const actionItems: NotificationItemData[] = [
   {
     id: "1",
-    title: "Olivia Rhye wants to join your team",
-    description: "olivia@opus2.com",
+    title: "Gokul Krishnan wants to join your team",
+    description: "gkrishnan@opus2.com",
     date: "2 min ago",
-    user: { name: "Olivia Rhye", avatarUrl: CODEX_DOCS_AVATAR_SRC },
+    user: { name: "Gokul Krishnan", avatarUrl: CODEX_DOCS_AVATAR_SRC },
     actions: [
       { label: "Accept", color: "brand" },
       { label: "Decline", color: "default" },
@@ -97,16 +98,47 @@ const NotificationsDocsPage = () => {
   return (
     <div className="docs-sbdocs-with-toc-layout">
       <StorybookRootHeaderPortal>
-        <DocsPageBreadcrumb currentLabel="Notifications" />
+        <DocsPageBreadcrumb catalog="application" currentLabel="Notifications" />
       </StorybookRootHeaderPortal>
       <StorybookSbdocsTocPortal>
         <OnThisPageNav items={NOTIFICATIONS_TOC} />
       </StorybookSbdocsTocPortal>
 
       <main className="docs-sbdocs-content typography">
-        <div id="notification-examples" className={DOCS_SECTION_HERO_CLASS}>
+        <div id="notifications-overview" className={DOCS_SECTION_HERO_CLASS}>
           <h1 className="docs-h1">Notifications</h1>
-          <p>Notification panels display a list of system or user-driven alerts.</p>
+          <p>
+            System and user-driven notification lists. The <code className="text-sm">Notifications</code> component from <code className="text-sm">@opus2-platform/codex</code>{" "}
+            uses <code className="text-sm">variant</code> for leading media (avatar, icon, featured icon), unread state, row actions, and dropdown shells.
+          </p>
+          <ApplicationUiOverview
+            items={[
+              {
+                label: "Row layout",
+                children: (
+                  <>
+                    Title + description stack; trailing timestamp; optional <code className="text-xs">unread</code> emphasis.
+                  </>
+                ),
+              },
+              {
+                label: "Leading media",
+                children: (
+                  <>
+                    Switch <code className="text-xs">variant</code> between base, avatar, icon, and featured-icon rows for each layout.
+                  </>
+                ),
+              },
+              {
+                label: "Actions",
+                children: (
+                  <>
+                    Inline <code className="text-xs">actions</code> on items for accept / decline style pairs; use the dropdown example for bell menus.
+                  </>
+                ),
+              },
+            ]}
+          />
           <div className={DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK}>
             <div className="w-full max-w-sm">
               <Notifications items={avatarItems} variant="avatar" title="Notifications" />
@@ -164,7 +196,7 @@ const NotificationsDocsPage = () => {
           <DocsSection
             id="with-actions"
             title="With actions"
-            code={`import { Notifications } from "@opus2-platform/codex";\n\n<Notifications\n  items={[\n    {\n      id: "1",\n      title: "Olivia Rhye wants to join your team",\n      user: { name: "Olivia Rhye" },\n      actions: [\n        { label: "Accept", color: "brand" },\n        { label: "Decline" },\n      ],\n    },\n  ]}\n  variant="avatar"\n/>`}
+            code={`import { Notifications } from "@opus2-platform/codex";\n\n<Notifications\n  items={[\n    {\n      id: "1",\n      title: "Gokul Krishnan wants to join your team",\n      user: { name: "Gokul Krishnan" },\n      actions: [\n        { label: "Accept", color: "brand" },\n        { label: "Decline" },\n      ],\n    },\n  ]}\n  variant="avatar"\n/>`}
           >
             <div className="w-full max-w-sm">
               <Notifications items={actionItems} variant="avatar" />
@@ -179,7 +211,7 @@ const NotificationsDocsPage = () => {
             <div className="w-full max-w-sm">
               <Notifications
                 items={[
-                  { id: "1", title: "Olivia Rhye commented on your post", description: "Great work on the latest iteration!", date: "2 min ago", user: { name: "Olivia Rhye", avatarUrl: CODEX_DOCS_AVATAR_SRC }, unread: true },
+                  { id: "1", title: "Gokul Krishnan commented on your post", description: "Great work on the latest iteration!", date: "2 min ago", user: { name: "Gokul Krishnan", avatarUrl: CODEX_DOCS_AVATAR_SRC }, unread: true },
                   { id: "2", title: "Project Alpha was updated", description: "Lana Steiner made changes to the project settings.", date: "1h ago", unread: false },
                   { id: "3", title: "Your export is ready", description: "The CSV export you requested is ready to download.", date: "3h ago", unread: true },
                 ]}

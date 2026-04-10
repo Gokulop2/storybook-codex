@@ -31,6 +31,7 @@ import {
 } from "react-aria-components";
 import { CalendarCell } from "@/components/application/date-picker/cell";
 import { Avatar } from "@/components/base/avatar/avatar";
+import { codexDemoAvatar } from "@/constants/demo-asset-urls";
 import { AvatarAddButton } from "@/components/base/avatar/base-components";
 import { Button } from "@/components/base/buttons/button";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
@@ -989,31 +990,31 @@ const DayView = ({
                                 <section className="flex flex-row -space-x-2">
                                     <Avatar
                                         className="ring-[1.5px] ring-bg-primary"
-                                        src="https://www.untitledui.com/images/avatars/sienna-hewitt?fm=webp&q=80"
+                                        src={codexDemoAvatar("cal-sienna")}
                                         alt="Sienna Hewitt"
                                         size="sm"
                                     />
                                     <Avatar
                                         className="ring-[1.5px] ring-bg-primary"
-                                        src="https://www.untitledui.com/images/avatars/ammar-foley?fm=webp&q=80"
+                                        src={codexDemoAvatar("cal-ammar")}
                                         alt="Ammar Foley"
                                         size="sm"
                                     />
                                     <Avatar
                                         className="ring-[1.5px] ring-bg-primary"
-                                        src="https://www.untitledui.com/images/avatars/pippa-wilkinson?fm=webp&q=80"
+                                        src={codexDemoAvatar("cal-pippa")}
                                         alt="Pippa Wilkinson"
                                         size="sm"
                                     />
                                     <Avatar
                                         className="ring-[1.5px] ring-bg-primary"
-                                        src="https://www.untitledui.com/images/avatars/olly-schroeder?fm=webp&q=80"
+                                        src={codexDemoAvatar("cal-olly")}
                                         alt="Olly Schroeder"
                                         size="sm"
                                     />
                                     <Avatar
                                         className="ring-[1.5px] ring-bg-primary"
-                                        src="https://www.untitledui.com/images/avatars/mathilde-lewis?fm=webp&q=80"
+                                        src={codexDemoAvatar("cal-mathilde")}
                                         alt="Mathilde Lewis"
                                         size="sm"
                                     />

@@ -4,6 +4,7 @@ import type { ComponentProps, ComponentPropsWithRef, ReactNode } from "react";
 import { Children, createContext, isValidElement, useContext } from "react";
 import { FileIcon } from "@untitledui/file-icons";
 import { SearchLg } from "@opus2-platform/icons";
+import { AVATAR_IMAGE_SHELL_BLOCK, AVATAR_IMAGE_SHELL_FILL } from "@/components/base/avatar/avatar-image-shell-classes";
 import { FeaturedIcon as FeaturedIconbase } from "@/components/foundations/featured-icon/featured-icon";
 import type { BackgroundPatternProps } from "@/components/shared-assets/background-patterns";
 import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
@@ -209,10 +210,7 @@ const AvatarRow = ({ avatars = [], children, ...props }: AvatarRowProps) => {
     const renderAvatar = (avatar: { src: string; alt?: string }, sizeClass: string, key: number) => (
         <div
             key={key}
-            className={cx(
-                "relative shrink-0 overflow-hidden outline-[0.5px] -outline-offset-[0.5px] outline-black/16 before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-white/32 before:mask-[linear-gradient(to_bottom,black_0%,transparent_25%,transparent_75%,black_100%)]",
-                sizeClass,
-            )}
+            className={cx(AVATAR_IMAGE_SHELL_BLOCK, sizeClass)}
         >
             <img src={avatar.src} alt={avatar.alt || ""} className="size-full object-cover" />
         </div>
@@ -266,10 +264,7 @@ const AvatarGrid = ({ avatars = [], ...props }: AvatarGridProps) => {
     const renderGridAvatar = (avatar: { src: string; alt?: string }, key: number) => (
         <div key={key} className={cx("shrink-0 bg-primary p-px shadow-xs ring-[0.75px] ring-black/10", config.avatar)}>
             <div
-                className={cx(
-                    "relative size-full overflow-hidden outline-[0.5px] -outline-offset-[0.5px] outline-black/16 before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-white/32 before:mask-[linear-gradient(to_bottom,black_0%,transparent_25%,transparent_75%,black_100%)]",
-                    config.inner,
-                )}
+                className={cx(AVATAR_IMAGE_SHELL_FILL, config.inner)}
             >
                 <img src={avatar.src} alt={avatar.alt || ""} className="size-full object-cover" />
             </div>

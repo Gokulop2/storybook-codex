@@ -8,9 +8,10 @@ import {
 } from "../_docs/docs-preview-code";
 import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
+import { ApplicationUiOverview } from "../_docs/application-ui-overview";
 
 const PROGRESS_STEPS_TOC = [
-  { id: "progress-steps-examples", label: "Progress steps examples" },
+  { id: "progress-steps-overview", label: "Overview" },
   { id: "circles", label: "Circles" },
   { id: "circles-text", label: "Circles with text" },
   { id: "dots", label: "Dots" },
@@ -38,16 +39,48 @@ const ProgressStepsDocsPage = () => {
   return (
     <div className="docs-sbdocs-with-toc-layout">
       <StorybookRootHeaderPortal>
-        <DocsPageBreadcrumb currentLabel="Progress steps" />
+        <DocsPageBreadcrumb catalog="application" currentLabel="Progress steps" />
       </StorybookRootHeaderPortal>
       <StorybookSbdocsTocPortal>
         <OnThisPageNav items={PROGRESS_STEPS_TOC} />
       </StorybookSbdocsTocPortal>
 
       <main className="docs-sbdocs-content typography">
-        <div id="progress-steps-examples" className={DOCS_SECTION_HERO_CLASS}>
+        <div id="progress-steps-overview" className={DOCS_SECTION_HERO_CLASS}>
           <h1 className="docs-h1">Progress steps</h1>
-          <p>Progress indicators guide users through multi-step flows.</p>
+          <p>
+            Multi-step flow indicators from <code className="text-sm">@opus2-platform/codex</code>. <code className="text-sm">ProgressSteps</code> covers circles,
+            text, dots, bar, arrows, panels, bullet, and vertical layouts through the <code className="text-sm">variant</code> prop.
+          </p>
+          <ApplicationUiOverview
+            items={[
+              {
+                label: "Step state",
+                children: (
+                  <>
+                    Each item uses <code className="text-xs">status</code> of <code className="text-xs">complete</code>, <code className="text-xs">current</code>, or{" "}
+                    <code className="text-xs">upcoming</code> for connector and label styling.
+                  </>
+                ),
+              },
+              {
+                label: "Labels",
+                children: (
+                  <>
+                    Optional <code className="text-xs">description</code> under the label for two-line steps (circles-text / panels).
+                  </>
+                ),
+              },
+              {
+                label: "Density",
+                children: (
+                  <>
+                    Match horizontal vs vertical examples; constrain bar width with a max-width wrapper when mirroring compact layouts.
+                  </>
+                ),
+              },
+            ]}
+          />
           <div className={DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK}>
             <ProgressSteps items={steps} variant="circles" />
           </div>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@opus2-platform/codex";
 import type { Meta } from "@storybook/react";
 
+import { APPLICATION_UI_OVERVIEW_CARDS } from "../_docs/application-ui-overview-data";
 import { BASE_COMPONENT_OVERVIEW_CARDS } from "../_docs/base-components-overview-data";
 import { storybookManagerAutodocsHref } from "../_docs/storybook-manager-urls";
 
@@ -89,6 +90,27 @@ export const ComponentsOverview = () => {
           description="Buttons, inputs, avatars—everything you need to design modern and beautiful apps, dashboards and responsive web applications. Same catalog as the Base components group in the sidebar."
         >
           {BASE_COMPONENT_OVERVIEW_CARDS.map((c) => (
+            <ComponentCard
+              key={c.storyIdPrefix}
+              href={storybookManagerAutodocsHref(c.storyIdPrefix)}
+              name={c.name}
+              variants={c.variants}
+              preview={
+                c.image ? (
+                  <CardImage src={`/${encodeURIComponent(c.image)}`} alt={`${c.name} component previews`} />
+                ) : (
+                  <CardPreviewPlaceholder />
+                )
+              }
+            />
+          ))}
+        </Section>
+
+        <Section
+          title="Application UI"
+          description="Higher-level patterns—navigation, feeds, pickers, notifications, and more. Compose these with base components to build complete application screens."
+        >
+          {APPLICATION_UI_OVERVIEW_CARDS.map((c) => (
             <ComponentCard
               key={c.storyIdPrefix}
               href={storybookManagerAutodocsHref(c.storyIdPrefix)}

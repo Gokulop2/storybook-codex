@@ -3,6 +3,7 @@
 import type { MouseEventHandler, ReactNode } from "react";
 import { X as CloseX } from "@opus2-platform/icons";
 import { Dot } from "@/components/foundations/dot-icon";
+import { codexDemoFlagUrl } from "@/constants/demo-asset-urls";
 import { cx } from "@/utils";
 import type { BadgeColors, BadgeTypeToColorMap, BadgeTypes, FlagTypes, IconComponentType, Sizes } from "./badge-types";
 import { badgeTypes } from "./badge-types";
@@ -277,7 +278,7 @@ export const BadgeWithFlag = <T extends BadgeTypes>(props: BadgeWithFlagProps<T>
 
     return (
         <span className={cx(colors.common, sizes[type][size], colors.styles[color].root)}>
-            <img src={`https://www.untitledui.com/images/flags/${flag}.svg`} className="size-4 max-w-none rounded-full" alt={`${flag} flag`} />
+            <img src={codexDemoFlagUrl(flag)} className="size-4 max-w-none rounded-full" alt={`${flag} flag`} />
             {children}
         </span>
     );

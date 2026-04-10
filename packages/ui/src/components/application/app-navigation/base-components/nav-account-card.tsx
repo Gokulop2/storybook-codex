@@ -11,6 +11,7 @@ import { AvatarLabelGroup } from "@/components/base/avatar/avatar-label-group";
 import { Button } from "@/components/base/buttons/button";
 import { RadioButtonBase } from "@/components/base/radio-buttons/radio-buttons";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
+import { codexDemoAvatar } from "@/constants/demo-asset-urls";
 import { cx } from "@/utils";
 
 export type NavAccountType = {
@@ -31,21 +32,21 @@ const placeholderAccounts: NavAccountType[] = [
         id: "caitlyn",
         name: "Caitlyn King",
         email: "caitlyn@opus2.com",
-        avatar: "https://www.untitledui.com/images/avatars/caitlyn-king?fm=webp&q=80",
+        avatar: codexDemoAvatar("codex-caitlyn"),
         status: "online",
     },
     {
         id: "sienna",
         name: "Sienna Hewitt",
         email: "sienna@opus2.com",
-        avatar: "https://www.untitledui.com/images/avatars/transparent/sienna-hewitt?bg=%23E0E0E0",
+        avatar: codexDemoAvatar("codex-sienna-nav"),
         status: "online",
     },
 ];
 
 export const NavAccountMenu = ({
     className,
-    selectedAccountId = "olivia",
+    selectedAccountId = "caitlyn",
     ...dialogProps
 }: AriaDialogProps & { className?: string; accounts?: NavAccountType[]; selectedAccountId?: string }) => {
     const focusManager = useFocusManager();
