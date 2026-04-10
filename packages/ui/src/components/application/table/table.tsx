@@ -23,6 +23,8 @@ import {
     Table as AriaTable,
     TableBody as AriaTableBody,
     TableHeader as AriaTableHeader,
+    TableLayout,
+    Virtualizer,
     useTableOptions,
 } from "react-aria-components";
 import { Badge } from "@/components/base/badges/badges";
@@ -311,19 +313,106 @@ const TableCell = ({ className, children, size: sizeProp, ...props }: TableCellP
 };
 TableCell.displayName = "TableCell";
 
+interface TableBodyProps<T extends object = object>
+    extends Omit<ComponentPropsWithRef<"tbody">, "children" | "className" | "slot" | "style"> {
+    /** Array of row items. When provided, virtualization is automatically enabled */
+    items?: T[];
+    /** Height of each row in pixels. Auto-detects from TableContext size if not provided */
+    rowHeight?: number;
+    /** Visible container height in pixels. Required when using virtualization with items */
+    containerHeight?: number;
+    /** Gap between rows in pixels (default: 0) */
+    gap?: number;
+    /** Padding in virtual container in pixels (default: 0) */
+    padding?: number;
+    /** Render function when `items` are provided, or children nodes for regular rendering */
+    children?: ((item: T) => ReactNode) | ReactNode;
+    /** Class name for the tbody element */
+    className?: string | ((state: any) => string);
+}
+
+const TableBodyComponent = <T extends object = object>({
+    items,
+    rowHeight: rowHeightProp,
+    containerHeight,
+    gap = 0,
+    padding = 0,
+    children,
+    className,
+    ...props
+}: TableBodyProps<T>) => {
+    const context = useContext(TableContext);
+
+    // If items are provided, use virtualization
+    if (items && items.length > 0) {
+        // Auto-detect row height from size context
+        const baseRowHeight = context.size === "sm" ? 56 : 72;
+        const rowHeight = rowHeightProp ?? baseRowHeight;
+
+        return (
+            <Virtualizer
+                layout={TableLayout}
+                layoutOptions={{
+                    rowHeight,
+                    headingHeight: 0, // Header is not virtualized
+                    padding,
+                    gap,
+                }}
+            >
+                <AriaTableBody
+                    {...props}
+                    items={items}
+                    className={(state) =>
+                        cx(
+                            typeof className === "function" ? className(state) : className,
+                        )
+                    }
+                    style={{
+                        height: containerHeight,
+                        overflowY: "auto",
+                    }}
+                >
+                    {(item) => {
+                        const renderedContent = typeof children === "function" ? children(item) : children;
+                        return (
+                            <TableRow key={`virtual-row-${(item as any).id ?? Math.random()}`} columns={[item]}>
+                                {renderedContent}
+                            </TableRow>
+                        );
+                    }}
+                </AriaTableBody>
+            </Virtualizer>
+        );
+    }
+
+    // Fall back to regular rendering when no items provided
+    return (
+        <AriaTableBody
+            {...props}
+            className={(state) =>
+                cx(typeof className === "function" ? className(state) : className)
+            }
+        >
+            {children}
+        </AriaTableBody>
+    );
+};
+
+TableBodyComponent.displayName = "TableBody";
+
 const TableCard = {
     Root: TableCardRoot,
     Header: TableCardHeader,
 };
 
 const Table = TableRoot as typeof TableRoot & {
-    Body: typeof AriaTableBody;
+    Body: typeof TableBodyComponent;
     Cell: typeof TableCell;
     Head: typeof TableHead;
     Header: typeof TableHeader;
     Row: typeof TableRow;
 };
-Table.Body = AriaTableBody;
+Table.Body = TableBodyComponent;
 Table.Cell = TableCell;
 Table.Head = TableHead;
 Table.Header = TableHeader;
