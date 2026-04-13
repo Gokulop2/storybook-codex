@@ -1,6 +1,6 @@
 "use client";
 
-import type { IllustrationProps as BoxIllustrationProps } from "./box";
+import type { HTMLAttributes } from "react";
 import { BoxIllustration } from "./box";
 import { CloudIllustration } from "./cloud";
 import { CreditCardIllustration } from "./credit-card";
@@ -13,13 +13,13 @@ const types = {
     "credit-card": CreditCardIllustration,
 };
 
+export interface IllustrationProps extends HTMLAttributes<HTMLDivElement> {
+    size?: "sm" | "md" | "lg";
+    svgClassName?: string;
+    childrenClassName?: string;
+}
 
-export type IllustrationProps = BoxIllustrationProps;
-
-export const Illustration = (props: IllustrationProps & { type: keyof typeof types }) => {
-    const { type } = props;
-
+export const Illustration = ({ type, ...props }: IllustrationProps & { type: keyof typeof types }) => {
     const Component = types[type];
-
     return <Component {...props} />;
 };
