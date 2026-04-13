@@ -13,7 +13,6 @@ import {
   NavItemBase,
   NavList,
   Opus2Wordmark,
-  OpusLogoSmall,
   ProgressBar,
   ProgressBarCircle,
   QRCode,
@@ -158,7 +157,6 @@ const SIMPLE_SIDEBAR_CODE = [
   "  NavItemBase,",
   "  NavList,",
   "  Opus2Wordmark,",
-  "  OpusLogoSmall,",
   "  type NavItemType,",
   '} from "@opus2-platform/codex";',
   "",
@@ -201,8 +199,6 @@ const SIMPLE_SIDEBAR_CODE = [
   "    >",
   '      <div className="flex flex-col gap-5 px-4 lg:px-5">',
   '        <a href="#" aria-label="Opus home" className="flex w-max items-center justify-start overflow-visible h-6 rounded-xs outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2">',
-  '          <OpusLogoSmall className="size-8 origin-center scale-[1.2] aspect-square h-full w-auto shrink-0" aria-hidden />',
-  '          <div className="aspect-[0.3] h-full" aria-hidden />',
   '          <Opus2Wordmark className="h-full shrink-0 justify-start text-sm font-semibold tracking-[0.02em]" aria-hidden />',
   "        </a>",
   '        <Input size="md" className="md:hidden" aria-label="Search" placeholder="Search" icon={SearchLg} />',
@@ -505,19 +501,13 @@ const SidebarPreviewRail: FC<{ children: ReactNode }> = ({ children }) => (
   <div className={sidebarPreviewRailClass}>{children}</div>
 );
 
-const SidebarHeader: FC<{ showLogoMark?: boolean }> = ({ showLogoMark = true }) => (
+const SidebarHeader: FC = () => (
   <div className="flex flex-col gap-5 px-4 lg:px-5">
     <a
       href="#"
       aria-label="Opus home"
       className="flex h-6 w-max items-center justify-start overflow-visible rounded-xs outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2"
     >
-      {showLogoMark ? (
-        <>
-          <OpusLogoSmall className="size-8 origin-center aspect-square h-full w-auto shrink-0 scale-[1.2]" aria-hidden />
-          <div className="aspect-[0.3] h-full" aria-hidden />
-        </>
-      ) : null}
       <Opus2Wordmark className="h-full shrink-0 justify-start text-sm font-semibold tracking-[0.02em]" aria-hidden />
     </a>
     <Input size="md" className="md:hidden" aria-label="Search" placeholder="Search" icon={SearchLg} />
@@ -527,7 +517,7 @@ const SidebarHeader: FC<{ showLogoMark?: boolean }> = ({ showLogoMark = true }) 
 
 const SimpleSidebar = () => (
   <SimpleSidebarAside>
-    <SidebarHeader showLogoMark={false} />
+    <SidebarHeader />
     <NavList activeUrl="#home" items={opusApplicationNavItems} />
     <div className="mt-auto flex flex-col gap-3 px-4 py-4 lg:py-5">
       <NavAccountCard selectedAccountId="caitlyn" items={accountForDemo} />
@@ -582,24 +572,15 @@ const DualTierSidebar = () => {
               </button>
             </div>
           ) : (
-            /* Collapsed: logo centered in the rail width, hover reveals expand button */
+            /* Collapsed: just the expand button centered in the rail width */
             <div className="flex h-6 items-center justify-center mb-5">
-              <div className="group/logo relative flex size-6 shrink-0 items-center justify-center">
-                <a
-                  href="#"
-                  aria-label="Opus home"
-                  className="flex size-full items-center justify-center rounded-xs outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 transition duration-100 ease-linear group-hover/logo:opacity-0"
-                >
-                  <OpusLogoSmall className="size-5 shrink-0 origin-center" aria-hidden />
-                </a>
-                <button
-                  aria-label="Expand sidebar"
-                  onClick={() => setIsExpanded(true)}
-                  className="absolute inset-0 flex items-center justify-center rounded-md text-fg-quaternary opacity-0 transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover group-hover/logo:opacity-100 outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2"
-                >
-                  <LayoutRight className="size-4" aria-hidden />
-                </button>
-              </div>
+              <button
+                aria-label="Expand sidebar"
+                onClick={() => setIsExpanded(true)}
+                className="flex size-7 items-center justify-center rounded-md text-fg-quaternary transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2"
+              >
+                <LayoutRight className="size-4" aria-hidden />
+              </button>
             </div>
           )}
 
@@ -708,9 +689,9 @@ const SlimSidebar = () => (
   </div>
 );
 
-const DividersSidebar: FC<{ headerShowLogoMark?: boolean }> = ({ headerShowLogoMark = true }) => (
+const DividersSidebar: FC = () => (
   <SidebarAside>
-    <SidebarHeader showLogoMark={headerShowLogoMark} />
+    <SidebarHeader />
     <NavList activeUrl="#div-home" items={navItemsSectionDividers} />
     <div className="mt-auto flex flex-col gap-3 px-4 py-4 lg:py-5">
       <NavAccountCard selectedAccountId="caitlyn" items={accountForDemo} />
@@ -1021,7 +1002,7 @@ const SidebarNavigationsDocsPage = () => {
             }
           >
             <SidebarPreviewRail>
-              <DividersSidebar headerShowLogoMark={false} />
+              <DividersSidebar />
             </SidebarPreviewRail>
           </DocsSection>
         </div>
