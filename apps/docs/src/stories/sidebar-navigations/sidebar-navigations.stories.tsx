@@ -1,6 +1,5 @@
 import type { CSSProperties, FC, ReactNode } from "react";
 import { useState } from "react";
-import { Button as AriaButton } from "react-aria-components";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Avatar,
@@ -26,7 +25,6 @@ import {
   CheckDone01,
   ClockFastForward,
   CurrencyDollarCircle,
-  DotsVertical,
   Folder,
   Grid03,
   HelpCircle,
@@ -53,7 +51,6 @@ import {
   UserSquare,
   Users01,
   UsersPlus,
-  Zap,
 } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
@@ -69,7 +66,8 @@ import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
 
-/** On-this-page nav for this docs page (hero example, then Simple; no Installation block). */
+// ─── TOC ────────────────────────────────────────────────────────────────────
+
 const SIDEBAR_DOCS_TOC = [
   { id: "sidebar-navigation-example", label: "Sidebar navigation example" },
   { id: "simple", label: "Simple" },
@@ -93,236 +91,203 @@ const SIDEBAR_DOCS_TOC = [
   { id: "qr-code", label: "QR code" },
 ] as const;
 
-/** `page.tsx` — mirrors Untitled’s demo route wiring the simple sidebar (Codex imports). */
-const SIMPLE_PAGE_CODE = [
-  'import { BadgeWithDot, type NavItemDividerType, type NavItemType } from "@opus2-platform/codex";',
-  "import {",
-  "  BarChartSquare02,",
-  "  Folder,",
-  "  HomeLine,",
-  "  LayoutAlt01,",
-  "  MessageChatCircle,",
-  "  PieChart03,",
-  "  Rows01,",
-  "  Settings01,",
- '} from "@opus2-platform/icons";',
-  'import { SidebarNavigationSimple } from "./app-navigation/sidebar-simple";',
-  "",
-  "const items: (NavItemType | NavItemDividerType)[] = [",
-  '  { label: "Home", href: "/", icon: HomeLine },',
-  '  { label: "Dashboard", href: "/dashboard", icon: BarChartSquare02 },',
-  '  { label: "Projects", href: "/projects", icon: Rows01 },',
-  "  { divider: true },",
-  "  {",
-  '    label: "Folders",',
-  '    icon: Folder,',
-  '    href: "/folders",',
-  "    items: [",
-  '      { label: "View all", badge: 18, href: "/folders/view-all" },',
-  '      { label: "Recent", badge: 8, href: "/folders/recent" },',
-  '      { label: "Favorites", badge: 6, href: "/folders/favorites" },',
-  '      { label: "Shared", badge: 4, href: "/folders/shared" },',
-  "    ],",
-  "  },",
-  "  { divider: true },",
-  '  { label: "Reporting", href: "/reporting", icon: PieChart03 },',
-  '  { label: "Settings", href: "/settings", icon: Settings01 },',
-  "  {",
-  '    label: "Support",',
-  '    href: "/support",',
-  '    icon: MessageChatCircle,',
-  "    badge: (",
-  '      <BadgeWithDot color="success" type="modern" size="sm">',
-  "        Online",
-  "      </BadgeWithDot>",
-  "    ),",
-  "  },",
-  '  { label: "Open in browser", href: "https://www.untitledui.com/", icon: LayoutAlt01 },',
-  "];",
-  "",
-  "export default function Page() {",
-  '  return <SidebarNavigationSimple activeUrl="/" items={items} />;',
-  "};",
-].join("\n");
+// ─── CODE SNIPPETS ───────────────────────────────────────────────────────────
 
-/** Mirrors Untitled UI `SidebarNavigationSimple` / `app-navigation/sidebar-simple.tsx`, mapped to Codex + Opus icons. */
-const SIMPLE_SIDEBAR_CODE = [
-  'import type { CSSProperties, ReactNode } from "react";',
-  'import { SearchLg } from "@opus2-platform/icons";',
-  "import {",
-  "  cx,",
-  "  Input,",
-  "  MobileNavigationHeader,",
-  "  NavAccountCard,",
-  "  NavItemBase,",
-  "  NavList,",
-  "  Opus2Wordmark,",
-  "  type NavItemType,",
-  '} from "@opus2-platform/codex";',
-  "",
-  "interface SidebarNavigationProps {",
-  "  /** URL of the currently active item. */",
-  "  activeUrl?: string;",
-  "  /** List of items to display. */",
-  "  items: NavItemType[];",
-  "  /** List of footer items to display. */",
-  "  footerItems?: NavItemType[];",
-  "  /** Feature card to display. */",
-  "  featureCard?: ReactNode;",
-  "  /** Whether to show the account card. */",
-  "  showAccountCard?: boolean;",
-  "  /** Additional CSS classes to apply to the sidebar. */",
-  "  className?: string;",
-  "}",
-  "",
-  "export const SidebarNavigationSimple = ({",
-  "  activeUrl,",
-  "  items,",
-  "  footerItems = [],",
-  "  featureCard,",
-  "  showAccountCard = true,",
-  "  className,",
-  "}: SidebarNavigationProps) => {",
-  "  const MAIN_SIDEBAR_WIDTH = 280;",
-  "",
-  "  const content = (",
-  "    <aside",
-  "      style={",
-  "        {",
-  '          "--width": `${MAIN_SIDEBAR_WIDTH}px`,',
-  "        } as CSSProperties",
-  "      }",
-  "      className={cx(",
-  '        "flex h-full w-full max-w-full flex-col justify-between overflow-auto bg-primary pt-4 lg:w-(--width) lg:pt-5 border-secondary md:border-r",',
-  "        className,",
-  "      )}",
-  "    >",
-  '      <div className="flex flex-col gap-5 px-4 lg:px-5">',
-  '        <a href="#" aria-label="Opus home" className="flex w-max items-center justify-start overflow-visible h-6 rounded-xs outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2">',
-  '          <Opus2Wordmark className="h-full shrink-0 justify-start text-sm font-semibold tracking-[0.02em]" aria-hidden />',
-  "        </a>",
-  '        <Input size="md" className="md:hidden" aria-label="Search" placeholder="Search" icon={SearchLg} />',
-  '        <Input size="sm" className="max-md:hidden" shortcut aria-label="Search" placeholder="Search" icon={SearchLg} />',
-  "      </div>",
-  "",
-  "      <NavList activeUrl={activeUrl} items={items} />",
-  "",
-  '      <div className="mt-auto flex flex-col gap-3 px-4 py-4 lg:py-5">',
-  "        {footerItems.length > 0 && (",
-  '          <ul className="flex flex-col">',
-  "            {footerItems.map((item) => (",
-  '              <li key={item.label} className="py-0.5">',
-  "                <NavItemBase",
-  "                  badge={item.badge}",
-  "                  icon={item.icon}",
-  "                  href={item.href}",
-  '                  type="link"',
-  "                  current={item.href === activeUrl}",
-  "                >",
-  "                  {item.label}",
-  "                </NavItemBase>",
-  "              </li>",
-  "            ))}",
-  "          </ul>",
-  "        )}",
-  "",
-  "        {featureCard}",
-  "",
-  "        {showAccountCard && <NavAccountCard />}",
-  "      </div>",
-  "    </aside>",
-  "  );",
-  "",
-  "  return (",
-  "    <>",
-  "      <MobileNavigationHeader>{content}</MobileNavigationHeader>",
-  "",
-  '      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:flex">{content}</div>',
-  "",
-  "      <div",
-  "        style={{ paddingLeft: MAIN_SIDEBAR_WIDTH }}",
-  '        className="invisible hidden lg:sticky lg:top-0 lg:bottom-0 lg:left-0 lg:block"',
-  "      />",
-  "    </>",
-  "  );",
-  "};",
-].join("\n");
+const SIMPLE_PAGE_CODE = `\
+import { BadgeWithDot, type NavItemDividerType, type NavItemType } from "@opus2-platform/codex";
+import {
+  BarChartSquare02,
+  Folder,
+  HomeLine,
+  LayoutAlt01,
+  MessageChatCircle,
+  PieChart03,
+  Rows01,
+  Settings01,
+} from "@opus2-platform/icons";
+import { SidebarNavigationSimple } from "./app-navigation/sidebar-simple";
+
+const items: (NavItemType | NavItemDividerType)[] = [
+  { label: "Home", href: "/", icon: HomeLine },
+  { label: "Dashboard", href: "/dashboard", icon: BarChartSquare02 },
+  { label: "Projects", href: "/projects", icon: Rows01 },
+  { divider: true },
+  {
+    label: "Folders",
+    icon: Folder,
+    href: "/folders",
+    items: [
+      { label: "View all", badge: 18, href: "/folders/view-all" },
+      { label: "Recent", badge: 8, href: "/folders/recent" },
+      { label: "Favorites", badge: 6, href: "/folders/favorites" },
+      { label: "Shared", badge: 4, href: "/folders/shared" },
+    ],
+  },
+  { divider: true },
+  { label: "Reporting", href: "/reporting", icon: PieChart03 },
+  { label: "Settings", href: "/settings", icon: Settings01 },
+  {
+    label: "Support",
+    href: "/support",
+    icon: MessageChatCircle,
+    badge: (
+      <BadgeWithDot color="success" type="modern" size="sm">
+        Online
+      </BadgeWithDot>
+    ),
+  },
+  { label: "Open in browser", href: "https://www.untitledui.com/", icon: LayoutAlt01 },
+];
+
+export default function Page() {
+  return <SidebarNavigationSimple activeUrl="/" items={items} />;
+};`;
+
+const SIMPLE_SIDEBAR_CODE = `\
+import type { CSSProperties, ReactNode } from "react";
+import { SearchLg } from "@opus2-platform/icons";
+import {
+  cx,
+  Input,
+  MobileNavigationHeader,
+  NavAccountCard,
+  NavItemBase,
+  NavList,
+  Opus2Wordmark,
+  type NavItemType,
+} from "@opus2-platform/codex";
+
+interface SidebarNavigationProps {
+  /** URL of the currently active item. */
+  activeUrl?: string;
+  /** List of items to display. */
+  items: NavItemType[];
+  /** List of footer items to display. */
+  footerItems?: NavItemType[];
+  /** Feature card to display. */
+  featureCard?: ReactNode;
+  /** Whether to show the account card. */
+  showAccountCard?: boolean;
+  /** Additional CSS classes to apply to the sidebar. */
+  className?: string;
+}
+
+export const SidebarNavigationSimple = ({
+  activeUrl,
+  items,
+  footerItems = [],
+  featureCard,
+  showAccountCard = true,
+  className,
+}: SidebarNavigationProps) => {
+  const MAIN_SIDEBAR_WIDTH = 280;
+
+  const content = (
+    <aside
+      style={{ "--width": \`\${MAIN_SIDEBAR_WIDTH}px\` } as CSSProperties}
+      className={cx(
+        "flex h-full w-full max-w-full flex-col justify-between overflow-auto bg-primary pt-4 lg:w-(--width) lg:pt-5 border-secondary md:border-r",
+        className,
+      )}
+    >
+      <div className="flex flex-col gap-5 px-4 lg:px-5">
+        <a href="#" aria-label="Opus home" className="flex w-max items-center justify-start overflow-visible h-6 rounded-xs outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2">
+          <Opus2Wordmark className="h-full shrink-0 justify-start text-sm font-semibold tracking-[0.02em]" aria-hidden />
+        </a>
+        <Input size="md" className="md:hidden" aria-label="Search" placeholder="Search" icon={SearchLg} />
+        <Input size="sm" className="max-md:hidden" shortcut aria-label="Search" placeholder="Search" icon={SearchLg} />
+      </div>
+
+      <NavList activeUrl={activeUrl} items={items} />
+
+      <div className="mt-auto flex flex-col gap-3 px-4 py-4 lg:py-5">
+        {footerItems.length > 0 && (
+          <ul className="flex flex-col">
+            {footerItems.map((item) => (
+              <li key={item.label} className="py-0.5">
+                <NavItemBase badge={item.badge} icon={item.icon} href={item.href} type="link" current={item.href === activeUrl}>
+                  {item.label}
+                </NavItemBase>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {featureCard}
+
+        {showAccountCard && <NavAccountCard />}
+      </div>
+    </aside>
+  );
+
+  return (
+    <>
+      <MobileNavigationHeader>{content}</MobileNavigationHeader>
+      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:flex">{content}</div>
+      <div style={{ paddingLeft: MAIN_SIDEBAR_WIDTH }} className="invisible hidden lg:sticky lg:top-0 lg:bottom-0 lg:left-0 lg:block" />
+    </>
+  );
+};`;
+
+const SIDEBAR_NAVIGATION_EXAMPLE_CODE = `\
+import { BarChartSquare02, Folder, HomeLine, LayoutAlt01, MessageChatCircle, PieChart03, Rows01, Settings01 } from "@untitledui/icons";
+import type { NavItemDividerType, NavItemType } from "@/components/application/app-navigation/config";
+import { SidebarNavigationSectionDividers } from "@/components/application/app-navigation/sidebar-navigation/sidebar-section-dividers";
+import { BadgeWithDot } from "@/components/base/badges/badges";
+
+const navItemsWithDividers: (NavItemType | NavItemDividerType)[] = [
+    { label: "Home", href: "/", icon: HomeLine },
+    { label: "Dashboard", href: "/dashboard", icon: BarChartSquare02 },
+    { label: "Projects", href: "/projects", icon: Rows01 },
+    { divider: true },
+    {
+        label: "Folders",
+        icon: Folder,
+        href: "/folders",
+        items: [
+            { label: "View all", badge: 18, href: "/folders/view-all" },
+            { label: "Recent", badge: 8, href: "/folders/recent" },
+            { label: "Favorites", badge: 6, href: "/folders/favorites" },
+            { label: "Shared", badge: 4, href: "/folders/shared" },
+        ],
+    },
+    { divider: true },
+    { label: "Reporting", href: "/reporting", icon: PieChart03 },
+    { label: "Settings", href: "/settings", icon: Settings01 },
+    {
+        label: "Support",
+        href: "/support",
+        icon: MessageChatCircle,
+        badge: (
+            <BadgeWithDot color="success" type="modern" size="sm">
+                Online
+            </BadgeWithDot>
+        ),
+    },
+    { label: "Open in browser", href: "https://www.untitledui.com/", icon: LayoutAlt01 },
+];
+
+export const SidebarSectionDividersDemo = () => <SidebarNavigationSectionDividers activeUrl="/" items={navItemsWithDividers} />;`;
 
 const SIMPLE_DOCS_CODE_FILES: DocsUntitledCodeFile[] = [
   { label: "page.tsx", code: SIMPLE_PAGE_CODE },
   { label: "app-navigation/sidebar-simple.tsx", code: SIMPLE_SIDEBAR_CODE },
 ];
 
-/**
- * Hero “Code” panel source — verbatim Untitled UI snippet
- * (https://www.untitledui.com/react/components/sidebar-navigations#sidebar-navigation-example).
- */
-const SIDEBAR_NAVIGATION_EXAMPLE_CODE = [
-  'import { BarChartSquare02, Folder, HomeLine, LayoutAlt01, MessageChatCircle, PieChart03, Rows01, Settings01 } from "@untitledui/icons";',
-  'import type { NavItemDividerType, NavItemType } from "@/components/application/app-navigation/config";',
-  'import { SidebarNavigationSectionDividers } from "@/components/application/app-navigation/sidebar-navigation/sidebar-section-dividers";',
-  'import { BadgeWithDot } from "@/components/base/badges/badges";',
-  "",
-  "const navItemsWithDividers: (NavItemType | NavItemDividerType)[] = [",
-  "    {",
-  '        label: "Home",',
-  '        href: "/",',
-  "        icon: HomeLine,",
-  "    },",
-  "    {",
-  '        label: "Dashboard",',
-  '        href: "/dashboard",',
-  "        icon: BarChartSquare02,",
-  "    },",
-  "    {",
-  '        label: "Projects",',
-  '        href: "/projects",',
-  "        icon: Rows01,",
-  "    },",
-  "    { divider: true },",
-  "    {",
-  '        label: "Folders",',
-  "        icon: Folder,",
-  '        href: "/folders",',
-  "        items: [",
-  '            { label: "View all", badge: 18, href: "/folders/view-all" },',
-  '            { label: "Recent", badge: 8, href: "/folders/recent" },',
-  '            { label: "Favorites", badge: 6, href: "/folders/favorites" },',
-  '            { label: "Shared", badge: 4, href: "/folders/shared" },',
-  "        ],",
-  "    },",
-  "    { divider: true },",
-  "    {",
-  '        label: "Reporting",',
-  '        href: "/reporting",',
-  "        icon: PieChart03,",
-  "    },",
-  "    {",
-  '        label: "Settings",',
-  '        href: "/settings",',
-  "        icon: Settings01,",
-  "    },",
-  "    {",
-  '        label: "Support",',
-  '        href: "/support",',
-  "        icon: MessageChatCircle,",
-  "        badge: (",
-  '            <BadgeWithDot color="success" type="modern" size="sm">',
-  "                Online",
-  "            </BadgeWithDot>",
-  "        ),",
-  "    },",
-  "    {",
-  '        label: "Open in browser",',
-  '        href: "https://www.untitledui.com/",',
-  "        icon: LayoutAlt01,",
-  "    },",
-  "];",
-  "",
-  'export const SidebarSectionDividersDemo = () => <SidebarNavigationSectionDividers activeUrl="/" items={navItemsWithDividers} />;',
-].join("\n");
+// ─── SHARED CONSTANTS ────────────────────────────────────────────────────────
 
 const FEATURED_CARD_CLASS = "rounded-xl bg-secondary_alt p-4 ring-1 ring-inset ring-secondary";
+
+const SIDEBAR_FOOTER_CLASS = "mt-auto flex flex-col gap-3 px-4 py-4 lg:py-5";
+
+const TOGGLE_BTN_CLASS =
+  "flex size-7 items-center justify-center rounded-md text-fg-quaternary transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2";
+
+const DUAL_TIER_EXPANDED_WIDTH = 280;
+const DUAL_TIER_COLLAPSED_WIDTH = 68;
+const DUAL_TIER_FLYOUT_WIDTH = 200;
+
+// ─── DEMO DATA ───────────────────────────────────────────────────────────────
 
 const accountForDemo = [
   {
@@ -363,38 +328,15 @@ const opusApplicationNavItems: (NavItemType | NavItemDividerType)[] = [
   { label: "Open in browser", href: "https://www.opus2.com", icon: LayoutAlt01 },
 ];
 
-/** Sections dividers demo — same structure as the reference `navItemsWithDividers` example. */
-const navItemsSectionDividers: (NavItemType | NavItemDividerType)[] = [
-  { label: "Home", href: "#div-home", icon: HomeLine },
-  { label: "Dashboard", href: "#div-dashboard", icon: BarChartSquare02 },
-  { label: "Projects", href: "#div-projects", icon: Rows01 },
-  { divider: true },
-  {
-    label: "Folders",
-    icon: Folder,
-    href: "#div-folders",
-    items: [
-      { label: "View all", badge: 18, href: "#div-folders-view-all" },
-      { label: "Recent", badge: 8, href: "#div-folders-recent" },
-      { label: "Favorites", badge: 6, href: "#div-folders-favorites" },
-      { label: "Shared", badge: 4, href: "#div-folders-shared" },
-    ],
-  },
-  { divider: true },
-  { label: "Reporting", href: "#div-reporting", icon: PieChart03 },
-  { label: "Settings", href: "#div-settings", icon: Settings01 },
-  {
-    label: "Support",
-    href: "#div-support",
-    icon: MessageChatCircle,
-    badge: supportOnlineDot,
-  },
-  {
-    label: "Open in browser",
-    href: "https://www.opus2.com",
-    icon: LayoutAlt01,
-  },
-];
+/** Same shape as opusApplicationNavItems — unique hrefs for the dividers demo. */
+const navItemsSectionDividers: (NavItemType | NavItemDividerType)[] = opusApplicationNavItems.map((item) => {
+  if ("divider" in item) return item;
+  return {
+    ...item,
+    href: item.href?.replace("#", "#div-"),
+    items: item.items?.map((child) => ({ ...child, href: child.href?.replace("#", "#div-") })),
+  };
+});
 
 const dualTierNavItems: NavItemType[] = [
   {
@@ -411,7 +353,6 @@ const dualTierNavItems: NavItemType[] = [
   { label: "Documents Library", href: "#documents-library", icon: LayersTwo01 },
 ];
 
-/** Untitled slim + secondary pane — nested `items` drive the flyout column. */
 const slimNavItems: NavItemType[] = [
   {
     label: "Home",
@@ -462,43 +403,31 @@ const slimFooterNavItems: NavItemType[] = [
   { label: "Settings", href: "#slim-settings", icon: Settings01 },
 ];
 
-/** Matches Untitled UI rail: outer gutter + aside fills height (https://www.untitledui.com/react/components/sidebar-navigations). */
-const sidebarPreviewRailClass =
-  "not-prose flex h-[min(720px,85dvh)] w-full max-w-full justify-start py-1 pl-1";
+const featuredNavItems = opusApplicationNavItems.slice(0, 3) as NavItemType[];
 
-/** Slim sidebar includes `py-1 pl-1` on the aside — use a rail without extra gutter. */
+// ─── LAYOUT PRIMITIVES ───────────────────────────────────────────────────────
+
+const sidebarPreviewRailClass = "not-prose flex h-[min(720px,85dvh)] w-full max-w-full justify-start py-1 pl-1";
 const slimSidebarPreviewRailClass = "not-prose flex h-[min(720px,85dvh)] w-full max-w-full justify-start";
 
-/** Aside shell — matches Untitled catalog DOM (`--width` + `lg:w-(--width)`, ring, `overflow-auto`). */
 const sidebarShellClass =
   "codex-docs-surface-reset flex h-full w-full max-w-full shrink-0 flex-col justify-between overflow-auto bg-primary pt-4 shadow-xs ring-secondary ring-inset lg:w-(--width) lg:max-w-none lg:rounded-xl lg:pt-5 lg:ring-1";
 
-const sidebarAsideWidthStyle = { "--width": "276px" } as CSSProperties;
-
-const SidebarAside: FC<{ children: ReactNode }> = ({ children }) => (
-  <aside className={sidebarShellClass} style={sidebarAsideWidthStyle}>
-    {children}
-  </aside>
-);
-
-/** Untitled “Simple” sidebar:280px rail, right border at `md+` (no ring/rounded shell). */
 const simpleSidebarShellClass =
   "codex-docs-surface-reset flex h-full w-full max-w-full flex-col justify-between overflow-auto bg-primary pt-4 lg:w-(--width) lg:pt-5 border-secondary md:border-r";
 
-const simpleSidebarWidthStyle = { "--width": "280px" } as CSSProperties;
-
-const SimpleSidebarAside: FC<{ children: ReactNode }> = ({ children }) => (
-  <aside className={simpleSidebarShellClass} style={simpleSidebarWidthStyle}>
-    {children}
-  </aside>
-);
-
-/** Untitled dual-tier: outer scroll surface for the animated inner column. */
-const dualTierOuterAsideClass =
-  "codex-docs-surface-reset group flex h-full max-h-full max-w-full overflow-y-auto bg-primary";
-
 const SidebarPreviewRail: FC<{ children: ReactNode }> = ({ children }) => (
   <div className={sidebarPreviewRailClass}>{children}</div>
+);
+
+const SidebarAside: FC<{ children: ReactNode; style?: CSSProperties; className?: string }> = ({
+  children,
+  style = { "--width": "276px" } as CSSProperties,
+  className = sidebarShellClass,
+}) => (
+  <aside className={className} style={style}>
+    {children}
+  </aside>
 );
 
 const SidebarHeader: FC = () => (
@@ -515,39 +444,51 @@ const SidebarHeader: FC = () => (
   </div>
 );
 
-const SimpleSidebar = () => (
-  <SimpleSidebarAside>
-    <SidebarHeader />
-    <NavList activeUrl="#home" items={opusApplicationNavItems} />
-    <div className="mt-auto flex flex-col gap-3 px-4 py-4 lg:py-5">
-      <NavAccountCard selectedAccountId="caitlyn" items={accountForDemo} />
-    </div>
-  </SimpleSidebarAside>
+const SidebarFooter: FC<{ children?: ReactNode }> = ({ children }) => (
+  <div className={SIDEBAR_FOOTER_CLASS}>
+    {children}
+    <NavAccountCard selectedAccountId="caitlyn" items={accountForDemo} />
+  </div>
 );
 
-const DUAL_TIER_EXPANDED_WIDTH = 280;
-const DUAL_TIER_COLLAPSED_WIDTH = 68;
+/** Featured-card rail — used by all sidebar card variants. */
+const FeaturedCardRail: FC<{ children: ReactNode }> = ({ children }) => (
+  <SidebarAside>
+    <SidebarHeader />
+    <NavList activeUrl="#home" items={featuredNavItems} />
+    <div className="px-4 pb-4">{children}</div>
+  </SidebarAside>
+);
 
-const DUAL_TIER_FLYOUT_WIDTH = 200;
+// ─── SIDEBAR DEMOS ───────────────────────────────────────────────────────────
 
-const DualTierSidebar = () => {
+const SimpleSidebar: FC = () => (
+  <SidebarAside
+    style={{ "--width": "280px" } as CSSProperties}
+    className={simpleSidebarShellClass}
+  >
+    <SidebarHeader />
+    <NavList activeUrl="#home" items={opusApplicationNavItems} />
+    <SidebarFooter />
+  </SidebarAside>
+);
+
+const DualTierSidebar: FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [hoveredItem, setHoveredItem] = useState<NavItemType | undefined>(undefined);
+
   const activeUrl = "#ai-assist-matter";
   const activeItem = dualTierNavItems.find(
     (item) => item.href === activeUrl || item.items?.some((c) => c.href === activeUrl),
   );
   const [currentItem, setCurrentItem] = useState<NavItemType | undefined>(activeItem ?? dualTierNavItems[0]);
+
   const flyoutItem = !isExpanded && hoveredItem?.items?.length ? hoveredItem : undefined;
-  const isFlyoutVisible = Boolean(flyoutItem);
 
   return (
-    <aside className={dualTierOuterAsideClass}>
-      {/* Rail */}
-      <div
-        className="flex h-full"
-        onPointerLeave={() => setHoveredItem(undefined)}
-      >
+    <aside className="codex-docs-surface-reset group flex h-full max-h-full max-w-full overflow-y-auto bg-primary">
+      <div className="flex h-full" onPointerLeave={() => setHoveredItem(undefined)}>
+        {/* Animated rail */}
         <motion.div
           animate={{ width: isExpanded ? DUAL_TIER_EXPANDED_WIDTH : DUAL_TIER_COLLAPSED_WIDTH }}
           transition={{ type: "spring", damping: 26, stiffness: 220, bounce: 0 }}
@@ -555,7 +496,7 @@ const DualTierSidebar = () => {
         >
           {/* Header */}
           {isExpanded ? (
-            <div className="flex h-6 items-center justify-between px-3 mb-5">
+            <div className="mb-5 flex h-6 items-center justify-between px-3">
               <a
                 href="#"
                 aria-label="Opus home"
@@ -563,38 +504,25 @@ const DualTierSidebar = () => {
               >
                 <Opus2Wordmark className="h-full shrink-0 text-sm font-semibold tracking-[0.02em]" aria-hidden />
               </a>
-              <button
-                aria-label="Collapse sidebar"
-                onClick={() => setIsExpanded(false)}
-                className="ml-1 flex size-7 shrink-0 items-center justify-center rounded-md text-fg-quaternary transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2"
-              >
+              <button aria-label="Collapse sidebar" onClick={() => setIsExpanded(false)} className={`ml-1 ${TOGGLE_BTN_CLASS}`}>
                 <LayoutLeft className="size-4" aria-hidden />
               </button>
             </div>
           ) : (
-            /* Collapsed: just the expand button centered in the rail width */
-            <div className="flex h-6 items-center justify-center mb-5">
-              <button
-                aria-label="Expand sidebar"
-                onClick={() => setIsExpanded(true)}
-                className="flex size-7 items-center justify-center rounded-md text-fg-quaternary transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2"
-              >
+            <div className="mb-5 flex h-6 items-center justify-center">
+              <button aria-label="Expand sidebar" onClick={() => setIsExpanded(true)} className={TOGGLE_BTN_CLASS}>
                 <LayoutRight className="size-4" aria-hidden />
               </button>
             </div>
           )}
 
-          {/* Nav items */}
+          {/* Nav */}
           {isExpanded ? (
             <NavList activeUrl={activeUrl} items={dualTierNavItems} className="flex-1 overflow-y-auto" />
           ) : (
-            <ul data-nav-list-slim className="flex flex-1 list-none flex-col gap-0.5 px-3.5 overflow-y-auto">
+            <ul data-nav-list-slim className="flex flex-1 list-none flex-col gap-0.5 overflow-y-auto px-3.5">
               {dualTierNavItems.map((item) => (
-                <li
-                  key={item.label}
-                  onMouseEnter={() => setHoveredItem(item)}
-                  onMouseLeave={() => setHoveredItem(undefined)}
-                >
+                <li key={item.label} onMouseEnter={() => setHoveredItem(item)} onMouseLeave={() => setHoveredItem(undefined)}>
                   <NavButton
                     label={item.label}
                     href={item.href}
@@ -638,33 +566,28 @@ const DualTierSidebar = () => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Flyout secondary pane — slides in from the rail when collapsed + hovering an item with sub-items */}
+        {/* Flyout pane */}
         <AnimatePresence initial={false}>
-          {isFlyoutVisible && (
+          {flyoutItem && (
             <motion.div
+              key="flyout"
               initial={{ width: 0 }}
               animate={{ width: DUAL_TIER_FLYOUT_WIDTH }}
               exit={{ width: 0, transition: { duration: 0.15 } }}
               transition={{ type: "spring", damping: 26, stiffness: 220, bounce: 0 }}
               onMouseEnter={() => setHoveredItem(flyoutItem)}
               onMouseLeave={() => setHoveredItem(undefined)}
-              className="relative h-full overflow-x-hidden overflow-y-auto bg-primary box-content border-r border-secondary"
+              className="box-content h-full overflow-x-hidden overflow-y-auto border-r border-secondary bg-primary"
             >
               <div style={{ width: DUAL_TIER_FLYOUT_WIDTH }} className="flex h-full flex-col px-4 pt-4 lg:pt-5">
-                {/* Spacer matches rail header: h-6 + mb-5 = 44px */}
-                <div className="h-6 mb-5 flex items-center">
-                  <h3 className="text-sm font-semibold text-brand-secondary">{flyoutItem?.label}</h3>
+                {/* Spacer aligns label with rail header row */}
+                <div className="mb-5 flex h-6 items-center">
+                  <h3 className="text-sm font-semibold text-brand-secondary">{flyoutItem.label}</h3>
                 </div>
                 <ul className="list-none">
-                  {flyoutItem?.items?.map((item) => (
+                  {flyoutItem.items?.map((item) => (
                     <li key={item.label} className="py-px">
-                      <NavItemBase
-                        current={activeUrl === item.href}
-                        href={item.href}
-                        icon={item.icon}
-                        badge={item.badge}
-                        type="link"
-                      >
+                      <NavItemBase current={activeUrl === item.href} href={item.href} icon={item.icon} badge={item.badge} type="link">
                         {item.label}
                       </NavItemBase>
                     </li>
@@ -679,13 +602,9 @@ const DualTierSidebar = () => {
   );
 };
 
-const SlimSidebar = () => (
+const SlimSidebar: FC = () => (
   <div className="codex-docs-surface-reset h-full min-h-0 min-w-0">
-    <SidebarNavigationSlim
-      activeUrl="#slim-dashboard-notifications"
-      items={slimNavItems}
-      footerItems={slimFooterNavItems}
-    />
+    <SidebarNavigationSlim activeUrl="#slim-dashboard-notifications" items={slimNavItems} footerItems={slimFooterNavItems} />
   </div>
 );
 
@@ -693,342 +612,138 @@ const DividersSidebar: FC = () => (
   <SidebarAside>
     <SidebarHeader />
     <NavList activeUrl="#div-home" items={navItemsSectionDividers} />
-    <div className="mt-auto flex flex-col gap-3 px-4 py-4 lg:py-5">
-      <NavAccountCard selectedAccountId="caitlyn" items={accountForDemo} />
-    </div>
+    <SidebarFooter />
   </SidebarAside>
 );
 
-const SubheadingsSidebar = () => (
+const SubheadingsSidebar: FC = () => (
   <SidebarAside>
     <SidebarHeader />
-    <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-4 pt-2 pb-4">
-        <div>
-          <p className="m-0 px-2 pb-2 text-xs font-semibold tracking-wide text-tertiary uppercase">Workspace</p>
+    <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-4 pb-4 pt-2">
+      {[
+        {
+          label: "Workspace",
+          items: [
+            { href: "#sub-home", icon: Home01, label: "Home", current: true },
+            { href: "#sub-projects", icon: LayersTwo01, label: "Projects" },
+          ],
+        },
+        {
+          label: "Account",
+          items: [
+            { href: "#sub-profile", icon: Users01, label: "Profile" },
+            { href: "#sub-settings", icon: Settings01, label: "Settings" },
+          ],
+        },
+      ].map(({ label, items }) => (
+        <div key={label}>
+          <p className="m-0 px-2 pb-2 text-xs font-semibold uppercase tracking-wide text-tertiary">{label}</p>
           <ul className="flex list-none! flex-col gap-px ps-0">
-            <li>
-              <NavItemBase type="link" href="#sub-home" icon={Home01} current>
-                Home
-              </NavItemBase>
-            </li>
-            <li>
-              <NavItemBase type="link" href="#sub-projects" icon={LayersTwo01}>
-                Projects
-              </NavItemBase>
-            </li>
+            {items.map(({ href, icon, label: itemLabel, current }) => (
+              <li key={href}>
+                <NavItemBase type="link" href={href} icon={icon} current={current}>
+                  {itemLabel}
+                </NavItemBase>
+              </li>
+            ))}
           </ul>
         </div>
-        <div>
-          <p className="m-0 px-2 pb-2 text-xs font-semibold tracking-wide text-tertiary uppercase">Account</p>
-          <ul className="flex list-none! flex-col gap-px ps-0">
-            <li>
-              <NavItemBase type="link" href="#sub-profile" icon={Users01}>
-                Profile
-              </NavItemBase>
-            </li>
-            <li>
-              <NavItemBase type="link" href="#sub-settings" icon={Settings01}>
-                Settings
-              </NavItemBase>
-            </li>
-          </ul>
-        </div>
-      </div>
+      ))}
+    </div>
   </SidebarAside>
 );
 
-const featuredProgressNavItems = opusApplicationNavItems.slice(0, 3) as NavItemType[];
+// ─── FEATURED CARD DEMOS ─────────────────────────────────────────────────────
 
-const FeaturedCardRail: FC<{ children: ReactNode }> = ({ children }) => (
-  <SidebarAside>
-    <SidebarHeader />
-    <NavList activeUrl="#home" items={featuredProgressNavItems} />
-    <div className="px-4 pb-4">{children}</div>
-  </SidebarAside>
+/** Two-button row used in Image, Cookie, Event, Message cards. */
+const CardActions: FC<{ primary: string; secondary?: string }> = ({ primary, secondary = "Dismiss" }) => (
+  <div className="mt-4 flex gap-2">
+    <Button color="secondary" size="sm" className="flex-1">{secondary}</Button>
+    <Button color="primary" size="sm" className="flex-1">{primary}</Button>
+  </div>
 );
 
-const FeaturedProgressSidebar = () => (
-  <FeaturedCardRail>
-    <div className={FEATURED_CARD_CLASS}>
-      <p className="m-0 text-sm font-semibold text-secondary">Storage</p>
-      <p className="m-0 mt-1 text-sm text-tertiary">12.4 GB of 20 GB used</p>
-      <div className="mt-4">
-        <ProgressBar value={62} labelPosition="right" valueFormatter={(v) => `${v}%`} />
-      </div>
-    </div>
-  </FeaturedCardRail>
-);
+// ─── DOCS PAGE ───────────────────────────────────────────────────────────────
 
-const FeaturedProgressCircleSidebar = () => (
-  <FeaturedCardRail>
-    <div className={`${FEATURED_CARD_CLASS} flex flex-col items-center gap-3`}>
-      <ProgressBarCircle value={62} size="sm" label="Storage" />
-      <p className="m-0 text-center text-xs text-tertiary">12.4 GB of 20 GB used</p>
-    </div>
-  </FeaturedCardRail>
-);
-
-const FeaturedImageSidebar = () => (
-  <FeaturedCardRail>
-    <div className={`${FEATURED_CARD_CLASS} space-y-3`}>
-      <img src={CODEX_DOCS_AVATAR_SRC} alt="" className="aspect-video w-full rounded-lg object-cover" />
-      <p className="m-0 text-sm font-semibold text-secondary">New features available!</p>
-      <p className="m-0 text-sm text-tertiary">Check out the new dashboard view. Pages now load faster.</p>
-      <div className="flex gap-2 pt-1">
-        <Button color="secondary" size="sm" className="flex-1">
-          Dismiss
-        </Button>
-        <Button color="primary" size="sm" className="flex-1">
-          What&apos;s new?
-        </Button>
-      </div>
-    </div>
-  </FeaturedCardRail>
-);
-
-const FeaturedCookieSidebar = () => (
-  <FeaturedCardRail>
-    <div className={FEATURED_CARD_CLASS}>
-      <p className="m-0 text-sm font-semibold text-secondary">Cookie preferences</p>
-      <p className="m-0 mt-2 text-sm text-tertiary">We use cookies to analyze traffic, remember preferences, and improve your experience.</p>
-      <div className="mt-4 flex gap-2">
-        <Button color="secondary" size="sm" className="flex-1">
-          Reject all
-        </Button>
-        <Button color="primary" size="sm" className="flex-1">
-          Accept all
-        </Button>
-      </div>
-    </div>
-  </FeaturedCardRail>
-);
-
-const FeaturedReferralSidebar = () => (
-  <FeaturedCardRail>
-    <div className={FEATURED_CARD_CLASS}>
-      <p className="m-0 text-sm font-semibold text-secondary">Refer a friend</p>
-      <p className="m-0 mt-2 text-sm text-tertiary">Earn 50% back for 12 months when someone uses your link.</p>
-      <Button color="primary" size="sm" className="mt-4 w-full">
-        Copy link
-      </Button>
-    </div>
-  </FeaturedCardRail>
-);
-
-const FeaturedOnboardingSidebar = () => (
-  <FeaturedCardRail>
-    <div className={FEATURED_CARD_CLASS}>
-      <p className="m-0 text-xs font-medium text-tertiary">Complete account</p>
-      <p className="m-0 mt-1 text-sm font-semibold text-secondary">Step 3 of 4</p>
-      <ul className="mt-3 list-disc space-y-1 pl-4 text-sm text-tertiary">
-        <li>Complete your profile</li>
-        <li>Verify your phone number</li>
-        <li>Set up 2FA and backups</li>
-        <li>Add payout bank details</li>
-      </ul>
-      <Button color="primary" size="sm" className="mt-4 w-full">
-        Continue setup
-      </Button>
-    </div>
-  </FeaturedCardRail>
-);
-
-const FeaturedUpgradeSidebar = () => (
-  <FeaturedCardRail>
-    <div className={FEATURED_CARD_CLASS}>
-      <div className="flex items-center gap-2">
-        <Badge color="brand" size="sm">
-          Upgrade to PRO
-        </Badge>
-        <span className="text-xs font-semibold text-brand-secondary">20% OFF</span>
-      </div>
-      <p className="m-0 mt-3 text-sm text-tertiary">Unlock 20+ integrations, 40 GB data, and advanced reporting.</p>
-      <Button color="primary" size="sm" className="mt-4 w-full">
-        Upgrade now
-      </Button>
-    </div>
-  </FeaturedCardRail>
-);
-
-const FeaturedSupportCtaSidebar = () => (
-  <FeaturedCardRail>
-    <div className={FEATURED_CARD_CLASS}>
-      <BadgeWithDot color="success" type="modern" size="sm">
-        Online
-      </BadgeWithDot>
-      <p className="m-0 mt-3 text-sm font-semibold text-secondary">Need help with something?</p>
-      <p className="m-0 mt-1 text-sm text-tertiary">Our experts are ready to help.</p>
-      <Button color="primary" size="sm" className="mt-4 w-full">
-        Chat to support
-      </Button>
-    </div>
-  </FeaturedCardRail>
-);
-
-const FeaturedEventCtaSidebar = () => (
-  <FeaturedCardRail>
-    <div className={FEATURED_CARD_CLASS}>
-      <div className="flex -space-x-2">
-        <Avatar size="sm" src={CODEX_DOCS_AVATAR_SRC} alt="" className="ring-2 ring-bg-primary" />
-        <Avatar size="sm" src={CODEX_DOCS_AVATAR_SRC} alt="" className="ring-2 ring-bg-primary" />
-        <Avatar size="sm" src={CODEX_DOCS_AVATAR_SRC} alt="" className="ring-2 ring-bg-primary" />
-        <div className="flex size-8 items-center justify-center rounded-full bg-tertiary text-xs font-semibold text-secondary ring-2 ring-bg-primary">
-          +5
-        </div>
-      </div>
-      <p className="m-0 mt-3 text-sm font-semibold text-secondary">Join our workshop</p>
-      <Badge color="success" size="sm" className="mt-1">
-        Live
-      </Badge>
-      <p className="m-0 mt-2 text-sm text-tertiary">Learn how to leverage AI to supercharge your workflow.</p>
-      <div className="mt-4 flex gap-2">
-        <Button color="secondary" size="sm" className="flex-1">
-          Dismiss
-        </Button>
-        <Button color="primary" size="sm" className="flex-1">
-          Join now!
-        </Button>
-      </div>
-    </div>
-  </FeaturedCardRail>
-);
-
-const FeaturedMessageSidebar = () => (
-  <FeaturedCardRail>
-    <div className={FEATURED_CARD_CLASS}>
-      <div className="flex gap-3">
-        <Avatar size="md" src={CODEX_DOCS_AVATAR_SRC} alt="" />
-        <div className="min-w-0 flex-1">
-          <p className="m-0 text-sm font-semibold text-secondary">Mathilde Lewis</p>
-          <p className="m-0 text-xs text-quaternary">2 mins ago</p>
-        </div>
-      </div>
-      <p className="m-0 mt-3 text-sm text-tertiary">I&apos;ve finished adding my notes. Happy for you to review!</p>
-      <div className="mt-4 flex gap-2">
-        <Button color="secondary" size="sm" className="flex-1">
-          Dismiss
-        </Button>
-        <Button color="primary" size="sm" className="flex-1">
-          Reply
-        </Button>
-      </div>
-    </div>
-  </FeaturedCardRail>
-);
-
-const FeaturedProjectsSidebar = () => (
-  <FeaturedCardRail>
-    <div className={FEATURED_CARD_CLASS}>
-      <p className="m-0 text-sm font-semibold text-secondary">Current projects</p>
-      <ul className="mt-3 list-none space-y-2 p-0 text-sm text-tertiary">
-        <li>Dashboard design 2.0</li>
-        <li>Marketing site CMS</li>
-        <li>iOS app prototypes</li>
-      </ul>
-      <Button color="link-color" size="sm" className="mt-3 px-0">
-        All projects
-      </Button>
-    </div>
-  </FeaturedCardRail>
-);
-
-const FeaturedFreeTrialSidebar = () => (
-  <FeaturedCardRail>
-    <div className={FEATURED_CARD_CLASS}>
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-sm font-semibold text-secondary">Free trial</span>
-        <Badge color="warning" size="sm">
-          24 days left
-        </Badge>
-      </div>
-      <Button color="primary" size="sm" className="mt-4 w-full">
-        Upgrade now
-      </Button>
-    </div>
-  </FeaturedCardRail>
-);
-
-const FeaturedQrSidebar = () => (
-  <FeaturedCardRail>
-    <div className={`${FEATURED_CARD_CLASS} flex flex-col items-center`}>
-      <p className="m-0 w-full text-sm font-semibold text-secondary">Verify this device</p>
-      <p className="m-0 mt-2 w-full text-sm text-tertiary">Open the app and scan the QR code below to verify this device.</p>
-      <div className="mt-4 flex justify-center">
-        <QRCode value="https://opus2.com/verify" size="md" />
-      </div>
-      <Button color="link-color" size="sm" className="mt-4 px-0">
-        Verify another way
-      </Button>
-    </div>
-  </FeaturedCardRail>
+/** Shared wrapper for every sidebar DocsSection — avoids repeating previewClassName. */
+const SidebarSection: FC<{
+  id: string;
+  title: string;
+  code: string;
+  children: ReactNode;
+  slim?: boolean;
+}> = ({ id, title, code, children, slim = false }) => (
+  <DocsSection id={id} title={title} previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV} code={code}>
+    <div className={slim ? slimSidebarPreviewRailClass : sidebarPreviewRailClass}>{children}</div>
+  </DocsSection>
 );
 
 function SidebarNavigationsOverview() {
   return null;
 }
 
-const SidebarNavigationsDocsPage = () => {
-  return (
-    <div className="docs-sbdocs-with-toc-layout">
-      <StorybookRootHeaderPortal>
-        <DocsPageBreadcrumb catalog="application" currentLabel="Sidebar navigations" />
-      </StorybookRootHeaderPortal>
-      <StorybookSbdocsTocPortal>
-        <OnThisPageNav items={SIDEBAR_DOCS_TOC} />
-      </StorybookSbdocsTocPortal>
+const SidebarNavigationsDocsPage: FC = () => (
+  <div className="docs-sbdocs-with-toc-layout">
+    <StorybookRootHeaderPortal>
+      <DocsPageBreadcrumb catalog="application" currentLabel="Sidebar navigations" />
+    </StorybookRootHeaderPortal>
+    <StorybookSbdocsTocPortal>
+      <OnThisPageNav items={SIDEBAR_DOCS_TOC} />
+    </StorybookSbdocsTocPortal>
 
-      <main className="docs-sbdocs-content typography">
-        <div className={DOCS_SECTION_HERO_CLASS}>
-          <h1 className="docs-h1">Sidebar navigations</h1>
-          <p>
-            Sidebar navigation patterns for modern applications, built with React Aria primitives and Tailwind in{" "}
-            <code className="text-sm">@opus2-platform/codex</code>. Compose <code className="text-sm">NavList</code>, <code className="text-sm">NavItemBase</code>,{" "}
-            <code className="text-sm">Input</code>, <code className="text-sm">Opus2Wordmark</code> (and optional <code className="text-sm">OpusLogoSmall</code> for full wordmark lockups or slim rails), and{" "}
-            <code className="text-sm">NavAccountCard</code> — there is no single <code className="text-sm">SidebarNavigation</code> export.
-          </p>
-          <DocsSection
-            id="sidebar-navigation-example"
-            title="Sidebar navigation example"
-            sectionClassName="not-typography group flex w-full min-w-0 max-w-full scroll-mt-20 flex-col gap-3"
-            previewClassName={DOCS_PREVIEW_HERO_SURFACE_CLASS_SIDEBAR_NAV}
-            defaultDocsTab="preview"
-            code={SIDEBAR_NAVIGATION_EXAMPLE_CODE}
-            codePanel={
-              <DocsUntitledMultiFileCodePanel
-                showFileTabs={false}
-                panelHeightPx={904}
-                files={[{ label: "sidebar-section-dividers.tsx", code: SIDEBAR_NAVIGATION_EXAMPLE_CODE }]}
-              />
-            }
-          >
-            <SidebarPreviewRail>
-              <DividersSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
-        </div>
+    <main className="docs-sbdocs-content typography">
+      <div className={DOCS_SECTION_HERO_CLASS}>
+        <h1 className="docs-h1">Sidebar navigations</h1>
+        <p>
+          Sidebar navigation patterns for modern applications, built with React Aria primitives and Tailwind in{" "}
+          <code className="text-sm">@opus2-platform/codex</code>. Compose <code className="text-sm">NavList</code>,{" "}
+          <code className="text-sm">NavItemBase</code>, <code className="text-sm">Input</code>,{" "}
+          <code className="text-sm">Opus2Wordmark</code>, and <code className="text-sm">NavAccountCard</code> — there is
+          no single <code className="text-sm">SidebarNavigation</code> export.
+        </p>
+        <DocsSection
+          id="sidebar-navigation-example"
+          title="Sidebar navigation example"
+          sectionClassName="not-typography group flex w-full min-w-0 max-w-full scroll-mt-20 flex-col gap-3"
+          previewClassName={DOCS_PREVIEW_HERO_SURFACE_CLASS_SIDEBAR_NAV}
+          defaultDocsTab="preview"
+          code={SIDEBAR_NAVIGATION_EXAMPLE_CODE}
+          codePanel={
+            <DocsUntitledMultiFileCodePanel
+              showFileTabs={false}
+              panelHeightPx={904}
+              files={[{ label: "sidebar-section-dividers.tsx", code: SIDEBAR_NAVIGATION_EXAMPLE_CODE }]}
+            />
+          }
+        >
+          <SidebarPreviewRail>
+            <DividersSidebar />
+          </SidebarPreviewRail>
+        </DocsSection>
+      </div>
 
-        <div className="docs-sections-wrap">
-          <DocsSection
-            id="simple"
-            title="Simple"
-            sectionClassName={`${DOCS_SECTION_CLASS} not-typography`}
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            defaultDocsTab="preview"
-            code={SIMPLE_SIDEBAR_CODE}
-            codePanel={
-              <DocsUntitledMultiFileCodePanel defaultFileIndex={1} panelHeightPx={904} files={SIMPLE_DOCS_CODE_FILES} />
-            }
-          >
-            <SidebarPreviewRail>
-              <SimpleSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+      <div className="docs-sections-wrap">
+        {/* Simple */}
+        <DocsSection
+          id="simple"
+          title="Simple"
+          sectionClassName={`${DOCS_SECTION_CLASS} not-typography`}
+          previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
+          defaultDocsTab="preview"
+          code={SIMPLE_SIDEBAR_CODE}
+          codePanel={<DocsUntitledMultiFileCodePanel defaultFileIndex={1} panelHeightPx={904} files={SIMPLE_DOCS_CODE_FILES} />}
+        >
+          <SidebarPreviewRail>
+            <SimpleSidebar />
+          </SidebarPreviewRail>
+        </DocsSection>
 
-          <DocsSection
-            id="dual-tier"
-            title="Dual-tier"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`// Nested \`items\`: collapsible \`details\` below lg; flat top-level links at lg+ (\`dualTier\`).
+        {/* Dual-tier */}
+        <DocsSection
+          id="dual-tier"
+          title="Dual-tier"
+          previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
+          code={`// Nested \`items\`: collapsible \`details\` below lg; flat top-level links at lg+ (\`dualTier\`).
 
 const items = [
   {
@@ -1045,26 +760,19 @@ const items = [
 <NavList dualTier activeUrl="/reporting/overview" items={items} />
 
 // Shell (Untitled): outer aside \`overflow-y-auto\`, inner column \`lg:w-(--width)\` + \`border-r\`.`}
-          >
-            <SidebarPreviewRail>
-              <DualTierSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        >
+          <SidebarPreviewRail>
+            <DualTierSidebar />
+          </SidebarPreviewRail>
+        </DocsSection>
 
-          <DocsSection
-            id="slim"
-            title="Slim"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`import { SidebarNavigationSlim, type NavItemType } from "@opus2-platform/codex";
-import {
-  BarChartSquare02,
-  Grid03,
-  HomeLine,
-  LifeBuoy01,
-  NotificationBox,
-  Rows01,
-  Settings01,
-} from "@opus2-platform/icons";
+        {/* Slim */}
+        <DocsSection
+          id="slim"
+          title="Slim"
+          previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
+          code={`import { SidebarNavigationSlim, type NavItemType } from "@opus2-platform/codex";
+import { BarChartSquare02, Grid03, HomeLine, LifeBuoy01, NotificationBox, Rows01, Settings01 } from "@opus2-platform/icons";
 
 const items: NavItemType[] = [
   {
@@ -1090,17 +798,17 @@ const items: NavItemType[] = [
     { label: "Settings", href: "/settings", icon: Settings01 },
   ]}
 />`}
-          >
-            <div className={slimSidebarPreviewRailClass}>
-              <SlimSidebar />
-            </div>
-          </DocsSection>
+        >
+          <div className={slimSidebarPreviewRailClass}>
+            <SlimSidebar />
+          </div>
+        </DocsSection>
 
-          <DocsSection
-            id="sections-dividers"
-            title="Sections dividers"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`import { BadgeWithDot, Input, NavList, Opus2Wordmark, OpusLogoSmall } from "@opus2-platform/codex";
+        {/* Sections dividers */}
+        <SidebarSection
+          id="sections-dividers"
+          title="Sections dividers"
+          code={`import { BadgeWithDot, Input, NavList, Opus2Wordmark } from "@opus2-platform/codex";
 import { BarChartSquare02, Folder, HomeLine, LayoutAlt01, MessageChatCircle, PieChart03, Rows01, SearchLg, Settings01 } from "@opus2-platform/icons";
 
 const navItemsWithDividers = [
@@ -1134,17 +842,15 @@ const navItemsWithDividers = [
 ];
 
 <NavList activeUrl="/" items={navItemsWithDividers} />`}
-          >
-            <SidebarPreviewRail>
-              <DividersSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        >
+          <DividersSidebar />
+        </SidebarSection>
 
-          <DocsSection
-            id="sections-subheadings"
-            title="Sections subheadings"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`<div>
+        {/* Sections subheadings */}
+        <SidebarSection
+          id="sections-subheadings"
+          title="Sections subheadings"
+          code={`<div>
   <p className="px-2 pb-2 text-xs font-semibold tracking-wide text-tertiary uppercase">Workspace</p>
   <ul className="flex list-none flex-col gap-px ps-0">
     <li>
@@ -1152,26 +858,25 @@ const navItemsWithDividers = [
     </li>
   </ul>
 </div>`}
-          >
-            <SidebarPreviewRail>
-              <SubheadingsSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        >
+          <SubheadingsSidebar />
+        </SidebarSection>
 
-          <section id="featured-cards" className={`${DOCS_SECTION_CLASS} !gap-2`}>
-            <h3 className="text-md font-semibold text-primary">
-              <SectionTitle>Featured cards</SectionTitle>
-            </h3>
-            <p className="text-md text-tertiary max-w-3xl">
-              Featured cards sit below the main nav list. Use any of the patterns in the following sections inside the sidebar content area.
-            </p>
-          </section>
+        {/* Featured cards heading */}
+        <section id="featured-cards" className={`${DOCS_SECTION_CLASS} !gap-2`}>
+          <h3 className="text-md font-semibold text-primary">
+            <SectionTitle>Featured cards</SectionTitle>
+          </h3>
+          <p className="text-md max-w-3xl text-tertiary">
+            Featured cards sit below the main nav list. Use any of the patterns in the following sections inside the sidebar content area.
+          </p>
+        </section>
 
-          <DocsSection
-            id="progress-bar"
-            title="Progress bar"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`import { ProgressBar } from "@opus2-platform/codex";
+        {/* Progress bar */}
+        <SidebarSection
+          id="progress-bar"
+          title="Progress bar"
+          code={`import { ProgressBar } from "@opus2-platform/codex";
 
 <div className="rounded-xl bg-secondary_alt p-4 ring-1 ring-inset ring-secondary">
   <p className="text-sm font-semibold text-secondary">Storage</p>
@@ -1180,161 +885,248 @@ const navItemsWithDividers = [
     <ProgressBar value={62} labelPosition="right" valueFormatter={(v) => \`\${v}%\`} />
   </div>
 </div>`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedProgressSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        >
+          <FeaturedCardRail>
+            <div className={FEATURED_CARD_CLASS}>
+              <p className="m-0 text-sm font-semibold text-secondary">Storage</p>
+              <p className="m-0 mt-1 text-sm text-tertiary">12.4 GB of 20 GB used</p>
+              <div className="mt-4">
+                <ProgressBar value={62} labelPosition="right" valueFormatter={(v) => `${v}%`} />
+              </div>
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
 
-          <DocsSection
-            id="progress-circle"
-            title="Progress circle"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`import { ProgressBarCircle } from "@opus2-platform/codex";
+        {/* Progress circle */}
+        <SidebarSection
+          id="progress-circle"
+          title="Progress circle"
+          code={`import { ProgressBarCircle } from "@opus2-platform/codex";
 
 <ProgressBarCircle value={62} size="sm" label="Storage" />`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedProgressCircleSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        >
+          <FeaturedCardRail>
+            <div className={`${FEATURED_CARD_CLASS} flex flex-col items-center gap-3`}>
+              <ProgressBarCircle value={62} size="sm" label="Storage" />
+              <p className="m-0 text-center text-xs text-tertiary">12.4 GB of 20 GB used</p>
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
 
-          <DocsSection
-            id="featured-image"
-            title="Image"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`// Image + headline + actions inside the featured card shell (rounded-xl bg-secondary_alt …).`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedImageSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        {/* Image */}
+        <SidebarSection
+          id="featured-image"
+          title="Image"
+          code={`// Image + headline + actions inside the featured card shell (rounded-xl bg-secondary_alt …).`}
+        >
+          <FeaturedCardRail>
+            <div className={`${FEATURED_CARD_CLASS} space-y-3`}>
+              <img src={CODEX_DOCS_AVATAR_SRC} alt="" className="aspect-video w-full rounded-lg object-cover" />
+              <p className="m-0 text-sm font-semibold text-secondary">New features available!</p>
+              <p className="m-0 text-sm text-tertiary">Check out the new dashboard view. Pages now load faster.</p>
+              <CardActions primary="What's new?" />
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
 
-          <DocsSection
-            id="cookie-preferences"
-            title="Cookie preferences"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`// Short copy + Reject all / Accept all actions in the featured card shell.`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedCookieSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        {/* Cookie preferences */}
+        <SidebarSection
+          id="cookie-preferences"
+          title="Cookie preferences"
+          code={`// Short copy + Reject all / Accept all actions in the featured card shell.`}
+        >
+          <FeaturedCardRail>
+            <div className={FEATURED_CARD_CLASS}>
+              <p className="m-0 text-sm font-semibold text-secondary">Cookie preferences</p>
+              <p className="m-0 mt-2 text-sm text-tertiary">We use cookies to analyze traffic, remember preferences, and improve your experience.</p>
+              <CardActions primary="Accept all" secondary="Reject all" />
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
 
-          <DocsSection
-            id="referral-link"
-            title="Referral link"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`// Referral headline, supporting text, primary action.`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedReferralSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        {/* Referral link */}
+        <SidebarSection
+          id="referral-link"
+          title="Referral link"
+          code={`// Referral headline, supporting text, primary action.`}
+        >
+          <FeaturedCardRail>
+            <div className={FEATURED_CARD_CLASS}>
+              <p className="m-0 text-sm font-semibold text-secondary">Refer a friend</p>
+              <p className="m-0 mt-2 text-sm text-tertiary">Earn 50% back for 12 months when someone uses your link.</p>
+              <Button color="primary" size="sm" className="mt-4 w-full">Copy link</Button>
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
 
-          <DocsSection
-            id="onboarding-steps"
-            title="Onboarding steps"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`// Step indicator + checklist + continue CTA.`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedOnboardingSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        {/* Onboarding steps */}
+        <SidebarSection
+          id="onboarding-steps"
+          title="Onboarding steps"
+          code={`// Step indicator + checklist + continue CTA.`}
+        >
+          <FeaturedCardRail>
+            <div className={FEATURED_CARD_CLASS}>
+              <p className="m-0 text-xs font-medium text-tertiary">Complete account</p>
+              <p className="m-0 mt-1 text-sm font-semibold text-secondary">Step 3 of 4</p>
+              <ul className="mt-3 list-disc space-y-1 pl-4 text-sm text-tertiary">
+                <li>Complete your profile</li>
+                <li>Verify your phone number</li>
+                <li>Set up 2FA and backups</li>
+                <li>Add payout bank details</li>
+              </ul>
+              <Button color="primary" size="sm" className="mt-4 w-full">Continue setup</Button>
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
 
-          <DocsSection
-            id="upgrade-cta"
-            title="Upgrade CTA"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`import { Badge, Button } from "@opus2-platform/codex";`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedUpgradeSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        {/* Upgrade CTA */}
+        <SidebarSection
+          id="upgrade-cta"
+          title="Upgrade CTA"
+          code={`import { Badge, Button } from "@opus2-platform/codex";`}
+        >
+          <FeaturedCardRail>
+            <div className={FEATURED_CARD_CLASS}>
+              <div className="flex items-center gap-2">
+                <Badge color="brand" size="sm">Upgrade to PRO</Badge>
+                <span className="text-xs font-semibold text-brand-secondary">20% OFF</span>
+              </div>
+              <p className="m-0 mt-3 text-sm text-tertiary">Unlock 20+ integrations, 40 GB data, and advanced reporting.</p>
+              <Button color="primary" size="sm" className="mt-4 w-full">Upgrade now</Button>
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
 
-          <DocsSection
-            id="support-cta"
-            title="Support CTA"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`import { BadgeWithDot, Button } from "@opus2-platform/codex";`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedSupportCtaSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        {/* Support CTA */}
+        <SidebarSection
+          id="support-cta"
+          title="Support CTA"
+          code={`import { BadgeWithDot, Button } from "@opus2-platform/codex";`}
+        >
+          <FeaturedCardRail>
+            <div className={FEATURED_CARD_CLASS}>
+              <BadgeWithDot color="success" type="modern" size="sm">Online</BadgeWithDot>
+              <p className="m-0 mt-3 text-sm font-semibold text-secondary">Need help with something?</p>
+              <p className="m-0 mt-1 text-sm text-tertiary">Our experts are ready to help.</p>
+              <Button color="primary" size="sm" className="mt-4 w-full">Chat to support</Button>
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
 
-          <DocsSection
-            id="event-cta"
-            title="Event CTA"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`import { Avatar, Badge, Button } from "@opus2-platform/codex";`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedEventCtaSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        {/* Event CTA */}
+        <SidebarSection
+          id="event-cta"
+          title="Event CTA"
+          code={`import { Avatar, Badge, Button } from "@opus2-platform/codex";`}
+        >
+          <FeaturedCardRail>
+            <div className={FEATURED_CARD_CLASS}>
+              <div className="flex -space-x-2">
+                {[0, 1, 2].map((i) => (
+                  <Avatar key={i} size="sm" src={CODEX_DOCS_AVATAR_SRC} alt="" className="ring-2 ring-bg-primary" />
+                ))}
+                <div className="flex size-8 items-center justify-center rounded-full bg-tertiary text-xs font-semibold text-secondary ring-2 ring-bg-primary">
+                  +5
+                </div>
+              </div>
+              <p className="m-0 mt-3 text-sm font-semibold text-secondary">Join our workshop</p>
+              <Badge color="success" size="sm" className="mt-1">Live</Badge>
+              <p className="m-0 mt-2 text-sm text-tertiary">Learn how to leverage AI to supercharge your workflow.</p>
+              <CardActions primary="Join now!" />
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
 
-          <DocsSection
-            id="message-card"
-            title="Message"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`import { Avatar, Button } from "@opus2-platform/codex";`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedMessageSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        {/* Message */}
+        <SidebarSection
+          id="message-card"
+          title="Message"
+          code={`import { Avatar, Button } from "@opus2-platform/codex";`}
+        >
+          <FeaturedCardRail>
+            <div className={FEATURED_CARD_CLASS}>
+              <div className="flex gap-3">
+                <Avatar size="md" src={CODEX_DOCS_AVATAR_SRC} alt="" />
+                <div className="min-w-0 flex-1">
+                  <p className="m-0 text-sm font-semibold text-secondary">Mathilde Lewis</p>
+                  <p className="m-0 text-xs text-quaternary">2 mins ago</p>
+                </div>
+              </div>
+              <p className="m-0 mt-3 text-sm text-tertiary">I&apos;ve finished adding my notes. Happy for you to review!</p>
+              <CardActions primary="Reply" />
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
 
-          <DocsSection
-            id="current-projects"
-            title="Current projects"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`import { Button } from "@opus2-platform/codex";`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedProjectsSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        {/* Current projects */}
+        <SidebarSection
+          id="current-projects"
+          title="Current projects"
+          code={`import { Button } from "@opus2-platform/codex";`}
+        >
+          <FeaturedCardRail>
+            <div className={FEATURED_CARD_CLASS}>
+              <p className="m-0 text-sm font-semibold text-secondary">Current projects</p>
+              <ul className="mt-3 list-none space-y-2 p-0 text-sm text-tertiary">
+                <li>Dashboard design 2.0</li>
+                <li>Marketing site CMS</li>
+                <li>iOS app prototypes</li>
+              </ul>
+              <Button color="link-color" size="sm" className="mt-3 px-0">All projects</Button>
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
 
-          <DocsSection
-            id="free-trial-cta"
-            title="Free trial CTA"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`import { Badge, Button } from "@opus2-platform/codex";`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedFreeTrialSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
+        {/* Free trial CTA */}
+        <SidebarSection
+          id="free-trial-cta"
+          title="Free trial CTA"
+          code={`import { Badge, Button } from "@opus2-platform/codex";`}
+        >
+          <FeaturedCardRail>
+            <div className={FEATURED_CARD_CLASS}>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm font-semibold text-secondary">Free trial</span>
+                <Badge color="warning" size="sm">24 days left</Badge>
+              </div>
+              <Button color="primary" size="sm" className="mt-4 w-full">Upgrade now</Button>
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
 
-          <DocsSection
-            id="qr-code"
-            title="QR code"
-            previewClassName={DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV}
-            code={`import { QRCode } from "@opus2-platform/codex";
+        {/* QR code */}
+        <SidebarSection
+          id="qr-code"
+          title="QR code"
+          code={`import { QRCode } from "@opus2-platform/codex";
 
 <QRCode value="https://example.com/verify" size="md" />`}
-          >
-            <SidebarPreviewRail>
-              <FeaturedQrSidebar />
-            </SidebarPreviewRail>
-          </DocsSection>
-        </div>
-      </main>
-    </div>
-  );
-};
+        >
+          <FeaturedCardRail>
+            <div className={`${FEATURED_CARD_CLASS} flex flex-col items-center`}>
+              <p className="m-0 w-full text-sm font-semibold text-secondary">Verify this device</p>
+              <p className="m-0 mt-2 w-full text-sm text-tertiary">Open the app and scan the QR code below to verify this device.</p>
+              <div className="mt-4 flex justify-center">
+                <QRCode value="https://opus2.com/verify" size="md" />
+              </div>
+              <Button color="link-color" size="sm" className="mt-4 px-0">Verify another way</Button>
+            </div>
+          </FeaturedCardRail>
+        </SidebarSection>
+      </div>
+    </main>
+  </div>
+);
+
+// ─── STORY CONFIG ────────────────────────────────────────────────────────────
 
 const meta = {
   title: "Application UI/Sidebar navigations",
   component: SidebarNavigationsOverview,
   tags: ["autodocs"],
   parameters: {
-    docs: {
-      page: SidebarNavigationsDocsPage,
-    },
+    docs: { page: SidebarNavigationsDocsPage },
   },
 } satisfies Meta<typeof SidebarNavigationsOverview>;
 
