@@ -4,7 +4,7 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps, FC,
 import React, { isValidElement } from "react";
 import type { ButtonProps as AriaButtonProps, LinkProps as AriaLinkProps } from "react-aria-components";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
-import { cx, sortCx, isReactComponent } from "@/utils";
+import { cx, isReactComponent, sortCx } from "@/utils";
 
 const styles = sortCx({
     common: {
@@ -24,7 +24,7 @@ const styles = sortCx({
             root: [
                 "gap-1 rounded-lg px-2.5 py-1.5 text-sm font-semibold before:rounded-[7px] data-icon-only:p-2",
                 "in-data-input-wrapper:px-3.5 in-data-input-wrapper:py-2.5 in-data-input-wrapper:data-icon-only:p-2.5",
-                "*:data-icon:size-4 *:data-icon:stroke-[2.25px]",
+                "*:data-icon:size-4",
             ].join(" "),
             linkRoot: "gap-1 *:data-text:underline-offset-3",
         },

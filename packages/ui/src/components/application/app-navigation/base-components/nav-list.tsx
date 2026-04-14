@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { cx } from "@/utils";
 import type { NavItemDividerType, NavItemType } from "../config";
@@ -35,7 +33,7 @@ export const NavList = ({ activeUrl, items, className }: NavListProps) => {
                         <details
                             key={item.label}
                             open={activeItem?.href === item.href}
-                            className="appearance-none py-0.25"
+                            className="appearance-none py-px"
                             onToggle={(e) => {
                                 setOpen(e.currentTarget.open);
                                 setCurrentItem(item);
@@ -48,7 +46,7 @@ export const NavList = ({ activeUrl, items, className }: NavListProps) => {
                             <dd>
                                 <ul className="pb-1">
                                     {item.items.map((childItem) => (
-                                        <li key={childItem.label} className="py-0.25">
+                                        <li key={childItem.label} className="py-px">
                                             <NavItemBase
                                                 href={childItem.href}
                                                 badge={childItem.badge}

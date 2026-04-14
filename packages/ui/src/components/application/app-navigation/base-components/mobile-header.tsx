@@ -1,5 +1,3 @@
-"use client";
-
 import type { PropsWithChildren } from "react";
 import { X as CloseIcon, Menu02 } from "@opus2-platform/icons";
 import {
