@@ -55,7 +55,6 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
-    "hast-util-to-jsx-runtime": "^2.3.6",
-    "concurrently": "^8.2.2"
+    "hast-util-to-jsx-runtime": "^2.3.6"
   }
 }
