@@ -18,7 +18,8 @@ export const MessageDotsSquare: FC<Props> = ({ size = 24, color = "currentColor"
     {
       width: size,
       height: size,
-      fill: color,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

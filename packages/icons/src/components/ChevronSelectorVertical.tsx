@@ -12,7 +12,8 @@ export const ChevronSelectorVertical: FC<Props> = ({ size = 24, color = "current
     {
       width: size,
       height: size,
-      fill: color,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

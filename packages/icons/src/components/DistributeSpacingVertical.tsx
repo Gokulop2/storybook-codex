@@ -18,7 +18,8 @@ export const DistributeSpacingVertical: FC<Props> = ({ size = 24, color = "curre
     {
       width: size,
       height: size,
-      fill: color,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

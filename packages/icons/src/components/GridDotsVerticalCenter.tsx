@@ -18,7 +18,8 @@ export const GridDotsVerticalCenter: FC<Props> = ({ size = 24, color = "currentC
     {
       width: size,
       height: size,
-      fill: color,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

@@ -18,7 +18,8 @@ export const PauseSquare: FC<Props> = ({ size = 24, color = "currentColor", ...p
     {
       width: size,
       height: size,
-      fill: color,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

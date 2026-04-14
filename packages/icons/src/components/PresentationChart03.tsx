@@ -18,7 +18,8 @@ export const PresentationChart03: FC<Props> = ({ size = 24, color = "currentColo
     {
       width: size,
       height: size,
-      fill: color,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

@@ -18,7 +18,8 @@ export const Beaker02: FC<Props> = ({ size = 24, color = "currentColor", ...prop
     {
       width: size,
       height: size,
-      fill: color,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );
