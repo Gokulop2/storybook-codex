@@ -16,12 +16,12 @@
   ],
   "scripts": {
     "gen": "npm run generate:icons && npm run generate:exports",
-    "dev": "npm run gen && tsup --watch & npm run types --watch & postbuild --watch",
+    "dev": "npm run gen && concurrently \"tsup --watch\" \"npm run types -- --watch\" \"npm run postbuild -- --watch\"",
     "types": "tsc --emitDeclarationOnly --declaration --project tsconfig.json",
-    "prebuild": "rm -rf dist",
+    "prebuild": "rimraf dist",
     "build": "npm run gen && tsup && npm run types && npm run postbuild",
-    "postbuild": "cp package.json dist/",
-    "generate:icons": "touch src/index.ts && mkdir -p src/components && svgr --no-prettier --config-file .svgrrc.js src/icons --out-dir src/components && node ./src/scripts/generate-rtl-icons.js",
+    "postbuild": "shx cp package.json dist/",
+    "generate:icons": "shx touch src/index.ts && shx mkdir -p src/components && svgr --no-prettier --config-file .svgrrc.js src/icons --out-dir src/components && node ./src/scripts/generate-rtl-icons.js",
     "generate:exports": "node ./src/scripts/generate-exports.js"
   },
   "peerDependencies": {

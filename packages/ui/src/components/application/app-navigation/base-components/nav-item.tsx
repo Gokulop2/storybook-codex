@@ -1,5 +1,3 @@
-"use client";
-
 import type { FC, HTMLAttributes, MouseEventHandler, ReactNode } from "react";
 import { ChevronDown, Share04 } from "@opus2-platform/icons";
 import { Link as AriaLink } from "react-aria-components";

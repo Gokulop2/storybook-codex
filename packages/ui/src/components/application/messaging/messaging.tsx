@@ -217,7 +217,7 @@ export const MessageItem = ({ msg, showUserLabel = true, ...props }: MessageItem
                             aria-label="Play audio message"
                             className="flex size-8 cursor-pointer items-center justify-center rounded-full bg-fg-brand-primary_alt outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2"
                         >
-                            <svg width="12.8" height="14" viewBox="0 0 16 16" fill="none" className="translate-x-[1px] text-fg-white">
+                            <svg width="12.8" height="14" viewBox="0 0 16 16" fill="none" className="translate-x-px text-fg-white">
                                 <path
                                     d="M2.19995 2.86327C2.19995 1.61155 3.57248 0.844595 4.63851 1.50061L12.9856 6.63731C14.0009 7.26209 14.0009 8.73784 12.9856 9.36262L4.63851 14.4993C3.57247 15.1553 2.19995 14.3884 2.19995 13.1367V2.86327Z"
                                     fill="currentColor"
