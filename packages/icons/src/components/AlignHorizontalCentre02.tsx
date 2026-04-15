@@ -18,6 +18,8 @@ export const AlignHorizontalCentre02: FC<Props> = ({ size = 24, color = "current
     {
       width: size,
       height: size,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

@@ -12,6 +12,8 @@ export const ArrowNarrowDownRight: FC<Props> = ({ size = 24, color = "currentCol
     {
       width: size,
       height: size,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

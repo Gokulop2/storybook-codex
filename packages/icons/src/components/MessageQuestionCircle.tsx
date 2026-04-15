@@ -18,6 +18,8 @@ export const MessageQuestionCircle: FC<Props> = ({ size = 24, color = "currentCo
     {
       width: size,
       height: size,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

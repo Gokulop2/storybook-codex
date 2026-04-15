@@ -18,6 +18,8 @@ export const GridDotsHorizontalCenter: FC<Props> = ({ size = 24, color = "curren
     {
       width: size,
       height: size,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

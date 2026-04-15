@@ -18,6 +18,8 @@ export const GraduationHat02: FC<Props> = ({ size = 24, color = "currentColor", 
     {
       width: size,
       height: size,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

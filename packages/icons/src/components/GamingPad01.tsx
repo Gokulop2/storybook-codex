@@ -18,6 +18,8 @@ export const GamingPad01: FC<Props> = ({ size = 24, color = "currentColor", ...p
     {
       width: size,
       height: size,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

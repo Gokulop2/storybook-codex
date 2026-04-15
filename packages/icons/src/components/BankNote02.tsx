@@ -18,6 +18,8 @@ export const BankNote02: FC<Props> = ({ size = 24, color = "currentColor", ...pr
     {
       width: size,
       height: size,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

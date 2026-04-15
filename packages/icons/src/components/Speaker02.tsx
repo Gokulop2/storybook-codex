@@ -18,6 +18,8 @@ export const Speaker02: FC<Props> = ({ size = 24, color = "currentColor", ...pro
     {
       width: size,
       height: size,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

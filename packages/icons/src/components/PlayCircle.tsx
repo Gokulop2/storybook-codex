@@ -25,6 +25,8 @@ export const PlayCircle: FC<Props> = ({ size = 24, color = "currentColor", ...pr
     {
       width: size,
       height: size,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

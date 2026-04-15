@@ -12,6 +12,8 @@ export const Menu02: FC<Props> = ({ size = 24, color = "currentColor", ...props 
     {
       width: size,
       height: size,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );

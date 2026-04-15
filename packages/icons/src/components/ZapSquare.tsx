@@ -25,6 +25,8 @@ export const ZapSquare: FC<Props> = ({ size = 24, color = "currentColor", ...pro
     {
       width: size,
       height: size,
+      fill: "none",
+      stroke: color,
       ...props,
     }
   );
