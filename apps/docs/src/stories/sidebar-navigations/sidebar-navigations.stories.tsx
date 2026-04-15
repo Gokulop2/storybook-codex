@@ -334,7 +334,7 @@ const navItemsSectionDividers: (NavItemType | NavItemDividerType)[] = opusApplic
   return {
     ...item,
     href: item.href?.replace("#", "#div-"),
-    items: item.items?.map((child) => ({ ...child, href: child.href?.replace("#", "#div-") })),
+    items: item.items?.map((child: any) => ({ ...child, href: child.href?.replace("#", "#div-") })),
   };
 });
 
@@ -479,7 +479,7 @@ const DualTierSidebar: FC = () => {
 
   const activeUrl = "#ai-assist-matter";
   const activeItem = dualTierNavItems.find(
-    (item) => item.href === activeUrl || item.items?.some((c) => c.href === activeUrl),
+    (item) => item.href === activeUrl || item.items?.some((c: any) => c.href === activeUrl),
   );
   const [currentItem, setCurrentItem] = useState<NavItemType | undefined>(activeItem ?? dualTierNavItems[0]);
 
@@ -585,7 +585,7 @@ const DualTierSidebar: FC = () => {
                   <h3 className="text-sm font-semibold text-brand-secondary">{flyoutItem.label}</h3>
                 </div>
                 <ul className="list-none">
-                  {flyoutItem.items?.map((item) => (
+                  {flyoutItem.items?.map((item: any) => (
                     <li key={item.label} className="py-px">
                       <NavItemBase current={activeUrl === item.href} href={item.href} icon={item.icon} badge={item.badge} type="link">
                         {item.label}

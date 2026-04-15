@@ -1,6 +1,6 @@
 import { SearchLg } from "@opus2-platform/icons";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
-import { UntitledLogo } from "@/components/foundations/logo/untitledui-logo";
+import { OpusLogo } from "@/components/foundations";
 import { MobileNavigationHeader } from "../base-components/mobile-header";
 import { NavAccountCard } from "../base-components/nav-account-card";
 import { NavItemBase } from "../base-components/nav-item";
@@ -26,7 +26,7 @@ export const SidebarNavigationSectionsSubheadings = ({ activeUrl = "/", items }:
             className="flex h-full w-full max-w-full flex-col justify-between overflow-auto bg-primary pt-4 shadow-xs ring-secondary ring-inset lg:w-(--width) lg:rounded-xl lg:ring-1"
         >
             <div className="flex items-center justify-between gap-5 px-4 lg:pl-5">
-                <UntitledLogo className="h-6" />
+                <OpusLogo className="h-6" />
                 <ButtonUtility size="xs" color="tertiary" tooltip="Search" icon={SearchLg} />
             </div>
 
