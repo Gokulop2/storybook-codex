@@ -1,1 +1,1 @@
-export * from './file-upload-trigger';
+export * from "./file-upload-trigger";

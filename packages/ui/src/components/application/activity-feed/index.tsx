@@ -1,2 +1,2 @@
-export * from './activity-feed';
-export * from './activity-feed-list';
+export * from "./activity-feed";
+export * from "./activity-feed-list";

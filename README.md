@@ -22,6 +22,7 @@ npm run dev
 ```
 
 This starts:
+
 - Icons package in watch mode
 - UI package TypeScript and CSS watch build
 - Storybook docs at **http://localhost:6006**
@@ -74,11 +75,11 @@ apps/
 
 ## 📦 Workspaces
 
-| Workspace | Package | Purpose |
-|-----------|---------|---------|
-| `packages/ui` | `@opus2-platform/codex` | React component library |
-| `packages/icons` | `@opus2-platform/icons` | Icon components |
-| `apps/docs` | Storybook | Live component documentation |
+| Workspace        | Package                 | Purpose                      |
+| ---------------- | ----------------------- | ---------------------------- |
+| `packages/ui`    | `@opus2-platform/codex` | React component library      |
+| `packages/icons` | `@opus2-platform/icons` | Icon components              |
+| `apps/docs`      | Storybook               | Live component documentation |
 
 ---
 

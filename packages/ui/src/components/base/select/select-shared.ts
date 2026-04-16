@@ -10,11 +10,7 @@ export const MultiSelectSelectionContext = createContext<readonly string[] | nul
 export type MultiSelectTriggerDisplay = "tags" | "summary";
 
 /** Row selection for list visuals when using external `selectedItems` (ComboBox keeps `selectedKey` null). */
-export function resolveMultiSelectRowSelected(
-  multiSelectIds: readonly string[] | null,
-  id: string,
-  racIsSelected: boolean
-): boolean {
+export function resolveMultiSelectRowSelected(multiSelectIds: readonly string[] | null, id: string, racIsSelected: boolean): boolean {
   return multiSelectIds !== null ? multiSelectIds.includes(id) : racIsSelected;
 }
 

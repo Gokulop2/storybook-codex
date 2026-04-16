@@ -5,5 +5,5 @@ export default defineConfig({
   dts: false,
   format: ["esm"],
   outDir: "dist",
-  treeshake: true
+  treeshake: true,
 });
