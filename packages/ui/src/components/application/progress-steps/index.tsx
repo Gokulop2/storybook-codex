@@ -1,2 +1,2 @@
-export * from './progress-steps';
-export * from './progress-steps-wrapper';
+export * from "./progress-steps";
+export * from "./progress-steps-wrapper";

@@ -1,8 +1,8 @@
 import * as React from "react";
 import type { SVGProps, FC } from "react";
 interface Props extends SVGProps<SVGSVGElement> {
-    color?: string;
-    size?: number;
+  color?: string;
+  size?: number;
 }
 /**
  * Direction-aware icon pointing "forward". Renders as ArrowRight in LTR and mirrors in RTL.
@@ -13,20 +13,20 @@ interface Props extends SVGProps<SVGSVGElement> {
  * ```
  */
 export const ArrowNext: FC<Props> = ({ size = 24, color = "currentColor", ...props }) => (
-    <svg
-        viewBox="0 0 24 24"
-        width={size}
-        height={size}
-        stroke={color}
-        strokeWidth="2"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-        data-rtl-flip=""
-        {...props}
-    >
-        <path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+  <svg
+    viewBox="0 0 24 24"
+    width={size}
+    height={size}
+    stroke={color}
+    strokeWidth="2"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    data-rtl-flip=""
+    {...props}
+  >
+    <path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
 );
 ArrowNext.displayName = "ArrowNext";

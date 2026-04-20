@@ -1,1 +1,1 @@
-export * from './gradient-picker';
+export * from "./gradient-picker";
