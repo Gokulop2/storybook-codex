@@ -33,7 +33,10 @@ export const CommandInput = ({ placeholder, shortcutKeys, tooltip, className, ..
 
       {tooltip && (
         <Tooltip title={tooltip} placement="top">
-          <TooltipTrigger aria-label={tooltip} className="cursor-pointer text-fg-quaternary transition duration-200 hover:text-fg-quaternary_hover focus:text-fg-quaternary_hover">
+          <TooltipTrigger
+            aria-label={typeof tooltip === "string" ? tooltip : undefined}
+            className="cursor-pointer text-fg-quaternary transition duration-200 hover:text-fg-quaternary_hover focus:text-fg-quaternary_hover"
+          >
             <HelpCircle aria-hidden="true" className="size-4 stroke-[2.25px]" />
           </TooltipTrigger>
         </Tooltip>
