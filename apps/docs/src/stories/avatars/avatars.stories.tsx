@@ -2,7 +2,7 @@ import type { ComponentProps, FC } from "react";
 import { Avatar, AvatarAddButton, AvatarCompanyIcon, AvatarLabelGroup, AvatarProfilePhoto } from "@opus2-platform/codex";
 import { User01 } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { CODEX_DOCS_AVATAR_SRC } from "../_docs/docs-assets";
+import { CODEX_DOCS_AVATAR_SRC, DOCS_COMPANY_LOGO_SRC as DOCS_COMPANY_LOGO_SRC } from "../_docs/docs-assets";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK,
   DOCS_SECTION_HERO_CLASS,
@@ -14,8 +14,6 @@ import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } fr
 
 type AvatarSize = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 const AVATAR_SIZES: AvatarSize[] = ["xxs", "xs", "sm", "md", "lg", "xl", "2xl"];
-/** Company mark for badge demos (placeholder CDN). */
-const CODEX_DOCS_COMPANY_LOGO_SRC = "https://picsum.photos/seed/codex-company/128/128";
 /** Sample email for docs copy (Opus2 / Codex). */
 const CODEX_DOCS_SAMPLE_EMAIL = "gkrishnan@opus2.com";
 /** Group demo config: fixed avatar count with last 3 hidden on <= md. */
@@ -107,7 +105,7 @@ import { User01 } from "@opus2-platform/icons";
 />`,
   avatar: `import { Avatar } from "@opus2-platform/codex";\n\n<Avatar src="${CODEX_DOCS_AVATAR_SRC}" alt="Gokul Krishnan" />`,
   statusIndicator: `import { Avatar } from "@opus2-platform/codex";\n\n<Avatar src="${CODEX_DOCS_AVATAR_SRC}" alt="Gokul Krishnan" status="online" />`,
-  companyLogo: `import { Avatar } from "@opus2-platform/codex";\nimport { AvatarCompanyIcon } from "@opus2-platform/codex";\n\n<Avatar\n  src="${CODEX_DOCS_AVATAR_SRC}"\n  alt="Gokul Krishnan"\n  badge={<AvatarCompanyIcon size="md" src="${CODEX_DOCS_COMPANY_LOGO_SRC}" alt="Company logo" />}\n/>`,
+  companyLogo: `import { Avatar } from "@opus2-platform/codex";\nimport { AvatarCompanyIcon } from "@opus2-platform/codex";\n\n<Avatar\n  src="${CODEX_DOCS_AVATAR_SRC}"\n  alt="Gokul Krishnan"\n  badge={<AvatarCompanyIcon size="md" src="${DOCS_COMPANY_LOGO_SRC}" alt="Company logo" />}\n/>`,
   verifiedBadge: `import { Avatar } from "@opus2-platform/codex";\n\n<Avatar initials="OR" verified />`,
   placeholder: `import { Avatar } from "@opus2-platform/codex";\nimport { User01 } from "@opus2-platform/icons";\n\n<Avatar placeholderIcon={User01} />`,
   initials: `import { Avatar } from "@opus2-platform/codex";\n\n<Avatar initials="OR" />`,
@@ -264,7 +262,7 @@ const AvatarsDocsPage: FC = () => (
                 size={size}
                 src={CODEX_DOCS_AVATAR_SRC}
                 alt="Gokul Krishnan"
-                badge={<AvatarCompanyIcon size={companyBadgeSize(size)} src={CODEX_DOCS_COMPANY_LOGO_SRC} alt="Company logo" />}
+                badge={<AvatarCompanyIcon size={companyBadgeSize(size)} src={DOCS_COMPANY_LOGO_SRC} alt="Company logo" />}
               />
             ))}
           </div>
@@ -383,6 +381,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Avatars",
 };

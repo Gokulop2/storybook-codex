@@ -238,7 +238,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Utility buttons",
   args: {
     color: "secondary",

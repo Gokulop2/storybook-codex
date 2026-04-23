@@ -422,7 +422,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Radio groups",
   args: {
     defaultValue: PLANS[0].id,

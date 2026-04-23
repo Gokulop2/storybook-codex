@@ -28,7 +28,7 @@ const config: StorybookConfig = {
   },
   /** Docs demos: `/avatars/...` etc. */
   staticDirs: ["../public"],
-  addons: [getAbsolutePath("@storybook/addon-docs")],
+  addons: [getAbsolutePath("@storybook/addon-docs"), getAbsolutePath("@storybook/addon-a11y")],
   framework: getAbsolutePath("@storybook/react-vite"),
   /**
    * Ensure `manager-head.html` is applied: Storybook resolves config relative to `process.cwd()`.

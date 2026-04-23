@@ -216,7 +216,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Social buttons",
   args: {
     social: "google",

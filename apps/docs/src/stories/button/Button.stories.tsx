@@ -788,6 +788,35 @@ type Story = StoryObj<typeof meta>;
 
 /** Same sidebar shape as Overview: one row labeled “Button”, custom content on the Docs tab. */
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Button",
+};
+
+export const Playground: Story = {
+  args: {
+    children: "Button",
+    size: "md",
+    color: "primary",
+    isDisabled: false,
+    isLoading: false,
+    showTextWhileLoading: false,
+    href: undefined,
+  },
+  argTypes: {
+    children: { control: "text" },
+    size: { control: "select", options: sizes },
+    color: {
+      control: "select",
+      options: [
+        "primary",
+        "secondary",
+        "tertiary",
+        "link-color",
+        "link-gray",
+        "link-destructive",
+        "primary-destructive",
+        "secondary-destructive",
+        "tertiary-destructive",
+      ] as ButtonColor[],
+    },
+  },
 };

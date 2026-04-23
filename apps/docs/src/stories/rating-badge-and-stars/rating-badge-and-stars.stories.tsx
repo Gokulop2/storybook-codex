@@ -151,7 +151,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Rating badge and stars",
   args: {
     rating: 4,

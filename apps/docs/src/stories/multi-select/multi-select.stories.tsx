@@ -310,7 +310,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Multi-select",
   render: () => (
     <div className="bg-primary p-6 font-sans">
