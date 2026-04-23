@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ComponentsOverview } from "./ComponentsOverview";
+import { ComponentsOverview } from "./components-overview";
 
 const meta: Meta<typeof ComponentsOverview> = {
   title: "Overview",

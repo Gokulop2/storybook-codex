@@ -1,11 +1,11 @@
 "use client";
 
-import type { ComponentPropsWithRef, ReactNode } from "react";
-import { Fragment, createContext, useContext } from "react";
+import type { ComponentPropsWithRef, FC, ReactNode } from "react";
+import { createContext, isValidElement, useContext } from "react";
 import type { TabListProps as AriaTabListProps, TabProps as AriaTabProps, TabRenderProps as AriaTabRenderProps } from "react-aria-components";
 import { Tab as AriaTab, TabList as AriaTabList, TabPanel as AriaTabPanel, Tabs as AriaTabs, TabsContext, useSlottedContext } from "react-aria-components";
-import { Badge, type BadgeColors } from "@/components";
-import { cx } from "@/utils";
+import { Badge } from "@/components/base/badges/badges";
+import { cx, isReactComponent } from "@/utils";
 
 type Orientation = "horizontal" | "vertical";
 
@@ -17,55 +17,56 @@ type TabTypeColors<T> = T extends "horizontal" ? HorizontalTypes : VerticalTypes
 // Styles for different types of tab
 const getTabStyles = ({ isFocusVisible, isSelected, isHovered }: AriaTabRenderProps) => ({
   "button-brand": cx(
-    "outline-focus-ring",
+    "outline-hidden *:data-icon:text-fg-quaternary",
     isFocusVisible && "outline-2 -outline-offset-2",
-    (isSelected || isHovered) && "bg-brand-primary_alt text-brand-secondary"
+    (isSelected || isHovered) && "bg-brand-primary_alt text-brand-secondary *:data-icon:text-fg-brand-secondary_hover"
   ),
   "button-gray": cx(
-    "outline-focus-ring",
-    isHovered && "bg-primary_hover text-secondary",
+    "outline-hidden *:data-icon:text-fg-quaternary",
+    isHovered && "bg-primary_hover text-secondary *:data-icon:text-fg-secondary_hover",
     isFocusVisible && "outline-2 -outline-offset-2",
-    isSelected && "bg-active text-secondary"
+    isSelected && "bg-primary_hover text-secondary *:data-icon:text-fg-secondary_hover"
   ),
   "button-border": cx(
-    "outline-focus-ring",
-    (isSelected || isHovered) && "bg-primary_alt text-secondary shadow-sm",
-    isFocusVisible && "outline-2 -outline-offset-2"
+    "outline-hidden *:data-icon:text-fg-quaternary",
+    isFocusVisible && "outline-2 -outline-offset-2",
+    (isSelected || isHovered) && "bg-primary_alt text-secondary shadow-sm *:data-icon:text-fg-secondary_hover"
   ),
   "button-minimal": cx(
-    "outline-focus-ring rounded-lg",
-    isHovered && "text-secondary",
+    "rounded-lg outline-hidden *:data-icon:text-fg-quaternary",
     isFocusVisible && "outline-2 -outline-offset-2",
-    isSelected && "bg-primary_alt text-secondary ring-primary shadow-xs ring-1 ring-inset"
+    (isSelected || isHovered) && "bg-primary_alt text-secondary shadow-xs ring-1 ring-primary ring-inset *:data-icon:text-fg-secondary_hover"
   ),
   underline: cx(
-    "outline-focus-ring rounded-none border-b-2 border-transparent",
-    (isSelected || isHovered) && "border-fg-brand-primary_alt text-brand-secondary",
-    isFocusVisible && "outline-2 -outline-offset-2"
+    "rounded-none border-b-2 border-transparent outline-hidden *:data-icon:text-fg-quaternary",
+    isFocusVisible && "outline-2 -outline-offset-2",
+    (isSelected || isHovered) && "border-fg-brand-primary_alt text-brand-secondary *:data-icon:text-fg-brand-secondary_hover"
   ),
   line: cx(
-    "outline-focus-ring rounded-none border-l-2 border-transparent",
-    (isSelected || isHovered) && "border-fg-brand-primary_alt text-brand-secondary",
-    isFocusVisible && "outline-2 -outline-offset-2"
+    "rounded-none border-l-2 border-transparent outline-hidden *:data-icon:text-fg-quaternary",
+    isFocusVisible && "outline-2 -outline-offset-2",
+    (isSelected || isHovered) && "border-fg-brand-primary_alt text-brand-secondary *:data-icon:text-fg-brand-secondary_hover"
   ),
 });
 
 const sizes = {
   sm: {
-    "button-brand": "text-sm font-semibold py-2 px-3",
-    "button-gray": "text-sm font-semibold py-2 px-3",
-    "button-border": "text-sm font-semibold py-2 px-3",
-    "button-minimal": "text-sm font-semibold py-2 px-3",
-    underline: "text-sm font-semibold px-1 pb-2.5 pt-0",
-    line: "text-sm font-semibold pl-2.5 pr-3 py-0.5",
+    base: "text-sm font-semibold gap-1 *:data-icon:size-4",
+    "button-brand": "py-2 px-2.5",
+    "button-gray": "py-2 px-2.5",
+    "button-border": "py-2 px-2.5",
+    "button-minimal": "py-2 px-2.5",
+    underline: "px-0.5 pb-2.5 pt-0",
+    line: "pl-2.5 pr-3 py-0.5",
   },
   md: {
-    "button-brand": "text-md font-semibold py-2.5 px-3",
-    "button-gray": "text-md font-semibold py-2.5 px-3",
-    "button-border": "text-md font-semibold py-2.5 px-3",
-    "button-minimal": "text-md font-semibold py-2.5 px-3",
-    underline: "text-md font-semibold px-1 pb-2.5 pt-0",
-    line: "text-md font-semibold pr-3.5 pl-3 py-1",
+    base: "text-md font-semibold gap-1.5 *:data-icon:size-5",
+    "button-brand": "py-2.5 px-2.5",
+    "button-gray": "py-2.5 px-2.5",
+    "button-border": "py-2.5 px-2.5",
+    "button-minimal": "py-2.5 px-2.5",
+    underline: "px-0.5 pb-2.5 pt-0",
+    line: "pr-3.5 pl-3 py-1",
   },
 };
 
@@ -73,7 +74,7 @@ const sizes = {
 const getHorizontalStyles = ({ size, fullWidth }: { size?: "sm" | "md"; fullWidth?: boolean }) => ({
   "button-brand": "gap-1",
   "button-gray": "gap-1",
-  "button-border": cx("bg-secondary_alt ring-secondary gap-1 rounded-[10px] p-1 ring-1 ring-inset", size === "md" && "rounded-xl p-1.5"),
+  "button-border": cx("gap-1 rounded-[10px] bg-secondary_alt p-1 ring-1 ring-secondary ring-inset", size === "md" && "rounded-xl p-1.5"),
   "button-minimal": "gap-0.5 rounded-lg bg-secondary_alt ring-1 ring-inset ring-secondary",
   underline: cx("gap-3", fullWidth && "w-full gap-4"),
   line: "gap-2",
@@ -88,15 +89,15 @@ const getColorStyles = ({ isSelected, isHovered }: Partial<AriaTabRenderProps>) 
   line: isSelected || isHovered ? "brand" : "gray",
 });
 
-interface TabListComponentProps<T extends object, K extends Orientation> extends AriaTabListProps<T> {
+interface TabListComponentProps<T extends object, K extends Orientation> extends Omit<AriaTabListProps<T>, "items"> {
   /** The size of the tab list. */
   size?: keyof typeof sizes;
   /** The type of the tab list. */
   type?: TabTypeColors<K>;
   /** The orientation of the tab list. */
   orientation?: K;
-  /** The items of the tab list. */
-  items: T[];
+  /** The items of the tab list. When provided, tabs are rendered automatically via the render function in children. */
+  items?: T[];
   /** Whether the tab list is full width. */
   fullWidth?: boolean;
 }
@@ -137,13 +138,13 @@ export const TabList = <T extends Orientation>({
             // Only horizontal tabs with underline type have bottom border
             orientation === "horizontal" &&
               type === "underline" &&
-              "before:bg-border-secondary relative before:absolute before:inset-x-0 before:bottom-0 before:h-px",
+              "relative before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-border-secondary",
 
             typeof className === "function" ? className(state) : className
           )
         }
       >
-        {children ?? ((item) => <Tab {...item}>{item.children}</Tab>)}
+        {children ?? (otherProps.items ? (item) => <Tab {...item}>{item.children}</Tab> : undefined)}
       </AriaTabList>
     </TabListContext.Provider>
   );
@@ -155,7 +156,7 @@ export const TabPanel = (props: ComponentPropsWithRef<typeof AriaTabPanel>) => {
       {...props}
       className={(state) =>
         cx(
-          "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+          "outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2",
           typeof props.className === "function" ? props.className(state) : props.className
         )
       }
@@ -168,42 +169,54 @@ interface TabComponentProps extends AriaTabProps {
   label?: ReactNode;
   /** The children of the tab. */
   children?: ReactNode | ((props: AriaTabRenderProps) => ReactNode);
+  /** Icon component or element to show before the text */
+  icon?: FC<{ className?: string }> | ReactNode;
   /** The badge displayed next to the label. */
   badge?: number | string;
 }
 
-export const Tab = (props: TabComponentProps) => {
-  const { label, children, badge, ...otherProps } = props;
+export const Tab = ({ label, children, badge, icon: Icon, className, ...otherProps }: TabComponentProps) => {
   const { size = "sm", type = "button-brand", fullWidth } = useContext(TabListContext);
+
+  const showPillColorBadge = type === "underline" || type === "line" || type === "button-brand";
 
   return (
     <AriaTab
       {...otherProps}
       className={(prop) =>
         cx(
-          "text-quaternary z-10 flex h-max cursor-pointer items-center justify-center gap-2 rounded-md whitespace-nowrap transition duration-100 ease-linear",
+          "z-10 flex h-max cursor-pointer items-center justify-center gap-2 rounded-md whitespace-nowrap text-quaternary transition duration-100 ease-linear",
           "group-orientation-vertical:justify-start",
           fullWidth && "w-full flex-1",
+          sizes[size].base,
           sizes[size][type],
           getTabStyles(prop)[type],
-          typeof props.className === "function" ? props.className(prop) : props.className
+          typeof className === "function" ? className(prop) : className
         )
       }
     >
       {(state) => (
-        <Fragment>
-          {typeof children === "function" ? children(state) : children || label}
-          {badge && (
-            <Badge
-              size={size}
-              type="pill-color"
-              color={getColorStyles(state)[type] as BadgeColors}
-              className={cx("transition-inherit-all hidden md:flex", size === "sm" && "-my-px")}
-            >
-              {badge}
-            </Badge>
-          )}
-        </Fragment>
+        <>
+          {/* Icon */}
+          {isValidElement(Icon) && Icon}
+          {isReactComponent(Icon) && <Icon data-icon className="transition-inherit-all" />}
+
+          <span className={cx("flex items-center gap-1.5", type !== "line" && "px-0.5")}>
+            {typeof children === "function" ? children(state) : children || label}
+
+            {/* Badge */}
+            {badge && (
+              <Badge
+                size="sm"
+                type={showPillColorBadge ? "pill-color" : "modern"}
+                color={showPillColorBadge && (state.isHovered || state.isSelected) ? "brand" : "gray"}
+                className={cx("hidden transition-inherit-all md:flex", size === "sm" && "-my-px")}
+              >
+                {badge}
+              </Badge>
+            )}
+          </span>
+        </>
       )}
     </AriaTab>
   );

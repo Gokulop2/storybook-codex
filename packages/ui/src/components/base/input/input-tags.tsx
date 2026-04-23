@@ -4,12 +4,11 @@ import type { Key, KeyboardEvent, ReactNode } from "react";
 import { useCallback, useRef, useState } from "react";
 import { HelpCircle, InfoCircle } from "@opus2-platform/icons";
 import { Group as AriaGroup, Input as AriaInput } from "react-aria-components";
+import { HintText } from "@/components/base/input/hint-text";
+import { Label } from "@/components/base/input/label";
 import { Tag, TagGroup, TagList } from "@/components/base/tags/tags";
 import { Tooltip, TooltipTrigger } from "@/components/base/tooltip/tooltip";
 import { cx, sortCx } from "@/utils";
-import { HintText } from "./hint-text";
-import { Label } from "./label";
-import { reconcileTagEntries } from "./reconcile-tag-entries";
 
 interface TagEntry {
   id: number;
@@ -25,7 +24,7 @@ export interface InputTagsProps {
   tooltip?: string;
   /**
    * Input size variant.
-   * @default "md"
+   * @default "sm"
    */
   size?: "sm" | "md" | "lg";
   /** Placeholder text for the input field. */
@@ -92,15 +91,35 @@ export const InputTags = ({
   const tagGroupRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState("");
 
-  const [internalEntries, setInternalEntries] = useState<TagEntry[]>(() => (defaultValue ?? []).map((l) => ({ id: nextId(), label: l })));
+  const [internalEntries, setInternalEntries] = useState<TagEntry[]>(() => (defaultValue ?? []).map((label) => ({ id: nextId(), label })));
 
+  // For controlled mode, maintain stable IDs across renders so React keys don't shift
   const prevControlledValue = useRef<string[]>([]);
   const controlledEntries = useRef<TagEntry[]>([]);
 
   const entries = (() => {
     if (!isControlled) return internalEntries;
-    if (prevControlledValue.current === value) return controlledEntries.current;
-    const newEntries = reconcileTagEntries(value, controlledEntries.current, (lbl) => ({ id: nextId(), label: lbl }));
+
+    const prev = prevControlledValue.current;
+    if (prev === value) return controlledEntries.current;
+
+    // Reconcile: reuse existing IDs for tags that haven't changed position,
+    // assign new IDs only for genuinely new entries
+    const oldEntries = controlledEntries.current;
+    const newEntries: TagEntry[] = [];
+    const usedOldIndices = new Set<number>();
+
+    for (const label of value) {
+      // Try to find a matching old entry (same label, not yet used)
+      const oldIndex = oldEntries.findIndex((e, i) => e.label === label && !usedOldIndices.has(i));
+      if (oldIndex !== -1 && oldEntries[oldIndex]) {
+        usedOldIndices.add(oldIndex);
+        newEntries.push(oldEntries[oldIndex]);
+      } else {
+        newEntries.push({ id: nextId(), label });
+      }
+    }
+
     prevControlledValue.current = value;
     controlledEntries.current = newEntries;
     return newEntries;
@@ -126,7 +145,7 @@ export const InputTags = ({
       onTagAdded?.(trimmed);
       return true;
     },
-    [tags, entries, isControlled, allowDuplicates, maxTags, validate, onChange, onTagAdded],
+    [tags, entries, isControlled, allowDuplicates, maxTags, validate, onChange, onTagAdded]
   );
 
   const removeTag = useCallback(
@@ -142,31 +161,31 @@ export const InputTags = ({
       onChange?.(newEntries.map((e) => e.label));
       onTagRemoved?.(entry.label);
     },
-    [entries, isControlled, onChange, onTagRemoved],
+    [entries, isControlled, onChange, onTagRemoved]
   );
 
   const handleRemove = useCallback(
     (keys: Set<Key>) => {
       for (const key of keys) {
-        const id = typeof key === "number" ? key : Number(key);
-        if (!Number.isNaN(id)) removeTag(id);
+        removeTag(key as number);
       }
       if (entries.length - keys.size <= 0) {
         setTimeout(() => inputRef.current?.focus(), 0);
       }
     },
-    [removeTag, entries.length],
+    [removeTag, entries.length]
   );
 
   const focusLastTag = useCallback(() => {
     const tagEls = tagGroupRef.current?.querySelectorAll<HTMLElement>('[role="row"]');
-    const last = tagEls?.[tagEls.length - 1];
-    last?.focus();
+    if (tagEls && tagEls.length > 0) {
+      tagEls[tagEls.length - 1]?.focus();
+    }
   }, []);
 
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     const input = event.currentTarget;
-    const isCaretAtStart = (input.selectionStart ?? 0) === 0 && (input.selectionEnd ?? 0) === 0;
+    const isCaretAtStart = input.selectionStart === 0 && input.selectionEnd === 0;
 
     switch (event.key) {
       case "Enter":
@@ -191,12 +210,11 @@ export const InputTags = ({
   const handleTagGroupKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "ArrowRight") {
       const tagEls = tagGroupRef.current?.querySelectorAll<HTMLElement>('[role="row"]');
-      const lastTag = tagEls?.[tagEls.length - 1];
-      if (
-        lastTag &&
-        (document.activeElement === lastTag || (document.activeElement && lastTag.contains(document.activeElement)))
-      ) {
-        inputRef.current?.focus();
+      if (tagEls && tagEls.length > 0) {
+        const lastTag = tagEls[tagEls.length - 1];
+        if (document.activeElement === lastTag || lastTag?.contains(document.activeElement)) {
+          inputRef.current?.focus();
+        }
       }
     }
   };
@@ -221,19 +239,19 @@ export const InputTags = ({
 
   return (
     <div className={cx("flex flex-col gap-1.5", className)}>
-      {label && <Label isRequired={hideRequiredIndicator ? !hideRequiredIndicator : isRequired}>{label}</Label>}
+      {label && <Label isRequired={hideRequiredIndicator ? false : isRequired}>{label}</Label>}
 
       <AriaGroup
         isDisabled={isDisabled}
         isInvalid={isInvalid}
-        className={({ isFocusWithin, isDisabled, isInvalid: invalid }) =>
+        className={({ isFocusWithin, isDisabled, isInvalid }) =>
           cx(
-            "group/input relative flex w-full items-center rounded-lg bg-primary shadow-xs ring-1 ring-primary outline-hidden ring-inset transition duration-100 ease-linear",
+            "group/input relative flex w-full items-center rounded-lg bg-primary shadow-xs ring-1 ring-primary outline-hidden transition duration-100 ease-linear ring-inset",
             isDisabled && "cursor-not-allowed opacity-50",
             isFocusWithin && !isDisabled && "ring-2 ring-brand",
-            invalid && !isFocusWithin && "ring-error_subtle",
-            invalid && isFocusWithin && "ring-2 ring-error",
-            sizes[size].root,
+            isInvalid && !isFocusWithin && "ring-error_subtle",
+            isInvalid && isFocusWithin && "ring-2 ring-error",
+            sizes[size].root
           )
         }
       >
@@ -267,7 +285,7 @@ export const InputTags = ({
                   placeholder={isEmpty ? placeholder : undefined}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={handleInputKeyDown}
-                  className="caret-alpha-black/90 w-full flex-[1_0_0] appearance-none bg-transparent text-ellipsis text-primary outline-hidden placeholder:text-placeholder focus:outline-hidden disabled:cursor-not-allowed"
+                  className="w-full flex-[1_0_0] appearance-none bg-transparent text-ellipsis text-primary caret-alpha-black/90 outline-hidden placeholder:text-placeholder focus:outline-hidden disabled:cursor-not-allowed"
                 />
               </div>
             </div>
@@ -275,12 +293,13 @@ export const InputTags = ({
             {tooltip && (
               <Tooltip title={tooltip} placement="top">
                 <TooltipTrigger
+                  aria-label={tooltip}
                   className={cx(
                     "absolute cursor-pointer text-fg-quaternary transition duration-100 ease-linear group-invalid/input:hidden hover:text-fg-quaternary_hover focus:text-fg-quaternary_hover",
-                    sizes[size].iconTrailing,
+                    sizes[size].iconTrailing
                   )}
                 >
-                  <HelpCircle className="size-4 stroke-[2.25px]" />
+                  <HelpCircle aria-hidden="true" className="size-4 stroke-[2.25px]" />
                 </TooltipTrigger>
               </Tooltip>
             )}
@@ -288,7 +307,7 @@ export const InputTags = ({
             <InfoCircle
               className={cx(
                 "pointer-events-none absolute hidden size-4 stroke-[2.25px] text-fg-error-secondary group-invalid/input:block",
-                sizes[size].iconTrailing,
+                sizes[size].iconTrailing
               )}
             />
           </>
@@ -303,5 +322,3 @@ export const InputTags = ({
     </div>
   );
 };
-
-InputTags.displayName = "InputTags";

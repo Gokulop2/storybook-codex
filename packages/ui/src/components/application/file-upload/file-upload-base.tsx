@@ -2,11 +2,14 @@
 
 import type { ComponentProps, ComponentPropsWithRef } from "react";
 import { useId, useRef, useState } from "react";
-import type { FileIcon } from "@opus2-platform/icons";
-import { FileIcon as FileTypeIcon } from "@opus2-platform/icons";
+import type { FileIcon } from "@untitledui/file-icons";
+import { FileIcon as FileTypeIcon } from "@untitledui/file-icons";
 import { CheckCircle, Trash01, UploadCloud02, XCircle } from "@opus2-platform/icons";
 import { AnimatePresence, motion } from "motion/react";
-import { Button, ButtonUtility, FeaturedIcon, ProgressBar } from "@/components";
+import { Button } from "@/components/base/buttons/button";
+import { ButtonUtility } from "@/components/base/buttons/button-utility";
+import { ProgressBar } from "@/components/base/progress-indicators/progress-indicators";
+import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
 import { cx } from "@/utils";
 
 /**
@@ -198,15 +201,13 @@ export const FileUploadDropZone = ({
       onDragEnd={handleDragOut}
       onDrop={handleDrop}
       className={cx(
-        "bg-primary text-tertiary ring-secondary relative flex flex-col items-center gap-3 rounded-xl px-6 py-4 ring-1 transition duration-100 ease-linear ring-inset",
-        isDraggingOver && "ring-brand ring-2",
-        isDisabled && "bg-disabled_subtle ring-disabled_subtle cursor-not-allowed",
+        "relative flex flex-col items-center gap-3 rounded-xl bg-primary px-6 py-4 text-tertiary ring-1 ring-secondary transition duration-100 ease-linear ring-inset",
+        isDraggingOver && "ring-2 ring-brand",
+        isDisabled && "cursor-not-allowed bg-secondary",
         className
       )}
     >
-      <FeaturedIcon color="gray" theme="modern" size="md">
-        <UploadCloud02 className="size-5" />
-      </FeaturedIcon>
+      <FeaturedIcon icon={UploadCloud02} color="gray" theme="modern" size="md" className={cx(isDisabled && "opacity-50")} />
 
       <div className="flex flex-col gap-1 text-center">
         <div className="flex justify-center gap-1 text-center">
@@ -263,8 +264,8 @@ export const FileListItemProgressBar = ({ name, size, progress, failed, type, fi
     <motion.li
       layout="position"
       className={cx(
-        "bg-primary ring-secondary relative flex gap-3 rounded-xl p-4 ring-1 transition-shadow duration-100 ease-linear ring-inset",
-        failed && "ring-error ring-2",
+        "relative flex gap-3 rounded-xl bg-primary p-4 ring-1 ring-secondary transition-shadow duration-100 ease-linear ring-inset",
+        failed && "ring-2 ring-error",
         className
       )}
     >
@@ -274,22 +275,22 @@ export const FileListItemProgressBar = ({ name, size, progress, failed, type, fi
       <div className="flex min-w-0 flex-1 flex-col items-start">
         <div className="flex w-full max-w-full min-w-0 flex-1">
           <div className="min-w-0 flex-1">
-            <p className="text-secondary truncate text-sm font-medium">{name}</p>
+            <p className="truncate text-sm font-medium text-secondary">{name}</p>
 
             <div className="mt-0.5 flex items-center gap-2">
-              <p className="text-tertiary truncate text-sm whitespace-nowrap">{getReadableFileSize(size)}</p>
+              <p className="truncate text-sm whitespace-nowrap text-tertiary">{getReadableFileSize(size)}</p>
 
-              <hr className="bg-border-primary h-3 w-px rounded-t-full rounded-b-full border-none" />
+              <hr className="h-3 w-px rounded-t-full rounded-b-full border-none bg-border-primary" />
 
               <div className="flex items-center gap-1">
-                {isComplete && <CheckCircle className="text-fg-success-primary size-4 stroke-[2.5px]" />}
-                {isComplete && <p className="text-success-primary text-sm font-medium">Complete</p>}
+                {isComplete && <CheckCircle className="size-4 stroke-[2.5px] text-fg-success-primary" />}
+                {isComplete && <p className="text-sm font-medium text-success-primary">Complete</p>}
 
-                {!isComplete && !failed && <UploadCloud02 className="stroke-[2.5px text-fg-quaternary size-4" />}
-                {!isComplete && !failed && <p className="text-quaternary text-sm font-medium">Uploading...</p>}
+                {!isComplete && !failed && <UploadCloud02 className="size-4 stroke-[2.5px] text-fg-quaternary" />}
+                {!isComplete && !failed && <p className="text-sm font-medium text-quaternary">Uploading...</p>}
 
-                {failed && <XCircle className="text-fg-error-primary size-4" />}
-                {failed && <p className="text-error-primary text-sm font-medium">Failed</p>}
+                {failed && <XCircle className="size-4 text-fg-error-primary" />}
+                {failed && <p className="text-sm font-medium text-error-primary">Failed</p>}
               </div>
             </div>
           </div>
@@ -317,11 +318,11 @@ export const FileListItemProgressFill = ({ name, size, progress, failed, type, f
   const isComplete = progress === 100;
 
   return (
-    <motion.li layout="position" className={cx("bg-primary relative flex gap-3 overflow-hidden rounded-xl p-4", className)}>
+    <motion.li layout="position" className={cx("relative flex gap-3 overflow-hidden rounded-xl bg-primary p-4", className)}>
       {/* Progress fill. */}
       <div
         style={{ transform: `translateX(-${100 - progress}%)` }}
-        className={cx("bg-secondary absolute inset-0 size-full transition duration-75 ease-linear", isComplete && "opacity-0")}
+        className={cx("absolute inset-0 size-full bg-secondary transition duration-75 ease-linear", isComplete && "opacity-0")}
         role="progressbar"
         aria-valuenow={progress}
         aria-valuemin={0}
@@ -330,8 +331,8 @@ export const FileListItemProgressFill = ({ name, size, progress, failed, type, f
       {/* Inner ring. */}
       <div
         className={cx(
-          "ring-secondary absolute inset-0 size-full rounded-[inherit] ring-1 transition duration-100 ease-linear ring-inset",
-          failed && "ring-error ring-2"
+          "absolute inset-0 size-full rounded-[inherit] ring-1 ring-secondary transition duration-100 ease-linear ring-inset",
+          failed && "ring-2 ring-error"
         )}
       />
       <FileTypeIcon className="relative size-10 shrink-0 dark:hidden" type={type ?? "empty"} theme="light" variant={fileIconVariant ?? "solid"} />
@@ -340,19 +341,19 @@ export const FileListItemProgressFill = ({ name, size, progress, failed, type, f
       <div className="relative flex min-w-0 flex-1">
         <div className="relative flex min-w-0 flex-1 flex-col items-start">
           <div className="w-full min-w-0 flex-1">
-            <p className="text-secondary truncate text-sm font-medium">{name}</p>
+            <p className="truncate text-sm font-medium text-secondary">{name}</p>
 
             <div className="mt-0.5 flex items-center gap-2">
-              <p className="text-tertiary text-sm">{failed ? "Upload failed, please try again" : getReadableFileSize(size)}</p>
+              <p className="text-sm text-tertiary">{failed ? "Upload failed, please try again" : getReadableFileSize(size)}</p>
 
               {!failed && (
                 <>
-                  <hr className="bg-border-primary h-3 w-px rounded-t-full rounded-b-full border-none" />
+                  <hr className="h-3 w-px rounded-t-full rounded-b-full border-none bg-border-primary" />
                   <div className="flex items-center gap-1">
-                    {isComplete && <CheckCircle className="text-fg-success-primary size-4 stroke-[2.5px]" />}
-                    {!isComplete && <UploadCloud02 className="text-fg-quaternary size-4 stroke-[2.5px]" />}
+                    {isComplete && <CheckCircle className="size-4 stroke-[2.5px] text-fg-success-primary" />}
+                    {!isComplete && <UploadCloud02 className="size-4 stroke-[2.5px] text-fg-quaternary" />}
 
-                    <p className="text-tertiary text-sm">{progress}%</p>
+                    <p className="text-sm text-tertiary">{progress}%</p>
                   </div>
                 </>
               )}

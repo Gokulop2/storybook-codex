@@ -74,7 +74,7 @@ const PLANS = [
 const ICON_SIMPLE_ICONS = [Zap, Users01, Star01, CheckCircle, LayersTwo01] as const;
 
 const AVATAR_ROWS = [
-  { id: "olivia", name: "Olivia Rhye", subtitle: "@olivia · Product Manager, Integrations" },
+  { id: "olivia", name: "Gokul Krishnan", subtitle: "@olivia · Product Manager, Integrations" },
   { id: "phoenix", name: "Phoenix Baker", subtitle: "@phoenix · Frontend Developer, Payments" },
   { id: "lori", name: "Lori Bryson", subtitle: "@lori · Backend Developer, Payments" },
   { id: "orlando", name: "Orlando Diggs", subtitle: "@orlando · Sales Manager, Enterprise" },
@@ -236,7 +236,7 @@ const CODE = {
       <span className="inline-flex items-center gap-3">
         <Avatar src="…" alt="" size="md" />
         <span className="inline-flex flex-col gap-0.5">
-          <span className="text-sm! font-medium!">Olivia Rhye</span>
+          <span className="text-sm! font-medium!">Gokul Krishnan</span>
           <span className="text-sm! [color:var(--color-text-tertiary)]!">@olivia · Product Manager</span>
         </span>
       </span>
@@ -422,7 +422,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Radio groups",
   args: {
     defaultValue: PLANS[0].id,

@@ -1,490 +1,377 @@
-import type { FocusEventHandler, KeyboardEvent, MouseEvent, PointerEventHandler, RefAttributes, RefObject } from "react";
-import { useCallback, useContext, useRef, useState } from "react";
+"use client";
+
+import type { ReactNode, RefAttributes } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { ChevronDown, SearchLg } from "@opus2-platform/icons";
-import { FocusScope, useFilter, useFocusManager } from "react-aria";
-import type { ComboBoxProps as AriaComboBoxProps, GroupProps as AriaGroupProps, ListBoxProps as AriaListBoxProps, Key } from "react-aria-components";
-import { ComboBox as AriaComboBox, Group as AriaGroup, Input as AriaInput, ListBox as AriaListBox, ComboBoxStateContext } from "react-aria-components";
+import { useFilter } from "react-aria";
+import type { Selection } from "react-aria-components";
 import type { ListData } from "react-stately";
-import { useListData } from "react-stately";
-import { useResizeObserver } from "@/hooks";
-import { cx } from "@/utils";
-import { Avatar } from "../avatar/avatar";
-import { HintText } from "../input/hint-text";
-import { Label } from "../input/label";
-import { TagCloseX } from "../tags/base-components/tag-close-x";
-import { Popover } from "./popover";
-import { SelectItem } from "./select-item";
-import { MultiSelectComboboxContext } from "./multi-select-combobox-context";
-import { MultiSelectPopoverFooter } from "./multi-select-footer";
 import {
-  type IconComponentType,
-  MultiSelectListContext,
-  MultiSelectSelectionContext,
-  type MultiSelectTriggerDisplay,
-  SelectContext,
-  type SelectItemType,
-  sizes,
-  sumMemberCountsForItems,
-} from "./select-shared";
+  Autocomplete as AriaAutocomplete,
+  Button as AriaButton,
+  Dialog as AriaDialog,
+  DialogTrigger as AriaDialogTrigger,
+  Input as AriaInput,
+  ListBox as AriaListBox,
+  Popover as AriaPopover,
+  SearchField as AriaSearchField,
+} from "react-aria-components";
+import { Button } from "@/components/base/buttons/button";
+import { HintText } from "@/components/base/input/hint-text";
+import { Label } from "@/components/base/input/label";
+import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
+import { cx } from "@/utils";
+import { SelectItem } from "./select-item";
+import { type CommonProps, SelectContext, type SelectItemType, sizes } from "./select-shared";
 
-export type { MultiSelectTriggerDisplay } from "./select-shared";
-
-interface ComboBoxValueProps extends AriaGroupProps {
-  size: "sm" | "md";
-  shortcut?: boolean;
-  isDisabled?: boolean;
-  placeholder?: string;
-  shortcutClassName?: string;
-  placeholderIcon?: IconComponentType | null;
-  /** When `"summary"`, hides the leading search icon unless `placeholderIcon` is set. */
-  triggerDisplay?: MultiSelectTriggerDisplay;
-  ref?: RefObject<HTMLDivElement | null>;
-  onFocus?: FocusEventHandler;
-  onPointerEnter?: PointerEventHandler;
-}
-
-interface MultiSelectProps extends Omit<AriaComboBoxProps<SelectItemType>, "children" | "items">, RefAttributes<HTMLDivElement> {
-  hint?: string;
-  label?: string;
-  tooltip?: string;
-  size?: "sm" | "md";
-  placeholder?: string;
-  shortcut?: boolean;
-  items?: SelectItemType[];
-  popoverClassName?: string;
-  shortcutClassName?: string;
-  selectedItems: ListData<SelectItemType>;
-  placeholderIcon?: IconComponentType | null;
-  children: AriaListBoxProps<SelectItemType>["children"];
-  onItemCleared?: (key: Key) => void;
-  onItemInserted?: (key: Key) => void;
-  /**
-   * `"tags"` (default): search icon, chips, and filter input.
-   * `"summary"`: summary trigger — “N selected” plus optional `summarySupportingText` (e.g. total headcount), no tag chips.
-   */
-  triggerDisplay?: MultiSelectTriggerDisplay;
-  /**
-   * Optional static secondary line in summary mode when member totals cannot be derived.
-   * Prefer setting `memberCount` on items (or numeric `supportingText` like `"4 members"`); the trigger then shows the **sum** for checked rows (e.g. `"12 users"`).
-   */
-  summarySupportingText?: string;
-  /** Label after the summed count in summary mode. Default `"users"`. */
-  summaryMemberLabel?: string;
-  /** Pinned footer with Reset / Select all. Default `true`. */
-  showPopoverFooter?: boolean;
-}
-
-const LISTBOX_SCROLL_CLASS = "max-h-[272px] min-h-0 flex-1 overflow-y-auto py-1 outline-hidden";
-
-export const MultiSelectBase = ({
-  items,
-  children,
-  size = "sm",
-  selectedItems,
-  onItemCleared,
-  onItemInserted,
-  shortcut,
-  triggerDisplay = "tags",
-  summarySupportingText,
-  summaryMemberLabel = "users",
-  placeholder = "Search",
-  placeholderIcon,
-  showPopoverFooter = true,
-  // Omit these props to avoid conflicts with the `Select` component
-  name: _name,
-  className: _className,
-  ...props
-}: MultiSelectProps) => {
-  const { contains } = useFilter({ sensitivity: "base" });
-  const selectedKeys = selectedItems.items.map((item) => item.id);
-
-  const filter = useCallback(
-    (item: SelectItemType, text: string) => contains(item.label || item.supportingText || "", text),
-    [contains]
-  );
-
-  const accessibleList = useListData({
-    initialItems: items,
-    filter,
-  });
-
-  const onRemove = useCallback(
-    (keys: Set<Key>) => {
-      const key = keys.values().next().value;
-
-      if (!key) return;
-
-      selectedItems.remove(key);
-      onItemCleared?.(key);
-    },
-    [selectedItems, onItemCleared]
-  );
-
-  const onSelectionChange = (id: Key | null) => {
-    if (!id) {
-      return;
-    }
-
-    const item = accessibleList.getItem(id);
-
-    if (!item) {
-      return;
-    }
-
-    if (selectedKeys.includes(id as string)) {
-      selectedItems.remove(id);
-      onItemCleared?.(id);
-    } else {
-      selectedItems.append(item);
-      onItemInserted?.(id);
-    }
-
-    accessibleList.setFilterText("");
-  };
-
-  const onInputChange = (value: string) => {
-    accessibleList.setFilterText(value);
-  };
-
-  const placeholderRef = useRef<HTMLDivElement>(null);
-  const [popoverWidth, setPopoverWidth] = useState("");
-
-  // Resize observer for popover width
-  const onResize = useCallback(() => {
-    const w = placeholderRef.current?.getBoundingClientRect().width;
-    if (w != null) {
-      setPopoverWidth(`${w}px`);
-    }
-  }, []);
-
-  useResizeObserver({
-    ref: placeholderRef,
-    onResize: onResize,
-    box: "border-box",
-  });
-
-  return (
-    <MultiSelectComboboxContext.Provider
-      value={{
-        size,
-        selectedKeys,
-        selectedItems,
-        onInputChange,
-        onRemove,
-        filterText: accessibleList.filterText,
-        triggerDisplay,
-        summarySupportingText,
-        summaryMemberLabel,
-      }}
-    >
-      <AriaComboBox
-        allowsEmptyCollection
-        menuTrigger="focus"
-        items={accessibleList.items}
-        onInputChange={onInputChange}
-        inputValue={accessibleList.filterText}
-        // This keeps the combobox popover open and the input value unchanged when an item is selected.
-        selectedKey={null}
-        onSelectionChange={onSelectionChange}
-        {...props}
-      >
-        {(state) => (
-          <MultiSelectSelectionContext.Provider value={selectedKeys}>
-            <div className="flex flex-col gap-1.5">
-              {props.label && (
-                <Label isRequired={state.isRequired} tooltip={props.tooltip}>
-                  {props.label}
-                </Label>
-              )}
-
-              <MultiSelectTagsValue
-                size={size}
-                shortcut={shortcut && triggerDisplay !== "summary"}
-                triggerDisplay={triggerDisplay}
-                placeholderIcon={placeholderIcon}
-                ref={placeholderRef}
-                placeholder={placeholder}
-                // This is a workaround to correctly calculating the trigger width
-                // while using ResizeObserver wasn't 100% reliable.
-                onFocus={onResize}
-                onPointerEnter={onResize}
-              />
-
-              <Popover
-                variant="stacked"
-                size="md"
-                triggerRef={placeholderRef}
-                style={{ width: popoverWidth }}
-                className={props?.popoverClassName}
-              >
-                <SelectContext.Provider value={{ size }}>
-                  <MultiSelectListContext.Provider value={{ itemLayout: "checkbox" }}>
-                    <AriaListBox
-                      selectionMode="multiple"
-                      aria-label={props.label}
-                      className={LISTBOX_SCROLL_CLASS}
-                    >
-                      {children}
-                    </AriaListBox>
-                  </MultiSelectListContext.Provider>
-                </SelectContext.Provider>
-                {showPopoverFooter ? (
-                  <MultiSelectPopoverFooter
-                    items={items}
-                    selectedItems={selectedItems}
-                    onItemCleared={onItemCleared}
-                    onItemInserted={onItemInserted}
-                    clearFilter={() => accessibleList.setFilterText("")}
-                  />
-                ) : null}
-              </Popover>
-
-              {props.hint && <HintText isInvalid={state.isInvalid}>{props.hint}</HintText>}
-            </div>
-          </MultiSelectSelectionContext.Provider>
-        )}
-      </AriaComboBox>
-    </MultiSelectComboboxContext.Provider>
-  );
+const searchSizes = {
+  sm: { wrapper: "py-1", root: "px-3 py-2 gap-2 *:data-icon:size-4 *:data-icon:stroke-[2.25px]", text: "text-sm" },
+  md: { wrapper: "py-0.5", root: "px-3 py-2 gap-2 *:data-icon:size-5", text: "text-md" },
+  lg: { wrapper: "py-0.5", root: "px-3.5 py-2.5 gap-2 *:data-icon:size-5", text: "text-md" },
 };
 
-const INNER_INPUT_CLASS =
-  "text-md text-primary! caret-alpha-black/90 placeholder:text-placeholder! disabled:text-disabled! disabled:placeholder:text-disabled! w-full min-w-0 flex-[1_0_0] appearance-none bg-transparent text-ellipsis outline-none focus:outline-hidden disabled:cursor-not-allowed";
+const footerButtonSize = {
+  sm: "xs" as const,
+  md: "sm" as const,
+  lg: "sm" as const,
+};
 
-const InnerMultiSelect = ({ isDisabled, shortcut, shortcutClassName, placeholder }: Omit<MultiSelectProps, "selectedItems" | "children">) => {
-  const focusManager = useFocusManager();
-  const comboBoxContext = useContext(MultiSelectComboboxContext);
-  const comboBoxStateContext = useContext(ComboBoxStateContext);
+const popoverMaxHeights = {
+  sm: "max-h-68",
+  md: "max-h-76",
+  lg: "max-h-92",
+};
 
-  const triggerDisplay = comboBoxContext?.triggerDisplay ?? "tags";
-  const filterText = comboBoxContext?.filterText ?? "";
-  const summarySupportingText = comboBoxContext?.summarySupportingText;
-  const summaryMemberLabel = comboBoxContext?.summaryMemberLabel ?? "users";
-  const size = comboBoxContext?.size ?? "sm";
+interface MultiSelectFooterProps {
+  /**
+   * The size of the footer buttons.
+   * @default "sm"
+   */
+  size?: "sm" | "md" | "lg";
+  /** Handler that is called when the reset button is clicked. */
+  onReset?: () => void;
+  /** Handler that is called when the select all button is clicked. */
+  onSelectAll?: () => void;
+  /** Additional class name. */
+  className?: string;
+}
 
-  const chevronClass = cx("pointer-events-none shrink-0 text-fg-quaternary", size === "sm" ? "size-4 stroke-[2.25px]" : "size-5");
-
-  const caretAtStart = (el: HTMLInputElement) => el.selectionStart === 0 && el.selectionEnd === 0;
-
-  const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    const el = event.currentTarget;
-    if (triggerDisplay === "summary" && event.key === "Backspace") {
-      if (
-        caretAtStart(el) &&
-        el.value === "" &&
-        (comboBoxContext?.selectedItems?.items?.length ?? 0) > 0
-      ) {
-        const items = comboBoxContext.selectedItems.items;
-        const last = items[items.length - 1];
-        if (!last) {
-          return;
-        }
-        comboBoxContext.onRemove(new Set([last.id]));
-        event.preventDefault();
-        return;
-      }
-    }
-
-    if (!caretAtStart(el) && el.value !== "") {
-      return;
-    }
-
-    if (triggerDisplay === "summary") {
-      return;
-    }
-
-    switch (event.key) {
-      case "Backspace":
-      case "ArrowLeft":
-        focusManager?.focusPrevious({ wrap: false, tabbable: false });
-        break;
-      case "ArrowRight":
-        focusManager?.focusNext({ wrap: false, tabbable: false });
-        break;
-    }
-  };
-
-  // Ensure dropdown opens on click even if input is already focused
-  const handleInputMouseDown = (_event: MouseEvent<HTMLInputElement>) => {
-    if (comboBoxStateContext && !comboBoxStateContext.isOpen) {
-      comboBoxStateContext.open();
-    }
-  };
-
-  const handleTagKeyDown = (event: KeyboardEvent<HTMLButtonElement>, value: Key) => {
-    // Do nothing when tab is clicked to move focus from the tag to the input element.
-    if (event.key === "Tab") {
-      return;
-    }
-
-    event.preventDefault();
-
-    const isFirstTag = comboBoxContext?.selectedItems?.items?.[0]?.id === value;
-
-    switch (event.key) {
-      case " ":
-      case "Enter":
-      case "Backspace":
-        if (isFirstTag) {
-          focusManager?.focusNext({ wrap: false, tabbable: false });
-        } else {
-          focusManager?.focusPrevious({ wrap: false, tabbable: false });
-        }
-
-        comboBoxContext.onRemove(new Set([value]));
-        break;
-
-      case "ArrowLeft":
-        focusManager?.focusPrevious({ wrap: false, tabbable: false });
-        break;
-      case "ArrowRight":
-        focusManager?.focusNext({ wrap: false, tabbable: false });
-        break;
-      case "Escape":
-        comboBoxStateContext?.close();
-        break;
-    }
-  };
-
-  const isSelectionEmpty = comboBoxContext?.selectedItems?.items?.length === 0;
-  const selectedCount = comboBoxContext?.selectedItems?.items?.length ?? 0;
-
-  const shortcutOverlay =
-    shortcut ? (
-      <div
-        aria-hidden="true"
-        className={cx(
-          "to-bg-primary absolute inset-y-0.5 right-0.5 z-30 flex items-center rounded-r-[inherit] bg-linear-to-r from-transparent to-40% pl-8",
-          shortcutClassName
-        )}
-      >
-        <span
-          className={cx(
-            "text-quaternary! ring-secondary pointer-events-none rounded px-1 py-px text-xs font-medium ring-1 select-none ring-inset",
-            isDisabled && "text-disabled! bg-transparent"
-          )}
-        >
-          ⌘K
-        </span>
-      </div>
-    ) : null;
-
-  if (triggerDisplay === "summary") {
-    const showSummaryRow = filterText.length === 0 && selectedCount > 0;
-
-    const memberTotal = sumMemberCountsForItems(comboBoxContext?.selectedItems?.items ?? []);
-    const summarySecondary =
-      memberTotal > 0 ? `${memberTotal} ${summaryMemberLabel}` : summarySupportingText ?? null;
-
-    if (!showSummaryRow) {
-      return (
-        <div className="relative flex w-full flex-1 flex-row items-center gap-2">
-          <AriaInput
-            placeholder={placeholder}
-            onKeyDown={handleInputKeyDown}
-            onMouseDown={handleInputMouseDown}
-            className={cx(INNER_INPUT_CLASS, "text-sm")}
-          />
-          <ChevronDown aria-hidden="true" className={chevronClass} />
-          {shortcutOverlay}
-        </div>
-      );
-    }
-
-    return (
-      <div className="relative flex w-full flex-1 items-center">
-        <div className="pointer-events-none flex min-w-0 flex-1 items-center gap-x-1.5 truncate">
-          <span className="text-sm font-medium text-primary!">
-            {selectedCount} selected
-          </span>
-          {summarySecondary ? <span className="text-sm text-tertiary!">{summarySecondary}</span> : null}
-        </div>
-        <ChevronDown aria-hidden="true" className={cx(chevronClass, "relative z-20 ml-auto")} />
-        <AriaInput
-          onKeyDown={handleInputKeyDown}
-          onMouseDown={handleInputMouseDown}
-          className={cx("absolute inset-0 z-10 cursor-text opacity-0", INNER_INPUT_CLASS)}
-        />
-        {shortcutOverlay}
-      </div>
-    );
-  }
+const MultiSelectFooter = ({ size = "sm", onReset, onSelectAll, className }: MultiSelectFooterProps) => {
+  const btnSize = footerButtonSize[size];
 
   return (
-    <div className="relative flex w-full flex-1 flex-row flex-wrap items-center justify-start gap-1.5">
-      {!isSelectionEmpty &&
-        comboBoxContext?.selectedItems?.items?.map((value) => (
-          <span key={value.id} className="bg-primary ring-primary flex items-center rounded-md py-0.5 pr-1 pl-1.25 ring-1 ring-inset">
-            <Avatar size="xxs" alt={value?.label} src={value?.avatarUrl} />
-
-            <p className="text-secondary! ml-1.25 truncate text-sm font-medium whitespace-nowrap select-none">{value?.label}</p>
-
-            <TagCloseX
-              size="md"
-              isDisabled={isDisabled}
-              className="ml-0.75"
-              // For workaround, onKeyDown is added to the button
-              onKeyDown={(event) => handleTagKeyDown(event, value.id)}
-              onPress={() => comboBoxContext.onRemove(new Set([value.id]))}
-            />
-          </span>
-        ))}
-
-      <div className={cx("relative flex min-w-[20%] flex-1 flex-row items-center", !isSelectionEmpty && "ml-0.5", shortcut && "min-w-[30%]")}>
-        <AriaInput
-          placeholder={placeholder}
-          onKeyDown={handleInputKeyDown}
-          onMouseDown={handleInputMouseDown}
-          className={INNER_INPUT_CLASS}
-        />
-
-        {shortcutOverlay}
-      </div>
+    <div className={cx("flex items-center justify-between border-t border-secondary p-3", className)}>
+      <Button size={btnSize} color="secondary" onClick={onReset}>
+        Reset
+      </Button>
+      <Button size={btnSize} color="secondary" onClick={onSelectAll}>
+        Select all
+      </Button>
     </div>
   );
 };
 
-export const MultiSelectTagsValue = ({
-  size,
-  shortcut,
-  placeholder,
-  shortcutClassName,
-  placeholderIcon,
-  triggerDisplay = "tags",
-  // Omit this prop to avoid invalid HTML attribute warning
-  isDisabled: _isDisabled,
-  ...otherProps
-}: ComboBoxValueProps) => {
-  const Icon = placeholderIcon !== undefined ? placeholderIcon : triggerDisplay === "summary" ? null : SearchLg;
+interface MultiSelectEmptyStateProps {
+  /**
+   * The title to display.
+   * @default "No results found"
+   */
+  title?: string;
+  /**
+   * The description to display.
+   * @default "Please try a different search term."
+   */
+  description?: string;
+  /** Handler that is called when the clear search button is clicked. */
+  onClearSearch?: () => void;
+  /** Additional class name. */
+  className?: string;
+}
+
+const MultiSelectEmptyState = ({
+  title = "No results found",
+  description = "Please try a different search term.",
+  onClearSearch,
+  className,
+}: MultiSelectEmptyStateProps) => (
+  <div className={cx("flex flex-col items-center gap-3 px-4 py-4", className)}>
+    <div className="flex flex-col items-center gap-3">
+      <FeaturedIcon icon={SearchLg} size="sm" color="gray" theme="modern" />
+      <div className="flex flex-col items-center gap-0.5 text-center text-sm">
+        <p className="font-semibold text-primary">{title}</p>
+        <p className="text-tertiary">{description}</p>
+      </div>
+    </div>
+    {onClearSearch && (
+      <Button size="sm" color="link-color" onClick={onClearSearch}>
+        Clear search
+      </Button>
+    )}
+  </div>
+);
+
+interface MultiSelectProps extends RefAttributes<HTMLDivElement>, CommonProps {
+  /** The items to display in the listbox. */
+  items?: SelectItemType[];
+  /** The children to render for each item. */
+  children: ReactNode | ((item: SelectItemType) => ReactNode);
+  /** The currently selected keys (controlled). */
+  selectedKeys?: Selection;
+  /** The initial selected keys (uncontrolled). */
+  defaultSelectedKeys?: Selection;
+  /** Handler that is called when the selection changes. */
+  onSelectionChange?: (keys: Selection) => void;
+  /** Whether the select is disabled. */
+  isDisabled?: boolean;
+  /** Whether the select is required. */
+  isRequired?: boolean;
+  /** Whether the select is in an invalid state. */
+  isInvalid?: boolean;
+  /** Additional class name for the popover. */
+  popoverClassName?: string;
+  /** Additional class name for the root element. */
+  className?: string;
+  /** Handler that is called when the reset button is clicked. */
+  onReset?: () => void;
+  /** Handler that is called when the select all button is clicked. */
+  onSelectAll?: () => void;
+  /**
+   * Whether to show the footer with reset and select all buttons.
+   * @default true
+   */
+  showFooter?: boolean;
+  /**
+   * Whether to show the search input in the popover.
+   * @default true
+   */
+  showSearch?: boolean;
+  /** The title to display when no items match the search. */
+  emptyStateTitle?: string;
+  /** The description to display when no items match the search. */
+  emptyStateDescription?: string;
+  /** Custom formatter for the selected count text in the trigger. */
+  selectedCountFormatter?: (count: number) => ReactNode;
+  /** Supporting text displayed next to the selected count in the trigger. */
+  supportingText?: ReactNode;
+  /**
+   * A ListData object (from react-stately useListData) representing selected items.
+   * When provided, drives selectedKeys and onSelectionChange automatically.
+   */
+  selectedItems?: ListData<SelectItemType>;
+  /**
+   * How selected items are displayed in the trigger.
+   * - "count"   (default) shows "N selected"
+   * - "summary" shows the first selected item's label plus a count for extras
+   * - "tags"    reserved for future tag-chip rendering (currently same as summary)
+   */
+  triggerDisplay?: "count" | "summary" | "tags";
+}
+
+const MultiSelectRoot = ({
+  items,
+  children,
+  size = "md",
+  selectedKeys: selectedKeysProp,
+  defaultSelectedKeys,
+  onSelectionChange: onSelectionChangeProp,
+  isDisabled,
+  isRequired,
+  isInvalid,
+  placeholder = "Select",
+  label,
+  hint,
+  tooltip,
+  hideRequiredIndicator,
+  popoverClassName,
+  className,
+  onReset,
+  onSelectAll,
+  showFooter = true,
+  showSearch = true,
+  emptyStateTitle,
+  emptyStateDescription,
+  selectedCountFormatter,
+  supportingText,
+  selectedItems,
+  triggerDisplay = "count",
+}: MultiSelectProps) => {
+  const { contains } = useFilter({ sensitivity: "base" });
+  const [searchValue, setSearchValue] = useState("");
+
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const [popoverWidth, setPopoverWidth] = useState("");
+
+  const onResize = useCallback(() => {
+    if (!triggerRef.current) return;
+    const rect = triggerRef.current.getBoundingClientRect();
+    setPopoverWidth(rect.width + "px");
+  }, []);
+
+  // Derive selectedKeys from selectedItems ListData if provided
+  const selectedKeys = useMemo<Selection | undefined>(() => {
+    if (selectedItems !== undefined) {
+      return new Set(selectedItems.items.map((item) => item.id));
+    }
+    return selectedKeysProp;
+  }, [selectedItems, selectedKeysProp]);
+
+  const onSelectionChange = useCallback(
+    (keys: Selection) => {
+      if (selectedItems !== undefined) {
+        // Sync ListData: remove deselected, add newly selected
+        const newIds = keys === "all" ? new Set(items?.map((i) => i.id) ?? []) : (keys as Set<string | number>);
+        const currentIds = new Set(selectedItems.items.map((i) => i.id));
+        // Remove items no longer selected
+        for (const item of selectedItems.items) {
+          if (!newIds.has(item.id)) {
+            selectedItems.remove(item.id);
+          }
+        }
+        // Add newly selected items
+        for (const id of newIds) {
+          if (!currentIds.has(id)) {
+            const found = items?.find((i) => i.id === id);
+            if (found) selectedItems.append(found);
+          }
+        }
+      }
+      onSelectionChangeProp?.(keys);
+    },
+    [selectedItems, items, onSelectionChangeProp]
+  );
+
+  const selectedCount = selectedKeys instanceof Set ? selectedKeys.size : selectedKeys === "all" ? (items?.length ?? 0) : 0;
+  const hasSelection = selectedCount > 0;
+
+  // Build trigger label based on triggerDisplay
+  const triggerLabel = useMemo<ReactNode>(() => {
+    if (!hasSelection) return null;
+    if (triggerDisplay === "count" || !selectedItems) {
+      return selectedCountFormatter ? selectedCountFormatter(selectedCount) : `${selectedCount} selected`;
+    }
+    // summary / tags: show first item label + overflow count
+    const firstItem = selectedItems.items[0];
+    const firstName = firstItem?.label ?? String(firstItem?.id ?? "");
+    const extra = selectedCount - 1;
+    return extra > 0 ? `${firstName} +${extra}` : firstName;
+  }, [hasSelection, triggerDisplay, selectedItems, selectedCount, selectedCountFormatter]);
+
+  const handleClearSearch = useCallback(() => {
+    setSearchValue("");
+  }, []);
 
   return (
-    <AriaGroup
-      {...otherProps}
-      className={({ isFocusWithin, isDisabled }) =>
-        cx(
-          "bg-primary ring-primary relative flex w-full items-center gap-2 rounded-lg shadow-xs ring-1 outline-hidden transition duration-100 ease-linear ring-inset",
-          isDisabled && "bg-disabled_subtle cursor-not-allowed",
-          isFocusWithin && "ring-brand ring-2",
-          sizes[size].root
-        )
-      }
-    >
-      {({ isDisabled }) => (
-        <>
-          {Icon && <Icon className="text-fg-quaternary pointer-events-none size-5" />}
-          <FocusScope contain={false} autoFocus={false} restoreFocus={false}>
-            <InnerMultiSelect isDisabled={isDisabled} shortcut={shortcut} shortcutClassName={shortcutClassName} placeholder={placeholder} />
-          </FocusScope>
-        </>
-      )}
-    </AriaGroup>
+    <SelectContext.Provider value={{ size }}>
+      <div className={cx("flex flex-col gap-1.5", className)}>
+        {label && (
+          <Label isRequired={hideRequiredIndicator ? false : isRequired} isInvalid={isInvalid} tooltip={tooltip}>
+            {label}
+          </Label>
+        )}
+
+        <AriaDialogTrigger>
+          <AriaButton
+            ref={triggerRef}
+            isDisabled={isDisabled}
+            onClick={onResize}
+            className={(state) =>
+              cx(
+                "relative flex w-full cursor-pointer items-center rounded-lg bg-primary shadow-xs ring-1 ring-primary outline-hidden transition duration-100 ease-linear ring-inset",
+                (state.isFocusVisible || state.isPressed) && "ring-2 ring-brand",
+                state.isDisabled && "cursor-not-allowed opacity-50"
+              )
+            }
+          >
+            <span className={cx("flex w-full items-center truncate text-left", sizes[size].root, "*:data-icon:shrink-0 *:data-icon:text-fg-quaternary")}>
+              {hasSelection ? (
+                <span className={cx("flex items-center", sizes[size].textContainer)}>
+                  <span className={cx("font-medium text-primary", sizes[size].text)}>{triggerLabel}</span>
+                  {supportingText && <span className={cx("text-tertiary", sizes[size].text)}>{supportingText}</span>}
+                </span>
+              ) : (
+                <span className={cx("text-placeholder", sizes[size].text)}>{placeholder}</span>
+              )}
+
+              <ChevronDown aria-hidden="true" className={cx("ml-auto shrink-0 text-fg-quaternary", size === "lg" ? "size-5" : "size-4 stroke-[2.25px]")} />
+            </span>
+          </AriaButton>
+
+          <AriaPopover
+            placement="bottom"
+            offset={4}
+            containerPadding={0}
+            style={{ width: popoverWidth || undefined }}
+            className={(state) =>
+              cx(
+                "w-(--trigger-width) origin-(--trigger-anchor-point) overflow-hidden rounded-lg bg-primary shadow-lg ring-1 ring-secondary_alt outline-hidden will-change-transform",
+                state.isEntering && "duration-150 ease-out animate-in fade-in placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
+                state.isExiting && "duration-100 ease-in animate-out fade-out placement-top:slide-out-to-bottom-0.5 placement-bottom:slide-out-to-top-0.5",
+                popoverClassName
+              )
+            }
+          >
+            <AriaDialog className="outline-hidden">
+              <AriaAutocomplete filter={contains} inputValue={searchValue} onInputChange={setSearchValue}>
+                {showSearch && (
+                  <div className={cx("border-b border-secondary", searchSizes[size].wrapper)}>
+                    <AriaSearchField aria-label="Search" value={searchValue} onChange={setSearchValue} autoFocus>
+                      <div className={cx("flex items-center", searchSizes[size].root)}>
+                        <SearchLg data-icon aria-hidden="true" className="shrink-0 text-fg-quaternary" />
+                        <AriaInput
+                          placeholder="Search"
+                          className={cx(
+                            "w-full appearance-none bg-transparent text-primary caret-alpha-black/90 outline-hidden placeholder:text-placeholder",
+                            searchSizes[size].text
+                          )}
+                        />
+                      </div>
+                    </AriaSearchField>
+                  </div>
+                )}
+
+                <AriaListBox
+                  aria-label={label || "Options"}
+                  items={items}
+                  selectionMode="multiple"
+                  selectedKeys={selectedKeys}
+                  defaultSelectedKeys={selectedKeys === undefined ? defaultSelectedKeys : undefined}
+                  onSelectionChange={onSelectionChange}
+                  renderEmptyState={() => (
+                    <MultiSelectEmptyState
+                      title={emptyStateTitle}
+                      description={emptyStateDescription}
+                      onClearSearch={searchValue ? handleClearSearch : undefined}
+                    />
+                  )}
+                  className={cx("overflow-y-auto py-1 outline-hidden", popoverMaxHeights[size])}
+                >
+                  {children}
+                </AriaListBox>
+              </AriaAutocomplete>
+
+              {showFooter && <MultiSelectFooter size={size} onReset={onReset} onSelectAll={onSelectAll} />}
+            </AriaDialog>
+          </AriaPopover>
+        </AriaDialogTrigger>
+
+        {hint && (
+          <HintText isInvalid={isInvalid} className={cx(size === "sm" && "text-xs")}>
+            {hint}
+          </HintText>
+        )}
+      </div>
+    </SelectContext.Provider>
   );
 };
 
-const MultiSelect = MultiSelectBase as typeof MultiSelectBase & {
+const MultiSelect = MultiSelectRoot as typeof MultiSelectRoot & {
   Item: typeof SelectItem;
+  Footer: typeof MultiSelectFooter;
+  EmptyState: typeof MultiSelectEmptyState;
 };
 
 MultiSelect.Item = SelectItem;
+MultiSelect.Footer = MultiSelectFooter;
+MultiSelect.EmptyState = MultiSelectEmptyState;
 
-export { MultiSelect as MultiSelect };
+export { MultiSelect };

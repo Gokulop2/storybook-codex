@@ -1,9 +1,10 @@
 /**
  * Shared account-card menu triggers for the Dropdowns docs page.
- * Keeps avatar/gloss/online-indicator markup in one place; stories import triggers + `CODEX_DOCS_AVATAR_SRC`.
+ * Keeps avatar image well + online-indicator markup in one place; stories import triggers + `CODEX_DOCS_AVATAR_SRC`.
  */
 import type { CSSProperties, FC } from "react";
 import { useId } from "react";
+import { AVATAR_IMAGE_SHELL_FLEX_ROUNDED_FULL } from "@opus2-platform/codex";
 import { ChevronDown } from "@opus2-platform/icons";
 import { Button as AriaButton } from "react-aria-components";
 import { CODEX_DOCS_AVATAR_SRC } from "./docs-assets";
@@ -18,14 +19,6 @@ const ONLINE_STATUS_GLOSS: CSSProperties = {
   backgroundImage:
     "radial-gradient(43.75% 43.75% at 50% 28.75%, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(50% 50%, rgba(255, 255, 255, 0) 74.66%, rgba(255, 255, 255, 0.18) 100%), radial-gradient(75% 75% at 50% 0%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.08) 99%, rgba(255, 255, 255, 0) 100%)",
 };
-
-/** Inner image stack for ringed sm/md avatars (gloss mask). */
-const AVATAR_GLOSS_INNER =
-  "relative inline-flex size-full shrink-0 items-center justify-center overflow-hidden rounded-full bg-tertiary outline-[0.5px] -outline-offset-[0.5px] outline-black/16 before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-white/32 before:mask-[linear-gradient(to_bottom,black_0%,transparent_25%,transparent_75%,black_100%)]";
-
-/** Compact xs avatar inner (no ring / no gloss). */
-const AVATAR_XS_INNER =
-  "relative inline-flex size-full shrink-0 items-center justify-center overflow-hidden bg-tertiary outline-[0.5px] -outline-offset-[0.5px] outline-black/16 before:inset-[0.5px] rounded-full";
 
 const CHEVRON = "!size-4 shrink-0 stroke-[2.25px]! text-fg-quaternary";
 
@@ -63,7 +56,7 @@ const RingedAvatarWithOnline: FC<RingedAvatarProps> = ({ ringSize, dot }) => {
   const gid = useId().replace(/:/g, "");
   return (
     <div data-avatar="true" className={`relative inline-flex shrink-0 rounded-full p-px ring-1 ring-secondary_alt ${ringSize}`}>
-      <div className={AVATAR_GLOSS_INNER}>
+      <div className={AVATAR_IMAGE_SHELL_FLEX_ROUNDED_FULL}>
         <img data-avatar-img="true" className="!size-full object-cover" src={CODEX_DOCS_AVATAR_SRC} alt="" />
       </div>
       <span
@@ -82,11 +75,11 @@ export const AccountCardXsSmTrigger: FC = () => (
     className="relative flex w-38 cursor-pointer items-center gap-1.5 rounded-lg bg-primary_alt p-2 text-left inset-ring-1 inset-ring-border-secondary outline-offset-2 outline-focus-ring"
   >
     <div data-avatar="true" className="relative inline-flex shrink-0 rounded-full !size-5">
-      <div className={AVATAR_XS_INNER}>
+      <div className={AVATAR_IMAGE_SHELL_FLEX_ROUNDED_FULL}>
         <img data-avatar-img="true" className="!size-full object-cover" src={CODEX_DOCS_AVATAR_SRC} alt="" />
       </div>
     </div>
-    <p className="!text-sm !font-semibold !text-primary">Olivia Rhye</p>
+    <p className="!text-sm !font-semibold !text-primary">Gokul Krishnan</p>
     <TriggerChevron offset="tight" />
   </AriaButton>
 );
@@ -97,7 +90,7 @@ export const AccountCardSmTrigger: FC = () => (
     className="relative flex w-42 cursor-pointer items-center gap-2 rounded-lg bg-primary_alt p-1.5 text-left inset-ring-1 inset-ring-border-secondary outline-offset-2 outline-focus-ring"
   >
     <RingedAvatarWithOnline ringSize="!size-8" dot="!size-2" />
-    <p className="!text-sm !font-semibold !text-primary">Olivia Rhye</p>
+    <p className="!text-sm !font-semibold !text-primary">Gokul Krishnan</p>
     <TriggerChevron offset="md" />
   </AriaButton>
 );
@@ -110,7 +103,7 @@ export const AccountCardMdTrigger: FC = () => (
     <figure className="group flex min-w-0 flex-1 items-center gap-2">
       <RingedAvatarWithOnline ringSize="!size-10" dot="!size-2.5" />
       <figcaption className="min-w-0 flex-1">
-        <p className="!text-sm !font-semibold !text-primary">Olivia Rhye</p>
+        <p className="!text-sm !font-semibold !text-primary">Gokul Krishnan</p>
         <p className="!truncate !text-sm !text-tertiary">olivia@codex.io</p>
       </figcaption>
     </figure>

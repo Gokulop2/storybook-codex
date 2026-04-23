@@ -1,21 +1,23 @@
+"use client";
+
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps, FC, ReactNode } from "react";
 import { isValidElement } from "react";
 import type { Placement } from "react-aria";
 import type { ButtonProps as AriaButtonProps, LinkProps as AriaLinkProps } from "react-aria-components";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
-import { Tooltip } from "@/components";
+import { Tooltip } from "@/components/base/tooltip/tooltip";
 import { cx, isReactComponent } from "@/utils";
 
 const styles = {
   secondary:
-    "bg-primary text-fg-quaternary shadow-xs-skeumorphic ring-1 ring-primary ring-inset hover:bg-primary_hover hover:text-fg-quaternary_hover disabled:shadow-xs disabled:ring-disabled_subtle",
+    "bg-primary text-fg-quaternary shadow-xs-skeuomorphic ring-1 ring-primary ring-inset hover:bg-primary_hover hover:text-fg-quaternary_hover disabled:shadow-xs",
   tertiary: "text-fg-quaternary hover:bg-primary_hover hover:text-fg-quaternary_hover",
 };
 
 /**
  * Common props shared between button and anchor variants
  */
-export interface CommonUtilityProps {
+interface CommonProps {
   /** Disables the button and shows a disabled state */
   isDisabled?: boolean;
   /** The size variant of the button */
@@ -33,8 +35,7 @@ export interface CommonUtilityProps {
 /**
  * Props for the button variant (non-link)
  */
-export interface ButtonUtilityProps
-  extends CommonUtilityProps, DetailedHTMLProps<Omit<ButtonHTMLAttributes<HTMLButtonElement>, "color" | "slot">, HTMLButtonElement> {
+interface ButtonProps extends CommonProps, DetailedHTMLProps<Omit<ButtonHTMLAttributes<HTMLButtonElement>, "color" | "slot">, HTMLButtonElement> {
   /** Slot name for react-aria component */
   slot?: AriaButtonProps["slot"];
 }
@@ -42,13 +43,13 @@ export interface ButtonUtilityProps
 /**
  * Props for the link variant (anchor tag)
  */
-interface LinkUtilityProps extends CommonUtilityProps, DetailedHTMLProps<Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "color">, HTMLAnchorElement> {
+interface LinkProps extends CommonProps, DetailedHTMLProps<Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "color">, HTMLAnchorElement> {
   /** Options for the configured client side router. */
   routerOptions?: AriaLinkProps["routerOptions"];
 }
 
 /** Union type of button and link props */
-export type UtilityProps = ButtonUtilityProps | LinkUtilityProps;
+type Props = ButtonProps | LinkProps;
 
 export const ButtonUtility = ({
   tooltip,
@@ -59,7 +60,7 @@ export const ButtonUtility = ({
   color = "secondary",
   tooltipPlacement = "top",
   ...otherProps
-}: UtilityProps) => {
+}: Props) => {
   const href = "href" in otherProps ? otherProps.href : undefined;
   const Component = href ? AriaLink : AriaButton;
 
@@ -90,11 +91,11 @@ export const ButtonUtility = ({
       aria-label={tooltip}
       {...props}
       className={cx(
-        "group outline-focus-ring disabled:text-fg-disabled_subtle relative inline-flex h-max cursor-pointer items-center justify-center rounded-md p-1.5 transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed",
+        "group relative inline-flex h-max cursor-pointer items-center justify-center rounded-md p-1.5 outline-hidden transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
         styles[color],
 
         // Icon styles
-        "*:data-icon:transition-inherit-all *:data-icon:pointer-events-none *:data-icon:shrink-0 *:data-icon:text-current",
+        "*:data-icon:pointer-events-none *:data-icon:shrink-0 *:data-icon:text-current *:data-icon:transition-inherit-all",
         size === "xs" ? "*:data-icon:size-4" : "*:data-icon:size-5",
 
         className

@@ -146,7 +146,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Video players",
   args: {
     src: SAMPLE_VIDEO_SRC,

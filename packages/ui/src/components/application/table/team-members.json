@@ -1,11 +1,11 @@
 {
   "items": [
     {
-      "name": "Olivia Rhye",
+      "name": "Gokul Krishnan",
       "username": "@olivia",
       "status": "active",
       "role": "Product Designer",
-      "email": "olivia@opus2.com",
+      "email": "gkrishnan@opus2.com",
       "teams": [
         { "name": "Design", "color": "purple" },
         { "name": "Product", "color": "blue-light" },

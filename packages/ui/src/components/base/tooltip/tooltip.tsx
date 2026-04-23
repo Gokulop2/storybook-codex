@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 import type {
   ButtonProps as AriaButtonProps,
@@ -61,29 +63,29 @@ export const Tooltip = ({
         offset={offset}
         placement={placement}
         crossOffset={crossOffset ?? calculatedCrossOffset}
-        className={({ isEntering, isExiting }) => cx(isEntering && "animate-in ease-out", isExiting && "animate-out ease-in")}
+        className={({ isEntering, isExiting }) => cx(isEntering && "ease-out animate-in", isExiting && "ease-in animate-out")}
       >
         {({ isEntering, isExiting }) => (
           <div
             className={cx(
-              "bg-primary-solid z-50 flex max-w-xs origin-(--trigger-anchor-point) flex-col items-start gap-1 rounded-lg px-3 shadow-lg will-change-transform",
+              "z-50 flex max-w-xs origin-(--trigger-anchor-point) flex-col items-start gap-1 rounded-lg bg-primary-solid px-3 shadow-lg will-change-transform",
               description ? "py-3" : "py-2",
 
               isEntering &&
-                "animate-in fade-in zoom-in-95 in-placement-left:slide-in-from-right-0.5 in-placement-right:slide-in-from-left-0.5 in-placement-top:slide-in-from-bottom-0.5 in-placement-bottom:slide-in-from-top-0.5 ease-out",
+                "ease-out animate-in fade-in zoom-in-95 in-placement-left:slide-in-from-right-0.5 in-placement-right:slide-in-from-left-0.5 in-placement-top:slide-in-from-bottom-0.5 in-placement-bottom:slide-in-from-top-0.5",
               isExiting &&
-                "animate-out fade-out zoom-out-95 in-placement-left:slide-out-to-right-0.5 in-placement-right:slide-out-to-left-0.5 in-placement-top:slide-out-to-bottom-0.5 in-placement-bottom:slide-out-to-top-0.5 ease-in"
+                "ease-in animate-out fade-out zoom-out-95 in-placement-left:slide-out-to-right-0.5 in-placement-right:slide-out-to-left-0.5 in-placement-top:slide-out-to-bottom-0.5 in-placement-bottom:slide-out-to-top-0.5"
             )}
           >
             <span className="text-xs font-semibold text-white">{title}</span>
 
-            {description && <span className="text-tooltip-supporting-text text-xs font-medium">{description}</span>}
+            {description && <span className="text-xs font-medium text-tooltip-supporting-text">{description}</span>}
 
             {arrow && (
               <AriaOverlayArrow>
                 <svg
                   viewBox="0 0 100 100"
-                  className="fill-bg-primary-solid in-placement-left:-rotate-90 in-placement-right:rotate-90 in-placement-top:rotate-0 in-placement-bottom:rotate-180 size-2.5"
+                  className="size-2.5 fill-bg-primary-solid in-placement-left:-rotate-90 in-placement-right:rotate-90 in-placement-top:rotate-0 in-placement-bottom:rotate-180"
                 >
                   <path d="M0,0 L35.858,35.858 Q50,50 64.142,35.858 L100,0 Z" />
                 </svg>
@@ -98,13 +100,13 @@ export const Tooltip = ({
 
 interface TooltipTriggerProps extends AriaButtonProps {}
 
-export const TooltipTrigger = ({ children, className, ...buttonProps }: TooltipTriggerProps) => {
+export const TooltipTrigger = ({ children, className, slot = null, ...buttonProps }: TooltipTriggerProps) => {
+  // `NumberField` (and similar) require every RAC `Button` to declare `increment`/`decrement`.
+  // Tooltip triggers are not steppers; `slot={null}` opts out (see adobe/react-spectrum#7596).
   return (
     <AriaButton
       {...buttonProps}
-      // Opt out of parent `ButtonContext` slots (e.g. `NumberField` increment/decrement).
-      // Without this, a help trigger inside a number field throws: "A slot prop is required."
-      slot={null}
+      slot={slot}
       className={(values) => cx("h-max w-max outline-hidden", typeof className === "function" ? className(values) : className)}
     >
       {children}

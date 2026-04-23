@@ -11,13 +11,7 @@ export interface MultiSelectPopoverFooterProps {
   clearFilter: () => void;
 }
 
-export function MultiSelectPopoverFooter({
-  items,
-  selectedItems,
-  onItemCleared,
-  onItemInserted,
-  clearFilter,
-}: MultiSelectPopoverFooterProps) {
+export function MultiSelectPopoverFooter({ items, selectedItems, onItemCleared, onItemInserted, clearFilter }: MultiSelectPopoverFooterProps) {
   const handleReset = () => {
     for (const { id } of selectedItems.items) {
       selectedItems.remove(id);

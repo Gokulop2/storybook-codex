@@ -1,190 +1,401 @@
-import { Alert } from "@opus2-platform/codex";
-import { InfoCircle } from "@opus2-platform/icons";
+import { Alert, AlertFloating, AlertFullWidth } from "@opus2-platform/codex";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK,
+  DOCS_PREVIEW_SB_ISOLATION,
   DOCS_SECTION_HERO_CLASS,
   DocsSection,
 } from "../_docs/docs-preview-code";
 import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
+import { ApplicationUiOverview } from "../_docs/application-ui-overview";
 
 const ALERT_TOC = [
+  { id: "alerts-overview", label: "Overview" },
+  { id: "installation", label: "Installation" },
   { id: "alert-examples", label: "Alert examples" },
-  { id: "default", label: "Default" },
-  { id: "brand", label: "Brand" },
-  { id: "gray", label: "Gray" },
-  { id: "error", label: "Error" },
-  { id: "warning", label: "Warning" },
-  { id: "success", label: "Success" },
-  { id: "full-width", label: "Full width" },
-  { id: "with-actions", label: "With actions" },
-  { id: "dismissible", label: "Dismissible" },
-  { id: "custom-icon", label: "Custom icon" },
-  { id: "no-icon", label: "No icon" },
+  { id: "floating-default", label: "Floating — default" },
+  { id: "floating-brand", label: "Floating — brand" },
+  { id: "floating-gray", label: "Floating — gray" },
+  { id: "floating-error", label: "Floating — error" },
+  { id: "floating-warning", label: "Floating — warning" },
+  { id: "floating-success", label: "Floating — success" },
+  { id: "full-width-default", label: "Full width — default" },
+  { id: "full-width-brand", label: "Full width — brand" },
+  { id: "full-width-gray", label: "Full width — gray" },
+  { id: "full-width-error", label: "Full width — error" },
+  { id: "full-width-warning", label: "Full width — warning" },
+  { id: "full-width-success", label: "Full width — success" },
 ] as const;
 
-const previewWrap = "flex flex-col gap-3 w-full max-w-lg";
+const previewWrap = "flex flex-col gap-3 w-full max-w-xl";
+
+const FLOATING_IMPORT = `import { AlertFloating } from "@opus2-platform/codex";`;
+const FULL_WIDTH_IMPORT = `import { AlertFullWidth } from "@opus2-platform/codex";`;
 
 const AlertDocsPage = () => {
   return (
     <div className="docs-sbdocs-with-toc-layout">
       <StorybookRootHeaderPortal>
-        <DocsPageBreadcrumb currentLabel="Alerts" />
+        <DocsPageBreadcrumb catalog="application" currentLabel="Alerts" />
       </StorybookRootHeaderPortal>
       <StorybookSbdocsTocPortal>
         <OnThisPageNav items={ALERT_TOC} />
       </StorybookSbdocsTocPortal>
 
       <main className="docs-sbdocs-content typography">
-        <div id="alert-examples" className={DOCS_SECTION_HERO_CLASS}>
+        <div id="alerts-overview" className={DOCS_SECTION_HERO_CLASS}>
           <h1 className="docs-h1">Alerts</h1>
-          <p>Alert banners notify users about important information or status changes.</p>
+          <p>
+            Notification banners for status and messaging. Two layout variants —{" "}
+            <code className="text-sm">AlertFloating</code> (contained card) and{" "}
+            <code className="text-sm">AlertFullWidth</code> (edge-to-edge banner) — both from{" "}
+            <code className="text-sm">@opus2-platform/codex</code>.
+          </p>
+          <ApplicationUiOverview
+            items={[
+              {
+                label: "Components",
+                children: (
+                  <>
+                    <code className="text-xs">AlertFloating</code> for contained card alerts;{" "}
+                    <code className="text-xs">AlertFullWidth</code> for edge-to-edge banners.
+                  </>
+                ),
+              },
+              {
+                label: "Colors",
+                children: (
+                  <>
+                    <code className="text-xs">default</code>, <code className="text-xs">brand</code>,{" "}
+                    <code className="text-xs">gray</code>, <code className="text-xs">error</code>,{" "}
+                    <code className="text-xs">warning</code>, <code className="text-xs">success</code>.
+                  </>
+                ),
+              },
+              {
+                label: "Actions",
+                children: (
+                  <>
+                    Pass <code className="text-xs">confirmLabel</code> + <code className="text-xs">onConfirm</code> and/or{" "}
+                    <code className="text-xs">dismissLabel</code> + <code className="text-xs">onClose</code>.{" "}
+                    <code className="text-xs">AlertFullWidth</code> also accepts{" "}
+                    <code className="text-xs">actionType="link"</code> for link-style buttons.
+                  </>
+                ),
+              },
+            ]}
+          />
           <div className={DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK}>
             <div className={previewWrap}>
-              <Alert color="default" title="Default alert" description="This is a default alert message." />
-              <Alert color="error" title="Error alert" description="Something went wrong. Please try again." />
-              <Alert color="success" title="Success alert" description="Your changes have been saved." />
+              <AlertFloating
+                color="default"
+                title="We've just released a new feature"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+                confirmLabel="View changes"
+                onConfirm={() => {}}
+                onClose={() => {}}
+              />
+              <AlertFloating
+                color="error"
+                title="There was a problem with that action"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+                confirmLabel="Try again"
+                onConfirm={() => {}}
+                onClose={() => {}}
+              />
+              <AlertFloating
+                color="success"
+                title="Your changes have been saved"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+                confirmLabel="View changes"
+                onConfirm={() => {}}
+                onClose={() => {}}
+              />
             </div>
           </div>
         </div>
 
         <div className="docs-sections-wrap">
+
+          {/* ── Installation ── */}
           <DocsSection
-            id="default"
-            title="Default"
-            code={`import { Alert } from "@opus2-platform/codex";\n\n<Alert color="default" title="Alert title" description="Supporting description goes here." />`}
+            id="installation"
+            title="Installation"
+            code={`import { AlertFloating, AlertFullWidth } from "@opus2-platform/codex";`}
           >
             <div className={previewWrap}>
-              <Alert color="default" title="Alert title" description="Supporting description goes here." />
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="brand"
-            title="Brand"
-            code={`import { Alert } from "@opus2-platform/codex";\n\n<Alert color="brand" title="Alert title" description="Supporting description goes here." />`}
-          >
-            <div className={previewWrap}>
-              <Alert color="brand" title="Alert title" description="Supporting description goes here." />
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="gray"
-            title="Gray"
-            code={`import { Alert } from "@opus2-platform/codex";\n\n<Alert color="gray" title="Alert title" description="Supporting description goes here." />`}
-          >
-            <div className={previewWrap}>
-              <Alert color="gray" title="Alert title" description="Supporting description goes here." />
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="error"
-            title="Error"
-            code={`import { Alert } from "@opus2-platform/codex";\n\n<Alert color="error" title="Alert title" description="Something went wrong. Please try again." />`}
-          >
-            <div className={previewWrap}>
-              <Alert color="error" title="Alert title" description="Something went wrong. Please try again." />
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="warning"
-            title="Warning"
-            code={`import { Alert } from "@opus2-platform/codex";\n\n<Alert color="warning" title="Alert title" description="Please review before continuing." />`}
-          >
-            <div className={previewWrap}>
-              <Alert color="warning" title="Alert title" description="Please review before continuing." />
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="success"
-            title="Success"
-            code={`import { Alert } from "@opus2-platform/codex";\n\n<Alert color="success" title="Alert title" description="Your changes have been saved." />`}
-          >
-            <div className={previewWrap}>
-              <Alert color="success" title="Alert title" description="Your changes have been saved." />
-            </div>
-          </DocsSection>
-
-          <DocsSection
-            id="full-width"
-            title="Full width"
-            code={`import { Alert } from "@opus2-platform/codex";\n\n<Alert layout="full-width" color="default" title="Full width alert" description="This alert spans the full container width." />`}
-            previewClassName="p-0! overflow-hidden rounded-xl"
-          >
-            <Alert layout="full-width" color="default" title="Full width alert" description="This alert spans the full container width." />
-          </DocsSection>
-
-          <DocsSection
-            id="with-actions"
-            title="With actions"
-            code={`import { Alert, Button } from "@opus2-platform/codex";\n\n<Alert\n  color="brand"\n  title="Update available"\n  description="A new version is ready to install."\n  actions={\n    <>\n      <Button size="sm" color="link-color">View changelog</Button>\n      <Button size="sm" color="link-gray">Dismiss</Button>\n    </>\n  }\n/>`}
-          >
-            <div className={previewWrap}>
-              <Alert
-                color="brand"
-                title="Update available"
-                description="A new version is ready to install."
-                actions={
-                  <div className="flex gap-3">
-                    <button type="button" className="text-sm font-semibold text-utility-brand-700 hover:opacity-70 cursor-pointer">View changelog</button>
-                    <button type="button" className="text-sm font-semibold text-utility-brand-600 hover:opacity-70 cursor-pointer">Dismiss</button>
-                  </div>
-                }
+              <AlertFloating
+                color="gray"
+                title="We've just released a new feature"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="View changes"
+                onConfirm={() => {}}
+                onClose={() => {}}
               />
             </div>
           </DocsSection>
 
+          {/* ── Alert examples ── */}
           <DocsSection
-            id="dismissible"
-            title="Dismissible"
-            code={`import { Alert } from "@opus2-platform/codex";\n\n<Alert\n  color="default"\n  title="Dismissible alert"\n  description="Click the × to dismiss this alert."\n  dismissible\n  onDismiss={() => console.log("dismissed")}\n/>`}
+            id="alert-examples"
+            title="Alert examples"
+            code={`${FLOATING_IMPORT}\n\n<AlertFloating\n  color="default"\n  title="We've just released a new feature"\n  description="Lorem ipsum dolor sit amet consectetur adipisicing elit."\n  confirmLabel="View changes"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>\n\n<AlertFloating\n  color="error"\n  title="There was a problem with that action"\n  description="Lorem ipsum dolor sit amet consectetur adipisicing elit."\n  confirmLabel="Try again"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
           >
             <div className={previewWrap}>
-              <Alert
+              <AlertFloating
                 color="default"
-                title="Dismissible alert"
-                description="Click the × to dismiss this alert."
-                dismissible
+                title="We've just released a new feature"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="View changes"
+                onConfirm={() => {}}
+                onClose={() => {}}
               />
-              <Alert
+              <AlertFloating
+                color="brand"
+                title="We've just released a new feature"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="View changes"
+                onConfirm={() => {}}
+                onClose={() => {}}
+              />
+              <AlertFloating
+                color="gray"
+                title="We've just released a new feature"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="View changes"
+                onConfirm={() => {}}
+                onClose={() => {}}
+              />
+              <AlertFloating
                 color="error"
-                title="Error alert"
-                description="This can be dismissed."
-                dismissible
+                title="There was a problem with that action"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="Try again"
+                onConfirm={() => {}}
+                onClose={() => {}}
               />
-              <Alert
+              <AlertFloating
+                color="warning"
+                title="Your free trial is expiring soon"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="Upgrade plan"
+                onConfirm={() => {}}
+                onClose={() => {}}
+              />
+              <AlertFloating
                 color="success"
-                title="Success alert"
-                description="This can be dismissed."
-                dismissible
+                title="Your changes have been saved"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="View changes"
+                onConfirm={() => {}}
+                onClose={() => {}}
+              />
+            </div>
+          </DocsSection>
+
+          {/* ── Floating variants ── */}
+
+          <DocsSection
+            id="floating-default"
+            title="Floating — default"
+            code={`${FLOATING_IMPORT}\n\n<AlertFloating\n  color="default"\n  title="We've just released a new feature"\n  description="Lorem ipsum dolor sit amet consectetur adipisicing elit."\n  confirmLabel="View changes"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
+          >
+            <div className={previewWrap}>
+              <AlertFloating
+                color="default"
+                title="We've just released a new feature"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="View changes"
+                onConfirm={() => {}}
+                onClose={() => {}}
               />
             </div>
           </DocsSection>
 
           <DocsSection
-            id="custom-icon"
-            title="Custom icon"
-            code={`import { Alert } from "@opus2-platform/codex";\nimport { InfoCircle } from "@opus2-platform/icons";\n\n<Alert color="brand" icon={InfoCircle} title="Custom icon" description="Using a custom icon component." />`}
+            id="floating-brand"
+            title="Floating — brand"
+            code={`${FLOATING_IMPORT}\n\n<AlertFloating\n  color="brand"\n  title="We've just released a new feature"\n  description="Lorem ipsum dolor sit amet consectetur adipisicing elit."\n  confirmLabel="View changes"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
           >
             <div className={previewWrap}>
-              <Alert color="brand" icon={InfoCircle} title="Custom icon" description="Using a custom icon component." />
+              <AlertFloating
+                color="brand"
+                title="We've just released a new feature"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="View changes"
+                onConfirm={() => {}}
+                onClose={() => {}}
+              />
             </div>
           </DocsSection>
 
           <DocsSection
-            id="no-icon"
-            title="No icon"
-            code={`import { Alert } from "@opus2-platform/codex";\n\n<Alert color="success" icon={null} title="No icon" description="This alert has no icon." />`}
+            id="floating-gray"
+            title="Floating — gray"
+            code={`${FLOATING_IMPORT}\n\n<AlertFloating\n  color="gray"\n  title="We've just released a new feature"\n  description="Lorem ipsum dolor sit amet consectetur adipisicing elit."\n  confirmLabel="View changes"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
           >
             <div className={previewWrap}>
-              <Alert color="success" icon={null} title="No icon" description="This alert has no icon." />
+              <AlertFloating
+                color="gray"
+                title="We've just released a new feature"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="View changes"
+                onConfirm={() => {}}
+                onClose={() => {}}
+              />
             </div>
           </DocsSection>
+
+          <DocsSection
+            id="floating-error"
+            title="Floating — error"
+            code={`${FLOATING_IMPORT}\n\n<AlertFloating\n  color="error"\n  title="There was a problem with that action"\n  description="Lorem ipsum dolor sit amet consectetur adipisicing elit."\n  confirmLabel="Try again"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
+          >
+            <div className={previewWrap}>
+              <AlertFloating
+                color="error"
+                title="There was a problem with that action"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="Try again"
+                onConfirm={() => {}}
+                onClose={() => {}}
+              />
+            </div>
+          </DocsSection>
+
+          <DocsSection
+            id="floating-warning"
+            title="Floating — warning"
+            code={`${FLOATING_IMPORT}\n\n<AlertFloating\n  color="warning"\n  title="Your free trial is expiring soon"\n  description="Lorem ipsum dolor sit amet consectetur adipisicing elit."\n  confirmLabel="Upgrade plan"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
+          >
+            <div className={previewWrap}>
+              <AlertFloating
+                color="warning"
+                title="Your free trial is expiring soon"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="Upgrade plan"
+                onConfirm={() => {}}
+                onClose={() => {}}
+              />
+            </div>
+          </DocsSection>
+
+          <DocsSection
+            id="floating-success"
+            title="Floating — success"
+            code={`${FLOATING_IMPORT}\n\n<AlertFloating\n  color="success"\n  title="Your changes have been saved"\n  description="Lorem ipsum dolor sit amet consectetur adipisicing elit."\n  confirmLabel="View changes"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
+          >
+            <div className={previewWrap}>
+              <AlertFloating
+                color="success"
+                title="Your changes have been saved"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor."
+                confirmLabel="View changes"
+                onConfirm={() => {}}
+                onClose={() => {}}
+              />
+            </div>
+          </DocsSection>
+
+          {/* ── Full-width variants ── */}
+
+          <DocsSection
+            id="full-width-default"
+            title="Full width — default"
+            code={`${FULL_WIDTH_IMPORT}\n\n<AlertFullWidth\n  color="default"\n  title="We've just released a new feature"\n  description="Lorem ipsum dolor sit amet consectetur."\n  confirmLabel="View changes"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
+            previewClassName={`p-0! overflow-hidden rounded-xl ${DOCS_PREVIEW_SB_ISOLATION}`}
+          >
+            <AlertFullWidth
+              color="default"
+              title="We've just released a new feature"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+              confirmLabel="View changes"
+              onConfirm={() => {}}
+              onClose={() => {}}
+            />
+          </DocsSection>
+
+          <DocsSection
+            id="full-width-brand"
+            title="Full width — brand"
+            code={`${FULL_WIDTH_IMPORT}\n\n<AlertFullWidth\n  color="brand"\n  title="We've just released a new feature"\n  description="Lorem ipsum dolor sit amet consectetur."\n  confirmLabel="View changes"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
+            previewClassName={`p-0! overflow-hidden rounded-xl ${DOCS_PREVIEW_SB_ISOLATION}`}
+          >
+            <AlertFullWidth
+              color="brand"
+              title="We've just released a new feature"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+              confirmLabel="View changes"
+              onConfirm={() => {}}
+              onClose={() => {}}
+            />
+          </DocsSection>
+
+          <DocsSection
+            id="full-width-gray"
+            title="Full width — gray"
+            code={`${FULL_WIDTH_IMPORT}\n\n<AlertFullWidth\n  color="gray"\n  title="We've just released a new feature"\n  description="Lorem ipsum dolor sit amet consectetur."\n  confirmLabel="View changes"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
+            previewClassName={`p-0! overflow-hidden rounded-xl ${DOCS_PREVIEW_SB_ISOLATION}`}
+          >
+            <AlertFullWidth
+              color="gray"
+              title="We've just released a new feature"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+              confirmLabel="View changes"
+              onConfirm={() => {}}
+              onClose={() => {}}
+            />
+          </DocsSection>
+
+          <DocsSection
+            id="full-width-error"
+            title="Full width — error"
+            code={`${FULL_WIDTH_IMPORT}\n\n<AlertFullWidth\n  color="error"\n  title="There was a problem with that action"\n  description="Lorem ipsum dolor sit amet consectetur."\n  confirmLabel="Try again"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
+            previewClassName={`p-0! overflow-hidden rounded-xl ${DOCS_PREVIEW_SB_ISOLATION}`}
+          >
+            <AlertFullWidth
+              color="error"
+              title="There was a problem with that action"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+              confirmLabel="Try again"
+              onConfirm={() => {}}
+              onClose={() => {}}
+            />
+          </DocsSection>
+
+          <DocsSection
+            id="full-width-warning"
+            title="Full width — warning"
+            code={`${FULL_WIDTH_IMPORT}\n\n<AlertFullWidth\n  color="warning"\n  title="Your free trial is expiring soon"\n  description="Lorem ipsum dolor sit amet consectetur."\n  confirmLabel="Upgrade plan"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
+            previewClassName={`p-0! overflow-hidden rounded-xl ${DOCS_PREVIEW_SB_ISOLATION}`}
+          >
+            <AlertFullWidth
+              color="warning"
+              title="Your free trial is expiring soon"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+              confirmLabel="Upgrade plan"
+              onConfirm={() => {}}
+              onClose={() => {}}
+            />
+          </DocsSection>
+
+          <DocsSection
+            id="full-width-success"
+            title="Full width — success"
+            code={`${FULL_WIDTH_IMPORT}\n\n<AlertFullWidth\n  color="success"\n  title="Your changes have been saved"\n  description="Lorem ipsum dolor sit amet consectetur."\n  confirmLabel="View changes"\n  onConfirm={() => {}}\n  onClose={() => {}}\n/>`}
+            previewClassName={`p-0! overflow-hidden rounded-xl ${DOCS_PREVIEW_SB_ISOLATION}`}
+          >
+            <AlertFullWidth
+              color="success"
+              title="Your changes have been saved"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+              confirmLabel="View changes"
+              onConfirm={() => {}}
+              onClose={() => {}}
+            />
+          </DocsSection>
+
         </div>
       </main>
     </div>
@@ -194,7 +405,7 @@ const AlertDocsPage = () => {
 const meta = {
   title: "Application UI/Alerts",
   component: Alert,
-  tags: ["autodocs", "hidden"],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       page: AlertDocsPage,
@@ -206,7 +417,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Alerts",
   args: {
     title: "Alert title",

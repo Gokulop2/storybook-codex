@@ -24,7 +24,7 @@ export const PaginationLine = ({ framed, className, size = "md", ...props }: Pag
   };
 
   return (
-    <Pagination.Root {...props} className={cx("flex h-max w-max", sizes[size].root, framed && "bg-alpha-white/90 rounded-full backdrop-blur", className)}>
+    <Pagination.Root {...props} className={cx("flex h-max w-max", sizes[size].root, framed && "rounded-full bg-alpha-white/90 backdrop-blur", className)}>
       <Pagination.Context>
         {({ pages }) =>
           pages.map((page, index) =>
@@ -34,7 +34,7 @@ export const PaginationLine = ({ framed, className, size = "md", ...props }: Pag
                 asChild
                 key={index}
                 className={cx(
-                  "bg-quaternary outline-focus-ring relative cursor-pointer rounded-full after:absolute focus-visible:outline-2 focus-visible:outline-offset-2",
+                  "relative cursor-pointer rounded-full bg-quaternary outline-hidden after:absolute focus-visible:outline-2 focus-visible:outline-offset-2",
                   sizes[size].button,
                   page.isCurrent && "bg-fg-brand-primary_alt"
                 )}

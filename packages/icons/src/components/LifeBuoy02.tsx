@@ -1,0 +1,26 @@
+import * as React from "react";
+import type { SVGProps, FC } from "react";
+interface Props extends SVGProps<SVGSVGElement> {
+  color?: string;
+  size?: number;
+}
+export const LifeBuoy02: FC<Props> = ({ size = 24, color = "currentColor", ...props }) =>
+  React.cloneElement(
+    <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" {...props}>
+      <path
+        d="M8.464 8.464 4.93 4.93m0 14.142 3.535-3.536m7.072 0 3.535 3.536m0-14.142-3.536 3.535M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10Zm-5 0a5 5 0 1 1-10 0 5 5 0 0 1 10 0Z"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>,
+    {
+      width: size,
+      height: size,
+      fill: "none",
+      stroke: color,
+      ...props,
+    }
+  );
+LifeBuoy02.displayName = "LifeBuoy02";

@@ -1,7 +1,9 @@
+"use client";
+
 import type { FC, ReactNode } from "react";
 import { isValidElement } from "react";
 import { ArrowRight } from "@opus2-platform/icons";
-import { cx, isReactComponent, sortCx } from "@/utils";
+import { cx, sortCx, isReactComponent } from "@/utils";
 
 type Size = "md" | "lg";
 type Color = "brand" | "warning" | "error" | "gray" | "success";
@@ -27,26 +29,26 @@ const getSizeClasses = (
 ): Record<Align, Record<Size, { root?: string; addon?: string; icon?: string; dot?: string }>> => ({
   leading: {
     md: {
-      root: cx("py-1 pr-2 pl-1 text-xs! font-medium", !text && !icon && "pr-1"),
-      addon: cx("px-2 py-0.5", theme === "modern" && "gap-1 px-1.5", text && "mr-2!"),
+      root: cx("py-1 pr-2 pl-1 text-xs font-medium", !text && !icon && "pr-1", text && "gap-2"),
+      addon: cx("px-2 py-0.5", theme === "modern" && "gap-1 px-1.5"),
       icon: "ml-1 size-4",
     },
     lg: {
-      root: cx("py-1 pr-2 pl-1 text-sm! font-medium", !text && !icon && "pr-1"),
-      addon: cx("px-2.5 py-0.5", theme === "modern" && "gap-1.5 px-2", text && "mr-2!"),
+      root: cx("py-1 pr-2 pl-1 text-sm font-medium", !text && !icon && "pr-1", text && "gap-2"),
+      addon: cx("px-2.5 py-0.5", theme === "modern" && "gap-1.5 px-2"),
       icon: "ml-1 size-4",
     },
   },
   trailing: {
     md: {
-      root: cx("py-1 pr-1 pl-3 text-xs! font-medium", theme === "modern" && "pl-2.5"),
-      addon: cx("py-0.5 pr-1.5 pl-2", theme === "modern" && "pr-1.5 pl-2", text && "ml-2!"),
+      root: cx("py-1 pr-1 pl-3 text-xs font-medium", theme === "modern" && "pl-2.5", text && "gap-2"),
+      addon: cx("py-0.5 pr-1.5 pl-2", theme === "modern" && "pr-1.5 pl-2"),
       icon: "ml-0.5 size-3 stroke-[3px]",
-      dot: "mr-1.5!",
+      dot: "mr-1.5",
     },
     lg: {
-      root: "py-1 pr-1 pl-3 text-sm! font-medium",
-      addon: cx("py-0.5 pr-2 pl-2.5", theme === "modern" && "pr-1.5 pl-2", text && "ml-2!"),
+      root: cx("py-1 pr-1 pl-3 text-sm font-medium", text && "gap-2"),
+      addon: cx("py-0.5 pr-2 pl-2.5", theme === "modern" && "pr-1.5 pl-2"),
       icon: "ml-1 size-3 stroke-[3px]",
       dot: "mr-2",
     },
@@ -57,45 +59,45 @@ const colorClasses: Record<Theme, Record<Color, { root?: string; addon?: string;
   light: {
     brand: {
       root: "bg-utility-brand-50 text-utility-brand-700 ring-utility-brand-200 hover:bg-utility-brand-100",
-      addon: "bg-primary ring-utility-brand-200 text-current",
+      addon: "bg-primary text-current ring-utility-brand-200",
       icon: "text-utility-brand-500",
     },
     gray: {
-      root: "bg-utility-gray-50 text-utility-gray-700 ring-utility-gray-200 hover:bg-utility-gray-100",
-      addon: "bg-primary ring-utility-gray-200 text-current",
-      icon: "text-utility-gray-500",
+      root: "bg-utility-neutral-50 text-utility-neutral-700 ring-utility-neutral-200 hover:bg-utility-neutral-100",
+      addon: "bg-primary text-current ring-utility-neutral-200",
+      icon: "text-utility-neutral-500",
     },
     error: {
-      root: "bg-utility-error-50 text-utility-error-700 ring-utility-error-200 hover:bg-utility-error-100",
-      addon: "bg-primary ring-utility-error-200 text-current",
-      icon: "text-utility-error-500",
+      root: "bg-utility-red-50 text-utility-red-700 ring-utility-red-200 hover:bg-utility-red-100",
+      addon: "bg-primary text-current ring-utility-red-200",
+      icon: "text-utility-red-500",
     },
     warning: {
-      root: "bg-utility-warning-50 text-utility-warning-700 ring-utility-warning-200 hover:bg-utility-warning-100",
-      addon: "bg-primary ring-utility-warning-200 text-current",
-      icon: "text-utility-warning-500",
+      root: "bg-utility-yellow-50 text-utility-yellow-700 ring-utility-yellow-200 hover:bg-utility-yellow-100",
+      addon: "bg-primary text-current ring-utility-yellow-200",
+      icon: "text-utility-yellow-500",
     },
     success: {
-      root: "bg-utility-success-50 text-utility-success-700 ring-utility-success-200 hover:bg-utility-success-100",
-      addon: "bg-primary ring-utility-success-200 text-current",
-      icon: "text-utility-success-500",
+      root: "bg-utility-green-50 text-utility-green-700 ring-utility-green-200 hover:bg-utility-green-100",
+      addon: "bg-primary text-current ring-utility-green-200",
+      icon: "text-utility-green-500",
     },
   },
   modern: {
     brand: {
-      dot: "bg-utility-brand-500 outline-utility-brand-100 outline-3 -outline-offset-1",
+      dot: "bg-utility-brand-500 outline-3 -outline-offset-1 outline-utility-brand-100",
     },
     gray: {
-      dot: "bg-utility-gray-500 outline-utility-gray-100 outline-3 -outline-offset-1",
+      dot: "bg-utility-neutral-500 outline-3 -outline-offset-1 outline-utility-neutral-100",
     },
     error: {
-      dot: "bg-utility-error-500 outline-utility-error-100 outline-3 -outline-offset-1",
+      dot: "bg-utility-red-500 outline-3 -outline-offset-1 outline-utility-red-100",
     },
     warning: {
-      dot: "bg-utility-warning-500 outline-utility-warning-100 outline-3 -outline-offset-1",
+      dot: "bg-utility-yellow-500 outline-3 -outline-offset-1 outline-utility-yellow-100",
     },
     success: {
-      dot: "bg-utility-success-500 outline-utility-success-100 outline-3 -outline-offset-1",
+      dot: "bg-utility-green-500 outline-3 -outline-offset-1 outline-utility-green-100",
     },
   },
 });

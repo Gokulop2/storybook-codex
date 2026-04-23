@@ -1,8 +1,11 @@
+"use client";
+
 import type { ReactNode, Ref } from "react";
 import React from "react";
 import type { TextAreaProps as AriaTextAreaProps, TextFieldProps as AriaTextFieldProps } from "react-aria-components";
 import { TextArea as AriaTextArea, TextField as AriaTextField } from "react-aria-components";
-import { HintText, Label } from "@/components";
+import { HintText } from "@/components/base/input/hint-text";
+import { Label } from "@/components/base/input/label";
 import { cx } from "@/utils";
 
 // Creates a data URL for an SVG resize handle with a given color.
@@ -12,9 +15,10 @@ const getResizeHandleBg = (color: string) => {
 
 interface TextAreaBaseProps extends AriaTextAreaProps {
   ref?: Ref<HTMLTextAreaElement>;
+  size?: "sm" | "md";
 }
 
-export const TextAreaBase = ({ className, ...props }: TextAreaBaseProps) => {
+export const TextAreaBase = ({ className, size = "md", ...props }: TextAreaBaseProps) => {
   return (
     <AriaTextArea
       {...props}
@@ -26,15 +30,18 @@ export const TextAreaBase = ({ className, ...props }: TextAreaBaseProps) => {
       }
       className={(state) =>
         cx(
-          "bg-primary text-md text-primary ring-primary placeholder:text-placeholder autofill:text-primary w-full scroll-py-3 rounded-lg px-3.5 py-3 shadow-xs ring-1 transition duration-100 ease-linear ring-inset autofill:rounded-lg focus:outline-hidden",
+          "w-full scroll-py-3 rounded-lg bg-primary text-primary shadow-xs ring-1 ring-primary transition duration-100 ease-linear ring-inset placeholder:text-placeholder autofill:rounded-lg autofill:text-primary focus:outline-hidden",
+
+          size === "sm" && "p-3 text-sm",
+          size === "md" && "px-3.5 py-3 text-md",
 
           // Resize handle
           "[&::-webkit-resizer]:bg-(image:--resize-handle-bg) [&::-webkit-resizer]:bg-contain dark:[&::-webkit-resizer]:bg-(image:--resize-handle-bg-dark)",
 
-          state.isFocused && !state.isDisabled && "ring-brand ring-2",
-          state.isDisabled && "bg-disabled_subtle text-disabled ring-disabled cursor-not-allowed",
+          state.isFocused && !state.isDisabled && "ring-2 ring-brand",
+          state.isDisabled && "cursor-not-allowed opacity-50",
           state.isInvalid && "ring-error_subtle",
-          state.isInvalid && state.isFocused && "ring-error ring-2",
+          state.isInvalid && state.isFocused && "ring-2 ring-error",
 
           typeof className === "function" ? className(state) : className
         )
@@ -52,6 +59,8 @@ interface TextFieldProps extends AriaTextFieldProps {
   hint?: ReactNode;
   /** Tooltip message displayed after the label. */
   tooltip?: string;
+  /** Textarea size. */
+  size?: TextAreaBaseProps["size"];
   /** Class name for the textarea wrapper */
   textAreaClassName?: TextAreaBaseProps["className"];
   /** Ref for the textarea wrapper */
@@ -79,6 +88,7 @@ export const TextArea = ({
   className,
   rows,
   cols,
+  size = "md",
   ...props
 }: TextFieldProps) => {
   return (
@@ -96,9 +106,13 @@ export const TextArea = ({
             </Label>
           )}
 
-          <TextAreaBase placeholder={placeholder} className={textAreaClassName} ref={textAreaRef} rows={rows} cols={cols} />
+          <TextAreaBase placeholder={placeholder} className={textAreaClassName} ref={textAreaRef} rows={rows} cols={cols} size={size} />
 
-          {hint && <HintText isInvalid={isInvalid}>{hint}</HintText>}
+          {hint && (
+            <HintText isInvalid={isInvalid} size={size}>
+              {hint}
+            </HintText>
+          )}
         </>
       )}
     </AriaTextField>

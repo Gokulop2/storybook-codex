@@ -1,8 +1,12 @@
+"use client";
+
 import { useControlledState } from "@react-stately/utils";
+import { HintText } from "@/components/base/input/hint-text";
+import type { InputProps } from "@/components/base/input/input";
+import { InputBase, TextField } from "@/components/base/input/input";
+import { Label } from "@/components/base/input/label";
 import { AmexIcon, DiscoverIcon, MastercardIcon, UnionPayIcon, VisaIcon } from "@/components/foundations/payment-icons";
-import { HintText } from "./hint-text";
-import { InputBase, type InputBaseProps, TextField } from "./input";
-import { Label } from "./label";
+import { cx } from "@/utils";
 
 const cardTypes = [
   {
@@ -75,9 +79,30 @@ export const formatCardNumber = (number: string) => {
   return cleaned;
 };
 
-interface PaymentInputProps extends Omit<InputBaseProps, "icon"> {}
+interface PaymentInputProps extends InputProps {}
 
-export const PaymentInput = ({ onChange, value, defaultValue, className, maxLength = 19, label, hint, ...props }: PaymentInputProps) => {
+export const PaymentInput = ({
+  onChange,
+  value,
+  defaultValue,
+  maxLength = 19,
+  size = "md",
+  placeholder,
+  label,
+  hint,
+  shortcut,
+  hideRequiredIndicator,
+  className,
+  ref,
+  groupRef,
+  tooltip,
+  iconClassName,
+  inputClassName,
+  wrapperClassName,
+  tooltipClassName,
+  type = "text",
+  ...props
+}: PaymentInputProps) => {
   const [cardNumber, setCardNumber] = useControlledState(value, defaultValue || "", (value) => {
     // Remove all non-numeric characters
     value = value.replace(/\D/g, "");
@@ -89,28 +114,45 @@ export const PaymentInput = ({ onChange, value, defaultValue, className, maxLeng
 
   return (
     <TextField
-      aria-label={!label ? props?.placeholder : undefined}
+      aria-label={!label ? placeholder : undefined}
       {...props}
+      size={size}
       className={className}
       inputMode="numeric"
       maxLength={maxLength}
       value={formatCardNumber(cardNumber)}
       onChange={setCardNumber}
     >
-      {({ isDisabled, isInvalid, isRequired }) => (
+      {({ isInvalid, isRequired }) => (
         <>
-          {label && <Label isRequired={isRequired}>{label}</Label>}
+          {label && (
+            <Label isRequired={hideRequiredIndicator ? !hideRequiredIndicator : isRequired} isInvalid={isInvalid}>
+              {label}
+            </Label>
+          )}
 
           <InputBase
-            {...props}
-            isDisabled={isDisabled}
-            isInvalid={isInvalid}
-            icon={card?.icon ?? MastercardIcon}
-            inputClassName="pl-13"
-            iconClassName="left-2.5 h-6 w-8.5"
+            {...{
+              ref,
+              groupRef,
+              size,
+              placeholder,
+              shortcut,
+              wrapperClassName,
+              tooltipClassName,
+              tooltip,
+              type,
+            }}
+            icon={card?.icon}
+            inputClassName={cx(size === "sm" && "pl-12", size === "md" && "pl-12.5", size === "lg" && "pl-13", inputClassName)}
+            iconClassName={cx("h-6 w-8.5", size === "sm" && "left-1.5", size === "md" && "left-2", size === "lg" && "left-2.5", iconClassName)}
           />
 
-          {hint && <HintText isInvalid={isInvalid}>{hint}</HintText>}
+          {hint && (
+            <HintText isInvalid={isInvalid} className={cx(size === "sm" && "text-xs")}>
+              {hint}
+            </HintText>
+          )}
         </>
       )}
     </TextField>

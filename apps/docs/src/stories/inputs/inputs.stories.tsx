@@ -56,7 +56,7 @@ import { DateInput, HintText, Label } from "@opus2-platform/codex";
 /** Snippet for React Aria `NumberField` steppers (horizontal / vertical number inputs). */
 const IMPORT_NUMBER = `import { Button as AriaButton, Group, Input as NumberFieldInput, NumberField } from "react-aria-components";
 import { ChevronDown, ChevronUp, Minus, Plus } from "@opus2-platform/icons";
-import { Button, HintText, Label } from "@opus2-platform/codex";
+import { HintText, Label } from "@opus2-platform/codex";
 `;
 
 const IMPORT_TAG_INPUT = `import { InputTags } from "@opus2-platform/codex";
@@ -85,23 +85,21 @@ const NumberInputHorizontalDemo = () => (
       Number
     </Label>
     <Group className={NUMBER_HORIZONTAL_GROUP_CLASS}>
-      <Button
+      <AriaButton
         slot="decrement"
-        color="tertiary"
-        size="sm"
         aria-label="Decrease"
-        iconLeading={Minus}
-        className="!h-auto min-h-10 w-10 shrink-0 !rounded-none !rounded-l-lg !rounded-r-none !px-0 shadow-none ring-0"
-      />
+        className="flex h-auto min-h-10 w-10 shrink-0 cursor-pointer items-center justify-center text-fg-quaternary outline-brand transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        <Minus aria-hidden className="size-5" />
+      </AriaButton>
       <NumberFieldInput className={NUMBER_FIELD_INPUT_CLASS} />
-      <Button
+      <AriaButton
         slot="increment"
-        color="tertiary"
-        size="sm"
         aria-label="Increase"
-        iconLeading={Plus}
-        className="!h-auto min-h-10 w-10 shrink-0 !rounded-none !rounded-l-none !rounded-r-lg !px-0 shadow-none ring-0"
-      />
+        className="flex h-auto min-h-10 w-10 shrink-0 cursor-pointer items-center justify-center text-fg-quaternary outline-brand transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        <Plus aria-hidden className="size-5" />
+      </AriaButton>
     </Group>
     <HintText>{HINT}</HintText>
   </NumberField>
@@ -162,11 +160,11 @@ const TagInputOuterDemo = () => (
   />
 );
 
-const EmailDefault = () => <Input label="Email" isRequired placeholder="olivia@opus2.com" hint={HINT} tooltip={TOOLTIP} />;
+const EmailDefault = () => <Input label="Email" isRequired placeholder="gkrishnan@opus2.com" hint={HINT} tooltip={TOOLTIP} />;
 
 const CODE_HERO = `${IMPORT}
 
-<Input label="Email" isRequired placeholder="olivia@opus2.com" hint="${HINT}" tooltip="${TOOLTIP}" />`;
+<Input label="Email" isRequired placeholder="gkrishnan@opus2.com" hint="${HINT}" tooltip="${TOOLTIP}" />`;
 
 const SECTIONS = [
   {
@@ -174,7 +172,7 @@ const SECTIONS = [
     title: "Default",
     code: `${IMPORT}
 
-<Input label="Email" isRequired placeholder="olivia@opus2.com" hint="${HINT}" tooltip="${TOOLTIP}" />`,
+<Input label="Email" isRequired placeholder="gkrishnan@opus2.com" hint="${HINT}" tooltip="${TOOLTIP}" />`,
     Demo: EmailDefault,
   },
   {
@@ -182,16 +180,16 @@ const SECTIONS = [
     title: "Disabled",
     code: `${IMPORT}
 
-<Input label="Email" isRequired isDisabled placeholder="olivia@opus2.com" hint="${HINT}" tooltip="${TOOLTIP}" />`,
-    Demo: () => <Input label="Email" isRequired isDisabled placeholder="olivia@opus2.com" hint={HINT} tooltip={TOOLTIP} />,
+<Input label="Email" isRequired isDisabled placeholder="gkrishnan@opus2.com" hint="${HINT}" tooltip="${TOOLTIP}" />`,
+    Demo: () => <Input label="Email" isRequired isDisabled placeholder="gkrishnan@opus2.com" hint={HINT} tooltip={TOOLTIP} />,
   },
   {
     id: "invalid",
     title: "Invalid",
     code: `${IMPORT}
 
-<Input label="Email" isRequired isInvalid hint="${ERROR_HINT}" placeholder="olivia@opus2.com" />`,
-    Demo: () => <Input label="Email" isRequired isInvalid hint={ERROR_HINT} placeholder="olivia@opus2.com" />,
+<Input label="Email" isRequired isInvalid hint="${ERROR_HINT}" placeholder="gkrishnan@opus2.com" />`,
+    Demo: () => <Input label="Email" isRequired isInvalid hint={ERROR_HINT} placeholder="gkrishnan@opus2.com" />,
   },
   {
     id: "sizes",
@@ -199,13 +197,13 @@ const SECTIONS = [
     code: `${IMPORT}
 
 <div className="flex w-full max-w-md flex-col gap-5">
-  <Input size="sm" label="Email" isRequired placeholder="olivia@opus2.com" hint="${HINT}" tooltip="${TOOLTIP}" />
-  <Input size="md" label="Email" isRequired placeholder="olivia@opus2.com" hint="${HINT}" tooltip="${TOOLTIP}" />
+  <Input size="sm" label="Email" isRequired placeholder="gkrishnan@opus2.com" hint="${HINT}" tooltip="${TOOLTIP}" />
+  <Input size="md" label="Email" isRequired placeholder="gkrishnan@opus2.com" hint="${HINT}" tooltip="${TOOLTIP}" />
 </div>`,
     Demo: () => (
       <div className="flex w-full max-w-md flex-col gap-5">
-        <Input size="sm" label="Email" isRequired placeholder="olivia@opus2.com" hint={HINT} tooltip={TOOLTIP} />
-        <Input size="md" label="Email" isRequired placeholder="olivia@opus2.com" hint={HINT} tooltip={TOOLTIP} />
+        <Input size="sm" label="Email" isRequired placeholder="gkrishnan@opus2.com" hint={HINT} tooltip={TOOLTIP} />
+        <Input size="md" label="Email" isRequired placeholder="gkrishnan@opus2.com" hint={HINT} tooltip={TOOLTIP} />
       </div>
     ),
   },
@@ -214,8 +212,8 @@ const SECTIONS = [
     title: "Leading icon",
     code: `${IMPORT}
 
-<Input label="Email" isRequired icon={Mail01} placeholder="olivia@opus2.com" hint="${HINT}" tooltip="${TOOLTIP}" />`,
-    Demo: () => <Input label="Email" isRequired icon={Mail01} placeholder="olivia@opus2.com" hint={HINT} tooltip={TOOLTIP} />,
+<Input label="Email" isRequired icon={Mail01} placeholder="gkrishnan@opus2.com" hint="${HINT}" tooltip="${TOOLTIP}" />`,
+    Demo: () => <Input label="Email" isRequired icon={Mail01} placeholder="gkrishnan@opus2.com" hint={HINT} tooltip={TOOLTIP} />,
   },
   {
     id: "leading-dropdown",
@@ -405,23 +403,21 @@ ${formatNativeSelectOptionsForCode(NATIVE_SELECT_CURRENCY_OPTIONS)}
     Number
   </Label>
   <Group className="${NUMBER_HORIZONTAL_GROUP_CLASS}">
-    <Button
+    <AriaButton
       slot="decrement"
-      color="tertiary"
-      size="sm"
       aria-label="Decrease"
-      iconLeading={Minus}
-      className="!h-auto min-h-10 w-10 shrink-0 !rounded-none !rounded-l-lg !rounded-r-none !px-0 shadow-none ring-0"
-    />
+      className="flex h-auto min-h-10 w-10 shrink-0 cursor-pointer items-center justify-center text-fg-quaternary outline-brand transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      <Minus aria-hidden className="size-5" />
+    </AriaButton>
     <NumberFieldInput className="${NUMBER_FIELD_INPUT_CLASS}" />
-    <Button
+    <AriaButton
       slot="increment"
-      color="tertiary"
-      size="sm"
       aria-label="Increase"
-      iconLeading={Plus}
-      className="!h-auto min-h-10 w-10 shrink-0 !rounded-none !rounded-l-none !rounded-r-lg !px-0 shadow-none ring-0"
-    />
+      className="flex h-auto min-h-10 w-10 shrink-0 cursor-pointer items-center justify-center text-fg-quaternary outline-brand transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      <Plus aria-hidden className="size-5" />
+    </AriaButton>
   </Group>
   <HintText>${HINT}</HintText>
 </NumberField>`,
@@ -560,12 +556,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Inputs",
   args: {
     label: "Email",
     isRequired: true,
-    placeholder: "olivia@opus2.com",
+    placeholder: "gkrishnan@opus2.com",
     hint: HINT,
     tooltip: TOOLTIP,
   },

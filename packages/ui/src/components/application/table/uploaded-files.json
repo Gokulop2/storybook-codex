@@ -1,54 +1,74 @@
 {
   "items": [
     {
-      "name": "Tech requirements.pdf",
-      "size": "200 KB",
-      "uploadedAt": "Jan 4, 2025",
-      "updatedAt": "Jan 4, 2025",
-      "uploadedBy": "Olivia Rhye"
+      "name": "design-system-v2.fig",
+      "size": "2.4 MB",
+      "uploadedAt": "Jan 6, 2024",
+      "updatedAt": "Jan 10, 2024",
+      "uploadedBy": "Gokul Krishnan"
     },
     {
-      "name": "Dashboard screenshot.jpg",
-      "size": "720 KB",
-      "uploadedAt": "Jan 4, 2025",
-      "updatedAt": "Jan 4, 2025",
+      "name": "brand-assets.zip",
+      "size": "8.1 MB",
+      "uploadedAt": "Jan 7, 2024",
+      "updatedAt": "Jan 12, 2024",
       "uploadedBy": "Phoenix Baker"
     },
     {
-      "name": "Dashboard prototype recording.mp4",
-      "size": "16 MB",
-      "uploadedAt": "Jan 2, 2025",
-      "updatedAt": "Jan 2, 2025",
+      "name": "quarterly-report.pdf",
+      "size": "1.2 MB",
+      "uploadedAt": "Jan 8, 2024",
+      "updatedAt": "Jan 8, 2024",
       "uploadedBy": "Lana Steiner"
     },
     {
-      "name": "Dashboard prototype FINAL.fig",
-      "size": "4.2 MB",
-      "uploadedAt": "Jan 6, 2025",
-      "updatedAt": "Jan 6, 2025",
+      "name": "product-roadmap.xlsx",
+      "size": "540 KB",
+      "uploadedAt": "Jan 9, 2024",
+      "updatedAt": "Jan 15, 2024",
       "uploadedBy": "Demi Wilkinson"
     },
     {
-      "name": "UX Design Guidelines.docx",
-      "size": "400 KB",
-      "uploadedAt": "Jan 8, 2025",
-      "updatedAt": "Jan 8, 2025",
+      "name": "onboarding-guide.docx",
+      "size": "320 KB",
+      "uploadedAt": "Jan 10, 2024",
+      "updatedAt": "Jan 11, 2024",
       "uploadedBy": "Candice Wu"
     },
     {
-      "name": "Dashboard interaction.aep",
-      "size": "12 MB",
-      "uploadedAt": "Jan 6, 2025",
-      "updatedAt": "Jan 6, 2025",
+      "name": "marketing-deck.pptx",
+      "size": "4.7 MB",
+      "uploadedAt": "Jan 11, 2024",
+      "updatedAt": "Jan 18, 2024",
       "uploadedBy": "Natali Craig"
     },
     {
-      "name": "Briefing call recording.mp3",
-      "size": "18.6 MB",
-      "uploadedAt": "Jan 4, 2025",
-      "updatedAt": "Jan 4, 2025",
+      "name": "user-research.pdf",
+      "size": "2.9 MB",
+      "uploadedAt": "Jan 12, 2024",
+      "updatedAt": "Jan 13, 2024",
       "uploadedBy": "Drew Cano"
+    },
+    {
+      "name": "component-specs.fig",
+      "size": "5.3 MB",
+      "uploadedAt": "Jan 13, 2024",
+      "updatedAt": "Jan 20, 2024",
+      "uploadedBy": "Orlando Diggs"
+    },
+    {
+      "name": "analytics-export.csv",
+      "size": "780 KB",
+      "uploadedAt": "Jan 14, 2024",
+      "updatedAt": "Jan 14, 2024",
+      "uploadedBy": "Andi Lane"
+    },
+    {
+      "name": "icon-set.zip",
+      "size": "1.6 MB",
+      "uploadedAt": "Jan 15, 2024",
+      "updatedAt": "Jan 22, 2024",
+      "uploadedBy": "Kate Morrison"
     }
-  ],
-  "total": 7
+  ]
 }

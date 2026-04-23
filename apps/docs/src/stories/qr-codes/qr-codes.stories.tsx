@@ -175,7 +175,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "QR codes",
   args: { value: DEMO_URL },
   render: () => <QRCode value={DEMO_URL} />,

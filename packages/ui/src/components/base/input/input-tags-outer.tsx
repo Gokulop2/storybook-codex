@@ -2,13 +2,11 @@
 
 import type { Key, KeyboardEvent, ReactNode } from "react";
 import { useCallback, useRef, useState } from "react";
+import { HintText } from "@/components/base/input/hint-text";
+import { InputBase } from "@/components/base/input/input";
+import { Label } from "@/components/base/input/label";
 import { Tag, TagGroup, TagList } from "@/components/base/tags/tags";
 import { cx } from "@/utils";
-import { HintText } from "./hint-text";
-import { createInputBaseChangeHandler } from "./input-base-change";
-import { InputBase } from "./input";
-import { Label } from "./label";
-import { reconcileTagEntries } from "./reconcile-tag-entries";
 
 interface TagEntry {
   id: string;
@@ -24,7 +22,7 @@ export interface InputTagsOuterProps {
   tooltip?: string;
   /**
    * Input size variant.
-   * @default "md"
+   * @default "sm"
    */
   size?: "sm" | "md" | "lg";
   /** Placeholder text for the input field. */
@@ -89,15 +87,31 @@ export const InputTagsOuter = ({
 
   const [inputValue, setInputValue] = useState("");
 
-  const [internalEntries, setInternalEntries] = useState<TagEntry[]>(() => (defaultValue ?? []).map((l) => ({ id: nextId(), label: l })));
+  const [internalEntries, setInternalEntries] = useState<TagEntry[]>(() => (defaultValue ?? []).map((label) => ({ id: nextId(), label })));
 
   const prevControlledValue = useRef<string[]>([]);
   const controlledEntries = useRef<TagEntry[]>([]);
 
   const entries = (() => {
     if (!isControlled) return internalEntries;
-    if (prevControlledValue.current === value) return controlledEntries.current;
-    const newEntries = reconcileTagEntries(value, controlledEntries.current, (lbl) => ({ id: nextId(), label: lbl }));
+
+    const prev = prevControlledValue.current;
+    if (prev === value) return controlledEntries.current;
+
+    const oldEntries = controlledEntries.current;
+    const newEntries: TagEntry[] = [];
+    const usedOldIndices = new Set<number>();
+
+    for (const label of value) {
+      const oldIndex = oldEntries.findIndex((e, i) => e.label === label && !usedOldIndices.has(i));
+      if (oldIndex !== -1 && oldEntries[oldIndex]) {
+        usedOldIndices.add(oldIndex);
+        newEntries.push(oldEntries[oldIndex]);
+      } else {
+        newEntries.push({ id: nextId(), label });
+      }
+    }
+
     prevControlledValue.current = value;
     controlledEntries.current = newEntries;
     return newEntries;
@@ -123,7 +137,7 @@ export const InputTagsOuter = ({
       onTagAdded?.(trimmed);
       return true;
     },
-    [tags, entries, isControlled, allowDuplicates, maxTags, validate, onChange, onTagAdded],
+    [tags, entries, isControlled, allowDuplicates, maxTags, validate, onChange, onTagAdded]
   );
 
   const removeTag = useCallback(
@@ -139,7 +153,7 @@ export const InputTagsOuter = ({
       onChange?.(newEntries.map((e) => e.label));
       onTagRemoved?.(entry.label);
     },
-    [entries, isControlled, onChange, onTagRemoved],
+    [entries, isControlled, onChange, onTagRemoved]
   );
 
   const handleRemove = useCallback(
@@ -148,7 +162,7 @@ export const InputTagsOuter = ({
         removeTag(key.toString());
       }
     },
-    [removeTag],
+    [removeTag]
   );
 
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -160,23 +174,19 @@ export const InputTagsOuter = ({
     }
   };
 
-  const handleInputChange = createInputBaseChangeHandler(setInputValue);
-
-  const inputBaseSize = size === "lg" ? "md" : size;
-
   return (
     <div className={cx("flex flex-col", size === "sm" ? "gap-1.5" : "gap-2", className)}>
       <div className="flex flex-col gap-1.5">
-        {label && <Label isRequired={hideRequiredIndicator ? !hideRequiredIndicator : isRequired}>{label}</Label>}
+        {label && <Label isRequired={hideRequiredIndicator ? false : isRequired}>{label}</Label>}
 
         <InputBase
-          size={inputBaseSize}
+          size={size}
           tooltip={tooltip}
           placeholder={placeholder}
           isInvalid={isInvalid}
           isDisabled={isDisabled}
           value={inputValue}
-          onChange={handleInputChange}
+          onChange={(e) => setInputValue(e.currentTarget.value)}
           onKeyDown={handleInputKeyDown}
         />
       </div>
@@ -201,5 +211,3 @@ export const InputTagsOuter = ({
     </div>
   );
 };
-
-InputTagsOuter.displayName = "InputTagsOuter";

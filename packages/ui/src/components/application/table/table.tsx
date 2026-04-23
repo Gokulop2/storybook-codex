@@ -5,6 +5,7 @@ import { createContext, isValidElement, useContext } from "react";
 import { ArrowDown, ChevronSelectorVertical, Copy01, Edit01, HelpCircle, Trash01 } from "@opus2-platform/icons";
 import type {
   CellProps as AriaCellProps,
+  CheckboxProps as AriaCheckboxProps,
   ColumnProps as AriaColumnProps,
   RowProps as AriaRowProps,
   TableHeaderProps as AriaTableHeaderProps,
@@ -12,16 +13,24 @@ import type {
 } from "react-aria-components";
 import {
   Cell as AriaCell,
+  Checkbox as AriaCheckbox,
+  CheckboxContext,
   Collection as AriaCollection,
   Column as AriaColumn,
   Group as AriaGroup,
+  Provider as AriaProvider,
   Row as AriaRow,
   Table as AriaTable,
   TableBody as AriaTableBody,
   TableHeader as AriaTableHeader,
+  TableLayout,
+  Virtualizer,
   useTableOptions,
 } from "react-aria-components";
-import { Badge, Checkbox, Dropdown, Tooltip, TooltipTrigger } from "@/components";
+import { Badge } from "@/components/base/badges/badges";
+import { CheckboxBase } from "@/components/base/checkbox/checkbox";
+import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { Tooltip, TooltipTrigger } from "@/components/base/tooltip/tooltip";
 import { cx } from "@/utils";
 
 export const TableRowActionsDropdown = () => (
@@ -46,10 +55,28 @@ export const TableRowActionsDropdown = () => (
 
 const TableContext = createContext<{ size: "sm" | "md" }>({ size: "md" });
 
+const TableSelectionCheckbox = ({ className, size = "md", ...props }: Omit<AriaCheckboxProps, "children"> & { size?: "sm" | "md" }) => (
+  <AriaCheckbox
+    {...props}
+    className={(state) =>
+      cx(
+        "flex items-start",
+        !state.isDisabled && "cursor-pointer",
+        state.isDisabled && "cursor-not-allowed",
+        typeof className === "function" ? className(state) : className
+      )
+    }
+  >
+    {({ isSelected, isIndeterminate, isDisabled, isFocusVisible }) => (
+      <CheckboxBase size={size} isSelected={isSelected} isIndeterminate={isIndeterminate} isDisabled={isDisabled} isFocusVisible={isFocusVisible} />
+    )}
+  </AriaCheckbox>
+);
+
 const TableCardRoot = ({ children, className, size = "md", ...props }: HTMLAttributes<HTMLDivElement> & { size?: "sm" | "md" }) => {
   return (
     <TableContext.Provider value={{ size }}>
-      <div {...props} className={cx("bg-primary ring-secondary overflow-hidden rounded-xl shadow-xs ring-1", className)}>
+      <div {...props} className={cx("overflow-hidden rounded-xl bg-primary shadow-xs ring-1 ring-secondary", className)}>
         {children}
       </div>
     </TableContext.Provider>
@@ -75,25 +102,25 @@ const TableCardHeader = ({ title, badge, description, contentTrailing, className
   return (
     <div
       className={cx(
-        "border-secondary bg-primary relative flex flex-col items-start gap-4 border-b px-4 md:flex-row",
+        "relative flex flex-col items-start gap-4 border-b border-secondary bg-primary px-4 md:flex-row",
         size === "sm" ? "py-4 md:px-5" : "py-5 md:px-6",
         className
       )}
     >
       <div className="flex flex-1 flex-col gap-0.5">
         <div className="flex items-center gap-2">
-          <h2 className={cx("text-primary font-semibold", size === "sm" ? "text-md" : "text-lg")}>{title}</h2>
+          <h2 className="text-md font-semibold text-primary">{title}</h2>
           {badge ? (
             isValidElement(badge) ? (
               badge
             ) : (
-              <Badge color="brand" size="sm">
+              <Badge color="gray" size="sm" type="modern">
                 {badge}
               </Badge>
             )
           ) : null}
         </div>
-        {description && <p className="text-tertiary text-sm">{description}</p>}
+        {description && <p className="text-sm text-tertiary">{description}</p>}
       </div>
       {contentTrailing}
     </div>
@@ -120,23 +147,26 @@ TableRoot.displayName = "Table";
 interface TableHeaderProps<T extends object>
   extends AriaTableHeaderProps<T>, Omit<ComponentPropsWithRef<"thead">, "children" | "className" | "slot" | "style"> {
   bordered?: boolean;
+  size?: "sm" | "md";
 }
 
-const TableHeader = <T extends object>({ columns, children, bordered = true, className, ...props }: TableHeaderProps<T>) => {
-  const { size } = useContext(TableContext);
+const TableHeader = <T extends object>({ columns, children, bordered = true, className, size: sizeProp, ...props }: TableHeaderProps<T>) => {
+  const context = useContext(TableContext);
   const { selectionBehavior, selectionMode } = useTableOptions();
+
+  const size = sizeProp ?? context.size;
 
   return (
     <AriaTableHeader
       {...props}
       className={(state) =>
         cx(
-          "bg-secondary relative",
+          "relative bg-secondary",
           size === "sm" ? "h-9" : "h-11",
 
           // Row border—using an "after" pseudo-element to avoid the border taking up space.
           bordered &&
-            "[&>tr>th]:after:bg-border-secondary [&>tr>th]:after:pointer-events-none [&>tr>th]:after:absolute [&>tr>th]:after:inset-x-0 [&>tr>th]:after:bottom-0 [&>tr>th]:after:h-px [&>tr>th]:focus-visible:after:bg-transparent",
+            "[&>tr>th]:after:pointer-events-none [&>tr>th]:after:absolute [&>tr>th]:after:inset-x-0 [&>tr>th]:after:bottom-0 [&>tr>th]:after:h-px [&>tr>th]:after:bg-border-secondary [&>tr>th]:focus-visible:after:bg-transparent",
 
           typeof className === "function" ? className(state) : className
         )
@@ -146,7 +176,7 @@ const TableHeader = <T extends object>({ columns, children, bordered = true, cla
         <AriaColumn className={cx("relative py-2 pr-0 pl-4", size === "sm" ? "w-9 md:pl-5" : "w-11 md:pl-6")}>
           {selectionMode === "multiple" && (
             <div className="flex items-start">
-              <Checkbox slot="selection" size={size} />
+              <TableSelectionCheckbox slot="selection" size="md" />
             </div>
           )}
         </AriaColumn>
@@ -171,7 +201,7 @@ const TableHead = ({ className, tooltip, label, children, ...props }: TableHeadP
       {...props}
       className={(state) =>
         cx(
-          "focus-visible:ring-focus-ring focus-visible:ring-offset-bg-primary relative p-0 px-6 py-2 outline-hidden focus-visible:z-1 focus-visible:ring-2 focus-visible:ring-inset",
+          "relative p-0 px-6 py-2 outline-hidden focus-visible:z-1 focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-bg-primary focus-visible:ring-inset",
           selectionBehavior === "toggle" && "nth-2:pl-3",
           state.allowsSorting && "cursor-pointer",
           typeof className === "function" ? className(state) : className
@@ -180,22 +210,24 @@ const TableHead = ({ className, tooltip, label, children, ...props }: TableHeadP
     >
       {(state) => (
         <AriaGroup className="flex items-center gap-1">
-          <div className="flex items-center gap-1">
-            {label && <span className="text-quaternary text-xs font-semibold whitespace-nowrap">{label}</span>}
-            {typeof children === "function" ? children(state) : children}
-          </div>
+          <AriaProvider values={[[CheckboxContext, null]]}>
+            <div className="flex items-center gap-1">
+              {label && <span className="text-xs font-semibold whitespace-nowrap text-quaternary">{label}</span>}
+              {typeof children === "function" ? children(state) : children}
+            </div>
+          </AriaProvider>
 
           {tooltip && (
             <Tooltip title={tooltip} placement="top">
-              <TooltipTrigger className="text-fg-quaternary hover:text-fg-quaternary_hover focus:text-fg-quaternary_hover cursor-pointer transition duration-100 ease-linear">
-                <HelpCircle className="size-4" />
+              <TooltipTrigger aria-label={tooltip} className="cursor-pointer text-fg-quaternary transition duration-100 ease-linear hover:text-fg-quaternary_hover focus:text-fg-quaternary_hover">
+                <HelpCircle aria-hidden="true" className="size-4" />
               </TooltipTrigger>
             </Tooltip>
           )}
 
           {state.allowsSorting &&
             (state.sortDirection ? (
-              <ArrowDown className={cx("text-fg-quaternary size-3 stroke-[3px]", state.sortDirection === "ascending" && "rotate-180")} />
+              <ArrowDown className={cx("size-3 stroke-[3px] text-fg-quaternary", state.sortDirection === "ascending" && "rotate-180")} />
             ) : (
               <ChevronSelectorVertical size={12} strokeWidth={3} className="text-fg-quaternary" />
             ))}
@@ -209,23 +241,26 @@ TableHead.displayName = "TableHead";
 interface TableRowProps<T extends object>
   extends AriaRowProps<T>, Omit<ComponentPropsWithRef<"tr">, "children" | "className" | "onClick" | "slot" | "style" | "id"> {
   highlightSelectedRow?: boolean;
+  size?: "sm" | "md";
 }
 
-const TableRow = <T extends object>({ columns, children, className, highlightSelectedRow = true, ...props }: TableRowProps<T>) => {
-  const { size } = useContext(TableContext);
+const TableRow = <T extends object>({ columns, children, className, highlightSelectedRow = true, size: sizeProp, ...props }: TableRowProps<T>) => {
+  const context = useContext(TableContext);
   const { selectionBehavior } = useTableOptions();
+
+  const size = sizeProp ?? context.size;
 
   return (
     <AriaRow
       {...props}
       className={(state) =>
         cx(
-          "outline-focus-ring hover:bg-secondary relative transition-colors after:pointer-events-none focus-visible:outline-2 focus-visible:-outline-offset-2",
+          "relative outline-hidden transition-colors after:pointer-events-none hover:bg-secondary focus-visible:outline-2 focus-visible:-outline-offset-2",
           size === "sm" ? "h-14" : "h-18",
           highlightSelectedRow && "selected:bg-secondary",
 
           // Row border—using an "after" pseudo-element to avoid the border taking up space.
-          "[&>td]:after:bg-border-secondary [&>td]:after:absolute [&>td]:after:inset-x-0 [&>td]:after:bottom-0 [&>td]:after:h-px [&>td]:after:w-full last:[&>td]:after:hidden [&>td]:focus-visible:after:opacity-0",
+          "[&>td]:after:absolute [&>td]:after:inset-x-0 [&>td]:after:bottom-0 [&>td]:after:h-px [&>td]:after:w-full [&>td]:after:bg-border-secondary last:[&>td]:after:hidden focus-visible:[&>td]:after:opacity-0",
 
           typeof className === "function" ? className(state) : className
         )
@@ -234,7 +269,7 @@ const TableRow = <T extends object>({ columns, children, className, highlightSel
       {selectionBehavior === "toggle" && (
         <AriaCell className={cx("relative py-2 pr-0 pl-4", size === "sm" ? "md:pl-5" : "md:pl-6")}>
           <div className="flex items-end">
-            <Checkbox slot="selection" size={size} />
+            <TableSelectionCheckbox slot="selection" size="md" />
           </div>
         </AriaCell>
       )}
@@ -247,18 +282,21 @@ TableRow.displayName = "TableRow";
 
 interface TableCellProps extends AriaCellProps, Omit<TdHTMLAttributes<HTMLTableCellElement>, "children" | "className" | "style" | "id"> {
   ref?: Ref<HTMLTableCellElement>;
+  size?: "sm" | "md";
 }
 
-const TableCell = ({ className, children, ...props }: TableCellProps) => {
-  const { size } = useContext(TableContext);
+const TableCell = ({ className, children, size: sizeProp, ...props }: TableCellProps) => {
+  const context = useContext(TableContext);
   const { selectionBehavior } = useTableOptions();
+
+  const size = sizeProp ?? context.size;
 
   return (
     <AriaCell
       {...props}
       className={(state) =>
         cx(
-          "text-tertiary outline-focus-ring relative text-sm focus-visible:z-1 focus-visible:outline-2 focus-visible:-outline-offset-2",
+          "relative text-sm text-tertiary outline-hidden focus-visible:z-1 focus-visible:outline-2 focus-visible:-outline-offset-2",
           size === "sm" && "px-5 py-3",
           size === "md" && "px-6 py-4",
 
@@ -274,19 +312,96 @@ const TableCell = ({ className, children, ...props }: TableCellProps) => {
 };
 TableCell.displayName = "TableCell";
 
+interface TableBodyProps<T extends object = object> extends Omit<ComponentPropsWithRef<"tbody">, "children" | "className" | "slot" | "style"> {
+  /** Array of row items. When provided, virtualization is automatically enabled */
+  items?: T[];
+  /** Height of each row in pixels. Auto-detects from TableContext size if not provided */
+  rowHeight?: number;
+  /** Visible container height in pixels. Required when using virtualization with items */
+  containerHeight?: number;
+  /** Gap between rows in pixels (default: 0) */
+  gap?: number;
+  /** Padding in virtual container in pixels (default: 0) */
+  padding?: number;
+  /** Render function when `items` are provided, or children nodes for regular rendering */
+  children?: ((item: T) => ReactNode) | ReactNode;
+  /** Class name for the tbody element */
+  className?: string | ((state: any) => string);
+}
+
+const TableBodyComponent = <T extends object = object>({
+  items,
+  rowHeight: rowHeightProp,
+  containerHeight,
+  gap = 0,
+  padding = 0,
+  children,
+  className,
+  ...props
+}: TableBodyProps<T>) => {
+  const context = useContext(TableContext);
+
+  // If items are provided, use virtualization
+  if (items && items.length > 0) {
+    // Auto-detect row height from size context
+    const baseRowHeight = context.size === "sm" ? 56 : 72;
+    const rowHeight = rowHeightProp ?? baseRowHeight;
+
+    return (
+      <Virtualizer
+        layout={TableLayout}
+        layoutOptions={{
+          rowHeight,
+          headingHeight: 0, // Header is not virtualized
+          padding,
+          gap,
+        }}
+      >
+        <AriaTableBody
+          {...props}
+          items={items}
+          className={(state) => cx(typeof className === "function" ? className(state) : className)}
+          style={{
+            height: containerHeight,
+            overflowY: "auto",
+          }}
+        >
+          {(item) => {
+            const renderedContent = typeof children === "function" ? children(item) : children;
+            return (
+              <TableRow key={`virtual-row-${(item as any).id ?? Math.random()}`} columns={[item]}>
+                {renderedContent}
+              </TableRow>
+            );
+          }}
+        </AriaTableBody>
+      </Virtualizer>
+    );
+  }
+
+  // Fall back to regular rendering when no items provided
+  return (
+    <AriaTableBody {...props} className={(state) => cx(typeof className === "function" ? className(state) : className)}>
+      {children}
+    </AriaTableBody>
+  );
+};
+
+TableBodyComponent.displayName = "TableBody";
+
 const TableCard = {
   Root: TableCardRoot,
   Header: TableCardHeader,
 };
 
 const Table = TableRoot as typeof TableRoot & {
-  Body: typeof AriaTableBody;
+  Body: typeof TableBodyComponent;
   Cell: typeof TableCell;
   Head: typeof TableHead;
   Header: typeof TableHeader;
   Row: typeof TableRow;
 };
-Table.Body = AriaTableBody;
+Table.Body = TableBodyComponent;
 Table.Cell = TableCell;
 Table.Head = TableHead;
 Table.Header = TableHeader;

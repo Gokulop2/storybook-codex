@@ -1,0 +1,26 @@
+import * as React from "react";
+import type { SVGProps, FC } from "react";
+interface Props extends SVGProps<SVGSVGElement> {
+  color?: string;
+  size?: number;
+}
+export const CreditCard01: FC<Props> = ({ size = 24, color = "currentColor", ...props }) =>
+  React.cloneElement(
+    <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" {...props}>
+      <path
+        d="M22 10H2m0-1.8v7.6c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874C3.52 19 4.08 19 5.2 19h13.6c1.12 0 1.68 0 2.108-.218a2 2 0 0 0 .874-.874C22 17.48 22 16.92 22 15.8V8.2c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874C20.48 5 19.92 5 18.8 5H5.2c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C2 6.52 2 7.08 2 8.2Z"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>,
+    {
+      width: size,
+      height: size,
+      fill: "none",
+      stroke: color,
+      ...props,
+    }
+  );
+CreditCard01.displayName = "CreditCard01";

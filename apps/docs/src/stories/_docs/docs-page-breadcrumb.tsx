@@ -23,8 +23,15 @@ const CrumbLink: FC<{ children: ReactNode; href?: string }> = ({ children, href 
     <span className={crumbLinkClass}>{children}</span>
   );
 
-/** Sticky docs breadcrumb: Base components → Components → current page. */
-export const DocsPageBreadcrumb: FC<{ currentLabel: string }> = ({ currentLabel }) => (
+export type DocsPageCatalog = "base" | "application";
+
+const catalogCopy: Record<DocsPageCatalog, { group: string }> = {
+  base: { group: "Base components" },
+  application: { group: "Application UI" },
+};
+
+/** Sticky docs breadcrumb: Codex → catalog → current page. */
+export const DocsPageBreadcrumb: FC<{ currentLabel: string; catalog?: DocsPageCatalog }> = ({ currentLabel, catalog = "base" }) => (
   <>
     <div className="bg-primary border-secondary fixed inset-x-0 top-0 z-30 w-full border-b">
       <div className="mx-auto flex size-full flex-1 items-center py-3 pr-3 pl-4 md:py-3 lg:px-5 lg:py-2.5">
@@ -32,13 +39,15 @@ export const DocsPageBreadcrumb: FC<{ currentLabel: string }> = ({ currentLabel 
           <ol aria-label="Breadcrumbs" className="relative flex gap-0.5 lg:gap-1">
             <li className="flex items-center gap-0.5 lg:gap-1">
               <CrumbLink href={STORYBOOK_OVERVIEW_HREF}>
-                <span className="text-quaternary group-hover:text-tertiary_hover px-1 text-sm font-semibold whitespace-nowrap">Base components</span>
+                <span className="text-quaternary group-hover:text-tertiary_hover px-1 text-sm font-semibold whitespace-nowrap">Codex</span>
               </CrumbLink>
               <Chevron />
             </li>
             <li className="flex items-center gap-0.5 lg:gap-1">
               <CrumbLink>
-                <span className="text-quaternary group-hover:text-tertiary_hover px-1 text-sm font-semibold whitespace-nowrap">Components</span>
+                <span className="text-quaternary group-hover:text-tertiary_hover px-1 text-sm font-semibold whitespace-nowrap">
+                  {catalogCopy[catalog].group}
+                </span>
               </CrumbLink>
               <Chevron />
             </li>

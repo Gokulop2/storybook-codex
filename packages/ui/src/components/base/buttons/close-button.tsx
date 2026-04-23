@@ -1,3 +1,5 @@
+"use client";
+
 import { X as CloseIcon } from "@opus2-platform/icons";
 import { Button as AriaButton, type ButtonProps as AriaButtonProps } from "react-aria-components";
 import { cx } from "@/utils";
@@ -10,8 +12,8 @@ const sizes = {
 };
 
 const themes = {
-  light: "text-fg-quaternary hover:bg-primary_hover hover:text-fg-quaternary_hover focus-visible:outline-2 focus-visible:outline-offset-2 outline-focus-ring",
-  dark: "text-fg-white/70 hover:text-fg-white hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 outline-focus-ring",
+  light: "text-fg-quaternary hover:bg-primary_hover hover:text-fg-quaternary_hover focus-visible:outline-2 focus-visible:outline-offset-2 outline-hidden",
+  dark: "text-fg-white/70 hover:text-fg-white hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 outline-hidden",
 };
 
 interface CloseButtonProps extends AriaButtonProps {
@@ -34,7 +36,7 @@ export const CloseButton = ({ label, className, size = "sm", theme = "light", ..
         )
       }
     >
-      <CloseIcon aria-hidden="true" className={cx("transition-inherit-all shrink-0", sizes[size].icon)} />
+      <CloseIcon aria-hidden="true" className={cx("shrink-0 transition-inherit-all", sizes[size].icon)} />
     </AriaButton>
   );
 };

@@ -30,11 +30,8 @@ const SECTIONS = VARIANT_DEFS.flatMap(({ type, label }) =>
   }))
 );
 
-const IMPORT = `import { Illustration } from "@opus2-platform/codex";
-
-`;
-
-const snippet = (type: IllustrationType, size: IllustrationSize) => `${IMPORT}<Illustration type="${type}" size="${size}" />`;
+const snippet = (type: IllustrationType, size: IllustrationSize) =>
+  `import { Illustration } from "@/components/shared-assets/illustrations";\n \n<Illustration type="${type}" size="${size}" />`;
 
 const TOC = [{ id: "illustration-example", label: "Illustration example" }, ...SECTIONS.map((s) => ({ id: s.id, label: s.title }))];
 
@@ -100,7 +97,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Illustrations",
   args: { ...HERO },
 };

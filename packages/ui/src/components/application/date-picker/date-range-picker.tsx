@@ -2,29 +2,29 @@
 
 import { useMemo, useState } from "react";
 import { endOfMonth, endOfWeek, getLocalTimeZone, startOfMonth, startOfWeek, today } from "@internationalized/date";
-import { Calendar as CalendarIcon } from "@opus2-platform/icons";
 import { useControlledState } from "@react-stately/utils";
+import { Calendar as CalendarIcon } from "@opus2-platform/icons";
 import { useDateFormatter } from "react-aria";
 import type { DateRangePickerProps as AriaDateRangePickerProps, DateValue } from "react-aria-components";
 import { DateRangePicker as AriaDateRangePicker, Dialog as AriaDialog, Group as AriaGroup, Popover as AriaPopover, useLocale } from "react-aria-components";
-import { Button } from "@/components";
+import { Button, type ButtonProps } from "@/components/base/buttons/button";
+import { InputDateBase } from "@/components/base/input/input-date";
 import { cx } from "@/utils";
-import { DateInput } from "./date-input";
-import { RangeCalendar } from "./range-calendar";
-import { RangePresetButton } from "./range-preset";
+import { RangeCalendar, RangePresetButton } from "./range-calendar";
 
 const now = today(getLocalTimeZone());
 
 const highlightedDates = [today(getLocalTimeZone())];
 
 interface DateRangePickerProps extends AriaDateRangePickerProps<DateValue> {
+  size?: ButtonProps["size"];
   /** The function to call when the apply button is clicked. */
   onApply?: () => void;
   /** The function to call when the cancel button is clicked. */
   onCancel?: () => void;
 }
 
-export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onApply, onCancel, ...props }: DateRangePickerProps) => {
+export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onApply, onCancel, size = "sm", ...props }: DateRangePickerProps) => {
   const { locale } = useLocale();
   const formatter = useDateFormatter({
     month: "short",
@@ -79,7 +79,7 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
   return (
     <AriaDateRangePicker aria-label="Date range picker" shouldCloseOnSelect={false} {...props} value={value} onChange={setValue}>
       <AriaGroup>
-        <Button size="md" color="secondary" iconLeading={CalendarIcon}>
+        <Button size={size} color="secondary" iconLeading={CalendarIcon}>
           {!value ? <span className="text-placeholder">Select dates</span> : `${formattedStartDate} – ${formattedEndDate}`}
         </Button>
       </AriaGroup>
@@ -90,16 +90,16 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
           cx(
             "origin-(--trigger-anchor-point) will-change-transform",
             isEntering &&
-              "animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5 duration-150 ease-out",
+              "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
             isExiting &&
-              "animate-out fade-out placement-right:slide-out-to-left-0.5 placement-top:slide-out-to-bottom-0.5 placement-bottom:slide-out-to-top-0.5 duration-100 ease-in"
+              "duration-100 ease-in animate-out fade-out placement-right:slide-out-to-left-0.5 placement-top:slide-out-to-bottom-0.5 placement-bottom:slide-out-to-top-0.5"
           )
         }
       >
-        <AriaDialog className="bg-primary ring-secondary_alt flex rounded-2xl shadow-xl ring focus:outline-hidden">
+        <AriaDialog aria-label="Date range picker" className="flex rounded-2xl bg-primary shadow-xl ring ring-secondary_alt focus:outline-hidden">
           {({ close }) => (
             <>
-              <div className="border-secondary hidden w-38 flex-col gap-0.5 border-r border-solid p-3 lg:flex">
+              <div className="hidden w-38 flex-col gap-0.5 border-r border-solid border-secondary p-3 lg:flex">
                 {Object.values(presets).map((preset) => (
                   <RangePresetButton
                     key={preset.label}
@@ -124,15 +124,15 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
                     lastYear: presets.lastYear,
                   }}
                 />
-                <div className="border-secondary flex justify-between gap-3 border-t p-4">
-                  <div className="hidden items-center gap-3 md:flex">
-                    <DateInput slot="start" className="w-36" />
+                <div className="flex justify-between gap-3 border-t border-secondary p-4">
+                  <div className="hidden items-center gap-2 md:flex">
+                    <InputDateBase slot="start" size="sm" />
                     <div className="text-md text-quaternary">–</div>
-                    <DateInput slot="end" className="w-36" />
+                    <InputDateBase slot="end" size="sm" />
                   </div>
                   <div className="grid w-full grid-cols-2 gap-3 md:flex md:w-auto">
                     <Button
-                      size="md"
+                      size="sm"
                       color="secondary"
                       onClick={() => {
                         onCancel?.();
@@ -142,7 +142,7 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
                       Cancel
                     </Button>
                     <Button
-                      size="md"
+                      size="sm"
                       color="primary"
                       onClick={() => {
                         onApply?.();

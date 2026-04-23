@@ -1,3 +1,5 @@
+"use client";
+
 import type { AnchorHTMLAttributes } from "react";
 import { cx } from "@/utils";
 
@@ -8,7 +10,7 @@ export const GooglePlayButton = ({ size = "md", ...props }: AnchorHTMLAttributes
       href="#"
       {...props}
       className={cx(
-        "ring-app-store-badge-border outline-focus-ring rounded-[7px] bg-black ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
+        "rounded-[7px] bg-black ring-1 ring-app-store-badge-border outline-hidden ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
         props.className
       )}
     >
@@ -147,7 +149,7 @@ export const GooglePlayWhiteButton = ({ size = "md", ...props }: AnchorHTMLAttri
       href="#"
       {...props}
       className={cx(
-        "ring-app-store-badge-border outline-focus-ring rounded-[7px] bg-black ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
+        "rounded-[7px] bg-black ring-1 ring-app-store-badge-border outline-hidden ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
         props.className
       )}
     >
@@ -218,7 +220,7 @@ export const AppStoreButton = ({ size = "md", ...props }: AnchorHTMLAttributes<H
       href="#"
       {...props}
       className={cx(
-        "ring-app-store-badge-border outline-focus-ring rounded-[7px] bg-black ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
+        "rounded-[7px] bg-black ring-1 ring-app-store-badge-border outline-hidden ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
         props.className
       )}
     >
@@ -324,7 +326,7 @@ export const GalaxyStoreButton = ({ size = "md", ...props }: AnchorHTMLAttribute
       href="#"
       {...props}
       className={cx(
-        "ring-app-store-badge-border outline-focus-ring rounded-[7px] bg-black ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
+        "rounded-[7px] bg-black ring-1 ring-app-store-badge-border outline-hidden ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
         props.className
       )}
     >
@@ -449,7 +451,7 @@ export const AppGalleryButton = ({ size = "md", ...props }: AnchorHTMLAttributes
       href="#"
       {...props}
       className={cx(
-        "ring-app-store-badge-border outline-focus-ring rounded-[7px] bg-black ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
+        "rounded-[7px] bg-black ring-1 ring-app-store-badge-border outline-hidden ring-inset focus-visible:outline-2 focus-visible:outline-offset-2",
         props.className
       )}
     >

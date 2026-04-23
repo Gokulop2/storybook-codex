@@ -1,27 +1,30 @@
+"use client";
+
 import { type ReactNode } from "react";
 import { cx } from "@/utils";
 import { Avatar, type AvatarProps } from "./avatar";
 
 const styles = {
-  sm: { root: "gap-2", title: "text-sm font-semibold", subtitle: "text-xs" },
-  md: { root: "gap-2", title: "text-sm font-semibold", subtitle: "text-sm" },
-  lg: { root: "gap-3", title: "text-md font-semibold", subtitle: "text-md" },
-  xl: { root: "gap-4", title: "text-lg font-semibold", subtitle: "text-md" },
+  sm: { title: "text-sm ", subtitle: "text-xs" },
+  md: { title: "text-sm ", subtitle: "text-sm" },
+  lg: { title: "text-md ", subtitle: "text-md" },
 };
 
 interface AvatarLabelGroupProps extends AvatarProps {
-  size: "sm" | "md" | "lg" | "xl";
+  size: "sm" | "md" | "lg";
+  rounded?: boolean;
   title: string | ReactNode;
   subtitle: string | ReactNode;
+  avatarClassName?: string;
 }
 
-export const AvatarLabelGroup = ({ title, subtitle, className, ...props }: AvatarLabelGroupProps) => {
+export const AvatarLabelGroup = ({ title, subtitle, className, rounded, avatarClassName, ...props }: AvatarLabelGroupProps) => {
   return (
-    <figure className={cx("group flex min-w-0 flex-1 items-center", styles[props.size].root, className)}>
-      <Avatar {...props} />
-      <figcaption className="min-w-0 flex-1 flex flex-col justify-center">
-        <p className={cx("m-0! leading-none! text-primary", styles[props.size].title)}>{title}</p>
-        <p className={cx("m-0! leading-none! text-tertiary truncate", styles[props.size].subtitle)}>{subtitle}</p>
+    <figure className={cx("group flex min-w-0 flex-1 items-center gap-2", className)}>
+      <Avatar border className={avatarClassName} {...props} />
+      <figcaption className="min-w-0 flex-1">
+        <p className={cx("font-semibold text-primary", styles[props.size].title)}>{title}</p>
+        <p className={cx("truncate text-tertiary", styles[props.size].subtitle)}>{subtitle}</p>
       </figcaption>
     </figure>
   );

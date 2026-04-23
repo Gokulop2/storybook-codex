@@ -6,13 +6,13 @@ import QRCodeStyling, { type Options as QRCodeStylingOptions } from "qr-code-sty
 import { cx } from "@/utils";
 
 const QRCodeFrameHandle = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
-  <div {...props} className={cx("border-brand_alt size-3 rounded-tl border-t-2 border-l-2", className)} />
+  <div {...props} className={cx("size-3 rounded-tl border-t-2 border-l-2 border-brand_alt", className)} />
 );
 
 export const GradientScan = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <div
     {...props}
-    className={cx("border-brand bg-brand-solid/10 absolute bottom-0 h-1/2 w-full border-t", className)}
+    className={cx("absolute bottom-0 h-1/2 w-full border-t border-brand bg-brand-solid/10", className)}
     style={{
       maskImage: "radial-gradient(52.19% 100% at 50% 0%, #000 0%, rgba(0,0,0,0) 95.31%)",
       WebkitMaskImage: "radial-gradient(52.19% 100% at 50% 0%, #000 0%, rgba(0,0,0,0) 95.31%)",

@@ -9,6 +9,7 @@ import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS,
   DOCS_PREVIEW_P_MARGIN_RESET,
   DOCS_PREVIEW_SURFACE_CLASS,
+  DocsExpandableCodeWell,
 } from "../_docs/docs-preview-code";
 import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import { OnThisPageNav, StorybookRootHeaderPortal, StorybookSbdocsTocPortal } from "../_docs/docs-scaffold";
@@ -379,6 +380,7 @@ const DocsCodePre: FC<{ code: string; className?: string }> = ({ code, className
   const lines = code.split("\n");
   return (
     <pre
+      data-codex-docs-code
       className={className.trim()}
       tabIndex={0}
       style={
@@ -490,15 +492,13 @@ const CopyToolbarButton: FC<{ code: string }> = ({ code }) => {
 };
 
 const DocsCodePanel: FC<{ code: string }> = ({ code }) => (
-  <section className="group/pre not-typography bg-secondary_alt ring-secondary relative w-full rounded-[20px] p-2 ring-1 ring-inset">
-    <div className="bg-primary ring-secondary_alt relative flex h-full max-h-[304px] min-h-[304px] w-full flex-col overflow-hidden rounded-xl shadow-lg ring-1">
-      {/* Single <pre> only — nested <pre> is invalid HTML and makes the outer p-5 apply to an empty element. */}
-      <DocsCodePre
-        code={code}
-        className="bg-primary flex h-full min-h-0 max-w-full flex-1 flex-col overflow-auto font-mono text-sm leading-[24px] font-medium"
-      />
-    </div>
-  </section>
+  <DocsExpandableCodeWell>
+    {/* Single <pre> only — nested <pre> is invalid HTML and makes the outer p-5 apply to an empty element. */}
+    <DocsCodePre
+      code={code}
+      className="bg-primary flex h-full min-h-0 max-w-full flex-1 flex-col overflow-x-auto font-mono text-sm leading-[24px] font-medium"
+    />
+  </DocsExpandableCodeWell>
 );
 
 /** Plain section title (no anchor) — color via `.docs-section-title` in `apps/docs/src/styles.css`. */
@@ -787,7 +787,37 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /** Same sidebar shape as Overview: one row labeled “Button”, custom content on the Docs tab. */
-export const Default: Story = {
-  tags: ["!dev"],
-  name: "Button",
+// export const Default: Story = {
+//   name: "Button Playground",
+// };
+
+export const Playground: Story = {
+  name: "Button Playground",
+  args: {
+    children: "Button",
+    size: "md",
+    color: "primary",
+    isDisabled: false,
+    isLoading: false,
+    showTextWhileLoading: false,
+    href: undefined,
+  },
+  argTypes: {
+    children: { control: "text" },
+    size: { control: "select", options: sizes },
+    color: {
+      control: "select",
+      options: [
+        "primary",
+        "secondary",
+        "tertiary",
+        "link-color",
+        "link-gray",
+        "link-destructive",
+        "primary-destructive",
+        "secondary-destructive",
+        "tertiary-destructive",
+      ] as ButtonColor[],
+    },
+  },
 };

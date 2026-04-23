@@ -1,16 +1,188 @@
 @import "tailwindcss";
+@import "../../../packages/ui/src/styles/theme.css";
 
+/* Scan UI package components for class detection */
+@source "../../../packages/ui/src/**/*.{ts,tsx,css}";
+/* Scan docs stories for class detection */
 @source "./**/*.{ts,tsx,mdx,css}";
-
-@import "@opus2-platform/codex/src/styles/index.css";
 
 @plugin "@tailwindcss/typography";
 @plugin "tailwindcss-react-aria-components";
 @plugin "tailwindcss-animate";
 
+@custom-variant dark (&:where(.dark-mode, .dark-mode *));
+@custom-variant label (& [data-label]);
+@custom-variant focus-input-within (&:has(input:focus));
+
+@utility scrollbar-hide {
+  &::-webkit-scrollbar {
+    display: none;
+    -webkit-appearance: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@utility transition-inherit-all {
+  transition-property: inherit;
+  transition-duration: inherit;
+  transition-timing-function: inherit;
+}
+
+/**
+ * Mono tokens: `--default-mono-font-*` and `--font-mono` are defined in
+ * `packages/ui/src/styles/theme.css` (@theme). Docs only apply them below.
+ */
+
+html {
+  /* Avoid horizontal layout shift when the vertical scrollbar appears (e.g. switching tall code tabs). */
+  scrollbar-gutter: stable;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-variant-ligatures: contextual;
+  font-variant-ligatures: contextual;
+  -webkit-font-kerning: normal;
+  font-kerning: normal;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.recharts-surface,
+.recharts-surface g,
+.recharts-surface path {
+  outline: none;
+}
+
+@layer utilities {
+  .text-primary {
+    color: var(--text-color-primary) !important;
+  }
+}
+
+@layer utilities {
+  .dark-mode .tiptap.ProseMirror,
+  .dark-mode .tiptap.ProseMirror p,
+  .dark-mode .tiptap.ProseMirror li {
+    color: var(--text-color-primary) !important;
+  }
+}
+
 @layer components {
+  /**
+   * Docs code / kbd / samp / pre — Untitled UI baseline.
+   * - Prose (MDX): `1em` vs parent text.
+   * - Syntax wells (`[data-codex-docs-code]`): outer pre uses `--text-sm`; nested `code`/`pre` use `1em`.
+   * - All docs `<pre>`: horizontal scroll only (`overflow-y: hidden`); nested `pre.shiki` stays `overflow: visible`.
+   * - Storybook Emotion uses `.css-* :where(span)` (specificity 0,1,0); scoped `span` rules below win without `!important`.
+   */
+  .sbdocs .docs-sbdocs-content :where(code, kbd, samp, pre) {
+    font-family: var(--default-mono-font-family);
+    font-feature-settings: var(--default-mono-font-feature-settings, normal);
+    font-variation-settings: var(--default-mono-font-variation-settings, normal);
+    font-size: 1em;
+  }
+
+  .sbdocs [data-codex-docs-code]:not(pre) {
+    font-family: var(--default-mono-font-family);
+    font-feature-settings: var(--default-mono-font-feature-settings, normal);
+    font-variation-settings: var(--default-mono-font-variation-settings, normal);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+  }
+
+  .sbdocs pre[data-codex-docs-code] {
+    font-family: var(--default-mono-font-family);
+    font-feature-settings: var(--default-mono-font-feature-settings, normal);
+    font-variation-settings: var(--default-mono-font-variation-settings, normal);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+  }
+
+  /* Horizontal scroll only on each docs `<pre>`; inner `pre.shiki` (when nested) stays `visible` (no nested bar). */
+  .sbdocs pre {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .sbdocs pre > pre.shiki {
+    overflow: visible;
+  }
+
+  /* Shiki: flex column + start-aligned lines so each `.line` is content-width; host `pre` scrolls horizontally. */
+  .sbdocs pre.shiki > :where(code) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-sizing: border-box;
+    width: fit-content;
+    min-width: 100%;
+    max-width: none;
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  .sbdocs pre :where(.line) {
+    white-space: pre;
+  }
+
+  .sbdocs pre > :where(code) {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .sbdocs [data-codex-docs-code] :where(code, kbd, samp, pre) {
+    font-family: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    font-size: 1em;
+    line-height: inherit;
+  }
+
+  .sbdocs [data-codex-docs-code] span:not(.sb-anchor, .sb-unstyled, .sb-unstyled span) {
+    font-family: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    font-size: inherit;
+  }
+
   .docs-section-title {
     color: var(--color-text-primary) !important;
+  }
+
+  /**
+   * Application UI docs `<main class="docs-sbdocs-content">`: fixed column width (Tailwind `max-w-304`),
+   * responsive via `min(100%, …)` so small viewports do not overflow.
+   */
+  .docs-sbdocs-content {
+    box-sizing: border-box;
+    width: min(100%, calc(var(--spacing) * 304));
+    min-width: 0;
+    margin-inline: auto;
   }
 
   .docs-on-this-page-host {
@@ -45,16 +217,137 @@
   }
 }
 
-/* (Intentionally no badge-specific typography overrides here.) */
+/* Storybook/Emotion injects `font-size: 16px` onto all divs inside its wrapper.
+   Our Tailwind text-size utilities must win regardless of the Emotion class name. */
+.sbdocs :where(div, span, p, li, a, button, label, h1, h2, h3, h4, h5, h6) {
+  font-size: inherit;
+}
 
-/* Storybook/Emotion sometimes forces a font-size onto spans under `.css-1xxktr1`.
-   Clear it for the badges docs page only. */
-.css-1xxktr1 [data-codex-docs-badge-groups] :where(span:not(.sb-anchor, .sb-unstyled, .sb-unstyled span)) {
-  font-size: inherit !important;
+/* Docs + Canvas: neutralize sbdocs/prose injected styles inside live component wells.
+   All rules are unlayered with real class/element selectors (specificity ≥11) so they beat
+   Storybook Emotion rules like `.css-xxxxx :where(ul/div:not(…))` (specificity 10, unlayered). */
+.codex-docs-surface-reset ul,
+.codex-docs-surface-reset ol,
+[data-codex-preview-surface] ul,
+[data-codex-preview-surface] ol {
+  list-style: none !important;
+  padding-inline: 0 !important;
+}
+/* Restore intentional padding on NavList/SlimRail <ul> — specificity 21 beats Storybook's 10.
+   data-nav-list-4 = px-4 (1rem), data-nav-list-3_5 = px-3.5 (0.875rem). */
+[data-codex-preview-surface] ul[data-nav-list],
+.codex-docs-surface-reset ul[data-nav-list] {
+  padding-inline: calc(var(--spacing) * 4) !important;
+}
+[data-codex-preview-surface] ul[data-nav-list-slim],
+.codex-docs-surface-reset ul[data-nav-list-slim] {
+  padding-inline: calc(var(--spacing) * 3.5) !important;
+}
+/* Storybook Emotion (.css-xxxxx :where(div:not(…))) injects margins on divs (specificity 10, unlayered).
+   `margin: revert-layer` hands margin back to @layer utilities (Tailwind) so mt-*, mb-*, gap-* etc. win. */
+.codex-docs-surface-reset div,
+[data-codex-preview-surface] div {
+  margin: revert-layer;
+}
+.codex-docs-surface-reset :where(a[href]),
+[data-codex-preview-surface] :where(a[href]) {
+  text-decoration: none !important;
+}
+[class*="text-xs"] { font-size: var(--text-xs) !important; line-height: var(--text-xs--line-height) !important; }
+[class*="text-sm"] { font-size: var(--text-sm) !important; line-height: var(--text-sm--line-height) !important; }
+[class*="text-md"] { font-size: var(--text-md) !important; line-height: var(--text-md--line-height) !important; }
+[class*="text-lg"] { font-size: var(--text-lg) !important; line-height: var(--text-lg--line-height) !important; }
+[class*="text-xl"] { font-size: var(--text-xl) !important; line-height: var(--text-xl--line-height) !important; }
+
+/* Storybook/Emotion sometimes forces a font-size onto spans under badge-groups page. */
+[data-codex-docs-badge-groups] :where(span:not(.sb-anchor, .sb-unstyled, .sb-unstyled span)) {
+  font-size: 1em !important;
 }
 
 /* Storybook/Emotion injects margins onto paragraphs under `.css-1xxktr1`.
    Clear it for the credit-cards docs page only. */
 .css-1xxktr1 [data-codex-docs-credit-cards] :where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)) {
   margin: 0 !important;
+}
+
+/**
+ * Storybook docs layout can inject a draggable column handle (`data-handle`, `cursor-ew-resize`).
+ * Untitled-style catalog pages omit this; hide it in docs preview only (not the manager shell).
+ */
+#storybook-docs [data-handle="true"],
+.sbdocs [data-handle="true"] {
+  display: none;
+}
+
+/**
+ * Storybook injects unlayered Emotion wrappers (e.g. `.css-* :where(span)`) with `font-family: Inter` and `font-size: 16px`.
+ * Rules in `@layer components` lose to unlayered SB CSS — re-assert mono + token sizing without a layer.
+ */
+/* All Storybook docs `<pre>`: beat unlayered SB Emotion — horizontal scroll only, no vertical scrollbar. */
+.sbdocs pre {
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
+
+.sbdocs pre > pre.shiki {
+  font-family: inherit !important;
+  font-feature-settings: inherit !important;
+  font-variation-settings: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+  overflow: visible !important;
+}
+
+/* Storybook docs prose targets `hr` with :where() and can override `h-px` dividers in NavList. Unlayered so Tailwind height wins. */
+.sbdocs .codex-docs-surface-reset hr[data-codex-nav-divider],
+.sbdocs [data-codex-preview-surface] hr[data-codex-nav-divider] {
+  height: 1px !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  border-width: 0 !important;
+}
+
+.sbdocs pre.shiki > code,
+.sbdocs pre.shiki > code span:not(.sb-anchor, .sb-unstyled, .sb-unstyled span) {
+  font-family: var(--default-mono-font-family) !important;
+  font-feature-settings: var(--default-mono-font-feature-settings, normal) !important;
+  font-variation-settings: var(--default-mono-font-variation-settings, normal) !important;
+  font-size: 1em !important;
+  line-height: inherit !important;
+}
+
+.sbdocs pre.shiki > code {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  box-sizing: border-box !important;
+  width: fit-content !important;
+  min-width: 100% !important;
+  max-width: none !important;
+  overflow: visible !important;
+}
+
+.sbdocs pre :where(.line) {
+  white-space: pre !important;
+}
+
+/* Untitled syntax wells only: token size + padding (matches catalog DOM). */
+pre[data-codex-docs-code] {
+  font-family: var(--default-mono-font-family) !important;
+  font-feature-settings: var(--default-mono-font-feature-settings, normal) !important;
+  font-variation-settings: var(--default-mono-font-variation-settings, normal) !important;
+  font-size: var(--text-sm) !important;
+  line-height: var(--text-sm--line-height) !important;
+  /* Match Untitled `p-5` + `pb-12` on outer pre (utilities can lose to SB CSS). */
+  padding-inline: calc(var(--spacing) * 5) !important;
+  padding-top: calc(var(--spacing) * 5) !important;
+  padding-bottom: calc(var(--spacing) * 12) !important;
 }

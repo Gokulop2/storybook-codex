@@ -1,50 +1,49 @@
+"use client";
+
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import type { ButtonProps as AriaButtonProps, LinkProps as AriaLinkProps } from "react-aria-components";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
 import { cx, sortCx } from "@/utils";
 import { AppleLogo, DribbleLogo, FacebookLogo, FigmaLogo, FigmaLogoOutlined, GoogleLogo, TwitterLogo } from "./social-logos";
 
-export const styles = sortCx({
+const styles = sortCx({
   common: {
-    root: "group outline-focus-ring disabled:stroke-fg-disabled disabled:text-fg-disabled disabled:*:text-fg-disabled relative inline-flex h-max cursor-pointer items-center justify-center font-semibold whitespace-nowrap transition duration-100 ease-linear before:absolute focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed",
-    icon: "transition-inherit-all pointer-events-none shrink-0",
+    root: "group disabled:stroke-fg-disabled disabled:text-fg-disabled disabled:*:text-fg-disabled relative inline-flex h-max cursor-pointer items-center justify-center font-semibold whitespace-nowrap outline-hidden transition duration-100 ease-linear before:absolute focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed",
+    icon: "pointer-events-none shrink-0 transition-inherit-all",
   },
 
   sizes: {
     sm: {
-      root: "gap-2 rounded-lg px-3 py-2 text-sm before:rounded-[7px] data-icon-only:p-2",
+      root: "gap-1.5 rounded-md px-3 py-2 text-sm before:rounded-[5px] data-icon-only:p-2.5",
+      icon: "size-4",
     },
     md: {
-      root: "gap-2.5 rounded-lg px-3.5 py-2.5 text-sm before:rounded-[7px] data-icon-only:p-2.5",
+      root: "gap-2 rounded-lg px-3.5 py-2.5 text-sm before:rounded-[7px] data-icon-only:p-3",
+      icon: "size-4",
     },
     lg: {
-      root: "text-md gap-3 rounded-lg px-4 py-2.5 before:rounded-[7px] data-icon-only:p-2.5",
-    },
-    xl: {
-      root: "text-md gap-3.5 rounded-lg px-4.5 py-3 before:rounded-[7px] data-icon-only:p-3.5",
-    },
-    "2xl": {
-      root: "gap-4 rounded-[10px] px-5.5 py-4 text-lg before:rounded-[9px] data-icon-only:p-4",
+      root: "gap-2.5 rounded-lg px-4 py-2.5 text-md before:rounded-[7px] data-icon-only:p-3",
+      icon: "size-5",
     },
   },
 
   colors: {
     gray: {
-      root: "bg-primary text-secondary shadow-xs-skeumorphic ring-primary hover:bg-primary_hover hover:text-secondary_hover ring-1 ring-inset",
+      root: "bg-primary text-secondary shadow-xs-skeuomorphic ring-1 ring-primary ring-inset hover:bg-primary_hover hover:text-secondary_hover",
       icon: "text-fg-quaternary group-hover:text-fg-quaternary_hover",
     },
     black: {
-      root: "shadow-xs-skeumorphic bg-black text-white ring-1 ring-transparent ring-inset before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0%",
+      root: "bg-black text-white shadow-xs-skeuomorphic ring-1 ring-transparent ring-inset before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0%",
       icon: "",
     },
 
     facebook: {
-      root: "shadow-xs-skeumorphic bg-[#1877F2] text-white ring-1 ring-transparent ring-inset before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0% hover:bg-[#0C63D4]",
+      root: "bg-[#1668D6] text-white shadow-xs-skeuomorphic ring-1 ring-transparent ring-inset before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0% hover:bg-[#0C63D4]",
       icon: "",
     },
 
     dribble: {
-      root: "shadow-xs-skeumorphic bg-[#EA4C89] text-white ring-1 ring-transparent ring-inset before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0% hover:bg-[#E62872]",
+      root: "bg-[#C01762] text-white shadow-xs-skeuomorphic ring-1 ring-transparent ring-inset before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0% hover:bg-[#E62872]",
       icon: "",
     },
   },
@@ -128,6 +127,7 @@ export const SocialButton = ({ size = "lg", theme = "brand", social, className, 
       <Logo
         className={cx(
           styles.common.icon,
+          styles.sizes[size].icon,
           theme === "gray"
             ? colorStyles.icon
             : theme === "brand" && (social === "facebook" || social === "apple" || social === "twitter")

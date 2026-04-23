@@ -1,25 +1,18 @@
-"use client";
-
 import type { FC } from "react";
 import { useState } from "react";
-import { LifeBuoy01, LogOut01, Settings01 } from "@opus2-platform/icons";
+import { DotsVertical, LifeBuoy01, Settings01 } from "@opus2-platform/icons";
 import { AnimatePresence, motion } from "motion/react";
 import { Button as AriaButton, DialogTrigger as AriaDialogTrigger, Popover as AriaPopover } from "react-aria-components";
-import {
-  Avatar,
-  AvatarLabelGroup,
-  Button,
-  ButtonUtility,
-  MobileNavigationHeader,
-  NavAccountMenu,
-  NavItemBase,
-  NavItemButton,
-  type NavItemType,
-  NavList,
-  BrandLogo,
-  BrandLogoMinimal,
-} from "@/components";
-import { cx } from "@/utils";
+import { Avatar } from "@/components/base/avatar/avatar";
+import { ButtonUtility } from "@/components/base/buttons/button-utility";
+import { OpusLogo, OpusLogoSmall } from "@/components/foundations";
+import { cx } from "@/utils/cx";
+import { MobileNavigationHeader } from "../base-components/mobile-header";
+import { NavAccountCard, NavAccountMenu } from "../base-components/nav-account-card";
+import { NavButton } from "../base-components/nav-button";
+import { NavItemBase } from "../base-components/nav-item";
+import { NavList } from "../base-components/nav-list";
+import type { NavItemType } from "../config";
 
 interface SidebarNavigationSlimProps {
   /** URL of the currently active item. */
@@ -32,17 +25,19 @@ interface SidebarNavigationSlimProps {
   hideBorder?: boolean;
   /** Whether to hide the right side border. */
   hideRightBorder?: boolean;
+  /** Use absolute positioning instead of fixed — for embedded/preview contexts where the sidebar must stay within its container. */
+  embedded?: boolean;
 }
 
-export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hideBorder, hideRightBorder }: SidebarNavigationSlimProps) => {
+export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hideBorder, hideRightBorder, embedded }: SidebarNavigationSlimProps) => {
   const activeItem = [...items, ...footerItems].find((item) => item.href === activeUrl || item.items?.some((subItem) => subItem.href === activeUrl));
-  const [currentItem, setCurrentItem] = useState<SidebarNavigationSlimProps["items"][number] | undefined>(activeItem || items[1] || items[0] || footerItems[0]);
+  const [currentItem, setCurrentItem] = useState(activeItem || items[1]);
   const [isHovering, setIsHovering] = useState(false);
 
   const isSecondarySidebarVisible = isHovering && Boolean(currentItem?.items?.length);
 
   const MAIN_SIDEBAR_WIDTH = 68;
-  const SECONDARY_SIDEBAR_WIDTH = 268;
+  const SECONDARY_SIDEBAR_WIDTH = 256;
 
   const mainSidebar = (
     <aside
@@ -56,19 +51,18 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
     >
       <div
         className={cx(
-          "bg-primary ring-secondary flex w-auto flex-col justify-between rounded-xl pt-5 ring-1 transition duration-300 ring-inset",
+          "flex w-auto flex-col justify-between rounded-xl bg-primary pt-5 ring-1 ring-secondary transition duration-300 ring-inset",
           hideBorder && !isSecondarySidebarVisible && "ring-transparent"
         )}
       >
         <div className="flex justify-center px-3">
-          <BrandLogoMinimal className="size-8" />
+          <OpusLogoSmall className="size-6" />
         </div>
 
-        <ul className="mt-4 flex flex-col gap-0.5 px-3">
+        <ul className="mt-5 flex flex-col gap-0.5 px-3.5">
           {items.map((item) => (
             <li key={item.label}>
-              <NavItemButton
-                size="md"
+              <NavButton
                 current={currentItem?.href === item.href}
                 href={item.href}
                 label={item.label || ""}
@@ -78,13 +72,12 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
             </li>
           ))}
         </ul>
-        <div className="mt-auto flex flex-col gap-4 px-3 py-5">
+        <div className="mt-auto flex flex-col items-center gap-3 px-3 py-4">
           {footerItems.length > 0 && (
             <ul className="flex flex-col gap-0.5">
               {footerItems.map((item) => (
                 <li key={item.label}>
-                  <NavItemButton
-                    size="md"
+                  <NavButton
                     current={currentItem?.href === item.href}
                     label={item.label || ""}
                     href={item.href}
@@ -98,11 +91,12 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
 
           <AriaDialogTrigger>
             <AriaButton
+              aria-label="Open account menu"
               className={({ isPressed, isFocused }) =>
-                cx("group relative inline-flex rounded-full", (isPressed || isFocused) && "outline-focus-ring outline-2 outline-offset-2")
+                cx("group relative inline-flex rounded-full", (isPressed || isFocused) && "outline-2 outline-offset-2 outline-focus-ring")
               }
             >
-              <Avatar status="online" src="https://picsum.photos/seed/codex-olivia-rhye/128/128" size="md" alt="Olivia Rhye" />
+              <Avatar border status="online" src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80" size="md" alt="Olivia Rhye" />
             </AriaButton>
             <AriaPopover
               placement="right bottom"
@@ -112,9 +106,9 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
                 cx(
                   "will-change-transform",
                   isEntering &&
-                    "animate-in fade-in placement-right:slide-in-from-left-2 placement-top:slide-in-from-bottom-2 placement-bottom:slide-in-from-top-2 duration-300 ease-out",
+                    "duration-300 ease-out animate-in fade-in placement-right:slide-in-from-left-2 placement-top:slide-in-from-bottom-2 placement-bottom:slide-in-from-top-2",
                   isExiting &&
-                    "animate-out fade-out placement-right:slide-out-to-left-2 placement-top:slide-out-to-bottom-2 placement-bottom:slide-out-to-top-2 duration-150 ease-in"
+                    "duration-150 ease-in animate-out fade-out placement-right:slide-out-to-left-2 placement-top:slide-out-to-bottom-2 placement-bottom:slide-out-to-top-2"
                 )
               }
             >
@@ -134,26 +128,26 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
           animate={{ width: SECONDARY_SIDEBAR_WIDTH, borderColor: "var(--color-border-secondary)" }}
           exit={{ width: 0, borderColor: "rgba(0,0,0,0)", transition: { borderColor: { type: "tween", delay: 0.05 } } }}
           transition={{ type: "spring", damping: 26, stiffness: 220, bounce: 0 }}
-          className={cx("bg-primary relative h-full overflow-x-hidden overflow-y-auto", !(hideBorder || hideRightBorder) && "box-content border-r-[1.5px]")}
+          className={cx("relative h-full overflow-x-hidden overflow-y-auto bg-primary", !(hideBorder || hideRightBorder) && "box-content border-r-[1.5px]")}
         >
           <div style={{ width: SECONDARY_SIDEBAR_WIDTH }} className="flex h-full flex-col px-4 pt-6">
-            <h3 className="text-brand-secondary text-sm font-semibold">{currentItem?.label}</h3>
+            <h3 className="text-sm font-semibold text-brand-secondary">{currentItem?.label}</h3>
             <ul className="py-2">
               {currentItem?.items?.map((item) => (
-                <li key={item.label} className="py-0.5">
+                <li key={item.label} className="py-px">
                   <NavItemBase current={activeUrl === item.href} href={item.href} icon={item.icon} badge={item.badge} type="link">
                     {item.label}
                   </NavItemBase>
                 </li>
               ))}
             </ul>
-            <div className="border-secondary bg-primary sticky bottom-0 mt-auto flex justify-between border-t px-2 py-5">
+            <div className="sticky bottom-0 mt-auto flex justify-between bg-primary pb-5">
               <div>
-                <p className="text-primary text-sm font-semibold">Olivia Rhye</p>
-                <p className="text-tertiary text-sm">olivia@opus2.com</p>
+                <p className="text-sm font-semibold text-primary">Olivia Rhye</p>
+                <p className="text-sm text-tertiary">olivia@opus2.com</p>
               </div>
-              <div className="absolute top-2.5 right-0">
-                <ButtonUtility size="sm" color="tertiary" tooltip="Log out" icon={LogOut01} />
+              <div className="absolute -top-1 right-0">
+                <ButtonUtility size="xs" color="tertiary" tooltip="Log out" icon={DotsVertical} />
               </div>
             </div>
           </div>
@@ -166,7 +160,10 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
     <>
       {/* Desktop sidebar navigation */}
       <div
-        className="z-50 hidden lg:fixed lg:inset-y-0 lg:left-0 lg:flex"
+        className={cx(
+          "z-50",
+          embedded ? "flex absolute inset-y-0 left-0" : "hidden lg:flex lg:fixed lg:inset-y-0 lg:left-0"
+        )}
         onPointerEnter={() => setIsHovering(true)}
         onPointerLeave={() => setIsHovering(false)}
       >
@@ -175,24 +172,26 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
       </div>
 
       {/* Placeholder to take up physical space because the real sidebar has `fixed` position. */}
-      <div
-        style={{
-          paddingLeft: MAIN_SIDEBAR_WIDTH,
-        }}
-        className="invisible hidden lg:sticky lg:top-0 lg:bottom-0 lg:left-0 lg:block"
-      />
+      {!embedded && (
+        <div
+          style={{
+            paddingLeft: MAIN_SIDEBAR_WIDTH,
+          }}
+          className="invisible hidden lg:sticky lg:top-0 lg:bottom-0 lg:left-0 lg:block"
+        />
+      )}
 
       {/* Mobile header navigation */}
       <MobileNavigationHeader>
-        <aside className="group bg-primary flex h-full max-h-full w-full max-w-full flex-col justify-between overflow-y-auto pt-4">
+        <aside className="group flex h-full max-h-full w-full max-w-full flex-col justify-between overflow-y-auto bg-primary pt-4">
           <div className="px-4">
-            <BrandLogo className="h-8" />
+            <OpusLogo className="h-6" />
           </div>
 
           <NavList items={items} />
 
-          <div className="mt-auto flex flex-col gap-5 px-2 py-4">
-            <div className="flex flex-col gap-2">
+          <div className="mt-auto flex flex-col gap-3 p-4">
+            <div className="flex flex-col">
               <NavItemBase current={activeUrl === "/support"} type="link" href="/support" icon={LifeBuoy01}>
                 Support
               </NavItemBase>
@@ -201,24 +200,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
               </NavItemBase>
             </div>
 
-            <div className="border-secondary relative flex items-center gap-3 border-t pt-6 pr-8 pl-2">
-              <AvatarLabelGroup
-                status="online"
-                size="md"
-                src="https://picsum.photos/seed/codex-olivia-rhye/128/128"
-                title="Olivia Rhye"
-                subtitle="olivia@opus2.com"
-              />
-
-              <div className="absolute top-1/2 right-0 -translate-y-1/2">
-                <Button
-                  size="sm"
-                  color="tertiary"
-                  iconLeading={<LogOut01 className="text-fg-quaternary transition-inherit-all group-hover:text-fg-quaternary_hover size-5" />}
-                  className="p-1.5!"
-                />
-              </div>
-            </div>
+            <NavAccountCard />
           </div>
         </aside>
       </MobileNavigationHeader>

@@ -1,6 +1,10 @@
-"use client";
-
-import { MobileNavigationHeader, NavAccountCard, NavItemBase, NavItemType, BrandLogo } from "@/components";
+import { SearchLg } from "@opus2-platform/icons";
+import { ButtonUtility } from "@/components/base/buttons/button-utility";
+import { OpusLogo } from "@/components/foundations";
+import { MobileNavigationHeader } from "../base-components/mobile-header";
+import { NavAccountCard } from "../base-components/nav-account-card";
+import { NavItemBase } from "../base-components/nav-item";
+import type { NavItemType } from "../config";
 
 interface SidebarNavigationSectionsSubheadingsProps {
   /** URL of the currently active item. */
@@ -10,7 +14,7 @@ interface SidebarNavigationSectionsSubheadingsProps {
 }
 
 export const SidebarNavigationSectionsSubheadings = ({ activeUrl = "/", items }: SidebarNavigationSectionsSubheadingsProps) => {
-  const MAIN_SIDEBAR_WIDTH = 292;
+  const MAIN_SIDEBAR_WIDTH = 276;
 
   const content = (
     <aside
@@ -19,21 +23,22 @@ export const SidebarNavigationSectionsSubheadings = ({ activeUrl = "/", items }:
           "--width": `${MAIN_SIDEBAR_WIDTH}px`,
         } as React.CSSProperties
       }
-      className="border-secondary bg-primary flex h-full w-full max-w-full flex-col justify-between overflow-auto pt-4 shadow-xs md:border-r lg:w-(--width) lg:rounded-xl lg:border lg:pt-5"
+      className="flex h-full w-full max-w-full flex-col justify-between overflow-auto bg-primary pt-4 shadow-xs ring-secondary ring-inset lg:w-(--width) lg:rounded-xl lg:ring-1"
     >
-      <div className="flex flex-col gap-5 px-4 lg:px-5">
-        <BrandLogo className="h-8" />
+      <div className="flex items-center justify-between gap-5 px-4 lg:pl-5">
+        <OpusLogo className="h-6" />
+        <ButtonUtility size="xs" color="tertiary" tooltip="Search" icon={SearchLg} />
       </div>
 
-      <ul className="mt-8">
+      <ul className="mt-6 md:mt-5">
         {items.map((group) => (
           <li key={group.label}>
             <div className="px-5 pb-1">
-              <p className="text-quaternary text-xs font-bold uppercase">{group.label}</p>
+              <p className="text-xs font-bold text-quaternary uppercase">{group.label}</p>
             </div>
             <ul className="px-4 pb-5">
               {group.items.map((item) => (
-                <li key={item.label} className="py-0.5">
+                <li key={item.label} className="py-px">
                   <NavItemBase icon={item.icon} href={item.href} badge={item.badge} type="link" current={item.href === activeUrl}>
                     {item.label}
                   </NavItemBase>

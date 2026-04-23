@@ -1,3 +1,5 @@
+"use client";
+
 import type { SliderProps as AriaSliderProps } from "react-aria-components";
 import {
   Label as AriaLabel,
@@ -10,17 +12,18 @@ import { cx, sortCx } from "@/utils";
 
 const styles = sortCx({
   default: "hidden",
-  bottom: "text-md text-primary absolute top-2 left-1/2 -translate-x-1/2 translate-y-full font-medium",
+  bottom: "absolute top-2 left-1/2 -translate-x-1/2 translate-y-full text-md font-medium text-primary",
   "top-floating":
-    "bg-primary text-secondary ring-secondary_alt absolute -top-2 left-1/2 -translate-x-1/2 -translate-y-full rounded-lg px-3 py-2 text-xs font-semibold shadow-lg ring-1",
+    "absolute -top-2 left-1/2 -translate-x-1/2 -translate-y-full rounded-lg bg-primary px-2 py-1.5 text-xs font-semibold text-secondary shadow-lg ring-1 ring-secondary_alt",
 });
 
 interface SliderProps extends AriaSliderProps {
   labelPosition?: keyof typeof styles;
   labelFormatter?: (value: number) => string;
+  label?: string;
 }
 
-export const Slider = ({ labelPosition = "default", minValue = 0, maxValue = 100, labelFormatter, formatOptions, ...rest }: SliderProps) => {
+export const Slider = ({ labelPosition = "default", minValue = 0, maxValue = 100, labelFormatter, formatOptions, label, "aria-label": ariaLabel, ...rest }: SliderProps) => {
   // Format thumb value as percentage by default.
   const defaultFormatOptions: Intl.NumberFormatOptions = {
     style: "percent",
@@ -28,18 +31,18 @@ export const Slider = ({ labelPosition = "default", minValue = 0, maxValue = 100
   };
 
   return (
-    <AriaSlider {...rest} {...{ minValue, maxValue }} formatOptions={formatOptions ?? defaultFormatOptions}>
-      <AriaLabel />
-      <AriaSliderTrack className="relative h-6 w-full">
+    <AriaSlider {...rest} {...{ minValue, maxValue }} formatOptions={formatOptions ?? defaultFormatOptions} aria-label={!label ? (ariaLabel ?? "Slider") : undefined}>
+      {label && <AriaLabel>{label}</AriaLabel>}
+      <AriaSliderTrack className="relative h-6 w-full cursor-pointer select-none">
         {({ state: { values, getThumbValue, getThumbPercent, getFormattedValue } }) => {
           const left = values.length === 1 ? 0 : getThumbPercent(0);
           const width = values.length === 1 ? getThumbPercent(0) : getThumbPercent(1) - left;
 
           return (
             <>
-              <span className="bg-quaternary absolute top-1/2 h-2 w-full -translate-y-1/2 rounded-full" />
+              <span className="absolute top-1/2 h-2 w-full -translate-y-1/2 rounded-full bg-quaternary" />
               <span
-                className="bg-brand-solid absolute top-1/2 h-2 w-full -translate-y-1/2 rounded-full"
+                className="absolute top-1/2 h-2 w-full -translate-y-1/2 rounded-full bg-brand-solid"
                 style={{
                   left: `${left * 100}%`,
                   width: `${width * 100}%`,
@@ -52,8 +55,8 @@ export const Slider = ({ labelPosition = "default", minValue = 0, maxValue = 100
                     index={index}
                     className={({ isFocusVisible, isDragging }) =>
                       cx(
-                        "bg-slider-handle-bg ring-slider-handle-border top-1/2 box-border size-6 cursor-grab rounded-full shadow-md ring-2 ring-inset",
-                        isFocusVisible && "outline-focus-ring outline-2 outline-offset-2",
+                        "top-1/2 box-border size-6 cursor-grab rounded-full bg-slider-handle-bg shadow-md ring-2 ring-slider-handle-border ring-inset",
+                        isFocusVisible && "outline-2 outline-offset-2 outline-hidden",
                         isDragging && "cursor-grabbing"
                       )
                     }

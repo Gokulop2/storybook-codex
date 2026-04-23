@@ -1,7 +1,8 @@
 "use client";
 
 import { type ComponentProps, useMemo, useState } from "react";
-import { FileIcon } from "@opus2-platform/icons";
+import { codexDemoAvatar } from "@/constants/demo-asset-urls";
+import { FileIcon } from "@untitledui/file-icons";
 import { AlertCircle, Check, Edit01, FilterLines, Plus, ReverseLeft, SearchLg, Trash01, UploadCloud02, X } from "@opus2-platform/icons";
 import type { SortDescriptor } from "react-aria-components";
 import {
@@ -402,36 +403,16 @@ export const Table02DividerLine = () => {
               </Table.Cell>
               <Table.Cell className="pr-0 md:hidden xl:table-cell">
                 <div className="flex -space-x-1">
+                  <Avatar className="ring-bg-primary ring-[1.5px]" size="xs" src={codexDemoAvatar("codex-olivia-rhye")} alt="Gokul Krishnan" />
+                  <Avatar className="ring-bg-primary ring-[1.5px]" size="xs" src={codexDemoAvatar("codex-phoenix-baker")} alt="Phoenix Baker" />
+                  <Avatar className="ring-bg-primary ring-[1.5px]" size="xs" src={codexDemoAvatar("codex-lana-steiner")} alt="Lana Steiner" />
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
-                    src="https://picsum.photos/seed/codex-olivia-rhye/128/128"
-                    alt="Olivia Rhye"
-                  />
-                  <Avatar
-                    className="ring-bg-primary ring-[1.5px]"
-                    size="xs"
-                    src="https://picsum.photos/seed/codex-phoenix-baker/128/128"
-                    alt="Phoenix Baker"
-                  />
-                  <Avatar
-                    className="ring-bg-primary ring-[1.5px]"
-                    size="xs"
-                    src="https://picsum.photos/seed/codex-lana-steiner/128/128"
-                    alt="Lana Steiner"
-                  />
-                  <Avatar
-                    className="ring-bg-primary ring-[1.5px]"
-                    size="xs"
-                    src="https://picsum.photos/seed/codex-demi-wilkinson/128/128"
+                    src={codexDemoAvatar("codex-demi-wilkinson")}
                     alt="Demi Wilkinson"
                   />
-                  <Avatar
-                    className="ring-bg-primary ring-[1.5px]"
-                    size="xs"
-                    src="https://picsum.photos/seed/codex-candice-wu/128/128"
-                    alt="Candice Wu"
-                  />
+                  <Avatar className="ring-bg-primary ring-[1.5px]" size="xs" src={codexDemoAvatar("codex-candice-wu")} alt="Candice Wu" />
                   <Avatar size="xs" className="ring-bg-primary ring-[1.5px]" placeholder={<span className="text-quaternary text-xs font-semibold">+5</span>} />
                 </div>
               </Table.Cell>
@@ -523,36 +504,16 @@ export const Table02AlternatingFills = () => {
               </Table.Cell>
               <Table.Cell className="pr-0 md:hidden xl:table-cell">
                 <div className="flex -space-x-1">
+                  <Avatar className="ring-bg-primary ring-[1.5px]" size="xs" src={codexDemoAvatar("codex-olivia-rhye")} alt="Gokul Krishnan" />
+                  <Avatar className="ring-bg-primary ring-[1.5px]" size="xs" src={codexDemoAvatar("codex-phoenix-baker")} alt="Phoenix Baker" />
+                  <Avatar className="ring-bg-primary ring-[1.5px]" size="xs" src={codexDemoAvatar("codex-lana-steiner")} alt="Lana Steiner" />
                   <Avatar
                     className="ring-bg-primary ring-[1.5px]"
                     size="xs"
-                    src="https://picsum.photos/seed/codex-olivia-rhye/128/128"
-                    alt="Olivia Rhye"
-                  />
-                  <Avatar
-                    className="ring-bg-primary ring-[1.5px]"
-                    size="xs"
-                    src="https://picsum.photos/seed/codex-phoenix-baker/128/128"
-                    alt="Phoenix Baker"
-                  />
-                  <Avatar
-                    className="ring-bg-primary ring-[1.5px]"
-                    size="xs"
-                    src="https://picsum.photos/seed/codex-lana-steiner/128/128"
-                    alt="Lana Steiner"
-                  />
-                  <Avatar
-                    className="ring-bg-primary ring-[1.5px]"
-                    size="xs"
-                    src="https://picsum.photos/seed/codex-demi-wilkinson/128/128"
+                    src={codexDemoAvatar("codex-demi-wilkinson")}
                     alt="Demi Wilkinson"
                   />
-                  <Avatar
-                    className="ring-bg-primary ring-[1.5px]"
-                    size="xs"
-                    src="https://picsum.photos/seed/codex-candice-wu/128/128"
-                    alt="Candice Wu"
-                  />
+                  <Avatar className="ring-bg-primary ring-[1.5px]" size="xs" src={codexDemoAvatar("codex-candice-wu")} alt="Candice Wu" />
                   <Avatar size="xs" className="ring-bg-primary ring-[1.5px]" placeholder={<span className="text-quaternary text-xs font-semibold">+5</span>} />
                 </div>
               </Table.Cell>
@@ -1016,7 +977,7 @@ export const TableSomethingWentWrong = () => {
             <EmptyState.Title>Something went wrong...</EmptyState.Title>
             <EmptyState.Description>
               We had some trouble loading this page. Please refresh the page or{" "}
-              <a href="#" className="outline-focus-ring rounded-xs underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2">
+              <a href="#" className="outline-hidden rounded-xs underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2">
                 get in touch
               </a>{" "}
               for support.

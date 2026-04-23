@@ -1,0 +1,26 @@
+import * as React from "react";
+import type { SVGProps, FC } from "react";
+interface Props extends SVGProps<SVGSVGElement> {
+  color?: string;
+  size?: number;
+}
+export const Building06: FC<Props> = ({ size = 24, color = "currentColor", ...props }) =>
+  React.cloneElement(
+    <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" {...props}>
+      <path
+        d="M11 11H6.2c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C3 12.52 3 13.08 3 14.2V21m18 0V6.2c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874C19.48 3 18.92 3 17.8 3h-3.6c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C11 4.52 11 5.08 11 6.2V21m11 0H2M14.5 7h3m-3 4h3m-3 4h3"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>,
+    {
+      width: size,
+      height: size,
+      fill: "none",
+      stroke: color,
+      ...props,
+    }
+  );
+Building06.displayName = "Building06";

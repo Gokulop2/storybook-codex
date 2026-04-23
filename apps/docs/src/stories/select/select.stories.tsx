@@ -24,7 +24,7 @@ const PLACEHOLDER = "Select team member";
 
 const TEAM: SelectItemType[] = [
   { id: "phoenix", label: "Phoenix Baker", supportingText: "@phoenix" },
-  { id: "olivia", label: "Olivia Rhye", supportingText: "@olivia" },
+  { id: "olivia", label: "Gokul Krishnan", supportingText: "@olivia" },
   { id: "lana", label: "Lana Steiner", supportingText: "@lana" },
   { id: "demi", label: "Demi Wilkinson", supportingText: "@demi" },
   { id: "candice", label: "Candice Wu", supportingText: "@candice" },
@@ -192,7 +192,7 @@ const SelectSearchDemo: FC = () => (
 const MultiSelectTagsDemo: FC = () => {
   const selectedItems = useListData<SelectItemType>({
     initialItems: [
-      { id: "olivia", label: "Olivia Rhye", supportingText: "@olivia", avatarUrl: CODEX_DOCS_AVATAR_SRC },
+      { id: "olivia", label: "Gokul Krishnan", supportingText: "@olivia", avatarUrl: CODEX_DOCS_AVATAR_SRC },
     ],
   });
 
@@ -391,7 +391,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Select",
   args: {
     label: LABEL,

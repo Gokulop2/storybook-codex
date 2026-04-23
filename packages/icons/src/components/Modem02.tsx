@@ -1,0 +1,26 @@
+import * as React from "react";
+import type { SVGProps, FC } from "react";
+interface Props extends SVGProps<SVGSVGElement> {
+  color?: string;
+  size?: number;
+}
+export const Modem02: FC<Props> = ({ size = 24, color = "currentColor", ...props }) =>
+  React.cloneElement(
+    <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" {...props}>
+      <path
+        d="M6.205 10.558a6.002 6.002 0 0 1 1.084-5.274m10.506 5.274a6.002 6.002 0 0 0-1.084-5.274M2.341 11.6a10 10 0 0 1 2.106-9.154M21.655 11.6a10 10 0 0 0-2.105-9.154M12 15V9m-6.5 9.5h4M5.2 22h13.6c1.12 0 1.68 0 2.108-.218a2 2 0 0 0 .874-.874C22 20.48 22 19.92 22 18.8v-.6c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874C20.48 15 19.92 15 18.8 15H5.2c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C2 16.52 2 17.08 2 18.2v.6c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874C3.52 22 4.08 22 5.2 22Z"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>,
+    {
+      width: size,
+      height: size,
+      fill: "none",
+      stroke: color,
+      ...props,
+    }
+  );
+Modem02.displayName = "Modem02";

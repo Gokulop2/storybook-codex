@@ -1,7 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
-import type { TooltipContentProps, TooltipPayload } from "recharts";
+import type { TooltipProps } from "recharts";
 import type { Props as LegendContentProps } from "recharts/types/component/DefaultLegendContent";
 import type { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 import type { Props as DotProps } from "recharts/types/shape/Dot";
@@ -47,7 +46,7 @@ export const selectEvenlySpacedItems = <T extends readonly unknown[]>(dataArray:
  * @returns The legend content.
  */
 export const ChartLegendContent = ({ reversed, payload, align, layout, className }: LegendContentProps & { reversed?: boolean; className?: string }) => {
-  const legendPayload = reversed ? [...(payload ?? [])].reverse() : payload;
+  payload = reversed ? (payload ? [...payload].reverse() : payload) : payload;
 
   return (
     <ul
@@ -59,9 +58,11 @@ export const ChartLegendContent = ({ reversed, payload, align, layout, className
         className
       )}
     >
-      {legendPayload?.map((entry, index) => (
-        <li className="text-tertiary flex items-center gap-2 text-sm" key={index}>
-          <span className={cx("h-2 w-2 rounded-full bg-current", (entry.payload as { className?: string })?.className)} />
+      {payload?.map((entry, index) => (
+        <li className="flex items-center gap-2 text-sm text-tertiary" key={index}>
+          <span
+            className={cx("block size-2 rounded-full bg-current ring-[0.5px] ring-black/10 ring-inset", (entry.payload as { className?: string })?.className)}
+          />
           {entry.value}
         </li>
       ))}
@@ -69,60 +70,61 @@ export const ChartLegendContent = ({ reversed, payload, align, layout, className
   );
 };
 
-/** Recharts injects full tooltip props at runtime; demos pass only flags. */
-export type ChartTooltipContentProps = Partial<TooltipContentProps<ValueType, NameType>> & {
+interface ChartTooltipContentProps extends TooltipProps<ValueType, NameType> {
   isRadialChart?: boolean;
   isPieChart?: boolean;
-};
+  label?: string;
+  // We have to use `any` here because the `payload` prop is not typed correctly in the `recharts` library.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  payload?: any;
+}
 
 export const ChartTooltipContent = ({ active, payload, label, isRadialChart, isPieChart, formatter, labelFormatter }: ChartTooltipContentProps) => {
-  if (!active || !payload?.length) {
+  const canRender = active && payload && payload.length;
+
+  if (!canRender) {
     return null;
   }
 
-  const pl: TooltipPayload = payload;
-  const isSingleDataPoint = pl.length === 1;
-  const first = pl[0];
+  const isSingleDataPoint = payload.length === 1;
 
   // If it's a single data point, we use the value as the title and
   // the name as the secondary title.
-  let title: ReactNode = isSingleDataPoint && first ? first.value : label;
-  let secondaryTitle = isSingleDataPoint && first
-    ? isRadialChart
-      ? first.payload?.name
-      : isPieChart
-        ? first.name
-        : label
-    : pl;
+  let title = isSingleDataPoint ? (isRadialChart ? payload[0].value : isPieChart ? payload[0].value : payload[0].value) : label;
+  let secondaryTitle = isSingleDataPoint ? (isRadialChart ? payload[0].payload.name : isPieChart ? payload[0].name : label) : payload;
 
   title =
-    isSingleDataPoint && formatter && first
-      ? formatter(first.value, first.name ?? label, first, 0, pl)
+    isSingleDataPoint && formatter
+      ? formatter(title, payload?.[0].name || label, payload[0], 0, payload)
       : labelFormatter
-        ? labelFormatter(title, pl)
+        ? labelFormatter(title, payload)
         : title;
-  secondaryTitle = isSingleDataPoint && labelFormatter ? labelFormatter(secondaryTitle, pl) : secondaryTitle;
+  secondaryTitle = isSingleDataPoint && labelFormatter ? labelFormatter(secondaryTitle, payload) : secondaryTitle;
 
   return (
-    <div className="bg-primary-solid flex flex-col gap-0.5 rounded-lg px-3 py-2 shadow-lg">
+    <div className="flex flex-col gap-0.5 rounded-lg bg-primary-solid px-3 py-2 shadow-lg">
       <p className="text-xs font-semibold text-white">{title}</p>
 
       {!secondaryTitle ? null : Array.isArray(secondaryTitle) ? (
         <div>
           {secondaryTitle.map((entry, index) => (
-            <p key={index} className={cx("text-tooltip-supporting-text text-xs")}>
+            <p key={index} className={cx("text-xs text-tooltip-supporting-text")}>
               {`${entry.name}: ${formatter ? formatter(entry.value, entry.name, entry, index, entry.payload) : entry.value}`}
             </p>
           ))}
         </div>
       ) : (
-        <p className="text-tooltip-supporting-text text-xs">{secondaryTitle}</p>
+        <p className="text-xs text-tooltip-supporting-text">{secondaryTitle}</p>
       )}
     </div>
   );
 };
 
-type ChartActiveDotProps = DotProps;
+interface ChartActiveDotProps extends DotProps {
+  // We have to use `any` here because the `payload` prop is not typed correctly in the `recharts` library.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  payload?: any;
+}
 
 export const ChartActiveDot = ({ cx = 0, cy = 0 }: ChartActiveDotProps) => {
   const size = 12;

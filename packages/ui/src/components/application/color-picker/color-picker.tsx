@@ -1,250 +1,523 @@
 "use client";
 
-import type { ComponentPropsWithRef, ReactNode } from "react";
+import type React from "react";
+import type { ReactNode } from "react";
+import { useRef, useState } from "react";
+import { Dropper, Plus } from "@opus2-platform/icons";
+import type {
+  ColorAreaProps as AriaColorAreaProps,
+  ColorSliderProps as AriaColorSliderProps,
+  ColorSwatchPickerItemProps as AriaColorSwatchPickerItemProps,
+  ColorThumbProps as AriaColorThumbProps,
+  Color,
+  ColorSpace,
+} from "react-aria-components";
 import {
   ColorArea as AriaColorArea,
   ColorField as AriaColorField,
-  ColorPicker as AriaColorPicker,
   ColorSlider as AriaColorSlider,
   ColorSwatch as AriaColorSwatch,
   ColorSwatchPicker as AriaColorSwatchPicker,
   ColorSwatchPickerItem as AriaColorSwatchPickerItem,
   ColorThumb as AriaColorThumb,
-  ColorWheelTrack as AriaColorWheelTrack,
   ColorWheel as AriaColorWheel,
-  SliderOutput,
-  SliderTrack,
-  type ColorPickerProps as AriaColorPickerProps,
-  type ColorSwatchPickerProps as AriaColorSwatchPickerProps,
+  ColorWheelTrack as AriaColorWheelTrack,
+  Input as AriaInput,
+  SliderTrack as AriaSliderTrack,
+  parseColor,
 } from "react-aria-components";
+import { Button, type ButtonProps } from "@/components/base/buttons/button";
+import { Select, type SelectProps } from "@/components/base/select/select";
 import { cx } from "@/utils";
+import { Provider, type ProviderProps, useColorPicker } from "./color-picker-context";
+import type { ColorDisplayFormat } from "./color-picker-utils";
+import { selectAllOnFocus } from "./color-picker-utils";
 
-// ---------------------------------------------------------------------------
-// ColorPickerRoot — wraps React Aria ColorPicker
-// ---------------------------------------------------------------------------
+const COLOR_FORMAT_ITEMS = [
+  { id: "hex", label: "Hex" },
+  { id: "rgb", label: "RGB" },
+  { id: "css", label: "CSS" },
+  { id: "hsl", label: "HSL" },
+  { id: "hsb", label: "HSB" },
+];
 
-export interface ColorPickerProps extends AriaColorPickerProps {
-  children: ReactNode;
-}
-
-const ColorPickerRoot = ({ children, ...props }: ColorPickerProps) => (
-  <AriaColorPicker {...props}>
-    <div className="flex flex-col gap-4">{children}</div>
-  </AriaColorPicker>
-);
-
-// ---------------------------------------------------------------------------
-// ColorPickerArea — 2D saturation/brightness area
-// ---------------------------------------------------------------------------
-
-interface ColorPickerAreaProps {
-  colorSpace?: "hsb" | "hsl";
-  xChannel?: "saturation";
-  yChannel?: "brightness" | "lightness";
-  className?: string;
-}
-
-const ColorPickerArea = ({
-  colorSpace = "hsb",
-  xChannel = "saturation",
-  yChannel = "brightness",
-  className,
-}: ColorPickerAreaProps) => (
-  <AriaColorArea
-    colorSpace={colorSpace}
-    xChannel={xChannel}
-    yChannel={yChannel}
-    className={cx("h-48 w-full rounded-lg", className)}
-  >
-    <AriaColorThumb className="size-5 cursor-grab rounded-full border-2 border-white shadow-md active:cursor-grabbing focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-1" />
-  </AriaColorArea>
-);
-
-// ---------------------------------------------------------------------------
-// ColorPickerHueSlider — horizontal hue slider
-// ---------------------------------------------------------------------------
-
-interface ColorPickerHueSliderProps {
-  className?: string;
-}
-
-const ColorPickerHueSlider = ({ className }: ColorPickerHueSliderProps) => (
-  <AriaColorSlider
-    colorSpace="hsl"
-    channel="hue"
-    className={cx("w-full", className)}
-  >
-    <SliderTrack
-      style={{ background: "linear-gradient(to right, hsl(0,100%,50%), hsl(60,100%,50%), hsl(120,100%,50%), hsl(180,100%,50%), hsl(240,100%,50%), hsl(300,100%,50%), hsl(360,100%,50%))" }}
-      className="h-3 w-full rounded-full"
-    >
-      <AriaColorThumb className="top-1/2 size-5 -translate-y-1/2 cursor-grab rounded-full border-2 border-white shadow-md active:cursor-grabbing focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-1" />
-    </SliderTrack>
-  </AriaColorSlider>
-);
-
-// ---------------------------------------------------------------------------
-// ColorPickerAlphaSlider — horizontal alpha slider
-// ---------------------------------------------------------------------------
-
-interface ColorPickerAlphaSliderProps {
-  className?: string;
-}
-
-const ColorPickerAlphaSlider = ({ className }: ColorPickerAlphaSliderProps) => (
-  <AriaColorSlider
-    colorSpace="hsl"
-    channel="alpha"
-    className={cx("w-full", className)}
-  >
-    <SliderTrack className="relative h-3 w-full overflow-hidden rounded-full">
-      {/* Checkerboard for alpha background */}
-      <div
-        className="absolute inset-0 rounded-full"
-        style={{
-          backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='4' height='4' fill='%23ccc'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%23ccc'/%3E%3C/svg%3E\")",
-        }}
-      />
-      <AriaColorThumb className="top-1/2 size-5 -translate-y-1/2 cursor-grab rounded-full border-2 border-white shadow-md active:cursor-grabbing focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-1" />
-    </SliderTrack>
-  </AriaColorSlider>
-);
-
-// ---------------------------------------------------------------------------
-// ColorPickerSwatch — single color swatch preview
-// ---------------------------------------------------------------------------
-
-interface ColorPickerSwatchProps extends ComponentPropsWithRef<"div"> {
-  className?: string;
-}
-
-const ColorPickerSwatch = ({ className, ...props }: ColorPickerSwatchProps) => (
-  <AriaColorSwatch
-    {...(props as any)}
-    className={cx("size-8 rounded-md border border-secondary shadow-sm", className)}
+const ColorThumb = ({ className, ...props }: AriaColorThumbProps) => (
+  <AriaColorThumb
+    className={(state) =>
+      cx(
+        "size-5 cursor-grab rounded-full border-[3px] border-fg-white shadow-md outline-0 outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2",
+        state.isDragging && "cursor-grabbing",
+        typeof className === "function" ? className(state) : className
+      )
+    }
+    {...props}
   />
 );
 
-// ---------------------------------------------------------------------------
-// ColorPickerInput — hex / rgba text input
-// ---------------------------------------------------------------------------
+const ColorPickerArea = ({ style, className, ...props }: AriaColorAreaProps) => (
+  <AriaColorArea
+    aria-label="Color picker"
+    colorSpace="hsb"
+    xChannel="saturation"
+    yChannel="brightness"
+    {...props}
+    style={({ defaultStyle }) => ({ ...defaultStyle, borderRadius: 8, ...style })}
+    className={(state) =>
+      cx(
+        "relative aspect-square w-full shrink-0 rounded-lg ring-[0.5px] ring-alpha-black/10 ring-inset",
+        typeof className === "function" ? className(state) : className
+      )
+    }
+  >
+    <ColorThumb />
+  </AriaColorArea>
+);
 
-interface ColorPickerInputProps {
-  channel?: "hex" | "red" | "green" | "blue" | "alpha" | "hue" | "saturation" | "brightness" | "lightness";
-  label?: string;
+const HueSlider = ({ className, ...props }: Omit<AriaColorSliderProps, "channel">) => (
+  <AriaColorSlider
+    aria-label="Hue"
+    {...props}
+    channel="hue"
+    className={(state) => cx("w-full", typeof className === "function" ? className(state) : className)}
+  >
+    <AriaSliderTrack
+      style={({ defaultStyle }) => ({ ...defaultStyle, borderRadius: 9999 })}
+      className="relative h-3 w-full cursor-pointer rounded-full ring-[0.5px] ring-alpha-black/10 ring-inset"
+    >
+      <ColorThumb style={({ defaultStyle }) => ({ ...defaultStyle, top: "50%" })} />
+    </AriaSliderTrack>
+  </AriaColorSlider>
+);
+
+const AlphaSlider = ({ className, ...props }: Omit<AriaColorSliderProps, "channel">) => (
+  <AriaColorSlider
+    aria-label="Alpha"
+    {...props}
+    channel="alpha"
+    className={(state) => cx("w-full", typeof className === "function" ? className(state) : className)}
+  >
+    <AriaSliderTrack
+      style={({ defaultStyle }) => ({
+        ...defaultStyle,
+        borderRadius: 9999,
+        background: `${defaultStyle.background}, repeating-conic-gradient(#ccc 0% 25%, white 0% 50%) 50% / 8px 8px`,
+      })}
+      className="relative h-3 w-full cursor-pointer rounded-full ring-[0.5px] ring-alpha-black/10 ring-inset"
+    >
+      <ColorThumb style={({ defaultStyle }) => ({ ...defaultStyle, top: "50%" })} />
+    </AriaSliderTrack>
+  </AriaColorSlider>
+);
+
+const EyeDropperButton = (props: ButtonProps) => {
+  const { actions } = useColorPicker();
+
+  const isSupported = typeof window !== "undefined" && "EyeDropper" in window;
+  if (!isSupported) return null;
+
+  return (
+    <Button
+      aria-label="Pick color from screen"
+      size="sm"
+      color="secondary"
+      iconLeading={Dropper}
+      onClick={async () => {
+        try {
+          // @ts-expect-error EyeDropper API not typed
+          const result = await new EyeDropper().open();
+          actions.setColor(parseColor(result.sRGBHex));
+        } catch {
+          /* cancelled */
+        }
+      }}
+      {...props}
+    />
+  );
+};
+
+const ColorFormatSelect = ({ className, ...props }: Omit<SelectProps, "children">) => {
+  const { state, actions } = useColorPicker();
+
+  return (
+    <Select
+      size="sm"
+      aria-label="Color format"
+      value={state.colorFormat}
+      onChange={(value) => actions.setColorFormat(value as ColorDisplayFormat)}
+      items={COLOR_FORMAT_ITEMS}
+      className={(state) => cx("w-20 shrink-0", typeof className === "function" ? className(state) : className)}
+      {...props}
+    >
+      {(item) => <Select.Item id={item.id}>{item.label}</Select.Item>}
+    </Select>
+  );
+};
+
+/** Wrapper that mirrors InputBase styling with customizable border radius for input groups. */
+export const InputCell = ({
+  position = "only",
+  className,
+  children,
+}: {
+  position?: "first" | "middle" | "last" | "only";
   className?: string;
+  children: React.ReactNode;
+}) => {
+  const radius = {
+    only: "rounded-lg",
+    first: "rounded-l-lg",
+    middle: "rounded-none",
+    last: "rounded-r-lg",
+  }[position];
+
+  return (
+    <div
+      className={cx(
+        "relative flex place-content-center place-items-center bg-primary ring-1 ring-primary transition-shadow duration-100 ease-linear ring-inset focus-within:z-10 focus-within:ring-2 focus-within:ring-brand",
+        radius,
+        position !== "only" && position !== "first" && "-ml-px",
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+};
+
+interface SwatchItemsProps extends AriaColorSwatchPickerItemProps {
+  size?: "sm" | "md";
 }
 
-const ColorPickerInput = ({ channel = "hex", label, className }: ColorPickerInputProps) => (
-  <div className={cx("flex flex-col gap-1", className)}>
-    {label && <span className="text-xs font-medium text-tertiary">{label}</span>}
-    <AriaColorField
-      colorSpace={channel === "hex" ? undefined : channel === "hue" || channel === "saturation" || channel === "lightness" ? "hsl" : "rgb"}
-      channel={channel === "hex" ? undefined : channel as any}
-      className="w-full"
-    >
+export const SwatchItem = ({ color, size = "md", ...props }: SwatchItemsProps) => (
+  <AriaColorSwatchPickerItem
+    {...props}
+    color={color}
+    style={{ "--swatch-color": color } as React.CSSProperties}
+    className={(state) =>
+      cx(
+        "cursor-pointer rounded-full",
+        size === "sm" ? "size-4" : "size-5",
+        state.isFocusVisible
+          ? "outline-2 outline-offset-2 outline-hidden"
+          : state.isSelected
+            ? "outline-2 outline-offset-2 outline-(--swatch-color)"
+            : "outline-0",
+        typeof props.className === "function" ? props.className(state) : props.className
+      )
+    }
+  >
+    <AriaColorSwatch className="size-full rounded-full ring-1 ring-alpha-black/10 ring-inset" style={({ defaultStyle }) => defaultStyle} />
+  </AriaColorSwatchPickerItem>
+);
+
+const channelInputClass = "w-full min-w-0 bg-transparent px-2.5 py-2 text-sm text-primary outline-hidden";
+
+const CHANNEL_CONFIG = {
+  rgb: { colorSpace: "rgb" as ColorSpace, channels: ["red", "green", "blue"] as const },
+  hsl: { colorSpace: "hsl" as ColorSpace, channels: ["hue", "saturation", "lightness"] as const },
+  hsb: { colorSpace: "hsb" as ColorSpace, channels: ["hue", "saturation", "brightness"] as const },
+};
+
+const ColorValueInput = () => {
+  const { state } = useColorPicker();
+  if (state.colorFormat === "hex") return <HexInput />;
+  if (state.colorFormat === "css") return <CssInput />;
+  return <ChannelInput format={state.colorFormat} />;
+};
+
+const HexInput = () => {
+  const { state, actions } = useColorPicker();
+  return (
+    <div className="flex flex-1 shadow-xs">
+      <InputCell position="first" className="flex-1">
+        <AriaColorField
+          aria-label="Hex color"
+          value={state.color}
+          onChange={(c) => {
+            if (c) actions.setColor(c);
+          }}
+          className="flex flex-1 items-center gap-2 px-2.5 py-2"
+        >
+          <AriaColorSwatch className="size-4 shrink-0 rounded-full ring-1 ring-alpha-black/10 ring-inset" style={({ defaultStyle }) => defaultStyle} />
+          <AriaInput onFocus={selectAllOnFocus} className="w-full min-w-0 bg-transparent text-sm text-primary outline-hidden" />
+        </AriaColorField>
+      </InputCell>
+      <InputCell position="last" className="w-14 shrink-0">
+        <AriaColorField
+          aria-label="Alpha"
+          channel="alpha"
+          value={state.color}
+          onChange={(c) => {
+            if (c) actions.setColor(c);
+          }}
+          className="flex w-full items-center"
+        >
+          <AriaInput onFocus={selectAllOnFocus} className="w-full min-w-0 bg-transparent px-2.5 py-2 text-sm text-primary outline-hidden" />
+        </AriaColorField>
+      </InputCell>
+    </div>
+  );
+};
+
+const CssInput = () => {
+  const { state, actions } = useColorPicker();
+  const [draft, setDraft] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const toRgba = (c: Color) => {
+    const rgb = c.toFormat("rgb");
+    return `rgba(${Math.round(rgb.getChannelValue("red"))}, ${Math.round(rgb.getChannelValue("green"))}, ${Math.round(rgb.getChannelValue("blue"))}, ${Math.round(rgb.getChannelValue("alpha") * 100) / 100})`;
+  };
+
+  return (
+    <InputCell className="flex-1 shadow-xs">
       <input
-        className="w-full rounded-md border border-secondary bg-primary px-2.5 py-1.5 text-sm text-secondary placeholder:text-placeholder focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 transition duration-100 ease-linear"
+        ref={inputRef}
+        value={draft ?? toRgba(state.color)}
+        onChange={(e) => setDraft(e.target.value)}
+        onFocus={(e) => {
+          const val = toRgba(state.color);
+          setDraft(val);
+          requestAnimationFrame(() => {
+            const s = val.indexOf("(") + 1;
+            const end = val.indexOf(")");
+            if (s > 0 && end > s) e.target.setSelectionRange(s, end);
+          });
+        }}
+        onBlur={() => {
+          if (draft !== null) {
+            try {
+              actions.setColor(parseColor(draft));
+            } catch {
+              /* */
+            }
+            setDraft(null);
+          }
+        }}
+        className="w-full min-w-0 bg-transparent px-3 py-2 text-sm text-primary outline-hidden"
       />
-    </AriaColorField>
+    </InputCell>
+  );
+};
+
+const ChannelInput = ({ format }: { format: ColorDisplayFormat }) => {
+  const { state, actions } = useColorPicker();
+  const config = CHANNEL_CONFIG[format as keyof typeof CHANNEL_CONFIG];
+  if (!config) return null;
+  const converted = state.color.toFormat(config.colorSpace);
+
+  return (
+    <div className="flex flex-1 shadow-xs">
+      {config.channels.map((ch, i) => (
+        <InputCell key={ch} position={i === 0 ? "first" : "middle"} className="flex-1">
+          <AriaColorField
+            aria-label={ch.charAt(0).toUpperCase() + ch.slice(1)}
+            channel={ch}
+            colorSpace={config.colorSpace}
+            value={converted}
+            onChange={(c) => {
+              if (c) actions.setColor(c);
+            }}
+            className="flex w-full"
+          >
+            <AriaInput onFocus={selectAllOnFocus} className={channelInputClass} />
+          </AriaColorField>
+        </InputCell>
+      ))}
+      <InputCell position="last" className="w-14 shrink-0">
+        <AriaColorField
+          aria-label="Alpha"
+          channel="alpha"
+          value={converted}
+          onChange={(c) => {
+            if (c) actions.setColor(c);
+          }}
+          className="flex w-full"
+        >
+          <AriaInput onFocus={selectAllOnFocus} className={channelInputClass} />
+        </AriaColorField>
+      </InputCell>
+    </div>
+  );
+};
+
+export interface SavedColorsProps {
+  /** Heading text above the swatch list. */
+  label?: string;
+  /** Array of CSS color strings or gradient strings to display as swatches. */
+  colors: string[];
+  /** Called when the "Add" button is clicked. Omit to hide the button. */
+  onAdd?: () => void;
+  /** Called when a swatch is selected, with the color/gradient string. */
+  onSelect?: (color: string) => void;
+}
+
+const SavedColors = ({ label = "Saved", colors, onAdd, onSelect }: SavedColorsProps) => {
+  // Check if colors are solid (parseable) or gradients
+  const isSolid =
+    colors.length > 0 &&
+    (() => {
+      try {
+        if (!colors[0]) return false;
+        parseColor(colors[0]);
+        return true;
+      } catch {
+        return false;
+      }
+    })();
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-3">
+        <p className="flex-1 text-sm font-semibold text-secondary">{label}</p>
+        {onAdd && (
+          <Button size="xs" color="link-gray" iconLeading={Plus} onClick={onAdd}>
+            Add
+          </Button>
+        )}
+      </div>
+      {isSolid ? (
+        <AriaColorSwatchPicker aria-label={label} className="flex flex-wrap gap-2" onChange={(color) => onSelect?.(color.toString("hex"))}>
+          {colors.map((c) => (
+            <SwatchItem key={c} color={c} />
+          ))}
+        </AriaColorSwatchPicker>
+      ) : (
+        <div className="flex flex-wrap gap-2">
+          {colors.map((c, i) => (
+            <button
+              key={`${c}-${i}`}
+              type="button"
+              onClick={() => onSelect?.(c)}
+              className="size-5 cursor-pointer rounded-full ring-1 ring-alpha-black/10 transition duration-100 ease-linear ring-inset hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hidden"
+              style={{ background: c }}
+              aria-label="Select gradient"
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+/** All-in-one solid color picker layout */
+const ColorPickerSolid = () => (
+  <div className="flex flex-col gap-4">
+    <ColorPickerArea />
+    <div className="flex flex-col gap-4">
+      <div className="flex items-start gap-3">
+        <EyeDropperButton />
+        <div className="flex flex-1 flex-col gap-3">
+          <HueSlider />
+          <AlphaSlider />
+        </div>
+      </div>
+      <div className="flex items-center gap-3">
+        <ColorFormatSelect />
+        <ColorValueInput />
+      </div>
+    </div>
   </div>
 );
 
-// ---------------------------------------------------------------------------
-// ColorPickerSwatchGrid — grid of selectable preset swatches
-// ---------------------------------------------------------------------------
+/** Card container for the color picker. */
+const ColorPickerDialog = ({ className, children }: { className?: string; children?: ReactNode }) => (
+  <div className={cx("relative flex w-80 flex-col overflow-clip rounded-2xl bg-primary shadow-xl ring-1 ring-secondary_alt", className)}>{children}</div>
+);
 
-interface ColorPickerSwatchGridProps extends Omit<AriaColorSwatchPickerProps, "children"> {
-  colors: string[];
-  className?: string;
-}
+/** Minimal color picker layout (Area + HueSlider only, no alpha/eyedropper/format). */
+const ColorPickerMinimal = () => (
+  <div className="flex flex-col gap-4">
+    <ColorPickerArea />
+    <HueSlider />
+  </div>
+);
 
-const ColorPickerSwatchGrid = ({ colors, className, ...props }: ColorPickerSwatchGridProps) => (
-  <AriaColorSwatchPicker
-    {...props}
-    className={cx("flex flex-wrap gap-2", className)}
-  >
-    {colors.map((color) => (
-      <AriaColorSwatchPickerItem
-        key={color}
-        color={color}
-        className="size-6 cursor-pointer rounded-md border border-secondary shadow-sm ring-offset-1 transition duration-100 ease-linear focus:outline-none focus-visible:ring-2 focus-visible:ring-brand selected:ring-2 selected:ring-brand selected:ring-offset-2"
-      >
-        <AriaColorSwatch className="size-full rounded-md" />
-      </AriaColorSwatchPickerItem>
+/** Single color swatch that reflects the current picker color. */
+const ColorPickerSwatch = ({ className }: { className?: string }) => (
+  <AriaColorSwatch className={cx("size-8 rounded-full ring-1 ring-alpha-black/10 ring-inset", className)} style={({ defaultStyle }) => defaultStyle} />
+);
+
+/** Grid of preset color swatches. */
+const ColorPickerSwatchGrid = ({ colors, size = "md", className }: { colors: string[]; size?: "sm" | "md"; className?: string }) => (
+  <AriaColorSwatchPicker aria-label="Color swatches" className={cx("flex flex-wrap gap-2", className)}>
+    {colors.map((c) => (
+      <SwatchItem key={c} color={c} size={size} />
     ))}
   </AriaColorSwatchPicker>
 );
 
-// ---------------------------------------------------------------------------
-// ColorPickerWheel — circular hue/saturation wheel
-// ---------------------------------------------------------------------------
-
-interface ColorPickerWheelProps {
-  size?: number;
-  className?: string;
-}
-
-const ColorPickerWheel = ({ size = 160, className }: ColorPickerWheelProps) => (
-  <AriaColorWheel
-    outerRadius={size / 2}
-    innerRadius={size / 2 - 28}
-    className={cx(className)}
-  >
-    <AriaColorWheelTrack />
-    <AriaColorThumb className="size-5 cursor-grab rounded-full border-2 border-white shadow-md active:cursor-grabbing focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-1" />
+/** Color wheel input with optional size. */
+const ColorPickerWheel = ({ size = 160, className }: { size?: number; className?: string }) => (
+  <AriaColorWheel outerRadius={size / 2} innerRadius={size / 2 - 28} className={cx("relative mx-auto", className)}>
+    <AriaColorWheelTrack style={({ defaultStyle }) => defaultStyle} className="rounded-full" />
+    <ColorThumb />
   </AriaColorWheel>
 );
 
-// ---------------------------------------------------------------------------
-// Preset compound layout helpers
-// ---------------------------------------------------------------------------
-
-/** Full picker: area + hue slider + alpha slider + input */
-const ColorPickerFull = ({ className }: { className?: string }) => (
-  <div className={cx("flex flex-col gap-3", className)}>
-    <ColorPickerArea />
-    <div className="flex items-center gap-3">
-      <div className="flex flex-1 flex-col gap-2">
-        <ColorPickerHueSlider />
-        <ColorPickerAlphaSlider />
+/** Single color channel input with optional label. */
+const ColorPickerInput = ({ channel = "hex", label, className }: { channel?: string; label?: string; className?: string }) => {
+  const { state, actions } = useColorPicker();
+  return (
+    <div className={cx("flex flex-col gap-1", className)}>
+      {label && <span className="text-xs font-medium text-tertiary">{label}</span>}
+      <div className="shadow-xs">
+        <InputCell>
+          <AriaColorField
+            aria-label={label ?? channel}
+            value={state.color}
+            onChange={(c) => {
+              if (c) actions.setColor(c);
+            }}
+            className="flex flex-1 items-center gap-2 px-2.5 py-2"
+          >
+            <AriaColorSwatch className="size-4 shrink-0 rounded-full ring-1 ring-alpha-black/10 ring-inset" style={({ defaultStyle }) => defaultStyle} />
+            <AriaInput onFocus={selectAllOnFocus} className="w-full min-w-0 bg-transparent text-sm text-primary outline-hidden" />
+          </AriaColorField>
+        </InputCell>
       </div>
-      <ColorPickerSwatch className="size-10 shrink-0" />
     </div>
-    <ColorPickerInput channel="hex" label="HEX" />
-  </div>
-);
-
-/** Minimal picker: area + hue slider only */
-const ColorPickerMinimal = ({ className }: { className?: string }) => (
-  <div className={cx("flex flex-col gap-3", className)}>
-    <ColorPickerArea />
-    <ColorPickerHueSlider />
-  </div>
-);
-
-// ---------------------------------------------------------------------------
-// Compound export
-// ---------------------------------------------------------------------------
-
-export const ColorPicker = ColorPickerRoot as typeof ColorPickerRoot & {
-  Area: typeof ColorPickerArea;
-  HueSlider: typeof ColorPickerHueSlider;
-  AlphaSlider: typeof ColorPickerAlphaSlider;
-  Swatch: typeof ColorPickerSwatch;
-  Input: typeof ColorPickerInput;
-  SwatchGrid: typeof ColorPickerSwatchGrid;
-  Wheel: typeof ColorPickerWheel;
-  Full: typeof ColorPickerFull;
-  Minimal: typeof ColorPickerMinimal;
+  );
 };
 
-ColorPicker.Area = ColorPickerArea;
-ColorPicker.HueSlider = ColorPickerHueSlider;
-ColorPicker.AlphaSlider = ColorPickerAlphaSlider;
-ColorPicker.Swatch = ColorPickerSwatch;
-ColorPicker.Input = ColorPickerInput;
-ColorPicker.SwatchGrid = ColorPickerSwatchGrid;
-ColorPicker.Wheel = ColorPickerWheel;
-ColorPicker.Full = ColorPickerFull;
-ColorPicker.Minimal = ColorPickerMinimal;
+/** Root ColorPicker — wraps children in the color state Provider. */
+const ColorPickerRoot = ({ children, ...providerProps }: ProviderProps) => <Provider {...providerProps}>{children}</Provider>;
+
+/** Compound export — use as `<ColorPicker defaultValue={...}><ColorPicker.Full /></ColorPicker>` */
+const ColorPickerNamespace = ColorPickerRoot as typeof ColorPickerRoot & {
+  Full: typeof ColorPickerSolid;
+  Minimal: typeof ColorPickerMinimal;
+  Dialog: typeof ColorPickerDialog;
+  Provider: typeof Provider;
+  Area: typeof ColorPickerArea;
+  HueSlider: typeof HueSlider;
+  AlphaSlider: typeof AlphaSlider;
+  EyeDropper: typeof EyeDropperButton;
+  ColorFormatSelect: typeof ColorFormatSelect;
+  ColorValueInput: typeof ColorValueInput;
+  SavedColors: typeof SavedColors;
+  SwatchItem: typeof SwatchItem;
+  Swatch: typeof ColorPickerSwatch;
+  SwatchGrid: typeof ColorPickerSwatchGrid;
+  Input: typeof ColorPickerInput;
+  Wheel: typeof ColorPickerWheel;
+};
+
+ColorPickerNamespace.Full = ColorPickerSolid;
+ColorPickerNamespace.Minimal = ColorPickerMinimal;
+ColorPickerNamespace.Dialog = ColorPickerDialog;
+ColorPickerNamespace.Provider = Provider;
+ColorPickerNamespace.Area = ColorPickerArea;
+ColorPickerNamespace.HueSlider = HueSlider;
+ColorPickerNamespace.AlphaSlider = AlphaSlider;
+ColorPickerNamespace.EyeDropper = EyeDropperButton;
+ColorPickerNamespace.ColorFormatSelect = ColorFormatSelect;
+ColorPickerNamespace.ColorValueInput = ColorValueInput;
+ColorPickerNamespace.SavedColors = SavedColors;
+ColorPickerNamespace.SwatchItem = SwatchItem;
+ColorPickerNamespace.Swatch = ColorPickerSwatch;
+ColorPickerNamespace.SwatchGrid = ColorPickerSwatchGrid;
+ColorPickerNamespace.Input = ColorPickerInput;
+ColorPickerNamespace.Wheel = ColorPickerWheel;
+
+export const ColorPicker = ColorPickerNamespace;

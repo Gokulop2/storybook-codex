@@ -16,10 +16,11 @@ import {
   RangeCalendarStateContext,
   useSlottedContext,
 } from "react-aria-components";
-import { Button } from "@/components";
-import { useBreakpoint } from "@/hooks";
+import { Button } from "@/components/base/buttons/button";
+import { InputDateBase } from "@/components/base/input/input-date";
+import { useBreakpoint } from "@/hooks/use-breakpoint";
+import { cx } from "@/utils";
 import { CalendarCell } from "./cell";
-import { DateInput } from "./date-input";
 
 export const RangeCalendarContextProvider = ({ children }: PropsWithChildren) => {
   const [value, onChange] = useState<{ start: DateValue; end: DateValue } | null>(null);
@@ -47,6 +48,29 @@ const RangeCalendarTitle = ({ part }: { part: "start" | "end" }) => {
     : formatter.format(context.visibleRange.end.toDate(context.timeZone));
 };
 
+interface RangePresetButtonProps extends HTMLAttributes<HTMLButtonElement> {
+  value: { start: DateValue; end: DateValue };
+}
+
+export const RangePresetButton = ({ value, className, children, ...props }: RangePresetButtonProps) => {
+  const context = useSlottedContext(RangeCalendarContext);
+
+  const isSelected = context?.value?.start?.compare(value.start) === 0 && context?.value?.end?.compare(value.end) === 0;
+
+  return (
+    <button
+      {...props}
+      className={cx(
+        "cursor-pointer rounded-md px-3 py-2 text-left text-sm font-medium outline-hidden transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2",
+        isSelected ? "bg-active text-secondary_hover hover:bg-secondary_hover" : "text-secondary hover:bg-primary_hover hover:text-secondary_hover",
+        className
+      )}
+    >
+      {children}
+    </button>
+  );
+};
+
 const MobilePresetButton = ({ value, children, ...props }: HTMLAttributes<HTMLButtonElement> & { value: { start: DateValue; end: DateValue } }) => {
   const context = useContext(RangeCalendarStateContext);
 
@@ -71,44 +95,50 @@ interface RangeCalendarProps extends AriaRangeCalendarProps<DateValue> {
   highlightedDates?: DateValue[];
   /** The date presets to display. */
   presets?: Record<string, { label: string; value: { start: DateValue; end: DateValue } }>;
+  /** Whether to show out of range dates. */
+  showOutOfRangeDates?: boolean;
+  /** Whether to show presets on desktop. */
+  showPresetsOnDesktop?: boolean;
 }
 
-export const RangeCalendar = ({ presets, ...props }: RangeCalendarProps) => {
+export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = false, showPresetsOnDesktop = false, ...props }: RangeCalendarProps) => {
   const isDesktop = useBreakpoint("md");
   const context = useSlottedContext(RangeCalendarContext);
 
   const ContextWrapper = context ? Fragment : RangeCalendarContextProvider;
 
+  const visibleDurationMonths = visibleDuration?.months || (isDesktop ? 2 : 1);
+
   return (
     <ContextWrapper>
       <AriaRangeCalendar
-        className="flex items-start"
-        visibleDuration={{
-          months: isDesktop ? 2 : 1,
-        }}
         {...props}
+        className={(state) => cx("flex items-start", typeof props.className === "function" ? props.className(state) : props.className)}
+        visibleDuration={{
+          months: visibleDurationMonths,
+        }}
       >
-        <div className="flex flex-col gap-3 px-6 py-5">
-          <header className="relative flex items-center justify-between md:justify-start">
-            <Button slot="previous" iconLeading={ChevronLeft} size="sm" color="tertiary" className="size-8" />
+        <div className="flex flex-col gap-3 px-6 py-5 md:gap-2">
+          <header className={cx("relative flex items-center", visibleDurationMonths > 1 ? "justify-start" : "justify-between")}>
+            <Button aria-label="Previous month" slot="previous" iconLeading={ChevronLeft} size="sm" color="tertiary" className="size-8" />
 
-            <h2 className="text-fg-secondary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-semibold">
+            <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-semibold text-fg-secondary">
               <RangeCalendarTitle part="start" />
             </h2>
 
-            <Button slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8 md:hidden" />
+            {visibleDurationMonths === 1 && <Button aria-label="Next month" slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />}
           </header>
 
           {!isDesktop && (
             <div className="flex items-center gap-2 md:hidden">
-              <DateInput slot="start" className="flex-1" />
+              <InputDateBase slot="start" size="sm" className="flex-1" />
               <div className="text-md text-quaternary">–</div>
-              <DateInput slot="end" className="flex-1" />
+              <InputDateBase slot="end" size="sm" className="flex-1" />
             </div>
           )}
 
-          {!isDesktop && presets && (
-            <div className="mt-1 flex justify-between gap-3 px-2 md:hidden">
+          {(showPresetsOnDesktop || !isDesktop) && presets && (
+            <div className="mt-1 flex justify-between gap-3 px-2">
               {Object.values(presets).map((preset) => (
                 <MobilePresetButton key={preset.label} value={preset.value}>
                   {preset.label}
@@ -121,31 +151,31 @@ export const RangeCalendar = ({ presets, ...props }: RangeCalendarProps) => {
             <AriaCalendarGridHeader>
               {(day) => (
                 <AriaCalendarHeaderCell className="border-b-4 border-transparent p-0">
-                  <div className="text-secondary flex size-10 items-center justify-center text-sm font-medium">{day.slice(0, 2)}</div>
+                  <div className="flex size-10 items-center justify-center text-sm font-medium text-secondary">{day.slice(0, 2)}</div>
                 </AriaCalendarHeaderCell>
               )}
             </AriaCalendarGridHeader>
             <AriaCalendarGridBody className="[&_td]:p-0 [&_tr]:border-b-4 [&_tr]:border-transparent [&_tr:last-of-type]:border-none">
-              {(date) => <CalendarCell date={date} />}
+              {(date) => <CalendarCell date={date} showOutOfRangeDates={showOutOfRangeDates} />}
             </AriaCalendarGridBody>
           </AriaCalendarGrid>
         </div>
 
-        {isDesktop && (
-          <div className="border-secondary flex flex-col gap-3 border-l px-6 py-5">
+        {visibleDurationMonths > 1 && (
+          <div className="flex flex-col gap-3 border-l border-secondary px-6 py-5">
             <header className="relative flex items-center justify-end">
-              <h2 className="text-fg-secondary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-semibold">
+              <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-semibold text-fg-secondary">
                 <RangeCalendarTitle part="end" />
               </h2>
 
-              <Button slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />
+              <Button aria-label="Next month" slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />
             </header>
 
             <AriaCalendarGrid weekdayStyle="short" offset={{ months: 1 }} className="w-max">
               <AriaCalendarGridHeader>
                 {(day) => (
                   <AriaCalendarHeaderCell className="border-b-4 border-transparent p-0">
-                    <div className="text-secondary flex size-10 items-center justify-center text-sm font-medium">{day.slice(0, 2)}</div>
+                    <div className="flex size-10 items-center justify-center text-sm font-medium text-secondary">{day.slice(0, 2)}</div>
                   </AriaCalendarHeaderCell>
                 )}
               </AriaCalendarGridHeader>

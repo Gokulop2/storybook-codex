@@ -1,41 +1,60 @@
 import type { CSSProperties, FC, ReactNode } from "react";
-import { Fragment, useState } from "react";
+import { Fragment, useLayoutEffect, useRef, useState } from "react";
+import { Button } from "@opus2-platform/codex";
 import { Button as AriaButton, Tab as AriaTab, TabList as AriaTabList, TabPanel as AriaTabPanel, Tabs as AriaTabs } from "react-aria-components";
+import { DOCS_CODE_SYNTAX_COLORS } from "./docs-code-syntax";
 
-export const DOCS_SECTION_CLASS = "group my-8 flex w-full scroll-mt-20 flex-col gap-3 md:my-10";
-export const DOCS_SECTION_HERO_CLASS = "group not-typography my-8 flex w-full scroll-mt-20 flex-col gap-3";
+/** Matches `docs-untitled-multi-file-code` — fade + “Show more” for tall snippets. */
+const DOCS_CODE_WELL_GRADIENT_FADE =
+  "absolute inset-x-0 bottom-0 z-[1] flex h-40 items-end justify-center bg-gradient-to-t from-primary via-primary/95 to-transparent pb-6";
+
+export const DOCS_SECTION_CLASS = "group my-8 flex w-full min-w-0 max-w-full scroll-mt-20 flex-col gap-3 md:my-10";
+export const DOCS_SECTION_HERO_CLASS = "group not-typography my-8 flex w-full min-w-0 max-w-full scroll-mt-20 flex-col gap-3";
 
 /**
- * Hero preview well (catalog-style spacing: px-4/md:px-8, py-32, min-h 320, md min-w 520).
+ * Isolates live previews from Storybook/docs list + link chrome. Applied to preview wells so components match Untitled UI–style self-contained examples (no per-item !important).
  */
+/** Storybook docs prose can override list/link styles; `codex-docs-surface-reset` in styles.css neutralises injected sbdocs rules. */
+export const DOCS_PREVIEW_SB_ISOLATION =
+  "codex-docs-surface-reset [&_ul]:list-none! [&_ol]:list-none! [&_a]:!no-underline [&_a:hover]:!no-underline [&_a:visited]:!no-underline";
+
+/** Hero preview well (catalog-style spacing: px-4/md:px-8, py-32, min-h 320, md min-w 520). */
 export const DOCS_PREVIEW_HERO_SURFACE_CLASS =
-  "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] items-center justify-center gap-3 rounded-[20px] bg-primary px-4 py-32 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8";
+  `outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] items-center justify-center gap-3 rounded-[20px] bg-primary px-4 py-32 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8 ${DOCS_PREVIEW_SB_ISOLATION}`;
 
 /** Hero well for stacked column demos (badges, checkbox groups, etc.). */
 export const DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK =
-  "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] flex-col items-center justify-center gap-3 rounded-[20px] bg-primary px-4 py-32 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8";
+  `outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] flex-col items-center justify-center gap-3 rounded-[20px] bg-primary px-4 py-32 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8 ${DOCS_PREVIEW_SB_ISOLATION}`;
+
+/** Sidebar navigation hero: tighter vertical padding (`py-3`) so the rail reads at catalog scale. */
+export const DOCS_PREVIEW_HERO_SURFACE_CLASS_SIDEBAR_NAV =
+  `outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] flex-col items-center justify-center gap-3 rounded-[20px] bg-primary px-4 py-3 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8 ${DOCS_PREVIEW_SB_ISOLATION}`;
+
+/** Sidebar navigation section preview: fixed-height rail container, no extra padding, items aligned start. */
+export const DOCS_PREVIEW_SURFACE_CLASS_SIDEBAR_NAV =
+  `outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full items-start justify-start rounded-[20px] bg-primary p-1 ring-1 ring-inset ring-secondary ${DOCS_PREVIEW_SB_ISOLATION}`;
 
 /** Tighter checkbox / alignment-sensitive hero (keeps reference padding; `!` beats Storybook flex overrides). */
 export const DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK_TIGHT =
-  "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] flex-col items-center! justify-center! gap-3 rounded-[20px] bg-primary px-4 py-32 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8";
+  `outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative flex max-w-full min-h-[320px] flex-col items-center! justify-center! gap-3 rounded-[20px] bg-primary px-4 py-32 ring-1 ring-inset ring-secondary md:min-w-[520px] md:px-8 ${DOCS_PREVIEW_SB_ISOLATION}`;
 
 /** Inner width cap for hero + many section previews (max-w-xs for form demos). */
 export const DOCS_PREVIEW_INNER_MAX_XS_CLASS = "w-full max-w-xs";
 
 export const DOCS_PREVIEW_SURFACE_CLASS =
-  "outline-focus-ring ring-secondary bg-primary relative flex min-h-[304px] max-w-full items-center justify-center gap-3 rounded-[20px] px-4 py-10 ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-130 md:px-8";
+  `outline-focus-ring ring-secondary bg-primary relative flex min-h-[304px] max-w-full items-center justify-center gap-3 rounded-[20px] px-4 py-10 ring-1 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-130 md:px-8 ${DOCS_PREVIEW_SB_ISOLATION}`;
 
 /** Text-editor section preview wells (overflow + alignment tuned for rich-text demos). */
 export const DOCS_PREVIEW_TEXT_EDITOR_SECTION_CLASS =
-  "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative max-w-full md:min-w-[520px] flex px-4 md:px-8 py-32 overflow-auto items-center rounded-[20px] ring-1 ring-inset ring-secondary bg-primary";
+  `outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative max-w-full md:min-w-[520px] flex px-4 md:px-8 py-32 overflow-auto items-center rounded-[20px] ring-1 ring-inset ring-secondary bg-primary ${DOCS_PREVIEW_SB_ISOLATION}`;
 
 /** Default `md` text-editor preview tab (`overflow-x-auto`, not `overflow-auto`). */
 export const DOCS_PREVIEW_TEXT_EDITOR_SECTION_OVERFLOW_X_CLASS =
-  "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative max-w-full md:min-w-[520px] flex px-4 md:px-8 py-32 overflow-x-auto items-center rounded-[20px] ring-1 ring-inset ring-secondary bg-primary";
+  `outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative max-w-full md:min-w-[520px] flex px-4 md:px-8 py-32 overflow-x-auto items-center rounded-[20px] ring-1 ring-inset ring-secondary bg-primary ${DOCS_PREVIEW_SB_ISOLATION}`;
 
 /** Hero / “with tooltip” preview: `items-center gap-3` + horizontal scroll. */
 export const DOCS_PREVIEW_TEXT_EDITOR_SECTION_CENTER_CLASS =
-  "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative max-w-full md:min-w-[520px] flex px-4 md:px-8 py-32 overflow-x-auto items-center gap-3 rounded-[20px] ring-1 ring-inset ring-secondary bg-primary";
+  `outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2 relative max-w-full md:min-w-[520px] flex px-4 md:px-8 py-32 overflow-x-auto items-center gap-3 rounded-[20px] ring-1 ring-inset ring-secondary bg-primary ${DOCS_PREVIEW_SB_ISOLATION}`;
 
 /** Neutralize Storybook/typography `p` margins inside preview wells. */
 export const DOCS_PREVIEW_P_MARGIN_RESET = "[&_p]:m-0!";
@@ -50,14 +69,6 @@ const docTabBtnClass =
 const docTabSelected = "bg-primary_alt text-secondary shadow-xs ring-1 ring-primary ring-inset";
 const docTabIdle = "text-quaternary";
 
-const codeColor = {
-  gray: "var(--color-utility-gray-700)",
-  pink: "var(--color-utility-pink-600)",
-  blue: "var(--color-utility-blue-600)",
-  brand: "var(--color-utility-brand-600)",
-  primary: "var(--color-primary)",
-} as const;
-
 /** JSX boolean props highlighted like attributes in `paintDocsLine` (e.g. avatar `verified`). */
 const JSX_BOOLEAN_PROPS = new Set(["verified"]);
 
@@ -70,18 +81,18 @@ const renderImportLine = (line: string) => {
   const source = m[2] ?? "";
   return (
     <>
-      <span style={codeTokenStyle(codeColor.pink)}>import</span>
-      <span style={codeTokenStyle(codeColor.gray)}>{` { ${imported} } `}</span>
-      <span style={codeTokenStyle(codeColor.pink)}>from</span>
-      <span style={codeTokenStyle(codeColor.primary)}>{` "${source}"`}</span>
-      <span style={codeTokenStyle(codeColor.gray)}>;</span>
+      <span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.pink)}>import</span>
+      <span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.gray)}>{` { ${imported} } `}</span>
+      <span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.pink)}>from</span>
+      <span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.primary)}>{` "${source}"`}</span>
+      <span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.gray)}>;</span>
     </>
   );
 };
 
 function paintDocsLine(line: string): ReactNode {
   if (line.includes("{<")) {
-    return <span style={codeTokenStyle(codeColor.gray)}>{line}</span>;
+    return <span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.gray)}>{line}</span>;
   }
 
   const out: ReactNode[] = [];
@@ -94,7 +105,7 @@ function paintDocsLine(line: string): ReactNode {
     if (c === " " || c === "\t") {
       let j = i;
       while (j < line.length && (line[j] === " " || line[j] === "\t")) j++;
-      push(<span style={codeTokenStyle(codeColor.gray)}>{line.slice(i, j)}</span>);
+      push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.gray)}>{line.slice(i, j)}</span>);
       i = j;
       continue;
     }
@@ -102,7 +113,7 @@ function paintDocsLine(line: string): ReactNode {
       let j = i + 1;
       while (j < line.length && line[j] !== '"') j++;
       j = Math.min(j + 1, line.length);
-      push(<span style={codeTokenStyle(codeColor.primary)}>{line.slice(i, j)}</span>);
+      push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.primary)}>{line.slice(i, j)}</span>);
       i = j;
       continue;
     }
@@ -111,18 +122,18 @@ function paintDocsLine(line: string): ReactNode {
       if (line[j] === "/") j++;
       const bracketEnd = j;
       while (j < line.length && /[A-Za-z0-9]/.test(line.charAt(j))) j++;
-      push(<span style={codeTokenStyle(codeColor.gray)}>{line.slice(i, bracketEnd)}</span>);
-      push(<span style={codeTokenStyle(codeColor.blue)}>{line.slice(bracketEnd, j)}</span>);
+      push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.gray)}>{line.slice(i, bracketEnd)}</span>);
+      push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.blue)}>{line.slice(bracketEnd, j)}</span>);
       i = j;
       continue;
     }
     if (c === "/" && line[i + 1] === ">") {
-      push(<span style={codeTokenStyle(codeColor.gray)}>{"/>"}</span>);
+      push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.gray)}>{"/>"}</span>);
       i += 2;
       continue;
     }
     if (c === ">") {
-      push(<span style={codeTokenStyle(codeColor.gray)}>&gt;</span>);
+      push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.gray)}>&gt;</span>);
       i++;
       continue;
     }
@@ -130,17 +141,17 @@ function paintDocsLine(line: string): ReactNode {
       if (line.slice(i, i + 3) === "{/*") {
         const end = line.indexOf("*/}", i);
         const j = end === -1 ? line.length : end + 3;
-        push(<span style={codeTokenStyle(codeColor.gray)}>{line.slice(i, j)}</span>);
+        push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.gray)}>{line.slice(i, j)}</span>);
         i = j;
         continue;
       }
       let j = i + 1;
       while (j < line.length && /[A-Za-z0-9_]/.test(line.charAt(j))) j++;
       const ident = line.slice(i + 1, j);
-      push(<span style={codeTokenStyle(codeColor.gray)}>{"{"}</span>);
-      if (ident) push(<span style={codeTokenStyle(codeColor.blue)}>{ident}</span>);
+      push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.gray)}>{"{"}</span>);
+      if (ident) push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.blue)}>{ident}</span>);
       if (line[j] === "}") {
-        push(<span style={codeTokenStyle(codeColor.gray)}>{"}"}</span>);
+        push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.gray)}>{"}"}</span>);
         j++;
       }
       i = j;
@@ -150,7 +161,7 @@ function paintDocsLine(line: string): ReactNode {
     let j = i;
     while (j < line.length && /[A-Za-z0-9_-]/.test(line.charAt(j))) j++;
     if (j === i) {
-      push(<span style={codeTokenStyle(codeColor.gray)}>{line.charAt(i)}</span>);
+      push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.gray)}>{line.charAt(i)}</span>);
       i++;
       continue;
     }
@@ -158,19 +169,19 @@ function paintDocsLine(line: string): ReactNode {
     const word = line.slice(i, j);
     const next = line[j] ?? "";
     if (JSX_BOOLEAN_PROPS.has(word) && (next === "" || /[\s/>]/.test(next))) {
-      push(<span style={codeTokenStyle(codeColor.brand)}>{word}</span>);
+      push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.brand)}>{word}</span>);
       i = j;
       continue;
     }
     if (line[j] === "=") {
-      push(<span style={codeTokenStyle(codeColor.brand)}>{word}</span>);
-      push(<span style={codeTokenStyle(codeColor.pink)}>=</span>);
+      push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.brand)}>{word}</span>);
+      push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.pink)}>=</span>);
       i = j + 1;
       while (i < line.length && line[i] === " ") i++;
       continue;
     }
 
-    push(<span style={codeTokenStyle(codeColor.gray)}>{word}</span>);
+    push(<span style={codeTokenStyle(DOCS_CODE_SYNTAX_COLORS.gray)}>{word}</span>);
     i = j;
   }
 
@@ -181,17 +192,18 @@ export const DocsCodePre: FC<{ code: string; className?: string }> = ({ code, cl
   const lines = code.split("\n");
   return (
     <pre
-      className={className.trim()}
+      data-codex-docs-code
+      className={`codex-docs-code-pre ${className}`.trim()}
       tabIndex={0}
       style={
         {
           backgroundColor: "rgb(255, 255, 255)",
-          color: codeColor.gray,
+          color: DOCS_CODE_SYNTAX_COLORS.gray,
           padding: "calc(0.25em * 5)",
         } as CSSProperties
       }
     >
-      <code className="flex flex-col">
+      <code className="flex w-max min-w-0 flex-col items-start">
         {lines.map((line, idx) => {
           const importLine = renderImportLine(line);
           const painted = importLine ?? (line === "" ? <>&nbsp;</> : paintDocsLine(line));
@@ -207,15 +219,73 @@ export const DocsCodePre: FC<{ code: string; className?: string }> = ({ code, cl
   );
 };
 
-export const DocsCodePanel: FC<{ code: string }> = ({ code }) => (
-  <section className="group/pre not-typography bg-secondary_alt ring-secondary relative w-full rounded-[20px] p-2 ring-1 ring-inset">
-    <div className="bg-primary ring-secondary_alt relative flex h-full max-h-[304px] min-h-[304px] w-full flex-col overflow-hidden rounded-xl shadow-lg ring-1">
-      <DocsCodePre
-        code={code}
-        className="bg-primary flex h-full min-h-0 max-w-full flex-1 flex-col overflow-auto font-mono text-sm leading-[24px] font-medium"
-      />
-    </div>
-  </section>
+/**
+ * Untitled-style code well: fixed initial height, gradient + “Show more” when content overflows.
+ * (Multi-file blocks use `DocsUntitledMultiFileCodePanel`; base docs use this wrapper.)
+ */
+export const DocsExpandableCodeWell: FC<{
+  children: ReactNode;
+  /** Initial / collapsed panel height (px). */
+  collapsedHeightPx?: number;
+}> = ({ children, collapsedHeightPx = 304 }) => {
+  const [showAll, setShowAll] = useState(false);
+  const measureRef = useRef<HTMLDivElement>(null);
+  const [needsMore, setNeedsMore] = useState(false);
+
+  useLayoutEffect(() => {
+    if (showAll) return;
+    const wrap = measureRef.current;
+    if (!wrap) return;
+    const check = () => {
+      const pre = wrap.querySelector("pre");
+      if (!pre) {
+        setNeedsMore(false);
+        return;
+      }
+      setNeedsMore(pre.scrollHeight > pre.clientHeight + 1);
+    };
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(wrap);
+    const pre = wrap.querySelector("pre");
+    if (pre) ro.observe(pre);
+    return () => ro.disconnect();
+  }, [showAll, children, collapsedHeightPx]);
+
+  return (
+    <section className="group/pre not-typography bg-secondary_alt ring-secondary relative w-full rounded-[20px] p-2 ring-1 ring-inset">
+      <div
+        className="bg-primary ring-secondary_alt relative flex w-full flex-col overflow-hidden rounded-xl shadow-lg ring-1"
+        style={{
+          minHeight: collapsedHeightPx,
+          maxHeight: showAll ? undefined : collapsedHeightPx,
+        }}
+      >
+        <div
+          ref={measureRef}
+          className={`relative flex min-h-0 flex-1 flex-col ${showAll ? "overflow-x-auto overflow-y-visible" : "overflow-hidden"}`}
+        >
+          {children}
+        </div>
+        {needsMore && !showAll ? (
+          <div className={DOCS_CODE_WELL_GRADIENT_FADE}>
+            <Button type="button" color="secondary" size="sm" onClick={() => setShowAll(true)}>
+              Show more
+            </Button>
+          </div>
+        ) : null}
+      </div>
+    </section>
+  );
+};
+
+export const DocsCodePanel: FC<{ code: string; collapsedHeightPx?: number }> = ({ code, collapsedHeightPx = 304 }) => (
+  <DocsExpandableCodeWell collapsedHeightPx={collapsedHeightPx}>
+    <DocsCodePre
+      code={code}
+      className="bg-primary flex h-full min-h-0 min-w-0 max-w-full flex-1 flex-col overflow-x-auto font-medium"
+    />
+  </DocsExpandableCodeWell>
 );
 
 const DarkModeToggle: FC<{ isDark: boolean; onToggle: () => void }> = ({ isDark, onToggle }) => (
@@ -292,7 +362,7 @@ export const SectionTitle: FC<{ className?: string; children: ReactNode }> = ({ 
 );
 
 /** Preview well classes: surface + layout + primary text + optional scoped dark tokens. */
-export function buildDocsPreviewPanelClassName(previewClassName: string | undefined, isPreviewDark: boolean): string {
+function buildDocsPreviewPanelClassName(previewClassName: string | undefined, isPreviewDark: boolean): string {
   return [
     previewClassName ?? DOCS_PREVIEW_SURFACE_CLASS,
     DOCS_PREVIEW_BOX_MX_AUTO,
@@ -319,6 +389,8 @@ export type DocsSectionProps = {
   codePanel?: ReactNode;
   /** Initial state for the preview well dark-mode toggle (e.g. dark demos). */
   defaultPreviewDark?: boolean;
+  /** Which tab is selected on first render (matches Untitled-style docs that open on Code). */
+  defaultDocsTab?: "preview" | "code";
 };
 
 export const DocsSection: FC<DocsSectionProps> = ({
@@ -333,6 +405,7 @@ export const DocsSection: FC<DocsSectionProps> = ({
   previewHeight,
   codePanel,
   defaultPreviewDark,
+  defaultDocsTab = "preview",
 }) => {
   const [isPreviewDark, setIsPreviewDark] = useState(defaultPreviewDark ?? false);
   const panelClassName = buildDocsPreviewPanelClassName(previewClassName, isPreviewDark);
@@ -341,6 +414,8 @@ export const DocsSection: FC<DocsSectionProps> = ({
 
   const previewStyle = (dataPreview ? { "--preview-height": previewHeight ?? "320px" } : undefined) as CSSProperties | undefined;
 
+  const initialTabKey = defaultDocsTab === "code" ? `${id}-code` : `${id}-preview`;
+
   return (
     <section
       id={id}
@@ -348,8 +423,8 @@ export const DocsSection: FC<DocsSectionProps> = ({
       data-preview={dataPreview ? "true" : undefined}
       style={previewStyle}
     >
-      <AriaTabs id={`${id}-docs-tabs`} defaultSelectedKey={`${id}-preview`} className="not-typography group flex w-full scroll-mt-20 flex-col gap-3 in-data-docs:my-8">
-        <header className="flex w-full flex-col justify-between gap-3 md:flex-row md:items-center">
+      <AriaTabs id={`${id}-docs-tabs`} defaultSelectedKey={initialTabKey} className="not-typography group flex w-full min-w-0 max-w-full scroll-mt-20 flex-col gap-3 in-data-docs:my-8">
+        <header className="flex w-full min-w-0 flex-col justify-between gap-3 md:flex-row md:items-center">
           <div className="flex items-center gap-3">
             <h3 className="text-md font-semibold text-primary">{heading}</h3>
           </div>
@@ -361,7 +436,7 @@ export const DocsSection: FC<DocsSectionProps> = ({
           />
         </header>
         {description ? <div className="typography text-md text-tertiary max-w-3xl space-y-3">{description}</div> : null}
-        <AriaTabPanel id={`${id}-preview`} className="outline-none focus:outline-none">
+        <AriaTabPanel id={`${id}-preview`} className="min-w-0 max-w-full outline-none focus:outline-none">
           <div
             className={panelClassName}
             style={{ colorScheme: isPreviewDark ? "dark" : "light" }}
@@ -370,7 +445,10 @@ export const DocsSection: FC<DocsSectionProps> = ({
             {children}
           </div>
         </AriaTabPanel>
-        <AriaTabPanel id={`${id}-code`} className="outline-none focus:outline-none">
+        <AriaTabPanel
+          id={`${id}-code`}
+          className="min-w-0 max-w-full outline-none focus:outline-none outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2"
+        >
           {codePanel ?? <DocsCodePanel code={code} />}
         </AriaTabPanel>
       </AriaTabs>

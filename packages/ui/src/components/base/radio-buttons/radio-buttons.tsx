@@ -1,3 +1,5 @@
+"use client";
+
 import { type ReactNode, type Ref, createContext, useContext } from "react";
 import {
   Radio as AriaRadio,
@@ -5,7 +7,6 @@ import {
   type RadioGroupProps as AriaRadioGroupProps,
   type RadioProps as AriaRadioProps,
 } from "react-aria-components";
-import { SelectionControlCopy, selectionControlSizing } from "@/components/base/selection-control-copy";
 import { cx } from "@/utils";
 
 export interface RadioGroupContextType {
@@ -26,22 +27,16 @@ export const RadioButtonBase = ({ className, isFocusVisible, isSelected, isDisab
   return (
     <div
       className={cx(
-        "bg-primary ring-primary flex size-4 min-h-4 min-w-4 cursor-pointer appearance-none items-center justify-center rounded-full ring-1 ring-inset",
-        size === "md" && "size-5 min-h-5 min-w-5",
-        isSelected && !isDisabled && "bg-brand-solid ring-bg-brand-solid",
-        isDisabled && "border-disabled bg-disabled_subtle cursor-not-allowed",
-        isFocusVisible && "outline-focus-ring outline-2 outline-offset-2",
+        "flex size-4 shrink-0 cursor-pointer appearance-none items-center justify-center rounded-full bg-primary ring-1 ring-primary ring-inset",
+        size === "md" && "size-5",
+        isSelected && "bg-brand-solid ring-brand-solid",
+        isDisabled && "cursor-not-allowed opacity-50",
+        isDisabled && !isSelected && "bg-tertiary",
+        isFocusVisible && "outline-2 outline-offset-2 outline-hidden",
         className
       )}
     >
-      <div
-        className={cx(
-          "bg-fg-white transition-inherit-all size-1.5 rounded-full opacity-0",
-          size === "md" && "size-2",
-          isDisabled && "bg-fg-disabled_subtle",
-          isSelected && "opacity-100"
-        )}
-      />
+      <div className={cx("size-1.5 rounded-full bg-fg-white opacity-0 transition-inherit-all", size === "md" && "size-2", isSelected && "opacity-100")} />
     </div>
   );
 };
@@ -56,30 +51,50 @@ interface RadioButtonProps extends AriaRadioProps {
 
 export const RadioButton = ({ label, hint, className, size = "sm", ...ariaRadioProps }: RadioButtonProps) => {
   const context = useContext(RadioGroupContext);
-  const resolvedSize = context?.size ?? size;
+
+  size = context?.size ?? size;
+
+  const sizes = {
+    sm: {
+      root: "gap-2",
+      textWrapper: "",
+      label: "text-sm font-medium",
+      hint: "text-sm",
+    },
+    md: {
+      root: "gap-3",
+      textWrapper: "gap-0.5",
+      label: "text-md font-medium",
+      hint: "text-md",
+    },
+  };
 
   return (
     <AriaRadio
       {...ariaRadioProps}
-      className={(renderProps) =>
-        cx(
-          "flex items-start",
-          renderProps.isDisabled && "cursor-not-allowed",
-          selectionControlSizing[resolvedSize].root,
-          typeof className === "function" ? className(renderProps) : className
-        )
+      className={(state) =>
+        cx("flex items-start", state.isDisabled && "cursor-not-allowed", sizes[size].root, typeof className === "function" ? className(state) : className)
       }
     >
       {({ isSelected, isDisabled, isFocusVisible }) => (
         <>
           <RadioButtonBase
-            size={resolvedSize}
+            size={size}
             isSelected={isSelected}
             isDisabled={isDisabled}
             isFocusVisible={isFocusVisible}
-            className={label || hint ? "mt-0.5!" : ""}
+            className={label || hint ? "mt-0.5" : ""}
           />
-          <SelectionControlCopy size={resolvedSize} label={label} hint={hint} />
+          {(label || hint) && (
+            <div className={cx("inline-flex flex-col", sizes[size].textWrapper)}>
+              {label && <p className={cx("text-secondary select-none", sizes[size].label)}>{label}</p>}
+              {hint && (
+                <span className={cx("text-tertiary", sizes[size].hint)} onClick={(event) => event.stopPropagation()}>
+                  {hint}
+                </span>
+              )}
+            </div>
+          )}
         </>
       )}
     </AriaRadio>

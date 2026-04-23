@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { User01 } from "@opus2-platform/icons";
 import { cx } from "@/utils";
@@ -8,7 +10,7 @@ const styles = {
   sm: {
     root: "size-18 p-0.75",
     rootWithPlaceholder: "p-1",
-    content: "",
+    content: "rounded-full outline-[0.5px] -outline-offset-[0.5px] outline-black/16",
     icon: "size-9",
     initials: "text-display-sm font-semibold",
     badge: "bottom-0.5 right-0.5",
@@ -16,7 +18,7 @@ const styles = {
   md: {
     root: "size-24 p-1",
     rootWithPlaceholder: "p-1.25",
-    content: "shadow-xl",
+    content: "rounded-full shadow-xl outline-[0.75px] -outline-offset-[0.75px] outline-black/16",
     icon: "size-12",
     initials: "text-display-md font-semibold",
     badge: "bottom-1 right-1",
@@ -24,7 +26,7 @@ const styles = {
   lg: {
     root: "size-40 p-1.5",
     rootWithPlaceholder: "p-1.75",
-    content: "shadow-2xl",
+    content: "rounded-full shadow-2xl outline-[0.75px] -outline-offset-[0.75px] outline-black/16",
     icon: "size-20",
     initials: "text-display-xl font-semibold",
     badge: "bottom-2 right-2",
@@ -42,7 +44,6 @@ interface AvatarProfilePhotoProps extends AvatarProps {
 }
 
 export const AvatarProfilePhoto = ({
-  contrastBorder = true,
   size = "md",
   src,
   alt,
@@ -59,22 +60,20 @@ export const AvatarProfilePhoto = ({
   const renderMainContent = () => {
     if (src && !isFailed) {
       return (
-        <img
-          src={src}
-          alt={alt}
-          onError={() => setIsFailed(true)}
-          className={cx(
-            "size-full rounded-full object-cover",
-            contrastBorder && "outline-avatar-contrast-border outline-1 -outline-offset-1",
-            styles[size].content
-          )}
-        />
+        <div className={cx("relative size-full overflow-hidden rounded-full before:inset-[0.5px]", styles[size].content)}>
+          <img src={src} alt={alt} onError={() => setIsFailed(true)} className="size-full object-cover" />
+        </div>
       );
     }
 
     if (initials) {
       return (
-        <div className={cx("bg-tertiary ring-secondary_alt flex size-full items-center justify-center rounded-full ring-1", styles[size].content)}>
+        <div
+          className={cx(
+            "flex size-full items-center justify-center rounded-full bg-tertiary ring-1 ring-secondary_alt outline-transparent before:hidden",
+            styles[size].content
+          )}
+        >
           <span className={cx("text-quaternary", styles[size].initials)}>{initials}</span>
         </div>
       );
@@ -82,14 +81,24 @@ export const AvatarProfilePhoto = ({
 
     if (PlaceholderIcon) {
       return (
-        <div className={cx("bg-tertiary ring-secondary_alt flex size-full items-center justify-center rounded-full ring-1", styles[size].content)}>
+        <div
+          className={cx(
+            "flex size-full items-center justify-center rounded-full bg-tertiary ring-1 ring-secondary_alt outline-transparent before:hidden",
+            styles[size].content
+          )}
+        >
           <PlaceholderIcon className={cx("text-fg-quaternary", styles[size].icon)} />
         </div>
       );
     }
 
     return (
-      <div className={cx("bg-tertiary ring-secondary_alt flex size-full items-center justify-center rounded-full ring-1", styles[size].content)}>
+      <div
+        className={cx(
+          "flex size-full items-center justify-center rounded-full bg-tertiary ring-1 ring-secondary_alt outline-transparent before:hidden",
+          styles[size].content
+        )}
+      >
         {placeholder || <User01 className={cx("text-fg-quaternary", styles[size].icon)} />}
       </div>
     );
@@ -110,7 +119,7 @@ export const AvatarProfilePhoto = ({
   return (
     <div
       className={cx(
-        "bg-primary ring-secondary_alt relative flex shrink-0 items-center justify-center rounded-full ring-1",
+        "relative flex shrink-0 items-center justify-center rounded-full bg-primary ring-1 ring-secondary_alt",
         styles[size].root,
         (!src || isFailed) && styles[size].rootWithPlaceholder,
         className

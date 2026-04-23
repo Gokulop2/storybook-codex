@@ -1,0 +1,26 @@
+import * as React from "react";
+import type { SVGProps, FC } from "react";
+interface Props extends SVGProps<SVGSVGElement> {
+  color?: string;
+  size?: number;
+}
+export const Diamond02: FC<Props> = ({ size = 24, color = "currentColor", ...props }) =>
+  React.cloneElement(
+    <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" {...props}>
+      <path
+        d="M5 22h14M2.5 8h19M10 2 8 8l4 10.5L16 8l-2-6m-1.408 16.349 8.94-9.834c.166-.182.249-.274.282-.378a.5.5 0 0 0 .006-.282c-.028-.106-.108-.2-.265-.39L17.24 2.288a1.073 1.073 0 0 0-.186-.197.5.5 0 0 0-.158-.074C16.832 2 16.763 2 16.626 2H7.375c-.138 0-.207 0-.27.017a.5.5 0 0 0-.158.074 1.08 1.08 0 0 0-.187.197L2.446 7.465c-.158.19-.237.284-.265.39a.5.5 0 0 0 .006.282c.033.104.116.196.282.378l8.94 9.834c.205.226.307.338.428.38a.5.5 0 0 0 .327 0c.12-.041.223-.154.428-.38Z"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>,
+    {
+      width: size,
+      height: size,
+      fill: "none",
+      stroke: color,
+      ...props,
+    }
+  );
+Diamond02.displayName = "Diamond02";

@@ -1,7 +1,7 @@
 "use client";
 
 import { type HTMLAttributes } from "react";
-import { RatingStars } from "@/components";
+import { RatingStars } from "@/components/foundations/rating-stars";
 import { cx } from "@/utils";
 
 export const Wreath = (props: HTMLAttributes<HTMLOrSVGElement>) => (
@@ -133,22 +133,8 @@ export const RatingBadge = ({ title = "Best Design Tool", subtitle = "2,000+ rev
         <RatingStars rating={rating} className="gap-0.5" starClassName="size-4" />
 
         <div className="text-center">
-          <p
-            className={cx(
-              "m-0! text-sm! font-semibold!",
-              theme === "light" ? "text-white!" : "text-primary!"
-            )}
-          >
-            {title}
-          </p>
-          <p
-            className={cx(
-              "m-0! text-xs! font-medium!",
-              theme === "light" ? "text-brand-200!" : "text-secondary!"
-            )}
-          >
-            {subtitle}
-          </p>
+          <p className={cx("text-sm font-semibold", theme === "light" ? "text-primary_on-brand" : "text-primary")}>{title}</p>
+          <p className={cx("text-xs font-medium", theme === "light" ? "text-secondary_on-brand" : "text-secondary")}>{subtitle}</p>
         </div>
       </div>
 

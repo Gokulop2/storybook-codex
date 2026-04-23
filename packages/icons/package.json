@@ -1,18 +1,30 @@
 {
   "name": "@opus2-platform/icons",
   "version": "0.1.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc"
+    "gen": "npm run generate:icons && npm run generate:exports",
+    "dev": "npm run gen && concurrently \"tsup --watch\" \"npm run types -- --watch\" \"npm run postbuild -- --watch\"",
+    "types": "tsc --emitDeclarationOnly --declaration --project tsconfig.json",
+    "prebuild": "rimraf dist",
+    "build": "npm run gen && tsup && npm run types && npm run postbuild",
+    "postbuild": "shx cp package.json dist/",
+    "generate:icons": "shx touch src/index.ts && shx mkdir -p src/components && svgr --no-prettier --config-file .svgrrc.js src/icons --out-dir src/components && node ./src/scripts/generate-rtl-icons.js",
+    "generate:exports": "node ./src/scripts/generate-exports.js"
   },
-  "dependencies": {
-    "@untitledui/file-icons": "^0.0.8",
-    "@untitledui/icons": "^0.0.21"
+  "peerDependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   }
 }

@@ -28,7 +28,7 @@ const config: StorybookConfig = {
   },
   /** Docs demos: `/avatars/...` etc. */
   staticDirs: ["../public"],
-  addons: [getAbsolutePath("@storybook/addon-docs")],
+  addons: [getAbsolutePath("@storybook/addon-docs"), getAbsolutePath("@storybook/addon-a11y")],
   framework: getAbsolutePath("@storybook/react-vite"),
   /**
    * Ensure `manager-head.html` is applied: Storybook resolves config relative to `process.cwd()`.
@@ -46,6 +46,13 @@ const config: StorybookConfig = {
     return `${head}\n${readFileSync(path, "utf8")}`;
   },
   viteFinal: async (config) => {
+    /**
+     * Ensure Vite treats `apps/docs` as the project root.
+     * Without this, CSS imported from `.storybook/preview.tsx` can be requested as `/src/styles.css`
+     * but fail to resolve (404) when Vite’s inferred root is `.storybook/`.
+     */
+    config.root = docsPackageRoot;
+
     config.plugins = [...(config.plugins ?? []), tailwindcss()];
 
     config.resolve ??= {};

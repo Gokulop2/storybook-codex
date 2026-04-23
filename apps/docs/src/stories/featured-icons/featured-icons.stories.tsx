@@ -1,6 +1,6 @@
 import type { ComponentProps, FC } from "react";
 import { FeaturedIcon } from "@opus2-platform/codex";
-import { AlertCircle, AlertOctagon, AlertTriangle, CheckCircle, Star01, Zap } from "@opus2-platform/icons";
+import { CheckCircle } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { DocsPageBreadcrumb } from "../_docs/docs-page-breadcrumb";
 import { DOCS_SECTION_HERO_CLASS, DocsSection } from "../_docs/docs-preview-code";
@@ -15,13 +15,13 @@ const SIZES = ["sm", "md", "lg", "xl"] as const;
 
 const COLOR_ROWS = [
   { color: "brand" as const, icon: CheckCircle, snippetIcon: "CheckCircle" as const },
-  { color: "gray" as const, icon: AlertCircle, snippetIcon: "AlertCircle" as const },
-  { color: "error" as const, icon: AlertTriangle, snippetIcon: "AlertTriangle" as const },
-  { color: "warning" as const, icon: AlertOctagon, snippetIcon: "AlertOctagon" as const },
-  { color: "success" as const, icon: Star01, snippetIcon: "Star01" as const },
+  { color: "gray" as const, icon: CheckCircle, snippetIcon: "CheckCircle" as const },
+  { color: "error" as const, icon: CheckCircle, snippetIcon: "CheckCircle" as const },
+  { color: "warning" as const, icon: CheckCircle, snippetIcon: "CheckCircle" as const },
+  { color: "success" as const, icon: CheckCircle, snippetIcon: "CheckCircle" as const },
 ];
 
-const MODERN_ICONS = [CheckCircle, AlertCircle, Star01, Zap] as const;
+const MODERN_ICONS = [CheckCircle, CheckCircle, CheckCircle, CheckCircle] as const;
 
 const VARIANTS = [
   { id: "light", title: "Light", theme: "light" },
@@ -33,22 +33,16 @@ const VARIANTS = [
 ] as const satisfies readonly { id: string; title: string; theme: FeaturedIconTheme }[];
 
 const HERO_PREVIEW_SURFACE_CLASS =
-  "outline-focus-ring bg-primary relative flex min-h-[min(400px,75vh)] w-full max-w-full flex-col items-center justify-center gap-8 rounded-[20px] px-4 py-12 ring-1 ring-inset ring-secondary focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-[520px] md:px-8 md:py-16";
+  "bg-primary relative flex min-h-[min(400px,75vh)] w-full max-w-full flex-col items-center justify-center gap-8 rounded-[20px] px-4 py-12 ring-1 ring-inset ring-secondary focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-[520px] md:px-8 md:py-16";
 
 const PREVIEW = "flex min-w-0 max-w-full flex-col items-start gap-8 py-4";
 
 const IMPORT_FULL = `import { FeaturedIcon } from "@opus2-platform/codex";
-import {
-  AlertCircle,
-  AlertOctagon,
-  AlertTriangle,
-  CheckCircle,
-  Star01,
-} from "@opus2-platform/icons";
+import { CheckCircle } from "@opus2-platform/icons";
 `;
 
 const IMPORT_MODERN = `import { FeaturedIcon } from "@opus2-platform/codex";
-import { AlertCircle, CheckCircle, Star01, Zap } from "@opus2-platform/icons";
+import { CheckCircle } from "@opus2-platform/icons";
 `;
 
 const rowSnippet = (theme: string, color: string, iconVar: string) =>
@@ -65,7 +59,7 @@ ${COLOR_ROWS.map((row) => rowSnippet(theme, row.color, row.snippetIcon)).join("\
 const snippetModern = (theme: ModernTheme) =>
   `${IMPORT_MODERN}
 <div className="flex flex-col gap-8">
-${["CheckCircle", "AlertCircle", "Star01", "Zap"].map((I) => rowSnippet(theme, "gray", I)).join("\n\n")}
+${["CheckCircle", "CheckCircle", "CheckCircle", "CheckCircle"].map((I) => rowSnippet(theme, "gray", I)).join("\n\n")}
 </div>`;
 
 const snippetForTheme = (theme: FeaturedIconTheme): string => {
@@ -196,7 +190,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  tags: ["!dev"],
   name: "Featured icons",
   args: {
     icon: CheckCircle,

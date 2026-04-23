@@ -77,22 +77,11 @@ export interface AlertProps {
   className?: string;
 }
 
-export const Alert = ({
-  color = "default",
-  layout = "floating",
-  title,
-  description,
-  icon,
-  actions,
-  dismissible,
-  onDismiss,
-  className,
-}: AlertProps) => {
+export const Alert = ({ color = "default", layout = "floating", title, description, icon, actions, dismissible, onDismiss, className }: AlertProps) => {
   const colors = colorStyles[color];
 
   // Resolve icon: explicit null → none; undefined → default; FC/element → use it
-  const resolvedIcon: FC<{ className?: string }> | ReactNode | null =
-    icon === undefined ? defaultIcons[color] : icon;
+  const resolvedIcon: FC<{ className?: string }> | ReactNode | null = icon === undefined ? defaultIcons[color] : icon;
   // Capitalize for JSX usage (React requires capitalized component names in JSX)
   const ResolvedIcon = resolvedIcon as FC<{ className?: string }>;
 
@@ -101,12 +90,7 @@ export const Alert = ({
   return (
     <div
       role="alert"
-      className={cx(
-        "flex w-full gap-3 ring-1 ring-inset",
-        isFloating ? "rounded-xl p-4 shadow-sm" : "px-4 py-3 md:px-6",
-        colors.root,
-        className,
-      )}
+      className={cx("flex w-full gap-3 ring-1 ring-inset", isFloating ? "rounded-xl p-4 shadow-sm" : "px-4 py-3 md:px-6", colors.root, className)}
     >
       {/* Icon */}
       {resolvedIcon !== null && (
@@ -131,7 +115,7 @@ export const Alert = ({
           onClick={onDismiss}
           className={cx(
             "shrink-0 cursor-pointer rounded-md p-0.5 transition duration-100 ease-linear hover:opacity-70 focus:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2",
-            colors.icon,
+            colors.icon
           )}
         >
           <X className="size-4" />

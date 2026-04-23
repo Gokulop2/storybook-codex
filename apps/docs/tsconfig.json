@@ -1,6 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "paths": {
+      "@/*": ["../../packages/ui/src/*"]
+    },
     "types": ["vite/client", "node"],
     "allowImportingTsExtensions": true,
     "allowArbitraryExtensions": true,
@@ -13,5 +16,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", ".storybook", "vite.config.ts"]
+  "include": ["src", ".storybook", "vite.config.ts", "global.d.ts"]
 }

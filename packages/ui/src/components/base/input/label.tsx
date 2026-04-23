@@ -1,19 +1,22 @@
+"use client";
+
 import type { ReactNode, Ref } from "react";
 import { HelpCircle } from "@opus2-platform/icons";
 import type { LabelProps as AriaLabelProps } from "react-aria-components";
 import { Label as AriaLabel } from "react-aria-components";
+import { Tooltip, TooltipTrigger } from "@/components/base/tooltip/tooltip";
 import { cx } from "@/utils";
-import { Tooltip, TooltipTrigger } from "../tooltip/tooltip";
 
 interface LabelProps extends AriaLabelProps {
   children: ReactNode;
+  isInvalid?: boolean;
   isRequired?: boolean;
   tooltip?: string;
   tooltipDescription?: string;
   ref?: Ref<HTMLLabelElement>;
 }
 
-export const Label = ({ isRequired, tooltip, tooltipDescription, className, ...props }: LabelProps) => {
+export const Label = ({ isInvalid, isRequired, tooltip, tooltipDescription, className, ...props }: LabelProps) => {
   return (
     <AriaLabel
       // Used for conditionally hiding/showing the label element via CSS:
@@ -22,11 +25,22 @@ export const Label = ({ isRequired, tooltip, tooltipDescription, className, ...p
       // <Input label="Visible only on mobile" className="lg:label:hidden" />
       data-label="true"
       {...props}
-      className={cx("text-secondary flex cursor-default items-center gap-0.5 text-sm font-medium", className)}
+      className={cx("flex cursor-default items-center gap-0.5 text-sm font-medium text-secondary", className)}
     >
       {props.children}
 
-      <span className={cx("text-brand-tertiary hidden", isRequired && "block", typeof isRequired === "undefined" && "group-required:block")}>*</span>
+      <span
+        className={cx(
+          "hidden text-brand-tertiary",
+          isRequired && "block",
+          typeof isRequired === "undefined" && "group-required:block",
+
+          isInvalid && "text-error-primary",
+          typeof isInvalid === "undefined" && "group-invalid:text-error-primary"
+        )}
+      >
+        *
+      </span>
 
       {tooltip && (
         <Tooltip title={tooltip} description={tooltipDescription} placement="top">
@@ -35,9 +49,10 @@ export const Label = ({ isRequired, tooltip, tooltipDescription, className, ...p
             // but we don't that. We want the tooltip be enabled even if the parent
             // field is disabled.
             isDisabled={false}
-            className="text-fg-quaternary hover:text-fg-quaternary_hover focus:text-fg-quaternary_hover cursor-pointer transition duration-200"
+            aria-label={tooltip}
+            className="cursor-pointer text-fg-quaternary transition duration-200 hover:text-fg-quaternary_hover focus:text-fg-quaternary_hover"
           >
-            <HelpCircle className="size-4" />
+            <HelpCircle aria-hidden="true" className="size-4" />
           </TooltipTrigger>
         </Tooltip>
       )}
