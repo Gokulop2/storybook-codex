@@ -196,7 +196,7 @@ const DropdownDotsButton = (props: AriaButtonProps & RefAttributes<HTMLButtonEle
         )
       }
     >
-      <DotsVertical className="size-5 transition-inherit-all" />
+      <DotsVertical aria-hidden="true" className="size-5 transition-inherit-all" />
     </AriaButton>
   );
 };

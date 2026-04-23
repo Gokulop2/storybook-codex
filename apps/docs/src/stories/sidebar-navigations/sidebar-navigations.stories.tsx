@@ -408,7 +408,7 @@ const featuredNavItems = opusApplicationNavItems.slice(0, 3) as NavItemType[];
 // ─── LAYOUT PRIMITIVES ───────────────────────────────────────────────────────
 
 const sidebarPreviewRailClass = "not-prose flex h-[min(720px,85dvh)] w-full max-w-full justify-start py-1 pl-1";
-const slimSidebarPreviewRailClass = "not-prose flex h-[min(720px,85dvh)] w-full max-w-full justify-start";
+const slimSidebarPreviewRailClass = "not-prose relative flex h-[min(720px,85dvh)] w-full max-w-full justify-start overflow-hidden";
 
 const sidebarShellClass =
   "codex-docs-surface-reset flex h-full w-full max-w-full shrink-0 flex-col justify-between overflow-auto bg-primary pt-4 shadow-xs ring-secondary ring-inset lg:w-(--width) lg:max-w-none lg:rounded-xl lg:pt-5 lg:ring-1";
@@ -603,8 +603,8 @@ const DualTierSidebar: FC = () => {
 };
 
 const SlimSidebar: FC = () => (
-  <div className="codex-docs-surface-reset h-full min-h-0 min-w-0">
-    <SidebarNavigationSlim activeUrl="#slim-dashboard-notifications" items={slimNavItems} footerItems={slimFooterNavItems} />
+  <div className="codex-docs-surface-reset relative h-full min-h-0 min-w-0 overflow-hidden">
+    <SidebarNavigationSlim embedded activeUrl="#slim-dashboard-notifications" items={slimNavItems} footerItems={slimFooterNavItems} />
   </div>
 );
 

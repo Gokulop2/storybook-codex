@@ -20,9 +20,10 @@ const styles = sortCx({
 interface SliderProps extends AriaSliderProps {
   labelPosition?: keyof typeof styles;
   labelFormatter?: (value: number) => string;
+  label?: string;
 }
 
-export const Slider = ({ labelPosition = "default", minValue = 0, maxValue = 100, labelFormatter, formatOptions, ...rest }: SliderProps) => {
+export const Slider = ({ labelPosition = "default", minValue = 0, maxValue = 100, labelFormatter, formatOptions, label, "aria-label": ariaLabel, ...rest }: SliderProps) => {
   // Format thumb value as percentage by default.
   const defaultFormatOptions: Intl.NumberFormatOptions = {
     style: "percent",
@@ -30,9 +31,9 @@ export const Slider = ({ labelPosition = "default", minValue = 0, maxValue = 100
   };
 
   return (
-    <AriaSlider {...rest} {...{ minValue, maxValue }} formatOptions={formatOptions ?? defaultFormatOptions}>
-      <AriaLabel />
-      <AriaSliderTrack className="relative h-6 w-full">
+    <AriaSlider {...rest} {...{ minValue, maxValue }} formatOptions={formatOptions ?? defaultFormatOptions} aria-label={!label ? (ariaLabel ?? "Slider") : undefined}>
+      {label && <AriaLabel>{label}</AriaLabel>}
+      <AriaSliderTrack className="relative h-6 w-full cursor-pointer select-none">
         {({ state: { values, getThumbValue, getThumbPercent, getFormattedValue } }) => {
           const left = values.length === 1 ? 0 : getThumbPercent(0);
           const width = values.length === 1 ? getThumbPercent(0) : getThumbPercent(1) - left;

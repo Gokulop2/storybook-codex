@@ -25,9 +25,11 @@ interface SidebarNavigationSlimProps {
   hideBorder?: boolean;
   /** Whether to hide the right side border. */
   hideRightBorder?: boolean;
+  /** Use absolute positioning instead of fixed — for embedded/preview contexts where the sidebar must stay within its container. */
+  embedded?: boolean;
 }
 
-export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hideBorder, hideRightBorder }: SidebarNavigationSlimProps) => {
+export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hideBorder, hideRightBorder, embedded }: SidebarNavigationSlimProps) => {
   const activeItem = [...items, ...footerItems].find((item) => item.href === activeUrl || item.items?.some((subItem) => subItem.href === activeUrl));
   const [currentItem, setCurrentItem] = useState(activeItem || items[1]);
   const [isHovering, setIsHovering] = useState(false);
@@ -89,6 +91,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
 
           <AriaDialogTrigger>
             <AriaButton
+              aria-label="Open account menu"
               className={({ isPressed, isFocused }) =>
                 cx("group relative inline-flex rounded-full", (isPressed || isFocused) && "outline-2 outline-offset-2 outline-focus-ring")
               }
@@ -157,7 +160,10 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
     <>
       {/* Desktop sidebar navigation */}
       <div
-        className="z-50 hidden lg:fixed lg:inset-y-0 lg:left-0 lg:flex"
+        className={cx(
+          "z-50",
+          embedded ? "flex absolute inset-y-0 left-0" : "hidden lg:flex lg:fixed lg:inset-y-0 lg:left-0"
+        )}
         onPointerEnter={() => setIsHovering(true)}
         onPointerLeave={() => setIsHovering(false)}
       >
@@ -166,12 +172,14 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
       </div>
 
       {/* Placeholder to take up physical space because the real sidebar has `fixed` position. */}
-      <div
-        style={{
-          paddingLeft: MAIN_SIDEBAR_WIDTH,
-        }}
-        className="invisible hidden lg:sticky lg:top-0 lg:bottom-0 lg:left-0 lg:block"
-      />
+      {!embedded && (
+        <div
+          style={{
+            paddingLeft: MAIN_SIDEBAR_WIDTH,
+          }}
+          className="invisible hidden lg:sticky lg:top-0 lg:bottom-0 lg:left-0 lg:block"
+        />
+      )}
 
       {/* Mobile header navigation */}
       <MobileNavigationHeader>

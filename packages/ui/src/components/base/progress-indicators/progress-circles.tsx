@@ -8,6 +8,7 @@ interface ProgressBarProps {
   max?: number;
   size: "xxs" | "xs" | "sm" | "md" | "lg";
   label?: string;
+  "aria-label"?: string;
   valueFormatter?: (value: number, valueInPercentage: number) => string | number;
 }
 
@@ -49,7 +50,7 @@ const sizes = sortCx({
   },
 });
 
-export const ProgressBarCircle = ({ value, min = 0, max = 100, size, label, valueFormatter }: ProgressBarProps) => {
+export const ProgressBarCircle = ({ value, min = 0, max = 100, size, label, valueFormatter, "aria-label": ariaLabel }: ProgressBarProps) => {
   const percentage = Math.round(((value - min) * 100) / (max - min));
 
   const sizeConfig = sizes[size];
@@ -68,8 +69,8 @@ export const ProgressBarCircle = ({ value, min = 0, max = 100, size, label, valu
 
   return (
     <div className="flex flex-col items-center gap-0.5">
-      <div role="progressbar" aria-valuenow={value} aria-valuemin={min} aria-valuemax={max} className="relative flex w-max items-center justify-center">
-        <svg className="-rotate-90" width={width} height={height} viewBox={viewBox}>
+      <div role="progressbar" aria-label={ariaLabel ?? label ?? "Progress"} aria-valuenow={value} aria-valuemin={min} aria-valuemax={max} className="relative flex w-max items-center justify-center">
+        <svg aria-hidden="true" className="-rotate-90" width={width} height={height} viewBox={viewBox}>
           {/* Background circle */}
           <circle
             className="stroke-bg-quaternary"
@@ -112,7 +113,7 @@ export const ProgressBarCircle = ({ value, min = 0, max = 100, size, label, valu
   );
 };
 
-export const ProgressBarHalfCircle = ({ value, min = 0, max = 100, size, label, valueFormatter }: ProgressBarProps) => {
+export const ProgressBarHalfCircle = ({ value, min = 0, max = 100, size, label, valueFormatter, "aria-label": ariaLabel }: ProgressBarProps) => {
   const percentage = Math.round(((value - min) * 100) / (max - min));
 
   const sizeConfig = sizes[size];
@@ -129,8 +130,8 @@ export const ProgressBarHalfCircle = ({ value, min = 0, max = 100, size, label, 
 
   return (
     <div className="flex flex-col items-center gap-0.5">
-      <div role="progressbar" aria-valuenow={value} aria-valuemin={min} aria-valuemax={max} className="relative flex w-max items-center justify-center">
-        <svg width={width} height={height} viewBox={viewBox}>
+      <div role="progressbar" aria-label={ariaLabel ?? label ?? "Progress"} aria-valuenow={value} aria-valuemin={min} aria-valuemax={max} className="relative flex w-max items-center justify-center">
+        <svg aria-hidden="true" width={width} height={height} viewBox={viewBox}>
           {/* Background half-circle */}
           <circle
             className="stroke-bg-quaternary"

@@ -92,6 +92,7 @@ export const NavAccountMenu = ({
             {placeholderAccounts.map((account) => (
               <button
                 key={account.id}
+                aria-label={`Switch to ${account.name}`}
                 className={cx(
                   "relative w-full cursor-pointer rounded-md px-2 py-1.5 text-left outline-hidden transition duration-100 ease-linear hover:bg-primary_hover focus:z-10 focus-visible:outline-2 focus-visible:outline-offset-2",
                   account.id === selectedAccountId && "bg-primary_hover"
@@ -180,8 +181,8 @@ export const NavAccountCard = ({
       />
 
       <AriaDialogTrigger>
-        <AriaButton className="absolute top-2 right-2 flex cursor-pointer items-center justify-center rounded-md p-1.5 text-fg-quaternary outline-hidden transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover focus-visible:outline-2 focus-visible:outline-offset-2 pressed:bg-primary_hover pressed:text-fg-quaternary_hover">
-          <ChevronSelectorVertical className="size-4 shrink-0 stroke-[2.25px]" />
+        <AriaButton aria-label="Switch account" className="absolute top-2 right-2 flex cursor-pointer items-center justify-center rounded-md p-1.5 text-fg-quaternary outline-hidden transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover focus-visible:outline-2 focus-visible:outline-offset-2 pressed:bg-primary_hover pressed:text-fg-quaternary_hover">
+          <ChevronSelectorVertical aria-hidden="true" className="size-4 shrink-0 stroke-[2.25px]" />
         </AriaButton>
         <AriaPopover
           placement={popoverPlacement ?? (isDesktop ? "right bottom" : "top right")}

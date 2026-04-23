@@ -293,12 +293,13 @@ export const InputTags = ({
             {tooltip && (
               <Tooltip title={tooltip} placement="top">
                 <TooltipTrigger
+                  aria-label={tooltip}
                   className={cx(
                     "absolute cursor-pointer text-fg-quaternary transition duration-100 ease-linear group-invalid/input:hidden hover:text-fg-quaternary_hover focus:text-fg-quaternary_hover",
                     sizes[size].iconTrailing
                   )}
                 >
-                  <HelpCircle className="size-4 stroke-[2.25px]" />
+                  <HelpCircle aria-hidden="true" className="size-4 stroke-[2.25px]" />
                 </TooltipTrigger>
               </Tooltip>
             )}

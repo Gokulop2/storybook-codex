@@ -38,12 +38,12 @@ const styles = sortCx({
     },
 
     facebook: {
-      root: "bg-[#1877F2] text-white shadow-xs-skeuomorphic ring-1 ring-transparent ring-inset before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0% hover:bg-[#0C63D4]",
+      root: "bg-[#1668D6] text-white shadow-xs-skeuomorphic ring-1 ring-transparent ring-inset before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0% hover:bg-[#0C63D4]",
       icon: "",
     },
 
     dribble: {
-      root: "bg-[#EA4C89] text-white shadow-xs-skeuomorphic ring-1 ring-transparent ring-inset before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0% hover:bg-[#E62872]",
+      root: "bg-[#C01762] text-white shadow-xs-skeuomorphic ring-1 ring-transparent ring-inset before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0% hover:bg-[#E62872]",
       icon: "",
     },
   },

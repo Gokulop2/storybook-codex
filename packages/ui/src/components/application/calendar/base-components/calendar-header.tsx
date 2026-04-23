@@ -73,14 +73,14 @@ export const CalendarHeader = ({ date, selectedView, onSelectionChange, viewOpti
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-3 gap-y-4 max-lg:w-full">
-        <Button iconLeading={SearchLg} size="sm" color="tertiary" className="max-lg:order-1" />
+        <Button aria-label="Search" iconLeading={SearchLg} size="sm" color="tertiary" className="max-lg:order-1" />
 
         <ButtonGroup selectedKeys={[]} size="sm" className="flex max-lg:order-last max-lg:min-w-full max-lg:flex-1">
-          <ButtonGroupItem id="prev" iconLeading={ArrowLeft} onClick={onClickPrev} />
+          <ButtonGroupItem id="prev" aria-label="Previous period" iconLeading={ArrowLeft} onClick={onClickPrev} />
           <ButtonGroupItem id="today" className="flex-1 justify-center text-center" onClick={onClickToday}>
             Today
           </ButtonGroupItem>
-          <ButtonGroupItem id="next" iconLeading={ArrowRight} onClick={onClickNext} />
+          <ButtonGroupItem id="next" aria-label="Next period" iconLeading={ArrowRight} onClick={onClickNext} />
         </ButtonGroup>
 
         <CalendarViewDropdown value={selectedView} onSelectionChange={onSelectionChange} options={viewOptions} />

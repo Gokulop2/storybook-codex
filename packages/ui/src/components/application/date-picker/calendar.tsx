@@ -48,9 +48,9 @@ export const Calendar = ({ highlightedDates, className, children, ...props }: Ca
         {({ state }) => (
           <>
             <header className="flex items-center justify-between">
-              <Button slot="previous" iconLeading={ChevronLeft} size="sm" color="tertiary" className="size-8" />
+              <Button aria-label="Previous month" slot="previous" iconLeading={ChevronLeft} size="sm" color="tertiary" className="size-8" />
               <AriaHeading className="text-sm font-semibold text-fg-secondary" />
-              <Button slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />
+              <Button aria-label="Next month" slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />
             </header>
 
             {children || (

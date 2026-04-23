@@ -302,8 +302,8 @@ const TreeViewItemContent = ({ icon: Icon, action, children, className }: TreeVi
             {connectors}
 
             {hasChildItems && (
-              <AriaButton slot="chevron" className="flex shrink-0 items-center justify-center outline-hidden">
-                {isExpanded ? <ChevronDown className="size-4 text-fg-quaternary" /> : <ChevronRight className="size-4 text-fg-quaternary" />}
+              <AriaButton slot="chevron" aria-label={isExpanded ? "Collapse" : "Expand"} className="flex shrink-0 items-center justify-center outline-hidden">
+                {isExpanded ? <ChevronDown aria-hidden="true" className="size-4 text-fg-quaternary" /> : <ChevronRight aria-hidden="true" className="size-4 text-fg-quaternary" />}
               </AriaButton>
             )}
 
@@ -334,8 +334,8 @@ const TreeViewItemContent = ({ icon: Icon, action, children, className }: TreeVi
               {action}
 
               {allowsDragging && (
-                <AriaButton slot="drag" className={cx("shrink-0 cursor-grab outline-hidden", !isSelected && "hidden")}>
-                  <DotsGrid className="size-4 text-fg-quaternary" />
+                <AriaButton slot="drag" aria-label="Drag to reorder" className={cx("shrink-0 cursor-grab outline-hidden", !isSelected && "hidden")}>
+                  <DotsGrid aria-hidden="true" className="size-4 text-fg-quaternary" />
                 </AriaButton>
               )}
             </div>

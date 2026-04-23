@@ -584,7 +584,7 @@
   --color-text-secondary_hover: var(--color-neutral-800);
   --color-text-tertiary: var(--color-neutral-600);
   --color-text-tertiary_hover: var(--color-neutral-700);
-  --color-text-quaternary: var(--color-neutral-500);
+  --color-text-quaternary: var(--color-neutral-600);
   --color-text-error-primary: var(--color-red-600);
   --color-text-error-primary_hover: var(--color-red-700);
   --color-text-warning-primary: var(--color-warning-600);

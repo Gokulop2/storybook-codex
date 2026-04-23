@@ -90,9 +90,9 @@ export const BreadcrumbAccountItem = ({ items, selectedKey, onSelectionChange }:
 
           {!isCurrent &&
             (divider === "slash" ? (
-              <SlashDivider className="size-4 shrink-0 stroke-[2.25px] text-utility-neutral-300" />
+              <SlashDivider aria-hidden="true" className="size-4 shrink-0 stroke-[2.25px] text-utility-neutral-300" />
             ) : (
-              <ChevronRight className="size-4 shrink-0 stroke-[2.25px] text-utility-neutral-300" />
+              <ChevronRight aria-hidden="true" className="size-4 shrink-0 stroke-[2.25px] text-utility-neutral-300" />
             ))}
         </>
       )}

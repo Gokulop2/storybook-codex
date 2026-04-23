@@ -787,11 +787,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /** Same sidebar shape as Overview: one row labeled “Button”, custom content on the Docs tab. */
-export const Default: Story = {
-  name: "Button",
-};
+// export const Default: Story = {
+//   name: "Button Playground",
+// };
 
 export const Playground: Story = {
+  name: "Button Playground",
   args: {
     children: "Button",
     size: "md",

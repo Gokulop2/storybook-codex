@@ -77,7 +77,7 @@ const styles = {
 export const Avatar = ({
   size = "md",
   src,
-  alt,
+  alt = "",
   initials,
   placeholder,
   placeholderIcon: PlaceholderIcon,

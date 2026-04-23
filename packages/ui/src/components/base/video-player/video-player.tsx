@@ -407,6 +407,7 @@ export const VideoPlayer = ({
                 step="0.1"
                 value={volume}
                 tabIndex={-1}
+                aria-label="Volume"
                 onChange={handleVolumeChange}
                 className="h-1 w-11 cursor-pointer appearance-none rounded-full bg-alpha-white/30 [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-white [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:translate-x-0 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-fg-white"
                 style={{
@@ -427,7 +428,19 @@ export const VideoPlayer = ({
             <span className="pointer-events-none text-xs font-semibold text-white">{formatTime(currentTime)}</span>
 
             {/* Progress Bar */}
-            <div ref={progressRef} onClick={handleProgressClick} onMouseMove={handleProgressHover} className="group/progress -my-8 flex-1 cursor-pointer py-8">
+            <div
+              ref={progressRef}
+              role="slider"
+              aria-label="Seek"
+              aria-valuemin={0}
+              aria-valuemax={Math.round(duration)}
+              aria-valuenow={Math.round(currentTime)}
+              aria-valuetext={formatTime(currentTime)}
+              tabIndex={0}
+              onClick={handleProgressClick}
+              onMouseMove={handleProgressHover}
+              className="group/progress -my-8 flex-1 cursor-pointer py-8"
+            >
               <div className="relative h-2 flex-1 rounded-full bg-fg-white/30">
                 {/* Buffered Progress */}
                 {renderBuffered()}
@@ -475,7 +488,7 @@ export const VideoPlayer = ({
               <span className="text-xs font-semibold">{playbackRate}</span>
 
               {/* X icon */}
-              <svg viewBox="0 0 8 8" fill="none" className="mt-0.5 size-2">
+              <svg aria-hidden="true" viewBox="0 0 8 8" fill="none" className="mt-0.5 size-2">
                 <path d="M6 2L2 6M2 2L6 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </VideoPlayerButton>

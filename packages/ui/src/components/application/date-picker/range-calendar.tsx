@@ -120,13 +120,13 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
       >
         <div className="flex flex-col gap-3 px-6 py-5 md:gap-2">
           <header className={cx("relative flex items-center", visibleDurationMonths > 1 ? "justify-start" : "justify-between")}>
-            <Button slot="previous" iconLeading={ChevronLeft} size="sm" color="tertiary" className="size-8" />
+            <Button aria-label="Previous month" slot="previous" iconLeading={ChevronLeft} size="sm" color="tertiary" className="size-8" />
 
             <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-semibold text-fg-secondary">
               <RangeCalendarTitle part="start" />
             </h2>
 
-            {visibleDurationMonths === 1 && <Button slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />}
+            {visibleDurationMonths === 1 && <Button aria-label="Next month" slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />}
           </header>
 
           {!isDesktop && (
@@ -168,7 +168,7 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                 <RangeCalendarTitle part="end" />
               </h2>
 
-              <Button slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />
+              <Button aria-label="Next month" slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />
             </header>
 
             <AriaCalendarGrid weekdayStyle="short" offset={{ months: 1 }} className="w-max">

@@ -939,9 +939,9 @@ const DayView = ({
         <div className="sticky top-0 hidden h-full w-82 flex-col overflow-auto border-l border-secondary mask-b-from-94% lg:flex">
           <AriaCalendar aria-label="Calendar" className="px-6 py-5" value={selectedDate} onChange={(value) => setSelectedDate(value)}>
             <header className="mb-3 flex items-center justify-between">
-              <Button slot="previous" iconLeading={ChevronLeft} size="sm" color="tertiary" className="size-8" />
+              <Button aria-label="Previous month" slot="previous" iconLeading={ChevronLeft} size="sm" color="tertiary" className="size-8" />
               <AriaHeading className="text-sm font-semibold text-fg-secondary" />
-              <Button slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />
+              <Button aria-label="Next month" slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />
             </header>
 
             <AriaCalendarGrid weekdayStyle="short" className="w-max">

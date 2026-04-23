@@ -410,9 +410,9 @@ export const PaginationCardAdvanced = ({
 
         <div className={cx("flex flex-1 items-center gap-4 md:ml-auto md:justify-end", align === "center" && "md:justify-center")}>
           <div className="flex gap-2">
-            <Button iconLeading={ChevronLeftDouble} color="secondary" size="sm" isDisabled={page === 1} onClick={() => onPageChange?.(1)} />
+            <Button aria-label="First page" iconLeading={ChevronLeftDouble} color="secondary" size="sm" isDisabled={page === 1} onClick={() => onPageChange?.(1)} />
             <Pagination.PrevTrigger asChild>
-              <Button iconLeading={ChevronLeft} color="secondary" size="sm" />
+              <Button aria-label="Previous page" iconLeading={ChevronLeft} color="secondary" size="sm" />
             </Pagination.PrevTrigger>
           </div>
 
@@ -439,9 +439,9 @@ export const PaginationCardAdvanced = ({
           </Pagination.Context>
 
           <div className="flex gap-2">
-            <Button iconTrailing={ChevronRightDouble} color="secondary" size="sm" isDisabled={page === total} onClick={() => onPageChange?.(total)} />
+            <Button aria-label="Last page" iconTrailing={ChevronRightDouble} color="secondary" size="sm" isDisabled={page === total} onClick={() => onPageChange?.(total)} />
             <Pagination.NextTrigger asChild>
-              <Button iconTrailing={ChevronRight} color="secondary" size="sm" />
+              <Button aria-label="Next page" iconTrailing={ChevronRight} color="secondary" size="sm" />
             </Pagination.NextTrigger>
           </div>
         </div>

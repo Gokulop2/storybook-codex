@@ -117,6 +117,7 @@ const EyeDropperButton = (props: ButtonProps) => {
 
   return (
     <Button
+      aria-label="Pick color from screen"
       size="sm"
       color="secondary"
       iconLeading={Dropper}

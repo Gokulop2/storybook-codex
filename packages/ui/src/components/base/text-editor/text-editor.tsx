@@ -117,7 +117,6 @@ const TextEditorRoot = ({
       attributes: {
         id: editorId,
         ["aria-labelledby"]: `${editorId}-label`,
-        ["aria-describedby"]: `${editorId}-hint`,
         style: `
                     --resize-handle-bg: ${getResizeHandleBg("#D5D7DA")};
                     --resize-handle-bg-dark: ${getResizeHandleBg("#373A41")};

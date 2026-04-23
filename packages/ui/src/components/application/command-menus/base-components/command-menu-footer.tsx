@@ -37,6 +37,6 @@ export const CommandMenuFooter = ({ className }: CommandMenuFooterProps) => (
         <span className="text-sm font-semibold text-quaternary">return to parent</span>
       </div>
     </div>
-    <Button size="sm" color="tertiary" iconLeading={Settings01} />
+    <Button aria-label="Settings" size="sm" color="tertiary" iconLeading={Settings01} />
   </footer>
 );

@@ -2,7 +2,7 @@ import type { ComponentProps, FC } from "react";
 import { Avatar, AvatarAddButton, AvatarCompanyIcon, AvatarLabelGroup, AvatarProfilePhoto } from "@opus2-platform/codex";
 import { User01 } from "@opus2-platform/icons";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { CODEX_DOCS_AVATAR_SRC, DOCS_COMPANY_LOGO_SRC as DOCS_COMPANY_LOGO_SRC } from "../_docs/docs-assets";
+import { CODEX_DOCS_AVATAR_SRC, CODEX_DOCS_COMPANY_LOGO_SRC as DOCS_COMPANY_LOGO_SRC } from "../_docs/docs-assets";
 import {
   DOCS_PREVIEW_HERO_SURFACE_CLASS_STACK,
   DOCS_SECTION_HERO_CLASS,
