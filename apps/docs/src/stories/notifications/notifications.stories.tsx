@@ -244,7 +244,7 @@ const NotificationsDocsPage = () => {
 const meta = {
   title: "Application UI/Notifications",
   component: Notifications,
-  tags: ["autodocs"],
+  tags: ["autodocs", "hidden"],
   parameters: {
     docs: {
       page: NotificationsDocsPage,

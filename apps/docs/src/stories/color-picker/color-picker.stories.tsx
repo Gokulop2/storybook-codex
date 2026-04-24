@@ -195,7 +195,7 @@ const ColorPickerDocsPage = () => {
 const meta = {
   title: "Application UI/Color picker",
   component: ColorPicker,
-  tags: ["autodocs"],
+  tags: ["autodocs", "hidden"],
   parameters: {
     docs: {
       page: ColorPickerDocsPage,
