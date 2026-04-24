@@ -161,7 +161,7 @@ const ProgressStepsDocsPage = () => {
 const meta = {
   title: "Application UI/Progress steps",
   component: ProgressSteps,
-  tags: ["autodocs"],
+  tags: ["autodocs", "hidden"],
   parameters: {
     docs: {
       page: ProgressStepsDocsPage,

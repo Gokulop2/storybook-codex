@@ -1124,7 +1124,7 @@ const navItemsWithDividers = [
 const meta = {
   title: "Application UI/Sidebar navigations",
   component: SidebarNavigationsOverview,
-  tags: ["autodocs"],
+  tags: ["autodocs", "hidden"],
   parameters: {
     docs: { page: SidebarNavigationsDocsPage },
   },

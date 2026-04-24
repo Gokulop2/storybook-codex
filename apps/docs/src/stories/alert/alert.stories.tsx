@@ -405,7 +405,7 @@ const AlertDocsPage = () => {
 const meta = {
   title: "Application UI/Alerts",
   component: Alert,
-  tags: ["autodocs"],
+  tags: ["autodocs", "hidden"],
   parameters: {
     docs: {
       page: AlertDocsPage,
