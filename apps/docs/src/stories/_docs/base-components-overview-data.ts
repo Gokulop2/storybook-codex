@@ -68,9 +68,25 @@ const BASE_COMPONENT_CATALOG_ENTRIES = [
  */
 export const BASE_COMPONENT_STORY_TITLES_ORDERED: readonly string[] = BASE_COMPONENT_CATALOG_ENTRIES.map((e) => e.title);
 
-export const BASE_COMPONENT_OVERVIEW_CARDS: readonly BaseComponentOverviewCard[] = BASE_COMPONENT_CATALOG_ENTRIES.map((e) => ({
-  storyIdPrefix: baseComponentTitleToStoryIdPrefix(e.title),
-  name: e.name,
-  variants: e.variants,
-  image: e.image,
-}));
+/**
+ * Keep overview cards aligned with visible docs catalog (exclude stories tagged as `hidden`).
+ * Sidebar visibility is handled by Storybook tags in story files; this prevents static overview cards
+ * from showing entries that are intentionally hidden from navigation/search.
+ */
+const HIDDEN_BASE_COMPONENT_TITLES = new Set<string>([
+  "Base components/Credit cards",
+  "Base components/Mobile app store buttons",
+  "Base components/QR codes",
+  "Base components/Rating badge and stars",
+  "Base components/Verification code inputs",
+  "Base components/Video players",
+]);
+
+export const BASE_COMPONENT_OVERVIEW_CARDS: readonly BaseComponentOverviewCard[] = BASE_COMPONENT_CATALOG_ENTRIES
+  .filter((e) => !HIDDEN_BASE_COMPONENT_TITLES.has(e.title))
+  .map((e) => ({
+    storyIdPrefix: baseComponentTitleToStoryIdPrefix(e.title),
+    name: e.name,
+    variants: e.variants,
+    image: e.image,
+  }));
