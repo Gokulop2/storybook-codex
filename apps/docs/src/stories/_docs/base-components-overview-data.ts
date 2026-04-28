@@ -78,6 +78,7 @@ const HIDDEN_BASE_COMPONENT_TITLES = new Set<string>([
   "Base components/Mobile app store buttons",
   "Base components/QR codes",
   "Base components/Rating badge and stars",
+  "Base components/Social buttons",
   "Base components/Verification code inputs",
   "Base components/Video players",
 ]);

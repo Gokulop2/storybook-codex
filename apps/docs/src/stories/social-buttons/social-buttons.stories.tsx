@@ -204,7 +204,7 @@ const SocialButtonsDocsPage: FC = () => (
 const meta = {
   title: "Base components/Social buttons",
   component: SocialButton,
-  tags: ["autodocs"],
+  tags: ["autodocs", "hidden"],
   parameters: {
     docs: {
       page: SocialButtonsDocsPage,
